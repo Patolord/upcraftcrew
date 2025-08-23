@@ -1,41 +1,41 @@
-import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
-import "../index.css";
-import Providers from "@/components/providers";
-import Header from "@/components/header";
+import { type Metadata } from "next";
+import { type ReactNode } from "react";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+import { ConfigProvider } from "@/contexts/config";
+import "@/styles/app.css";
 
 export const metadata: Metadata = {
-  title: "upcraftcrew-os",
-  description: "upcraftcrew-os",
+    title: {
+        template: "%s - Nexus",
+        default: "",
+    },
+    description: "Modern admin and client dashboards built with DaisyUI. Clean, responsive, and fully customizable.",
+    icons: {
+        icon: [
+            {
+                url: "/images/favicon-light.png",
+                media: "(prefers-color-scheme: light)",
+            },
+            {
+                url: "/images/favicon-dark.png",
+                media: "(prefers-color-scheme: dark)",
+            },
+        ],
+    },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{
-  children: React.ReactNode;
-}>) {
-  return (
-    <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        <Providers>
-          <div className="grid grid-rows-[auto_1fr] h-svh">
-            <Header />
-            {children}
-          </div>
-        </Providers>
-      </body>
-    </html>
-  );
+export default function RootLayout({ children }: { children: ReactNode }) {
+    return (
+        <html lang="en" suppressHydrationWarning className="group/html">
+            <head>
+                <link rel="preconnect" href="https://fonts.gstatic.com" />
+                <link rel="preconnect" href="https://fonts.googleapis.com" />
+                {/* eslint-disable-next-line @next/next/no-sync-scripts */}
+                <script type="text/javascript" src="/js/prefetch-config.js"></script>
+            </head>
+            <body>
+                <ConfigProvider>{children}</ConfigProvider>
+            </body>
+        </html>
+    );
 }
