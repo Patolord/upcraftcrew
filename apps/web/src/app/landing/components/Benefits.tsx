@@ -1,43 +1,43 @@
 "use client";
 
-import { Variants, motion } from "motion/react";
+import { type Variants, motion } from "motion/react";
 
 const data = [
     {
-        title: "Save Time & Effort",
-        description: "Eliminate repetitive tasks and focus on what truly matters",
+        title: "Bespoke Solutions",
+        description: "Tailored web applications designed specifically for your business goals",
         iconClass: "bg-green-500/10 text-green-600",
-        icon: "lucide--clock",
+        icon: "lucide--code",
     },
     {
-        title: "Increase Productivity",
-        description: "Automate workflows to speed up processes and boost output",
+        title: "Cost-Effective Development",
+        description: "Offshore rates without compromise on quality or communication",
         iconClass: "bg-yellow-600/10 text-yellow-600",
-        icon: "lucide--zap",
+        icon: "lucide--pound-sterling",
     },
     {
-        title: "Reduce Errors",
-        description: "Minimize human mistakes with precise, automated actions",
+        title: "Clear Communication",
+        description: "English-speaking developers with flexible hours across multiple time zones",
         iconClass: "bg-red-500/10 text-red-500",
-        icon: "lucide--shield-check",
+        icon: "lucide--message-circle",
     },
     {
-        title: "Gain Valuable Insights",
-        description: "Monitor real-time data and optimize workflows on the go",
+        title: "Proven Expertise",
+        description: "Full-stack web apps, SaaS platforms, and modern landing pages",
         iconClass: "bg-purple-500/10 text-purple-500",
-        icon: "lucide--bar-chart",
+        icon: "lucide--award",
     },
     {
-        title: "Stay Notified",
-        description: "Receive instant alerts across multiple channels when actions occur",
+        title: "Personal Attention",
+        description: "Direct access to senior developers, not a faceless team",
         iconClass: "bg-orange-500/10 text-orange-500",
-        icon: "lucide--bell-ring",
+        icon: "lucide--user-check",
     },
     {
-        title: "Seamless Integrations",
-        description: "Connect with your favorite apps effortlessly to enhance efficiency",
+        title: "Reliable Delivery",
+        description: "Consistent project delivery with transparent progress updates",
         iconClass: "bg-teal-500/10 text-teal-600",
-        icon: "lucide--plug",
+        icon: "lucide--clock",
     },
 ];
 
@@ -69,14 +69,14 @@ export const Benefits = () => {
                     <div className="flex items-center gap-1.5 max-lg:justify-center">
                         <div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                         <p className="text-base-content/60 group-hover:text-primary font-mono text-sm font-medium transition-all">
-                            Workflow Perks
+                            Why Choose Us
                         </p>
                         <div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
                     </div>
-                    <p className="mt-2 text-2xl font-semibold max-lg:text-center sm:text-3xl">Why Choose Automation?</p>
+                    <p className="mt-2 text-2xl font-semibold max-lg:text-center sm:text-3xl">Why Work With Us?</p>
                     <div className="mt-2 flex max-lg:justify-center max-lg:text-center">
                         <p className="text-base-content/80 max-w-lg">
-                            Boost efficiency, reduce manual effort, and streamline workflows effortlessly
+                            We are a boutique software studio specialising in React, Next.js, and modern cloud solutions. Small enough to give you personal attention, skilled enough to deliver enterprise-grade results.
                         </p>
                     </div>
                 </div>

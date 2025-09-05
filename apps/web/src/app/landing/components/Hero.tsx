@@ -10,30 +10,29 @@ export const Hero = () => {
                     <div className="w-100 text-center md:w-120 xl:w-160 2xl:w-200">
                         <div className="flex justify-center">
                             <div className="inline-flex items-center rounded-full border border-orange-500/20 bg-orange-500/5 py-0.5 ps-2.5 pe-1 text-sm">
-                                Featured in <span className="ms-1 font-medium text-orange-500">Product Hunt</span>
+                                Trusted by <span className="ms-1 font-medium text-orange-500">Global Businesses</span>
                                 <div className="ms-2 rounded-full bg-orange-500 p-0.5">
                                     <span className="iconify lucide--arrow-right block size-3 text-white"></span>
                                 </div>
                             </div>
                         </div>
                         <p className="mt-3 text-2xl leading-tight font-extrabold tracking-[-0.5px] transition-all duration-1000 md:text-4xl xl:text-5xl 2xl:text-6xl starting:scale-110 starting:blur-md">
-                            Automate Your Workflows
-                            <br /> Boost{" "}
+                            High-Quality Web Development
+                            <br /> Delivered{" "}
                             <span className="animate-background-shift from-primary to-secondary bg-linear-to-r bg-[400%,400%] bg-clip-text text-transparent">
-                                Productivity
+                                Seamlessly
                             </span>
                         </p>
                         <p className="text-base-content/80 mt-5 xl:text-lg">
-                            AI-driven automation to handle repetitive tasks, streamline operations, and help your tea
-                            focus on what truly matters
+                            We help businesses scale faster with bespoke web and software solutions — built to the highest standards, with clear communication and reliable delivery.
                         </p>
                         <div className="mt-8 inline-flex justify-center gap-3 transition-all duration-1000 starting:scale-110">
                             <Link href="#pricing" className="btn btn-primary shadow-primary/20 shadow-xl">
-                                Try Free Demo
+                                Get Free Consultation
                             </Link>
                             <Link href="#process" className="btn btn-ghost">
                                 <span className="iconify lucide--arrow-down size-4"></span>
-                                How It Works
+                                Our Process
                             </Link>
                         </div>
                     </div>
@@ -46,7 +45,7 @@ export const Hero = () => {
                                     <div className="bg-primary/10 text-primary inline-block rounded-full p-2.5">
                                         <span className="iconify lucide--circuit-board block size-6"></span>
                                     </div>
-                                    <p className="text-primary mt-1 font-medium">Processing & Smart Decisions</p>
+                                    <p className="text-primary mt-1 font-medium">Modern Web Development</p>
                                 </div>
                                 <div className="rounded-box card bg-base-100 absolute end-20 top-68 w-48 p-3 shadow max-2xl:hidden">
                                     <div className="avatar-group -space-x-3.5 *:transition-all *:hover:-translate-x-2">
@@ -71,8 +70,8 @@ export const Hero = () => {
                                             </div>
                                         </div>
                                     </div>
-                                    <p className="text-primary mt-1 font-medium">15+ AI Bots</p>
-                                    <p className="text-base-content/80 text-sm/none">Choose the Best AI Modal</p>
+                                    <p className="text-primary mt-1 font-medium">React & Next.js</p>
+                                    <p className="text-base-content/80 text-sm/none">Modern Tech Stack</p>
                                 </div>
                             </div>
                         </div>
@@ -84,7 +83,7 @@ export const Hero = () => {
                             </div>
 
                             <div className="from-primary to-secondary text-primary-content rounded-box w-60 bg-linear-to-r p-4">
-                                <p className="text-center font-medium">AI-Powered Insights in Action</p>
+                                <p className="text-center font-medium">Bespoke Solutions in Action</p>
                             </div>
                         </div>
                         <div className="absolute -start-8 -end-8 top-0 -z-1 md:-start-6 md:-end-6">
@@ -98,7 +97,7 @@ export const Hero = () => {
                                     <div className="bg-secondary/5 text-secondary inline-block rounded-full p-2.5">
                                         <span className="iconify lucide--zap block size-6"></span>
                                     </div>
-                                    <p className="text-secondary mt-1 font-medium">AI-Driven Task Execution</p>
+                                    <p className="text-secondary mt-1 font-medium">Seamless Development Process</p>
                                 </div>
                                 <div className="rounded-box card bg-base-100 absolute start-20 top-70 p-3 shadow max-2xl:hidden">
                                     <p className="text-base-content/80 text-sm">3.4vGPU of 5vGPU</p>
@@ -139,7 +138,7 @@ export const Hero = () => {
                             <div className="bg-base-200 inline-block rounded-full p-2.5">
                                 <span className="iconify lucide--database-backup block size-6"></span>
                             </div>
-                            <p className="mt-1 font-medium">AI Detects & Captures Data</p>
+                            <p className="mt-1 font-medium">Clean Code & Best Practices</p>
                         </div>
                         <div className="rounded-box card bg-base-100 absolute start-10 top-40 z-2 overflow-visible shadow max-2xl:hidden">
                             <div className="flex items-center gap-3 p-3">
@@ -161,7 +160,7 @@ export const Hero = () => {
                             <div className="inline-block rounded-full bg-teal-500/10 p-2.5 text-teal-500">
                                 <span className="iconify lucide--bar-chart-3 block size-6"></span>
                             </div>
-                            <p className="mt-1 font-medium text-teal-500">Continuous Optimization</p>
+                            <p className="mt-1 font-medium text-teal-500">Ongoing Support</p>
                         </div>
                         <div className="rounded-box card bg-base-100 absolute start-10 top-40 shadow max-2xl:hidden">
                             <div className="flex items-center gap-3 p-3">

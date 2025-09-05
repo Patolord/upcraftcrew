@@ -4,15 +4,14 @@ export const Features = () => {
             <div className="flex items-center justify-center gap-1.5">
                 <div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
                 <p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
-                    Highlights
+                    Our Services
                 </p>
                 <div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
             </div>
-            <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Built for Automation</p>
+            <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Built for Your Success</p>
             <div className="mt-2 flex justify-center text-center">
                 <p className="text-base-content/80 max-w-lg">
-                    Discover powerful features to simplify tasks, boost productivity, and automate workflows
-                    effortlessly.
+                    From concept to deployment, we deliver modern web solutions that drive your business forward with cutting-edge technology.
                 </p>
             </div>
             <div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-2 lg:mt-16 xl:grid-cols-3 2xl:mt-24">
@@ -21,10 +20,9 @@ export const Features = () => {
                         <div className="bg-base-200 inline-flex rounded-full p-2.5">
                             <span className="iconify lucide--workflow size-6"></span>
                         </div>
-                        <p className="mt-3 text-lg font-medium">Design Workflows Visually</p>
+                        <p className="mt-3 text-lg font-medium">Custom Web Applications</p>
                         <p className="text-base-content/80 mt-0.5 text-sm">
-                            Drag and drop elements to build powerful automations without code. Map out every step
-                            effortlessly.
+                            Bespoke web applications built with React, Next.js, and modern frameworks tailored to your specific business requirements.
                         </p>
                         <div className="*:fill-base-content/5 absolute -end-6 top-4.5 flex rotate-45 items-center justify-center space-x-1.5 transition-all *:transition-all group-hover:-end-5 group-hover:top-3.5 group-hover:-space-x-3.5 group-hover:*:fill-orange-400">
                             <svg
@@ -53,10 +51,9 @@ export const Features = () => {
                         <div className="bg-base-200 inline-flex rounded-full p-2.5">
                             <span className="iconify lucide--play-circle size-6"></span>
                         </div>
-                        <p className="mt-3 text-lg font-medium">Trigger Actions Automatically</p>
+                        <p className="mt-3 text-lg font-medium">SaaS Platform Development</p>
                         <p className="text-base-content/80 mt-0.5 text-sm">
-                            Set triggers based on events like form submissions, emails, or new orders. No manual effort
-                            needed.
+                            Complete SaaS solutions with user authentication, payment integration, and scalable architecture for growing businesses.
                         </p>
                         <div className="absolute end-1 top-2">
                             <svg
@@ -78,10 +75,9 @@ export const Features = () => {
                         <div className="bg-base-200 inline-flex rounded-full p-2.5">
                             <span className="iconify lucide--radio size-6"></span>
                         </div>
-                        <p className="mt-3 text-lg font-medium">Notify Across Channels</p>
+                        <p className="mt-3 text-lg font-medium">E-commerce Solutions</p>
                         <p className="text-base-content/80 mt-0.5 text-sm">
-                            Instantly send notifications via email, Slack, SMS, or webhook — wherever your team
-                            operates.
+                            Modern e-commerce platforms with secure payment processing, inventory management, and seamless user experience.
                         </p>
                         <div className="absolute end-3.5 top-3.5">
                             <svg
@@ -101,9 +97,9 @@ export const Features = () => {
                         <div className="bg-base-200 inline-flex rounded-full p-2.5">
                             <span className="iconify lucide--user-round-cog size-6"></span>
                         </div>
-                        <p className="mt-3 text-lg font-medium">Allow Manual Intervention</p>
+                        <p className="mt-3 text-lg font-medium">API Development & Integration</p>
                         <p className="text-base-content/80 mt-0.5 text-sm">
-                            Keep control when needed. Pause automation flows and step in manually anytime.
+                            RESTful APIs and third-party integrations to connect your systems and streamline business processes.
                         </p>
                         <div className="absolute end-3.5 top-3.5">
                             <svg
@@ -123,10 +119,9 @@ export const Features = () => {
                         <div className="bg-base-200 inline-flex rounded-full p-2.5">
                             <span className="iconify lucide--git-branch size-6"></span>
                         </div>
-                        <p className="mt-3 text-lg font-medium">Track Every Flow</p>
+                        <p className="mt-3 text-lg font-medium">Cloud Deployment & DevOps</p>
                         <p className="text-base-content/80 mt-0.5 text-sm">
-                            Monitor real-time insights for every workflow you create. Know where the bottlenecks are
-                            instantly.
+                            Seamless deployment to AWS, Vercel, or your preferred cloud platform with CI/CD pipelines and monitoring.
                         </p>
                         <div className="absolute end-3.5 top-3.5">
                             <svg
@@ -149,13 +144,13 @@ export const Features = () => {
                 </div>
                 <div className="bg-base-100 card group relative cursor-pointer overflow-hidden shadow">
                     <div className="p-5">
-                        <p className="text-lg font-medium">More Features</p>
+                        <p className="text-lg font-medium">Ongoing Support</p>
                         <p className="text-sm opacity-80">
-                            Discover even more powerful automation features tailored for your business.
+                            Comprehensive maintenance, updates, and technical support to keep your applications running smoothly.
                         </p>
                         <div className="mt-9 flex items-center justify-between">
                             <p className="text-sm opacity-40 transition-all group-hover:opacity-80">
-                                Explore all features
+                                Learn more about our services
                             </p>
                         </div>
                         <div className="absolute end-4 bottom-3">

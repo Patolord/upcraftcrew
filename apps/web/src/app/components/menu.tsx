@@ -1,6 +1,6 @@
-import { ReactNode } from "react";
+import { type ReactNode } from "react";
 
-import { ISidebarMenuItem } from "@/components/admin-layout/SidebarMenuItem";
+import { type ISidebarMenuItem } from "@/components/admin-layout/SidebarMenuItem";
 
 type ISubMenuItem = ISidebarMenuItem & { preview?: ReactNode };
 

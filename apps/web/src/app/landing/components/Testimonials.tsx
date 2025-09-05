@@ -1,50 +1,50 @@
 const testimonials = [
     {
         image: "/images/avatars/1.png",
-        name: "Sarah L.",
+        name: "Sarah Mitchell",
         comments:
-            "This SaaS template made our launch effortless. Clean design, powerful features, and easy customization!",
-        company: "FlowTech",
-        position: "Operations Manager",
-        location: "San Francisco, USA",
+            "Working with this team was exceptional. They delivered our custom SaaS platform on time and within budget. The quality exceeded our expectations.",
+        company: "TechFlow Solutions",
+        position: "Operations Director",
+        location: "Manchester, UK",
     },
     {
         image: "/images/avatars/2.png",
-        name: "David R.",
-        comments: "A complete game-changer! The pre-built UI components saved us weeks of development time.",
-        company: "SmartBiz",
-        position: "CEO",
-        location: "London, UK",
+        name: "Alex Rodriguez",
+        comments: "Outstanding development experience. Clear communication across time zones, reliable delivery, and the final product was exactly what we needed.",
+        company: "InnovateCore",
+        position: "CTO",
+        location: "Toronto, Canada",
     },
 ];
 
 const stats = [
     {
-        icon: "lucide--users",
-        title: "Total Users",
-        number: "10,000+",
-        description: "People rely on our automation every day.",
+        icon: "lucide--rocket",
+        title: "On-Time Delivery",
+        number: "100%",
+        description: "Projects delivered on schedule and within budget.",
         iconClass: "text-primary bg-primary/10",
     },
     {
-        icon: "lucide--zap",
-        title: "Workflows",
-        number: "1M+",
-        description: "Seamlessly executed tasks without manual effort.",
+        icon: "lucide--heart-handshake",
+        title: "Free Support",
+        number: "30 days",
+        description: "Complimentary adjustments and ongoing support included.",
         iconClass: "text-orange-500 bg-orange-500/10",
     },
     {
-        icon: "lucide--building",
-        title: "Teams Empowered",
-        number: "5,000+",
-        description: "Businesses using automation to boost productivity.",
+        icon: "lucide--users",
+        title: "Happy Clients",
+        number: "100%",
+        description: "Client satisfaction rate on completed projects.",
         iconClass: "text-success bg-success/10",
     },
     {
         icon: "lucide--clock",
-        title: "Hours Saved",
-        number: "100K+",
-        description: "Time saved by automating repetitive tasks.",
+        title: "Response Time",
+        number: "< 2hrs",
+        description: "Average response time for client communications.",
         iconClass: "text-secondary bg-secondary/10",
     },
 ];
@@ -55,17 +55,16 @@ export const Testimonials = () => {
             <div className="flex items-center justify-center gap-1.5">
                 <div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
                 <p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
-                    Success Stories
+                    Client Success
                 </p>
                 <div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
             </div>
             <p className="mt-2 text-center text-2xl font-semibold 2xl:text-3xl">
-                Trusted by Innovators, Loved by Teams
+                Trusted by Businesses Worldwide
             </p>
             <div className="mt-2 flex justify-center text-center">
                 <p className="text-base-content/80 max-w-lg">
-                    See how businesses streamline their workflows, save time, and boost efficiency with our automation
-                    platform
+                    See how companies across the globe have scaled their digital presence with our bespoke web development solutions
                 </p>
             </div>
             <div className="divide-base-300 mt-8 grid gap-12 md:mt-12 lg:mt-16 lg:grid-cols-2 2xl:mt-24">

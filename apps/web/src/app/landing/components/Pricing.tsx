@@ -4,29 +4,29 @@ export const Pricing = () => {
             <div className="flex items-center justify-center gap-1.5">
                 <div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
                 <p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
-                    Scalable Pricing
+                    Transparent Pricing
                 </p>
                 <div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
             </div>
-            <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Flexible Pricing for Every Business</p>
+            <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Transparent Development Pricing</p>
             <div className="mt-2 flex justify-center text-center">
                 <p className="text-base-content/80 max-w-lg">
-                    Pick a plan that fits your needs. Upgrade anytime as you grow.
+                    Choose the engagement model that works best for your project. Transparent pricing with no hidden costs.
                 </p>
             </div>
 
             <div className="mt-6 flex items-center justify-center lg:mt-8 2xl:mt-12">
                 <div className="tabs tabs-box tabs-sm relative">
                     <label className="tab">
-                        <input type="radio" name="plan_duration" value="monthly" />
-                        <p className="mx-2">Monthly</p>
+                        <input type="radio" name="plan_duration" defaultChecked value="project" />
+                        <p className="mx-2">Project-Based</p>
                     </label>
 
                     <label className="tab gap-0">
-                        <input type="radio" name="plan_duration" defaultChecked value="yearly" />
+                        <input type="radio" name="plan_duration" value="retainer" />
                         <div className="gap mx-2 flex items-center gap-1.5">
                             <span className="iconify lucide--award size-4"></span>
-                            <p>Yearly</p>
+                            <p>Retainer</p>
                         </div>
                     </label>
                     <div className="*:stroke-success/80 absolute -end-10 -bottom-6 -rotate-40 max-sm:hidden">
@@ -47,7 +47,7 @@ export const Pricing = () => {
                         </svg>
                     </div>
                     <p className="text-success absolute -end-30 bottom-4 text-sm font-semibold max-sm:hidden">
-                        2 Months Free
+                        Best Value
                     </p>
                 </div>
             </div>
@@ -55,170 +55,194 @@ export const Pricing = () => {
                 <div className="card bg-base-100 border-base-300 flex flex-col border border-dashed p-6">
                     <div className="flex justify-between gap-3">
                         <div>
-                            <p className="text-2xl font-semibold">Launch</p>
-                            <p className="text-base-content/80 text-sm">Individuals & Small Teams</p>
+                            <p className="text-2xl font-semibold">Web Essentials</p>
+                            <p className="text-base-content/80 text-sm">Perfect for small businesses</p>
                         </div>
                     </div>
                     <div className="mt-6 text-center">
                         <p className="text-5xl leading-0 font-semibold">
-                            <span className="text-base-content/80 align-super text-xl font-medium">$</span>
-                            <span className="relative inline-block h-8 w-12">
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=yearly]:checked]/section:scale-100 group-has-[[value=yearly]:checked]/section:opacity-100">
-                                    29
+                            <span className="text-base-content/80 align-super text-xl font-medium">£</span>
+                            <span className="relative inline-block h-8 w-20">
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
+                                    1,000
                                 </span>
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=monthly]:checked]/section:scale-100 group-has-[[value=monthly]:checked]/section:opacity-100">
-                                    39
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
+                                    30
                                 </span>
                             </span>
                         </p>
-                        <p className="text-base-content/80 mt-3 text-sm">/user/month</p>
+                        <p className="text-base-content/80 mt-3 text-sm">
+                            <span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
+                                starting from
+                            </span>
+                            <span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
+                                /month
+                            </span>
+                        </p>
                     </div>
-                    <p className="text-base-content/80 mt-6 text-sm font-medium">Capabilities</p>
+                    <p className="text-base-content/80 mt-6 text-sm font-medium">What's Included</p>
                     <div className="mt-2.5 space-y-1.5">
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            10 Active Workflows
+                            5-page responsive website
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Essential Integrations
+                            Mobile-first design
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Basic Logs & Tracking
+                            Contact forms & basic SEO
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Multi-Step Automations
+                            CMS integration
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--x text-error size-4.5"></span>
-                            AI Optimization
+                            E-commerce functionality
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--x text-error size-4.5"></span>
-                            Custom API & Webhooks
+                            Custom integrations
                         </div>
                     </div>
                     <p className="text-base-content/70 mt-12 text-center font-medium italic">
-                        "Perfect for solo users and small teams starting with automation"
+                        "Perfect for startups and small businesses getting online"
                     </p>
                     <button className="btn btn-outline border-base-300 mt-6 gap-2.5">
-                        <span className="iconify lucide--flag size-4"></span>Get started
+                        <span className="iconify lucide--arrow-right size-4"></span>Get Quote
                     </button>
                 </div>
                 <div className="card bg-base-100 border-base-300 flex flex-col border p-6">
                     <div className="flex justify-between gap-3">
-                        <p className="text-primary text-2xl font-semibold">Scale</p>
+                        <p className="text-primary text-2xl font-semibold">Business Pro</p>
                         <div className="badge badge-primary badge-sm shadow-primary/10 shadow-lg">Most Popular</div>
                     </div>
-                    <p className="text-base-content/80 text-sm">Grow faster, automate smarter</p>
+                    <p className="text-base-content/80 text-sm">Advanced web applications</p>
                     <div className="mt-6 text-center">
                         <p className="text-primary text-5xl leading-0 font-semibold">
-                            <span className="text-base-content/80 align-super text-xl font-medium">$</span>
-                            <span className="relative inline-block h-8 w-12">
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=yearly]:checked]/section:scale-100 group-has-[[value=yearly]:checked]/section:opacity-100">
-                                    49
+                            <span className="text-base-content/80 align-super text-xl font-medium">£</span>
+                            <span className="relative inline-block h-8 w-20">
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
+                                    2,900
                                 </span>
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=monthly]:checked]/section:scale-100 group-has-[[value=monthly]:checked]/section:opacity-100">
-                                    59
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
+                                    250
                                 </span>
                             </span>
                         </p>
-                        <p className="text-base-content/80 mt-3 text-sm">/user/month</p>
+                        <p className="text-base-content/80 mt-3 text-sm">
+                            <span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
+                                starting from
+                            </span>
+                            <span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
+                                /month
+                            </span>
+                        </p>
                     </div>
 
-                    <p className="text-base-content/80 mt-6 text-sm font-medium">Capabilities</p>
+                    <p className="text-base-content/80 mt-6 text-sm font-medium">What's Included</p>
                     <div className="mt-2.5 space-y-1.5">
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Unlimited Workflows
+                            Custom web application
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Advanced Integrations
+                            User authentication system
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Workflow Analytics
+                            Database design & API
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Conditional Logic
+                            Payment integration
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Priority Support
+                            Cloud deployment & hosting
                         </div>
                         <div className="flex items-center gap-2">
-                            <span className="iconify lucide--x text-error size-4.5"></span>
-                            Enterprise Security
+                            <span className="iconify lucide--check text-success size-4.5"></span>
+                            3 months support included
                         </div>
                     </div>
                     <p className="text-base-content/70 mt-12 text-center font-medium italic">
-                        "For teams looking for deeper automation control and advanced insights"
+                        "Perfect for growing businesses needing custom functionality"
                     </p>
                     <button className="btn btn-primary mt-6 gap-2.5">
                         <span className="iconify lucide--rocket size-4"></span>
-                        Start Free Trial
+                        Start Project
                     </button>
                 </div>
                 <div className="card bg-base-100 border-base-300 flex flex-col border p-6">
                     <div className="flex justify-between gap-3">
-                        <p className="text-2xl font-semibold">Power</p>
-                        <div className="badge badge-neutral badge-sm shadow-neutral/10 shadow-lg">Enterprise</div>
+                        <p className="text-2xl font-semibold">Enterprise</p>
+                        <div className="badge badge-neutral badge-sm shadow-neutral/10 shadow-lg">Custom</div>
                     </div>
-                    <p className="text-base-content/80 text-sm">Large Teams & Custom Needs</p>
+                    <p className="text-base-content/80 text-sm">Large-scale & custom solutions</p>
 
                     <div className="mt-6 text-center">
                         <p className="text-5xl leading-0 font-semibold">
-                            <span className="text-base-content/80 align-super text-xl font-medium">$</span>
-                            <span className="relative inline-block h-8 w-12">
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=yearly]:checked]/section:scale-100 group-has-[[value=yearly]:checked]/section:opacity-100">
-                                    79
+                            <span className="text-base-content/80 align-super text-xl font-medium">£</span>
+                            <span className="relative inline-block h-8 w-20">
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
+                                    25k+
                                 </span>
-                                <span className="absolute start-0 top-1/2 translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=monthly]:checked]/section:scale-100 group-has-[[value=monthly]:checked]/section:opacity-100">
-                                    89
+                                <span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
+                                    2,900
                                 </span>
                             </span>
                         </p>
-                        <p className="text-base-content/80 mt-3 text-sm">/user/month</p>
+                        <p className="text-base-content/80 mt-3 text-sm">
+                            <span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
+                                custom quote
+                            </span>
+                            <span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
+                                /month
+                            </span>
+                        </p>
                     </div>
-                    <p className="text-base-content/80 mt-6 text-sm font-medium">Capabilities</p>
+                    <p className="text-base-content/80 mt-6 text-sm font-medium">What's Included</p>
                     <div className="mt-2.5 space-y-1.5">
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Custom API & Webhooks
+                            Complex SaaS platforms
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Enterprise Security
+                            Multi-tenant architecture
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            AI Workflow Optimization
+                            Custom API & integrations
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Unlimited Users & Roles
+                            Enterprise security
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            Dedicated Manager
+                            Dedicated project manager
                         </div>
                         <div className="flex items-center gap-2">
                             <span className="iconify lucide--check text-success size-4.5"></span>
-                            24/7 Priority Support
+                            Ongoing maintenance & support
                         </div>
                     </div>
                     <p className="text-base-content/70 mt-12 text-center font-medium italic">
-                        "Full automation control with enterprise-level security and dedicated support"
+                        "For enterprises requiring scalable, custom-built solutions"
                     </p>
                     <button className="btn btn-neutral mt-6 gap-2.5">
-                        <span className="iconify lucide--zap size-4"></span>Contact Sales
+                        <span className="iconify lucide--phone size-4"></span>Contact Us
                     </button>
                 </div>
             </div>
         </div>
     );
 };
+
+
+

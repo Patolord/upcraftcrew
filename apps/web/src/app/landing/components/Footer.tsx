@@ -15,11 +15,10 @@ export const Footer = () => {
                     </p>
                     <div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
                 </div>
-                <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Stay Updated on Automation</p>
+                <p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">Ready to Start Your Project?</p>
                 <div className="mt-2 flex justify-center text-center">
                     <p className="text-base-content/80 max-w-lg">
-                        Join our newsletter to get the latest automation insights, feature updates, and productivity
-                        tips delivered to your inbox
+                        Let's discuss your web development needs. Get a free consultation and see how we can help bring your vision to life.
                     </p>
                 </div>
                 <div className="mt-8 flex items-start justify-center gap-4">
@@ -30,7 +29,7 @@ export const Footer = () => {
                         </div>
                         <p className="text-base-content/60 mt-0.5 text-sm italic">Never spam!</p>
                     </div>
-                    <button className="btn btn-primary">Subscribe</button>
+                    <button className="btn btn-primary">Get Free Consultation</button>
                 </div>
                 <div className="mt-8 grid gap-6 md:mt-16 lg:grid-cols-2 xl:mt-24 2xl:mt-32">
                     <div className="col-span-1">
@@ -39,8 +38,8 @@ export const Footer = () => {
                                 <Logo className="h-7.5" />
                             </Link>
                             <p className="text-base-content/80 mt-4 max-w-sm leading-5">
-                                AI-powered automation designed to simplify your workflow. Automate, optimize, and scale
-                                effortlessly.
+                                Boutique software studio specialising in React, Next.js, and modern cloud solutions. 
+                                Small enough to give you personal attention, skilled enough to deliver enterprise-grade results.
                             </p>
                             <div className="mt-6 flex items-center gap-3">
                                 <button
@@ -125,14 +124,14 @@ export const Footer = () => {
             </div>
             <hr className="text-base-200 mt-8" />
             <div className="container flex flex-wrap items-center justify-between gap-2 py-4">
-                <p>© {new Date().getFullYear()} Scalo - Startup Template</p>
+                <p>© {new Date().getFullYear()} Upcraft Crew</p>
                 <p>
                     Concept to Reality by
                     <Link
                         href="https://x.com/withden_"
                         className="ms-1 text-blue-500 transition-all hover:text-blue-600"
                         target="_blank">
-                        Denish Navadiya
+                        Upcraft Crew
                     </Link>
                 </p>
                 <div className="inline-flex items-center gap-4">
