@@ -17,7 +17,13 @@
 			"!**/.expo",
 			"!**/.wrangler",
 			"!**/wrangler.jsonc",
-			"!**/.source"
+			"!**/.source",
+			"!apps/web/src/app/(admin)",
+			"!apps/web/src/app/auth",
+			"!apps/web/src/app/components",
+			"!apps/web/src/app/landing",
+			"!apps/web/src/components",
+			"!apps/web/src"
 		]
 	}
 }

@@ -1,24 +1,24 @@
 {
-  "name": "upcraftcrew-os",
-  "private": true,
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "scripts": {
-    "check": "biome check --write .",
-    "dev": "turbo dev",
-    "build": "turbo build",
-    "check-types": "turbo check-types",
-    "dev:native": "turbo -F native dev",
-    "dev:web": "turbo -F web dev",
-    "dev:server": "turbo -F @upcraftcrew-os/backend dev",
-    "dev:setup": "turbo -F @upcraftcrew-os/backend dev:setup"
-  },
-  "dependencies": {},
-  "devDependencies": {
-    "turbo": "^2.5.6",
-    "@biomejs/biome": "^2.2.0"
-  },
-  "packageManager": "pnpm@10.15.0"
+	"name": "upcraftcrew-os",
+	"private": true,
+	"workspaces": [
+		"apps/*",
+		"packages/*"
+	],
+	"scripts": {
+		"check": "biome check --write .",
+		"dev": "turbo dev",
+		"build": "turbo build",
+		"check-types": "turbo check-types",
+		"dev:native": "turbo -F native dev",
+		"dev:web": "turbo -F web dev",
+		"dev:server": "turbo -F @upcraftcrew-os/backend dev",
+		"dev:setup": "turbo -F @upcraftcrew-os/backend dev:setup"
+	},
+	"dependencies": {},
+	"devDependencies": {
+		"turbo": "^2.5.6",
+		"@biomejs/biome": "^2.2.0"
+	},
+	"packageManager": "pnpm@10.15.0"
 }

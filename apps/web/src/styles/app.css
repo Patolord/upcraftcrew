@@ -27,5 +27,5 @@
 
 /* Iconify (Lucide icons) */
 @plugin "@iconify/tailwind4" {
-    prefixes: lucide, hugeicons, ri;
+	prefixes: lucide, hugeicons, ri;
 }

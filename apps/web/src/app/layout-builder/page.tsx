@@ -1,7 +1,7 @@
 import LayoutBuilder from "./LayoutBuilder";
 
 const LayoutBuilderPage = () => {
-    return <LayoutBuilder />;
+	return <LayoutBuilder />;
 };
 
 export default LayoutBuilderPage;

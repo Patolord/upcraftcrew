@@ -4,55 +4,55 @@
 
 .ql-toolbar,
 .ql-container {
-    * {
-        @apply font-sans;
-    }
-    @apply !border-base-300;
+	* {
+		@apply font-sans;
+	}
+	@apply !border-base-300;
 }
 
 .ql-toolbar {
-    @apply rounded-t;
+	@apply rounded-t;
 
-    .ql-formats {
-        .ql-header,
-        .ql-header .ql-picker-label {
-            @apply !text-base-content border-0;
-        }
+	.ql-formats {
+		.ql-header,
+		.ql-header .ql-picker-label {
+			@apply !text-base-content border-0;
+		}
 
-        .ql-header .ql-picker-options {
-            @apply bg-base-100 !border-base-300 rounded-box shadow-none;
-        }
+		.ql-header .ql-picker-options {
+			@apply bg-base-100 !border-base-300 rounded-box shadow-none;
+		}
 
-        button {
-            @apply opacity-70 transition-all hover:opacity-100;
+		button {
+			@apply opacity-70 transition-all hover:opacity-100;
 
-            &.ql-active {
-                @apply opacity-100;
-            }
+			&.ql-active {
+				@apply opacity-100;
+			}
 
-            .ql-stroke {
-                @apply !stroke-base-content;
-            }
+			.ql-stroke {
+				@apply !stroke-base-content;
+			}
 
-            .ql-fill {
-                @apply !fill-base-content;
-            }
-        }
+			.ql-fill {
+				@apply !fill-base-content;
+			}
+		}
 
-        .ql-active .ql-stroke {
-            @apply !stroke-primary opacity-100;
-        }
-    }
+		.ql-active .ql-stroke {
+			@apply !stroke-primary opacity-100;
+		}
+	}
 }
 
 .ql-bubble .ql-tooltip {
-    @apply !bg-base-100 rounded-full shadow transition-all hover:shadow-lg;
+	@apply !bg-base-100 rounded-full shadow transition-all hover:shadow-lg;
 }
 
 .ql-bubble .ql-formats .ql-header .ql-picker-options .ql-picker-item {
-    @apply hover:text-primary;
+	@apply hover:text-primary;
 }
 
 .ql-container {
-    @apply !bg-base-100 rounded-b;
+	@apply !bg-base-100 rounded-b;
 }

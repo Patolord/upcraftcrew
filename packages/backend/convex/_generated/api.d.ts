@@ -9,9 +9,9 @@
  */
 
 import type {
-  ApiFromModules,
-  FilterApi,
-  FunctionReference,
+	ApiFromModules,
+	FilterApi,
+	FunctionReference,
 } from "convex/server";
 import type * as healthCheck from "../healthCheck.js";
 import type * as todos from "../todos.js";
@@ -25,14 +25,14 @@ import type * as todos from "../todos.js";
  * ```
  */
 declare const fullApi: ApiFromModules<{
-  healthCheck: typeof healthCheck;
-  todos: typeof todos;
+	healthCheck: typeof healthCheck;
+	todos: typeof todos;
 }>;
 export declare const api: FilterApi<
-  typeof fullApi,
-  FunctionReference<any, "public">
+	typeof fullApi,
+	FunctionReference<any, "public">
 >;
 export declare const internal: FilterApi<
-  typeof fullApi,
-  FunctionReference<any, "internal">
+	typeof fullApi,
+	FunctionReference<any, "internal">
 >;

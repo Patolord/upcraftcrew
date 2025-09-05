@@ -9,27 +9,29 @@ import React, { useEffect, useRef } from "react";
 type Instance = flatpickr.Instance;
 
 export const ConfirmPluginDemo = () => {
-    const inputRef = useRef<HTMLInputElement>(null);
-    const pickerRef = useRef<Instance>(null);
+	const inputRef = useRef<HTMLInputElement>(null);
+	const pickerRef = useRef<Instance>(null);
 
-    useEffect(() => {
-        const input = inputRef.current;
-        if (!input) return;
+	useEffect(() => {
+		const input = inputRef.current;
+		if (!input) return;
 
-        pickerRef.current = flatpickr(input, {
-            defaultDate: Date.now(),
-            closeOnSelect: false,
-            plugins: [
-                confirmDatePlugin({
-                    confirmIcon: "<span class='iconify lucide--check'></span>",
-                    confirmText: "OK",
-                    showAlways: true,
-                }),
-            ],
-        });
+		pickerRef.current = flatpickr(input, {
+			defaultDate: Date.now(),
+			closeOnSelect: false,
+			plugins: [
+				confirmDatePlugin({
+					confirmIcon: "<span class='iconify lucide--check'></span>",
+					confirmText: "OK",
+					showAlways: true,
+				}),
+			],
+		});
 
-        return () => pickerRef.current?.destroy();
-    }, []);
+		return () => pickerRef.current?.destroy();
+	}, []);
 
-    return <input className="input max-w-56" aria-label="Choose Date" ref={inputRef} />;
+	return (
+		<input className="input max-w-56" aria-label="Choose Date" ref={inputRef} />
+	);
 };

@@ -9,19 +9,19 @@ import { Testimonials } from "./components/Testimonials";
 import { Topbar } from "./components/Topbar";
 
 const AutomationLandingPage = () => {
-    return (
-        <>
-            <Topbar />
-            <Hero />
-            <Features />
-            <Process />
-            <Benefits />
-            <Integrations />
-            <Testimonials />
-            <Pricing />
-            <Footer />
-        </>
-    );
+	return (
+		<>
+			<Topbar />
+			<Hero />
+			<Features />
+			<Process />
+			<Benefits />
+			<Integrations />
+			<Testimonials />
+			<Pricing />
+			<Footer />
+		</>
+	);
 };
 
 export default AutomationLandingPage;

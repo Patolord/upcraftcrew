@@ -8,22 +8,22 @@ import { FilePond, type FilePondProps, registerPlugin } from "react-filepond";
 registerPlugin(FilePondPluginImagePreview);
 
 export const FileUploader = ({
-  credits = false,
-  server,
-  ...others
+	credits = false,
+	server,
+	...others
 }: FilePondProps) => {
-  return (
-    <FilePond
-      credits={credits}
-      {...others}
-      server={
-        typeof server == "string"
-          ? server
-          : {
-              ...server,
-              process: (_, __, ___, load) => load({ message: "done" }),
-            }
-      }
-    />
-  );
+	return (
+		<FilePond
+			credits={credits}
+			{...others}
+			server={
+				typeof server == "string"
+					? server
+					: {
+							...server,
+							process: (_, __, ___, load) => load({ message: "done" }),
+						}
+			}
+		/>
+	);
 };

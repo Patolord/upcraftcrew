@@ -4,27 +4,27 @@ import "choices.js/public/assets/styles/choices.min.css";
 import { useEffect, useRef } from "react";
 
 export const DisabledDemo = () => {
-    const selectRef = useRef<HTMLSelectElement>(null);
+	const selectRef = useRef<HTMLSelectElement>(null);
 
-    useEffect(() => {
-        const select = selectRef.current;
-        if (!select) return;
-        import("choices.js").then(({ default: Choices }) => {
-            new Choices(select);
-        });
-    }, [selectRef.current]);
+	useEffect(() => {
+		const select = selectRef.current;
+		if (!select) return;
+		import("choices.js").then(({ default: Choices }) => {
+			new Choices(select);
+		});
+	}, [selectRef.current]);
 
-    return (
-        <select ref={selectRef} disabled>
-            <option value="">Select an option</option>
-            <option value="apple">Apple</option>
-            <option value="banana">Banana</option>
-            <option disabled value="orange">
-                Orange
-            </option>
-            <option value="carrot">Carrot</option>
-            <option value="broccoli">Broccoli</option>
-            <option value="spinach">Spinach</option>
-        </select>
-    );
+	return (
+		<select ref={selectRef} disabled>
+			<option value="">Select an option</option>
+			<option value="apple">Apple</option>
+			<option value="banana">Banana</option>
+			<option disabled value="orange">
+				Orange
+			</option>
+			<option value="carrot">Carrot</option>
+			<option value="broccoli">Broccoli</option>
+			<option value="spinach">Spinach</option>
+		</select>
+	);
 };
