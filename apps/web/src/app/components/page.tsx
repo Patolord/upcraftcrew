@@ -1,5 +1,4 @@
 import Link from "next/link";
-import React from "react";
 
 import { ComponentPageTitle } from "@/components/ComponentPageTitle";
 
@@ -26,7 +25,12 @@ const ComponentsHome = () => {
 									<Link href={child.url ?? ""} key={index} className="">
 										<div className="bg-base-content/2 group border-base-content/5 rounded-box h-36 border opacity-75 grayscale-100 transition-all duration-500 hover:opacity-100 hover:grayscale-0">
 											<div className="flex h-full items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.51,-0.69,0.3,2.01)] group-hover:scale-108">
-												{child.preview}
+												{child.preview || (
+													<div className="text-center">
+														{child.icon && <span className={`iconify ${child.icon} size-8 text-base-content/40`} />}
+														<p className="mt-2 text-xs text-base-content/60">Preview</p>
+													</div>
+												)}
 											</div>
 										</div>
 										<p className="p-2 text-center font-medium max-sm:text-sm">

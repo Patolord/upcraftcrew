@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { AnchorHTMLAttributes } from "react";
+import type { AnchorHTMLAttributes, ReactNode } from "react";
 
 import {
 	type ISidebarMenuItemBadges,
@@ -14,6 +14,7 @@ export type ISidebarMenuItem = {
 	url?: string;
 	linkProp?: AnchorHTMLAttributes<HTMLAnchorElement>;
 	children?: ISidebarMenuItem[];
+	preview?: ReactNode;
 } & ISidebarMenuItemBadges;
 
 export const SidebarMenuItem = ({
