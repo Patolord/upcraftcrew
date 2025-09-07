@@ -20,7 +20,8 @@
 			}
 		],
 		"paths": {
-			"@/*": ["./src/*"]
+			"@/*": ["./src/*"],
+			"@workspace/backend/*": ["../../packages/backend/convex/*"]
 		}
 	},
 	"include": [

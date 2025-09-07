@@ -1,0 +1,11 @@
+{
+  
+    "compilerOptions": {
+      "baseUrl": ".",
+      "paths": {
+        "@workspace/backend/*": ["./convex/*"]
+      }
+    },
+    "include": ["."],
+    "exclude": ["node_modules"]
+  }
