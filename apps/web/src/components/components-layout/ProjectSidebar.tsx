@@ -36,7 +36,7 @@ export const ProjectSidebarDemo = ({ menuItems = [] }: ProjectSidebarProps) => {
 						<span className="iconify lucide--panel-left-dashed absolute size-4.5 opacity-0 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-100" />
 					</label>
 					<div className="flex min-h-10 items-center gap-3 px-5">
-						<span className="text-xl font-semibold">ACME Inc</span>
+						<span className="text-xl font-semibold">UpcraftCrew</span>
 						<hr className="border-base-300 h-5 border-e" />
 						<div className="flex items-center gap-1.5">
 							<div className="status status-success size-1.5"></div>

@@ -14,7 +14,7 @@ export const CustomBackgroundSidebarDemo = () => {
 			</label>
 			<div className="relative flex h-full w-full flex-col">
 				<div className="flex min-h-10 items-center gap-3 px-5">
-					<span className="text-xl font-semibold">ACME Inc</span>
+					<span className="text-xl font-semibold">UpcraftCrew</span>
 					<hr className="border-base-300 h-5 border-e" />
 					<p className="text-base-content/50 text-sm font-medium">Control</p>
 				</div>

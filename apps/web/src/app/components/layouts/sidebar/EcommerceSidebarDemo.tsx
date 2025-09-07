@@ -4,7 +4,7 @@ export const EcommerceSidebarDemo = () => {
 	return (
 		<div className="flex h-full w-full flex-col py-3">
 			<div className="flex min-h-10 items-center justify-between gap-3 px-5">
-				<span className="text-xl font-semibold">ACME Inc</span>
+				<span className="text-xl font-semibold">UpcraftCrew</span>
 				<div className="flex items-center gap-2">
 					<label
 						htmlFor="layout-sidebar-hover-trigger"
