@@ -15,14 +15,14 @@ const ComponentsHome = () => {
 			<div className="mt-12 space-y-6 md:space-y-8">
 				{componentsMenuItems
 					.filter((m) => !m.isTitle)
-					.map((item, index) => (
-						<div key={index} id={item.id}>
+					.map((item) => (
+						<div key={item.id} id={item.id}>
 							<p className="text-base-content/60 font-medium sm:text-lg">
 								{item.label}
 							</p>
 							<div className="mt-4 grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 lg:gap-6">
-								{item.children?.map((child, index) => (
-									<Link href={child.url ?? ""} key={index} className="">
+								{item.children?.map((child) => (
+									<Link href={child.url ?? ""} key={child.id} className="">
 										<div className="bg-base-content/2 group border-base-content/5 rounded-box h-36 border opacity-75 grayscale-100 transition-all duration-500 hover:opacity-100 hover:grayscale-0">
 											<div className="flex h-full items-center justify-center transition-all duration-500 ease-[cubic-bezier(0.51,-0.69,0.3,2.01)] group-hover:scale-108">
 												{child.preview || (
