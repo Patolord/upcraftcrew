@@ -1,85 +1,25 @@
-import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
 export const Sidebar = () => {
 	return (
-		<div className="sidebar-menu relative flex h-screen w-64 flex-shrink-0 flex-col border-r border-base-300 py-3">
-			<label
-				htmlFor="layout-sidebar-hover-trigger"
-				title="Toggle sidebar hover"
-				className="btn btn-circle btn-ghost btn-sm text-base-content/50 absolute end-2 top-3.5 max-lg:hidden"
-			>
-				<span className="iconify lucide--panel-left-close absolute size-4.5 opacity-100 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-0" />
-				<span className="iconify lucide--panel-left-dashed absolute size-4.5 opacity-0 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-100" />
-			</label>
+		<div className="sidebar-menu relative flex h-screen w-56 flex-shrink-0 flex-col border-r border-base-300 py-3">	
+		
+		
 			<div className="flex min-h-10 items-center gap-3 px-5">
 				<span className="text-xl font-semibold">UpcraftCrew</span>
-				<hr className="border-base-300 h-5 border-e" />
+				
 				
 			</div>
-			<div className="mt-2 px-5">
-				<div className="dropdown dropdown-bottom dropdown-end w-full">
-					<div
-						className="border-base-300 hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 border p-1 pe-2"
-					>
-						<div className="bg-primary/20 rounded-box flex size-8 items-center justify-center">
-							<div className="mask mask-hexagon-2 bg-primary size-5"></div>
-						</div>
-						<div className="grow">
-							<p className="text-sm/none font-medium">Design System</p>
-							<p className="text-base-content/60 mt-1 text-xs/none">
-								In Development
-							</p>
-						</div>
-						<span className="iconify lucide--chevrons-up-down text-base-content/50"></span>
-					</div>
-					<div
-				
-						className="dropdown-content bg-base-100 rounded-box mt-1 w-44 shadow-md transition-all hover:shadow-lg"
-					>
-						<ul className="menu w-full space-y-1 p-2">
-							<li>
-								<div className="hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 p-1 pe-2">
-									<div className="bg-secondary/20 rounded-box flex size-8 items-center justify-center">
-										<div className="mask mask-star-2 bg-secondary size-5"></div>
-									</div>
-									<div className="grow">
-										<p className="text-sm/none font-medium">Project Astra</p>
-										<p className="mt-1 text-xs/none opacity-60">
-											In Production
-										</p>
-									</div>
-								</div>
-							</li>
-							<li>
-								<div className="hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 p-1 pe-2">
-									<div className="bg-warning/20 rounded-box flex size-8 items-center justify-center">
-										<div className="mask mask-diamond bg-warning size-5"></div>
-									</div>
-									<div className="grow">
-										<p className="text-sm/none font-medium">Web Analytics</p>
-										<p className="mt-1 text-xs/none opacity-60">On Hold</p>
-									</div>
-								</div>
-							</li>
-						</ul>
-					</div>
-				</div>
-			</div>
+			
 
-			<div className="custom-scrollbar grow overflow-auto">
+			<div className="custom-scrollbar p-8 grow overflow-auto">
 				<div className="mt-4">
 					<div className="flex items-center justify-between px-5">
 						<p className="menu-label">Navigation</p>
-						<Button
-							className="btn btn-xs btn-ghost btn-circle"
-							aria-label="Add"
-						>
-							<span className="iconify lucide--plus size-4 opacity-60"></span>
-						</Button>
+						
 					</div>
 					<div className="mt-1 space-y-0.5 px-2.5">
-						<Link href="#" className="menu-item group">
+						<Link href="/dashboard" className="menu-item group">
 							<span className="iconify lucide--layout-dashboard size-4"></span>
 							<p className="grow">Dashboard</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
@@ -114,12 +54,7 @@ export const Sidebar = () => {
 				<div className="mt-4">
 					<div className="flex items-center justify-between px-5">
 						<p className="menu-label">Favorite</p>
-						<Button
-							className="btn btn-xs btn-ghost btn-circle"
-							aria-label="Add"
-						>
-							<span className="iconify lucide--plus size-4 opacity-60"></span>
-						</Button>
+						
 					</div>
 					<div className="mt-1 space-y-0.5 px-2.5">
 						<Link href="#" className="group menu-item justify-between">
@@ -127,10 +62,7 @@ export const Sidebar = () => {
 								<span className="iconify lucide--search size-4"></span>
 								<p>Search Files</p>
 							</div>
-							<div className="flex items-center gap-2">
-								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
-								<kbd className="kbd kbd-sm">P</kbd>
-							</div>
+							
 						</Link>
 
 						<Link href="#" className="group menu-item justify-between">
@@ -138,10 +70,7 @@ export const Sidebar = () => {
 								<span className="iconify lucide--file-plus size-4"></span>
 								<p>New File</p>
 							</div>
-							<div className="flex items-center gap-2">
-								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
-								<kbd className="kbd kbd-sm">N</kbd>
-							</div>
+							
 						</Link>
 
 						<Link href="#" className="group menu-item justify-between">
@@ -149,22 +78,14 @@ export const Sidebar = () => {
 								<span className="iconify lucide--clock size-4"></span>
 								<p>Recent</p>
 							</div>
-							<div className="flex items-center gap-2">
-								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
-								<kbd className="kbd kbd-sm">E</kbd>
-							</div>
+							
 						</Link>
 					</div>
 				</div>
 				<div className="mt-4">
 					<div className="flex items-center justify-between px-5">
 						<p className="menu-label">Channels</p>
-						<Button
-							className="btn btn-xs btn-ghost btn-circle"
-							aria-label="Add"
-						>
-							<span className="iconify lucide--plus size-4 opacity-60"></span>
-						</Button>
+						
 					</div>
 					<div className="mt-2 space-y-1 px-5">
 						<Link
@@ -189,15 +110,7 @@ export const Sidebar = () => {
 								<span className="iconify lucide--hash"></span>
 								<p className="grow">meeting</p>
 							</Link>
-							<Button
-								aria-label="Notification"
-								tabIndex={0}
-								className="btn btn-xs btn-circle btn-ghost"
-								popoverTarget="popover-1"
-								style={{ anchorName: "--anchor-1" }}
-							>
-								<span className="iconify lucide--bell size-4"></span>
-							</Button>
+							
 							<ul
 								className="dropdown dropdown-end menu rounded-box bg-base-100 w-36 shadow hover:shadow-lg"
 								popover="auto"
@@ -271,20 +184,7 @@ export const Sidebar = () => {
 						12:42
 					</span>
 				</div>
-				<div className="mt-2 flex items-center justify-between gap-1.5">
-					<Button className="btn btn-sm btn-ghost btn-circle" aria-label="More">
-						<span className="iconify lucide--ellipsis-vertical size-4"></span>
-					</Button>
-					<Button
-						className="btn btn-sm btn-ghost btn-circle"
-						aria-label="Speaker"
-					>
-						<span className="iconify lucide--volume-2 size-4"></span>
-					</Button>
-					<Button className="btn btn-sm btn-ghost btn-circle" aria-label="Mute">
-						<span className="iconify lucide--mic size-4"></span>
-					</Button>
-				</div>
+				
 			</div>
 		</div>
 	);

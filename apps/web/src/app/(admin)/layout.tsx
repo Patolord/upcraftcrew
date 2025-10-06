@@ -8,7 +8,6 @@ import { NavBar } from "@/components/admin-layout/nav-bar";
 import { Providers } from "@/components/providers";
 
 
-
 const Layout = ({ children }: { children: ReactNode }) => {
 	const layoutContentId = useId();
 	
