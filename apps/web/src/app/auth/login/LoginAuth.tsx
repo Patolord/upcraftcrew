@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import { useId, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
 
 export const LoginAuth = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -29,7 +32,7 @@ export const LoginAuth = () => {
 						placeholder="Password"
 						type={showPassword ? "text" : "password"}
 					/>
-					<button
+					<Button
 						className="btn btn-xs btn-ghost btn-circle"
 						onClick={() => setShowPassword(!showPassword)}
 						aria-label="Password"
@@ -39,7 +42,7 @@ export const LoginAuth = () => {
 						) : (
 							<span className="iconify lucide--eye size-4" />
 						)}
-					</button>
+					</Button>
 				</label>
 			</fieldset>
 
@@ -57,7 +60,7 @@ export const LoginAuth = () => {
 					className="checkbox checkbox-sm checkbox-primary"
 					aria-label="Checkbox example"
 					type="checkbox"
-					id="agreement"
+					id={`agreement-${useId()}`}
 				/>
 				<label htmlFor="agreement" className="text-sm">
 					I agree with
@@ -68,21 +71,23 @@ export const LoginAuth = () => {
 			</div>
 
 			<Link
-				href="/dashboards/ecommerce"
+				href="/dashboard"
 				className="btn btn-primary btn-wide mt-4 max-w-full gap-3 md:mt-6"
 			>
 				<span className="iconify lucide--log-in size-4" />
 				Login
 			</Link>
 
-			<button className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3">
-				<img
+			<Button className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3">
+				<Image
 					src="/images/brand-logo/google-mini.svg"
 					className="size-6"
 					alt=""
+					width={24}
+					height={24}
 				/>
 				Login with Google
-			</button>
+			</Button>
 
 			<p className="text-base-content/80 mt-4 text-center text-sm md:mt-6">
 				Haven&apos;t account

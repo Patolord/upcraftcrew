@@ -1,14 +1,17 @@
 import type { ReactNode } from "react";
+import { Image } from "@/components/ui/image";
 
 const AuthLayout = ({ children }: { children: ReactNode }) => {
 	return (
 		<div className="grid grid-cols-12 overflow-auto sm:h-screen">
 			<div className="relative hidden bg-[#FFE9D1] lg:col-span-7 lg:block xl:col-span-8 2xl:col-span-9 dark:bg-[#14181c]">
 				<div className="absolute inset-0 flex items-center justify-center">
-					<img
+					<Image
 						src="/images/auth/auth-hero.png"
 						className="object-cover"
 						alt="Auth Image"
+						width={1000}
+						height={1000}
 					/>
 				</div>
 				<div className="animate-bounce-2 absolute right-[20%] bottom-[15%]">
@@ -16,10 +19,12 @@ const AuthLayout = ({ children }: { children: ReactNode }) => {
 						<div className="card-body p-5">
 							<div className="flex flex-col items-center justify-center">
 								<div className="mask mask-squircle overflow-hidden">
-									<img
+									<Image
 										src="/images/landing/testimonial-avatar-1.jpg"
 										className="bg-base-200 size-14"
 										alt=""
+										width={56}
+										height={56}
 									/>
 								</div>
 								<div className="mt-3 flex items-center justify-center gap-0.5">

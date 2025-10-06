@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
@@ -15,7 +14,7 @@ const LoginPage = () => {
 	return (
 		<div className="flex flex-col items-stretch p-6 md:p-8 lg:p-16">
 			<div className="flex items-center justify-between">
-				<Link href="/dashboards/ecommerce">
+				<Link href="/dashboard">
 					<Logo />
 				</Link>
 				<ThemeToggle className="btn btn-circle btn-outline border-base-300" />
