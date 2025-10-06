@@ -1,11 +1,11 @@
 "use client";
 
 import { useId, type ReactNode } from "react";
-import { Providers } from "@/components/providers";
+
+import { Footer } from "@/components/admin-layout/Footer";
 import { Sidebar } from "@/components/admin-layout/Sidebar";
 import { NavBar } from "@/components/admin-layout/nav-bar";
-import { Footer } from "@/components/admin-layout/Footer";
-
+import { Providers } from "@/components/providers";
 
 
 const Layout = ({ children }: { children: ReactNode }) => {
