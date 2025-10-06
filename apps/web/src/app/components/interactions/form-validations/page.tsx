@@ -6,10 +6,10 @@ import { ComponentPageTitle } from "@/components/ComponentPageTitle";
 import { CheckboxDemo } from "./CheckboxDemo";
 import { EmailDemo } from "./EmailDemo";
 import { FormDemo } from "./FormDemo";
-import { NumberDemo } from "./NumberDemo";
+
 import { RadioDemo } from "./RadioDemo";
 import { RangeDemo } from "./RangeDemo";
-import { RatingsDemo } from "./RatingsDemo";
+
 import { SelectDemo } from "./SelectDemo";
 import { TextDemo } from "./TextDemo";
 import { ToggleDemo } from "./ToggleDemo";
@@ -50,15 +50,7 @@ const FormValidationPage = () => {
 					</div>
 				</div>
 
-				<div className="bg-base-100 card card-border h-fit">
-					<div className="bg-base-200/30 flex items-center gap-2.5 px-5 py-3 font-medium">
-						<span className="iconify lucide--binary size-4.5"></span>
-						Number
-					</div>
-					<div className="p-5">
-						<NumberDemo />
-					</div>
-				</div>
+				
 
 				<div className="bg-base-100 card card-border h-fit">
 					<div className="bg-base-200/30 flex items-center gap-2.5 px-5 py-3 font-medium">
@@ -120,15 +112,7 @@ const FormValidationPage = () => {
 					</div>
 				</div>
 
-				<div className="bg-base-100 card card-border h-fit">
-					<div className="bg-base-200/30 flex items-center gap-2.5 px-5 py-3 font-medium">
-						<span className="iconify lucide--star size-4.5"></span>
-						Ratings
-					</div>
-					<div className="p-5">
-						<RatingsDemo />
-					</div>
-				</div>
+				
 			</div>
 		</div>
 	);

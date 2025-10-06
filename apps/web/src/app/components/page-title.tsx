@@ -1,6 +1,7 @@
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
 
-export const EditorTitleDemo = () => {
+export const PageTitle = () => {
 	return (
 		<div className="w-full">
 			<div className="breadcrumbs text-sm">
@@ -37,18 +38,18 @@ export const EditorTitleDemo = () => {
 				</div>
 
 				<div className="flex items-center gap-3">
-					<button className="btn btn-primary btn-sm max-md:hidden">
+					<Button className="btn btn-primary btn-sm max-md:hidden">
 						Save Changes
-					</button>
-					<button className="btn btn-outline btn-sm border-base-300 max-md:hidden">
+					</Button>
+					<Button className="btn btn-outline btn-sm border-base-300 max-md:hidden">
 						Preview Tool
-					</button>
-					<button
+					</Button>
+					<Button
 						className="btn btn-outline btn-sm border-base-300 btn-square"
 						aria-label="More options"
 					>
 						<span className="iconify lucide--more-vertical size-4"></span>
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>
