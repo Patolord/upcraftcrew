@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useId } from "react";
 
 export const metadata: Metadata = {
 	title: "Forgot Password",
@@ -13,7 +13,7 @@ const ForgotPasswordPage = () => {
 	return (
 		<div className="flex flex-col items-stretch p-8 lg:p-16">
 			<div className="flex items-center justify-between">
-				<Link href="/dashboards/ecommerce">
+				<Link href="/dashboard">
 					<Logo />
 				</Link>
 				<ThemeToggle className="btn btn-circle btn-outline border-base-300" />
@@ -40,10 +40,10 @@ const ForgotPasswordPage = () => {
 
 				<div className="mt-2 flex items-center gap-3 md:mt-4">
 					<input
+						id={`agreement-${useId()}`}
 						className="checkbox checkbox-sm checkbox-primary"
 						aria-label="Checkbox example"
-						type="checkbox"
-						id="agreement"
+						type="checkbox" 
 					/>
 					<label htmlFor="agreement" className="text-sm">
 						I agree with

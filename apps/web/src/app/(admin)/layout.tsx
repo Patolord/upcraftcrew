@@ -1,15 +1,12 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useId } from "react";
-
-import { Footer } from "@/components/admin-layout/Footer";
-import { Rightbar } from "@/components/admin-layout/Rightbar";
-import { ProjectSidebarDemo } from "@/components/components-layout/ProjectSidebar";
-import { Topbar } from "@/components/admin-layout/Topbar";
+import { useId, type ReactNode } from "react";
 import { Providers } from "@/components/providers";
+import { Sidebar } from "@/components/admin-layout/Sidebar";
+import { NavBar } from "@/components/admin-layout/nav-bar";
+import { Footer } from "@/components/admin-layout/Footer";
 
-import { projectMenuItems } from "../components/project-menu";
+
 
 const Layout = ({ children }: { children: ReactNode }) => {
 	const layoutContentId = useId();
@@ -17,15 +14,20 @@ const Layout = ({ children }: { children: ReactNode }) => {
 	return (
 		<Providers>
 			<div className="size-full">
+				<input
+					type="checkbox"
+					id={`layout-sidebar-hover-trigger-${layoutContentId}`}
+					className="peer/sidebar-hover hidden"
+				/>
 				<div className="flex">
-					<ProjectSidebarDemo menuItems={projectMenuItems} />
+					<Sidebar />
 					<div className="flex h-screen min-w-0 grow flex-col overflow-auto">
-						<Topbar />
+						<NavBar />
 						<div id={layoutContentId}>{children}</div>
 						<Footer />
 					</div>
 				</div>
-				<Rightbar />
+
 			</div>
 		</Providers>
 	);

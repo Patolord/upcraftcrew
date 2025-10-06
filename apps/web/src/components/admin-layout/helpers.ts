@@ -1,4 +1,4 @@
-import type { ISidebarMenuItem } from "./SidebarMenuItem";
+import type { ISidebarMenuItem } from "./types";
 
 const findItem = (
 	menuItems: ISidebarMenuItem[],

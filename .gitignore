@@ -1,2 +1,6 @@
 node_modules
 .turbo
+.env*
+README.md
+.DS_Store
+.vscode

@@ -1,6 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "motion/react";
+import { useId } from "react";
 
 const data = [
 	{
@@ -68,7 +69,7 @@ export const Benefits = () => {
 	return (
 		<div
 			className="group bg-base-200/25 container scroll-mt-12 rounded-2xl py-8 md:py-12 lg:py-16 2xl:py-28"
-			id="benefits"
+			id={`benefits-${useId()}`}
 		>
 			<div className="grid gap-6 lg:grid-cols-2 lg:gap-8 2xl:gap-12">
 				<div>
@@ -97,11 +98,11 @@ export const Benefits = () => {
 					variants={containerVariants}
 					className="grid h-fit gap-6 sm:grid-cols-2"
 				>
-					{data.map((item, index) => (
+					{data.map((item) => (
 						<motion.div
 							variants={featureVariants}
 							className="card bg-base-100 p-4 shadow"
-							key={index}
+							key={item.title}
 						>
 							<div className={`rounded-box w-fit p-1.5 ${item.iconClass}`}>
 								<span className={`iconify ${item.icon} block size-5`}></span>

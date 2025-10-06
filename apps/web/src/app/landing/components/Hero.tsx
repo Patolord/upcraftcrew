@@ -5,7 +5,7 @@ import { WavePath } from "./WavePath";
 export const Hero = () => {
 	return (
 		<>
-			<div className="relative z-2 overflow-hidden lg:h-screen" id="hero">
+			<div className="relative z-2 overflow-hidden lg:h-screen">
 				<div className="container flex items-center justify-center pt-20 md:pt-28 xl:pt-36 2xl:pt-48">
 					<div className="w-100 text-center md:w-120 xl:w-160 2xl:w-200">
 						<div className="flex justify-center">
