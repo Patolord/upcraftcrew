@@ -1,7 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import React, { useState } from "react";
+import { useId, useState } from "react";
+
+import { Button } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
 
 export const RegisterAuth = () => {
 	const [showPassword, setShowPassword] = useState(false);
@@ -63,7 +66,7 @@ export const RegisterAuth = () => {
 						placeholder="Password"
 						type={showPassword ? "text" : "password"}
 					/>
-					<button
+					<Button
 						className="btn btn-xs btn-ghost btn-circle"
 						onClick={() => setShowPassword(!showPassword)}
 						aria-label="Password"
@@ -73,7 +76,7 @@ export const RegisterAuth = () => {
 						) : (
 							<span className="iconify lucide--eye size-4" />
 						)}
-					</button>
+					</Button>
 				</label>
 			</fieldset>
 
@@ -82,7 +85,7 @@ export const RegisterAuth = () => {
 					className="checkbox checkbox-sm checkbox-primary"
 					aria-label="Checkbox example"
 					type="checkbox"
-					id="agreement"
+					id={`agreement-${useId()}`}
 				/>
 				<label htmlFor="agreement" className="text-sm">
 					I agree with
@@ -99,14 +102,16 @@ export const RegisterAuth = () => {
 				Register
 			</Link>
 
-			<button className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3">
-				<img
+			<Button className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3">
+				<Image
 					src="/images/brand-logo/google-mini.svg"
 					className="size-6"
 					alt=""
+					width={24}
+					height={24}
 				/>
 				Register with Google
-			</button>
+			</Button>
 			<p className="text-base-content/80 mt-4 text-center text-sm md:mt-6">
 				I have already to
 				<Link className="text-primary ms-1 hover:underline" href="/auth/login">

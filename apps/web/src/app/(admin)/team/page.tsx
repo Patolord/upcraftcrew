@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Image } from "@/components/ui/image";
 import { mockTeamMembers } from "@/lib/mock-data/team";
 import type { TeamMember, TeamMemberRole } from "@/types/team";
 
@@ -66,7 +68,7 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 					<div className="relative">
 						<div className="avatar">
 							<div className="w-16 rounded-full">
-								<img src={member.avatar} alt={member.name} />
+								<Image src={member.avatar} alt={member.name} width={28} height={28} />
 							</div>
 						</div>
 						<div
@@ -144,14 +146,14 @@ function TeamMemberCard({ member }: { member: TeamMember }) {
 
 				{/* Actions */}
 				<div className="card-actions justify-end mt-4">
-					<button className="btn btn-ghost btn-sm">
+					<Button className="btn btn-ghost btn-sm">
 						<span className="iconify lucide--message-circle size-4" />
 						Message
-					</button>
-					<button className="btn btn-ghost btn-sm">
+					</Button>
+					<Button className="btn btn-ghost btn-sm">
 						<span className="iconify lucide--user size-4" />
 						View Profile
-					</button>
+					</Button>
 				</div>
 			</div>
 		</div>
@@ -169,7 +171,7 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
 					<div className="relative">
 						<div className="avatar">
 							<div className="w-10 rounded-full">
-								<img src={member.avatar} alt={member.name} />
+								<Image src={member.avatar} alt={member.name} width={28} height={28} />
 							</div>
 						</div>
 						<div
@@ -202,15 +204,15 @@ function TeamMemberRow({ member }: { member: TeamMember }) {
 			</td>
 			<td>
 				<div className="flex items-center gap-1">
-					<button className="btn btn-ghost btn-xs">
+					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--message-circle size-4" />
-					</button>
-					<button className="btn btn-ghost btn-xs">
+					</Button>
+					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--user size-4" />
-					</button>
-					<button className="btn btn-ghost btn-xs">
+					</Button>
+					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--more-horizontal size-4" />
-					</button>
+					</Button>
 				</div>
 			</td>
 		</tr>
@@ -251,10 +253,10 @@ export default function TeamPage() {
 						Manage your team members and permissions
 					</p>
 				</div>
-				<button className="btn btn-primary gap-2">
+				<Button className="btn btn-primary gap-2">
 					<span className="iconify lucide--user-plus size-5" />
 					Add Member
-				</button>
+				</Button>
 			</div>
 
 			{/* Stats */}
@@ -333,18 +335,18 @@ export default function TeamPage() {
 					))}
 				</select>
 				<div className="join">
-					<button
+					<Button
 						className={`btn join-item ${viewMode === "grid" ? "btn-active" : ""}`}
 						onClick={() => setViewMode("grid")}
 					>
 						<span className="iconify lucide--layout-grid size-4" />
-					</button>
-					<button
+					</Button>
+					<Button
 						className={`btn join-item ${viewMode === "table" ? "btn-active" : ""}`}
 						onClick={() => setViewMode("table")}
 					>
 						<span className="iconify lucide--table size-4" />
-					</button>
+					</Button>
 				</div>
 			</div>
 

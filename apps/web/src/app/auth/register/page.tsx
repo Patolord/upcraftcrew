@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";

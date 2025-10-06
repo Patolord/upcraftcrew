@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import React from "react";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { useId } from "react";
 
 export const metadata: Metadata = {
 	title: "Forgot Password",
@@ -40,10 +40,10 @@ const ForgotPasswordPage = () => {
 
 				<div className="mt-2 flex items-center gap-3 md:mt-4">
 					<input
+						id={`agreement-${useId()}`}
 						className="checkbox checkbox-sm checkbox-primary"
 						aria-label="Checkbox example"
-						type="checkbox"
-						id="agreement"
+						type="checkbox" 
 					/>
 					<label htmlFor="agreement" className="text-sm">
 						I agree with

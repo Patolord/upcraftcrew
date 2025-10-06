@@ -1,7 +1,6 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { useId } from "react";
+import { useId, type ReactNode } from "react";
 
 import { Footer } from "@/components/admin-layout/Footer";
 import { Sidebar } from "@/components/admin-layout/Sidebar";
@@ -18,7 +17,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 			<div className="size-full">
 				<input
 					type="checkbox"
-					id="layout-sidebar-hover-trigger"
+					id={`layout-sidebar-hover-trigger-${layoutContentId}`}
 					className="peer/sidebar-hover hidden"
 				/>
 				<div className="flex">
