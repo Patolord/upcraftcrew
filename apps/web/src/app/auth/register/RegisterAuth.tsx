@@ -92,7 +92,7 @@ export const RegisterAuth = () => {
 				</label>
 			</div>
 			<Link
-				href="/dashboards/ecommerce"
+				href="/dashboard"
 				className="btn btn-primary btn-wide mt-4 max-w-full gap-3 md:mt-6"
 			>
 				<span className="iconify lucide--user-plus size-4" />

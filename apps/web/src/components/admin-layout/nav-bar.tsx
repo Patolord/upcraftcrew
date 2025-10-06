@@ -1,8 +1,9 @@
 import Link from "next/link";
+import { ProfileMenu } from "./profile-menu";
 
 export const NavBar = () => {
 	return (
-		<div className="flex h-full w-full items-center justify-between px-4">
+		<div className="sticky top-0 z-10 flex h-16 w-full items-center justify-between border-b border-base-300 bg-base-100 px-4">
 			<div className="flex items-center gap-2 sm:gap-3">
 				<label
 					className="btn btn-square btn-ghost btn-sm group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:hidden"
@@ -20,7 +21,7 @@ export const NavBar = () => {
 				</label>
 				<div>
 					<p className="leading-none font-medium md:text-lg">
-						Good Morning<span className="max-sm:hidden">, Denish!</span>
+						Good Morning<span className="max-sm:hidden">!</span>
 					</p>
 					<p className="text-base-content/60 mt-1 text-sm/none max-sm:hidden">
 						Welcome back, great to see you again!
@@ -29,24 +30,26 @@ export const NavBar = () => {
 			</div>
 			<div className="flex items-center gap-4">
 				<div className="dropdown dropdown-bottom dropdown-end">
-					<div tabIndex={0} className="flex cursor-pointer items-center gap-2">
+					<div className="flex cursor-pointer items-center gap-2">
 						<div className="avatar bg-base-200 rounded-box size-7 overflow-hidden">
 							<img src="/images/avatars/1.png" alt="Avatar" />
+							<ProfileMenu />
 						</div>
 						<div>
-							<p className="leading-none font-medium">Denish</p>
-							<p className="text-base-content/60 mt-0 text-xs/none">@withden</p>
+							<p className="leading-none font-medium">User</p>
+							<p className="text-base-content/60 mt-0 text-xs/none">@user</p>
 						</div>
 					</div>
 					<div
-						tabIndex={0}
+						
 						className="dropdown-content bg-base-100 rounded-box mt-2 w-44 shadow"
 					>
 						<ul className="menu w-full p-2">
 							<li>
-								<Link href="#">
+								<Link href="/profile-menu">
 									<span className="iconify lucide--user size-4" />
 									<span>My Profile</span>
+									
 								</Link>
 							</li>
 							<li>

@@ -1,15 +1,15 @@
 import Link from "next/link";
 
-export const SplitMenuDemo = () => {
+export const ProfileMenu = () => {
 	return (
 		<div className="dropdown dropdown-bottom sm:dropdown-end max-sm:dropdown-center">
-			<div tabIndex={0} className="flex cursor-pointer items-center gap-3">
+			<div className="flex cursor-pointer items-center gap-3">
 				<div className="avatar bg-base-200 size-12 overflow-hidden rounded-full px-1 pt-1">
 					<img src="/images/avatars/6.png" alt="Avatar" />
 				</div>
 			</div>
 
-			<div tabIndex={0} className="dropdown-content mt-2 w-54">
+			<div className="dropdown-content mt-2 w-54">
 				<div className="bg-base-100 rounded-box shadow-lg">
 					<ul className="menu w-full p-2">
 						<li>

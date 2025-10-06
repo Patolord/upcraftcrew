@@ -1,192 +1,65 @@
-"use client";
-
+import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { useEffect, useRef, useState } from "react";
-import type SimpleBarCore from "simplebar-core";
 
-import SimpleBar from "simplebar-react";
-import "simplebar-react/dist/simplebar.min.css";
-
-import { Logo } from "@/components/Logo";
-import { useConfig } from "@/contexts/config";
-import { getActivatedItemParentKeys } from "./helpers";
-import { type ISidebarMenuItem, SidebarMenuItem } from "./SidebarMenuItem";
-
-export const Sidebar = ({ menuItems }: { menuItems: ISidebarMenuItem[] }) => {
-	const pathname = usePathname();
-	const { calculatedSidebarTheme } = useConfig();
-	const scrollRef = useRef<SimpleBarCore | null>(null);
-	const hasMounted = useRef(false);
-
-	const [activatedParents, setActivatedParents] = useState<Set<string>>(
-		new Set(),
-	);
-
-	useEffect(() => {
-		setActivatedParents(getActivatedItemParentKeys(menuItems, pathname));
-	}, [menuItems, pathname]);
-
-	const onToggleActivated = (key: string) => {
-		if (activatedParents.has(key)) {
-			activatedParents.delete(key);
-		} else {
-			activatedParents.add(key);
-		}
-		setActivatedParents(new Set(activatedParents));
-	};
-
-	useEffect(() => {
-		setTimeout(() => {
-			const contentElement = scrollRef.current?.getContentElement();
-			const scrollElement = scrollRef.current?.getScrollElement();
-			if (contentElement) {
-				const activatedItem =
-					contentElement.querySelector<HTMLElement>(".active");
-				const top = activatedItem?.getBoundingClientRect().top;
-				if (activatedItem && scrollElement && top && top !== 0) {
-					scrollElement.scrollTo({
-						top: scrollElement.scrollTop + top - 300,
-						behavior: "smooth",
-					});
-				}
-			}
-		}, 100);
-	}, [activatedParents, scrollRef]);
-
-	useEffect(() => {
-		if (!hasMounted.current) {
-			hasMounted.current = true;
-			return;
-		}
-		if (window.innerWidth <= 64 * 16) {
-			const sidebarTrigger = document.querySelector<HTMLInputElement>(
-				"#layout-sidebar-toggle-trigger",
-			);
-			if (sidebarTrigger) {
-				sidebarTrigger.checked = false;
-			}
-		}
-	}, [pathname]);
-
+export const Sidebar = () => {
 	return (
-		<>
-			<input
-				type="checkbox"
-				id="layout-sidebar-toggle-trigger"
-				className="hidden"
-				aria-label="Toggle layout sidebar"
-			/>
-			<input
-				type="checkbox"
-				id="layout-sidebar-hover-trigger"
-				className="hidden"
-				aria-label="Dense layout sidebar"
-			/>
-			<div id="layout-sidebar-hover" className="bg-base-300 h-screen w-1"></div>
-
-			<div
-				id="layout-sidebar"
-				className="sidebar-menu flex flex-col"
-				data-theme={calculatedSidebarTheme}
+		<div className="sidebar-menu relative flex h-screen w-64 flex-shrink-0 flex-col border-r border-base-300 py-3">
+			<label
+				htmlFor="layout-sidebar-hover-trigger"
+				title="Toggle sidebar hover"
+				className="btn btn-circle btn-ghost btn-sm text-base-content/50 absolute end-2 top-3.5 max-lg:hidden"
 			>
-				<div className="flex h-16 min-h-16 items-center justify-between gap-3 ps-5 pe-4">
-					<Link href="/dashboards/ecommerce">
-						<Logo />
-					</Link>
-					<label
-						htmlFor="layout-sidebar-hover-trigger"
-						title="Toggle sidebar hover"
-						className="btn btn-circle btn-ghost btn-sm text-base-content/50 relative max-lg:hidden"
+				<span className="iconify lucide--panel-left-close absolute size-4.5 opacity-100 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-0" />
+				<span className="iconify lucide--panel-left-dashed absolute size-4.5 opacity-0 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-100" />
+			</label>
+			<div className="flex min-h-10 items-center gap-3 px-5">
+				<span className="text-xl font-semibold">UpcraftCrew</span>
+				<hr className="border-base-300 h-5 border-e" />
+				
+			</div>
+			<div className="mt-2 px-5">
+				<div className="dropdown dropdown-bottom dropdown-end w-full">
+					<div
+						className="border-base-300 hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 border p-1 pe-2"
 					>
-						<span className="iconify lucide--panel-left-close absolute size-4.5 opacity-100 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-0" />
-						<span className="iconify lucide--panel-left-dashed absolute size-4.5 opacity-0 transition-all duration-300 group-has-[[id=layout-sidebar-hover-trigger]:checked]/html:opacity-100" />
-					</label>
-				</div>
-				<div className="relative min-h-0 grow">
-					<SimpleBar ref={scrollRef} className="size-full">
-						<div className="mb-3 space-y-0.5 px-2.5">
-							{menuItems.map((item, index) => (
-								<SidebarMenuItem
-									{...item}
-									key={index}
-									activated={activatedParents}
-									onToggleActivated={onToggleActivated}
-								/>
-							))}
+						<div className="bg-primary/20 rounded-box flex size-8 items-center justify-center">
+							<div className="mask mask-hexagon-2 bg-primary size-5"></div>
 						</div>
-					</SimpleBar>
-					<div className="from-base-100/60 pointer-events-none absolute start-0 end-0 bottom-0 h-7 bg-linear-to-t to-transparent"></div>
-				</div>
-
-				<div className="mb-2">
-					<Link
-						href="/components"
-						target="_blank"
-						className="group rounded-box relative mx-2.5 block gap-3"
-					>
-						<div className="rounded-box absolute inset-0 bg-gradient-to-r from-transparent to-transparent transition-opacity duration-300 group-hover:opacity-0"></div>
-						<div className="from-primary to-secondary rounded-box absolute inset-0 bg-gradient-to-r opacity-0 transition-opacity duration-300 group-hover:opacity-100"></div>
-
-						<div className="relative flex h-10 items-center gap-3 px-3">
-							<i className="iconify lucide--shapes text-primary group-hover:text-primary-content size-4.5 transition-all duration-300"></i>
-							<p className="from-primary to-secondary group-hover:text-primary-content bg-gradient-to-r bg-clip-text font-medium text-transparent transition-all duration-300">
-								Components
+						<div className="grow">
+							<p className="text-sm/none font-medium">Design System</p>
+							<p className="text-base-content/60 mt-1 text-xs/none">
+								In Development
 							</p>
-							<i className="iconify lucide--chevron-right text-secondary group-hover:text-secondary-content ms-auto size-4.5 transition-all duration-300"></i>
 						</div>
-					</Link>
-					<hr className="border-base-300 my-2 border-dashed" />
-					<div className="dropdown dropdown-top dropdown-end w-full">
-						<div
-							tabIndex={0}
-							role="button"
-							className="bg-base-200 hover:bg-base-300 rounded-box mx-2 mt-0 flex cursor-pointer items-center gap-2.5 px-3 py-2 transition-all"
-						>
-							<div className="avatar">
-								<div className="bg-base-200 mask mask-squircle w-8">
-									<img src="/images/avatars/1.png" alt="Avatar" />
-								</div>
-							</div>
-							<div className="grow -space-y-0.5">
-								<p className="text-sm font-medium">Denish N</p>
-								<p className="text-base-content/60 text-xs">@withden</p>
-							</div>
-							<span className="iconify lucide--chevrons-up-down text-base-content/60 size-4" />
-						</div>
-						<ul
-							role="menu"
-							tabIndex={0}
-							className="dropdown-content menu bg-base-100 rounded-box shadow-base-content/4 mb-1 w-48 p-1 shadow-[0px_-10px_40px_0px]"
-						>
+						<span className="iconify lucide--chevrons-up-down text-base-content/50"></span>
+					</div>
+					<div
+				
+						className="dropdown-content bg-base-100 rounded-box mt-1 w-44 shadow-md transition-all hover:shadow-lg"
+					>
+						<ul className="menu w-full space-y-1 p-2">
 							<li>
-								<Link href="/pages/settings">
-									<span className="iconify lucide--user size-4" />
-									<span>My Profile</span>
-								</Link>
-							</li>
-							<li>
-								<Link href="/pages/settings">
-									<span className="iconify lucide--settings size-4" />
-									<span>Settings</span>
-								</Link>
-							</li>
-							<li>
-								<Link href="/pages/get-help">
-									<span className="iconify lucide--help-circle size-4" />
-									<span>Help</span>
-								</Link>
-							</li>
-							<li>
-								<div>
-									<span className="iconify lucide--bell size-4" />
-									<span>Notification</span>
+								<div className="hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 p-1 pe-2">
+									<div className="bg-secondary/20 rounded-box flex size-8 items-center justify-center">
+										<div className="mask mask-star-2 bg-secondary size-5"></div>
+									</div>
+									<div className="grow">
+										<p className="text-sm/none font-medium">Project Astra</p>
+										<p className="mt-1 text-xs/none opacity-60">
+											In Production
+										</p>
+									</div>
 								</div>
 							</li>
 							<li>
-								<div>
-									<span className="iconify lucide--arrow-left-right size-4" />
-									<span>Switch Account</span>
+								<div className="hover:bg-base-200 rounded-box flex cursor-pointer items-center gap-2 p-1 pe-2">
+									<div className="bg-warning/20 rounded-box flex size-8 items-center justify-center">
+										<div className="mask mask-diamond bg-warning size-5"></div>
+									</div>
+									<div className="grow">
+										<p className="text-sm/none font-medium">Web Analytics</p>
+										<p className="mt-1 text-xs/none opacity-60">On Hold</p>
+									</div>
 								</div>
 							</li>
 						</ul>
@@ -194,10 +67,220 @@ export const Sidebar = ({ menuItems }: { menuItems: ISidebarMenuItem[] }) => {
 				</div>
 			</div>
 
-			<label
-				htmlFor="layout-sidebar-toggle-trigger"
-				id="layout-sidebar-backdrop"
-			></label>
-		</>
+			<div className="custom-scrollbar grow overflow-auto">
+				<div className="mt-4">
+					<div className="flex items-center justify-between px-5">
+						<p className="menu-label">Navigation</p>
+						<Button
+							className="btn btn-xs btn-ghost btn-circle"
+							aria-label="Add"
+						>
+							<span className="iconify lucide--plus size-4 opacity-60"></span>
+						</Button>
+					</div>
+					<div className="mt-1 space-y-0.5 px-2.5">
+						<Link href="#" className="menu-item group">
+							<span className="iconify lucide--layout-dashboard size-4"></span>
+							<p className="grow">Dashboard</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+						<Link href="#" className="menu-item group">
+							<span className="iconify lucide--folder-open size-4"></span>
+							<p className="grow">Projects</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+						<Link href="#" className="menu-item group">
+							<span className="iconify lucide--users size-4"></span>
+							<p className="grow">Team</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+						<Link href="#" className="menu-item group">
+							<span className="iconify lucide--calendar-days size-4"></span>
+							<p className="grow">Schedule</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+						<Link href="#" className="menu-item group">
+							<span className="iconify lucide--file-text size-4"></span>
+							<p className="grow">Reports</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+					</div>
+				</div>
+				<div className="mt-4">
+					<div className="flex items-center justify-between px-5">
+						<p className="menu-label">Favorite</p>
+						<Button
+							className="btn btn-xs btn-ghost btn-circle"
+							aria-label="Add"
+						>
+							<span className="iconify lucide--plus size-4 opacity-60"></span>
+						</Button>
+					</div>
+					<div className="mt-1 space-y-0.5 px-2.5">
+						<Link href="#" className="group menu-item justify-between">
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--search size-4"></span>
+								<p>Search Files</p>
+							</div>
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
+								<kbd className="kbd kbd-sm">P</kbd>
+							</div>
+						</Link>
+
+						<Link href="#" className="group menu-item justify-between">
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--file-plus size-4"></span>
+								<p>New File</p>
+							</div>
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
+								<kbd className="kbd kbd-sm">N</kbd>
+							</div>
+						</Link>
+
+						<Link href="#" className="group menu-item justify-between">
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--clock size-4"></span>
+								<p>Recent</p>
+							</div>
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--star translate-x-2 text-orange-500 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-100"></span>
+								<kbd className="kbd kbd-sm">E</kbd>
+							</div>
+						</Link>
+					</div>
+				</div>
+				<div className="mt-4">
+					<div className="flex items-center justify-between px-5">
+						<p className="menu-label">Channels</p>
+						<Button
+							className="btn btn-xs btn-ghost btn-circle"
+							aria-label="Add"
+						>
+							<span className="iconify lucide--plus size-4 opacity-60"></span>
+						</Button>
+					</div>
+					<div className="mt-2 space-y-1 px-5">
+						<Link
+							href="#"
+							className="text-base-content/90 hover:text-primary flex items-center gap-2 transition-all"
+						>
+							<span className="iconify lucide--hash"></span>
+							general
+						</Link>
+						<Link
+							href="#"
+							className="text-base-content/90 hover:text-primary flex items-center gap-2 transition-all"
+						>
+							<span className="iconify lucide--hash"></span>
+							design
+						</Link>
+						<div className="text-base-content/90 flex items-center gap-2 transition-all">
+							<Link
+								href="#"
+								className="hover:text-primary flex grow items-center gap-2"
+							>
+								<span className="iconify lucide--hash"></span>
+								<p className="grow">meeting</p>
+							</Link>
+							<Button
+								aria-label="Notification"
+								tabIndex={0}
+								className="btn btn-xs btn-circle btn-ghost"
+								popoverTarget="popover-1"
+								style={{ anchorName: "--anchor-1" }}
+							>
+								<span className="iconify lucide--bell size-4"></span>
+							</Button>
+							<ul
+								className="dropdown dropdown-end menu rounded-box bg-base-100 w-36 shadow hover:shadow-lg"
+								popover="auto"
+								id={`popover-1`}
+								style={{ positionAnchor: "--anchor-1" }}
+							>
+								<li>
+									<Link href="#">
+										<span className="iconify lucide--bell size-4"></span>
+										Normal
+									</Link>
+								</li>
+								<li>
+									<Link href="#">
+										<span className="iconify lucide--bell-off size-4"></span>
+										Muted
+									</Link>
+								</li>
+								<li>
+									<Link href="#">
+										<span className="iconify lucide--bell-ring size-4"></span>
+										Vibrate
+									</Link>
+								</li>
+								<li>
+									<Link href="#">
+										<span className="iconify lucide--bell-minus size-4"></span>
+										Silent
+									</Link>
+								</li>
+							</ul>
+						</div>
+						<Link
+							href="#"
+							className="text-base-content/90 hover:text-primary flex items-center gap-2 transition-all"
+						>
+							<span className="iconify lucide--hash"></span>
+							support
+						</Link>
+					</div>
+				</div>
+			</div>
+			<div className="border-base-300 relative mt-8 border-t px-5 pt-4">
+				<div className="bg-base-100 border-base-300 absolute -top-7 translate-y-1/2 rounded-full border px-3 py-0.5">
+					<p className="text-base-content/70 text-sm">In Meeting</p>
+				</div>
+				<div className="mt-2 flex items-center justify-between">
+					<div className="avatar-group -ms-2 -space-x-3.5">
+						<div className="avatar border-2">
+							<div className="bg-base-200 size-7 rounded-full">
+								<img alt="Avatar" src="/images/avatars/4.png" />
+							</div>
+						</div>
+						<div className="avatar border-2">
+							<div className="bg-base-200 size-7 rounded-full">
+								<img alt="Avatar" src="/images/avatars/5.png" />
+							</div>
+						</div>
+						<div className="avatar border-2">
+							<div className="bg-base-200 size-7 rounded-full">
+								<img alt="Avatar" src="/images/avatars/7.png" />
+							</div>
+						</div>
+						<div className="avatar border-2">
+							<div className="bg-base-200 size-7 rounded-full">
+								<img alt="Avatar" src="/images/avatars/8.png" />
+							</div>
+						</div>
+					</div>
+					<span className="text-base-content/70 text-sm font-medium">
+						12:42
+					</span>
+				</div>
+				<div className="mt-2 flex items-center justify-between gap-1.5">
+					<Button className="btn btn-sm btn-ghost btn-circle" aria-label="More">
+						<span className="iconify lucide--ellipsis-vertical size-4"></span>
+					</Button>
+					<Button
+						className="btn btn-sm btn-ghost btn-circle"
+						aria-label="Speaker"
+					>
+						<span className="iconify lucide--volume-2 size-4"></span>
+					</Button>
+					<Button className="btn btn-sm btn-ghost btn-circle" aria-label="Mute">
+						<span className="iconify lucide--mic size-4"></span>
+					</Button>
+				</div>
+			</div>
+		</div>
 	);
 };
