@@ -84,22 +84,27 @@ export const Sidebar = () => {
 							<p className="grow">Dashboard</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
-						<Link href="#" className="menu-item group">
+						<Link href="/projects" className="menu-item group">
 							<span className="iconify lucide--folder-open size-4"></span>
 							<p className="grow">Projects</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
-						<Link href="#" className="menu-item group">
+						<Link href="/team" className="menu-item group">
 							<span className="iconify lucide--users size-4"></span>
 							<p className="grow">Team</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
-						<Link href="#" className="menu-item group">
+						<Link href="/schedule" className="menu-item group">
 							<span className="iconify lucide--calendar-days size-4"></span>
 							<p className="grow">Schedule</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
-						<Link href="#" className="menu-item group">
+						<Link href="/finance" className="menu-item group">
+							<span className="iconify lucide--dollar-sign size-4"></span>
+							<p className="grow">Finance</p>
+							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
+						</Link>
+						<Link href="/reports" className="menu-item group">
 							<span className="iconify lucide--file-text size-4"></span>
 							<p className="grow">Reports</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>

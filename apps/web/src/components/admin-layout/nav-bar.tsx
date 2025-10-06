@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { Image } from "../ui/image";
 import { ProfileMenu } from "./profile-menu";
 
 export const NavBar = () => {
@@ -32,7 +33,7 @@ export const NavBar = () => {
 				<div className="dropdown dropdown-bottom dropdown-end">
 					<div className="flex cursor-pointer items-center gap-2">
 						<div className="avatar bg-base-200 rounded-box size-7 overflow-hidden">
-							<img src="/images/avatars/1.png" alt="Avatar" />
+							<Image src="/images/avatars/1.png" alt="Avatar" width={28} height={28} />
 							<ProfileMenu />
 						</div>
 						<div>

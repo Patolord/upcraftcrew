@@ -16,6 +16,11 @@ const Layout = ({ children }: { children: ReactNode }) => {
 	return (
 		<Providers>
 			<div className="size-full">
+				<input
+					type="checkbox"
+					id="layout-sidebar-hover-trigger"
+					className="peer/sidebar-hover hidden"
+				/>
 				<div className="flex">
 					<Sidebar />
 					<div className="flex h-screen min-w-0 grow flex-col overflow-auto">

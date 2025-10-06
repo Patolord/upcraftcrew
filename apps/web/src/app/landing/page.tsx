@@ -8,7 +8,7 @@ import { Process } from "./components/Process";
 import { Testimonials } from "./components/Testimonials";
 import { Topbar } from "./components/Topbar";
 
-const AutomationLandingPage = () => {
+const LandingPage = () => {
 	return (
 		<>
 			<Topbar />
@@ -24,4 +24,4 @@ const AutomationLandingPage = () => {
 	);
 };
 
-export default AutomationLandingPage;
+export default LandingPage;
