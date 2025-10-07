@@ -89,7 +89,7 @@ function TransactionRow({ transaction }: { transaction: Transaction }) {
 						isIncome ? "text-success" : "text-error"
 					}`}
 				>
-					{isIncome ? "+" : "-"}${transaction.amount.toLocaleString()}
+					{isIncome ? "+" : "-"}${transaction.amount.toFixed(0)}
 				</div>
 			</td>
 			<td>
@@ -144,7 +144,7 @@ function CategoryBreakdown({ transactions }: { transactions: Transaction[] }) {
 										<span>{config.label}</span>
 									</div>
 									<span className="font-medium">
-										${amount.toLocaleString()}
+										${amount.toFixed(0)}
 									</span>
 								</div>
 								<progress
@@ -239,7 +239,7 @@ export default function FinancePage() {
 							${(summary.totalIncome / 1000).toFixed(0)}k
 						</div>
 						<div className="stat-desc text-xs">
-							+${summary.pendingIncome.toLocaleString()} pending
+							+${summary.pendingIncome.toFixed(0)} pending
 						</div>
 					</div>
 				</div>
@@ -251,7 +251,7 @@ export default function FinancePage() {
 							${(summary.totalExpenses / 1000).toFixed(0)}k
 						</div>
 						<div className="stat-desc text-xs">
-							-${summary.pendingExpenses.toLocaleString()} pending
+							-${summary.pendingExpenses.toFixed(0)} pending
 						</div>
 					</div>
 				</div>
@@ -397,7 +397,7 @@ export default function FinancePage() {
 										{(
 											mockTransactions.reduce((sum, t) => sum + t.amount, 0) /
 											mockTransactions.length
-										).toLocaleString(undefined, { maximumFractionDigits: 0 })}
+										).toFixed(0)}
 									</span>
 								</div>
 								<div className="flex items-center justify-between text-sm">
@@ -408,7 +408,7 @@ export default function FinancePage() {
 											...mockTransactions
 												.filter((t) => t.type === "income")
 												.map((t) => t.amount)
-										).toLocaleString()}
+										).toFixed(0)}
 									</span>
 								</div>
 								<div className="flex items-center justify-between text-sm">
@@ -419,7 +419,7 @@ export default function FinancePage() {
 											...mockTransactions
 												.filter((t) => t.type === "expense")
 												.map((t) => t.amount)
-										).toLocaleString()}
+										).toFixed(0)}
 									</span>
 								</div>
 								<div className="flex items-center justify-between text-sm">
