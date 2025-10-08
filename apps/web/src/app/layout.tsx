@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 
 import { ConfigProvider } from "@/contexts/config";
+import { Providers } from "@/components/providers";
 import "@/styles/app.css";
 
 export const metadata: Metadata = {
@@ -31,7 +32,9 @@ export default function RootLayout({ children }: { children: ReactNode }) {
 				<script type="text/javascript" src="/js/prefetch-config.js"></script>
 			</head>
 			<body>
-				<ConfigProvider>{children}</ConfigProvider>
+				<Providers>
+					<ConfigProvider>{children}</ConfigProvider>
+				</Providers>
 			</body>
 		</html>
 	);

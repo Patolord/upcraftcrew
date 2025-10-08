@@ -41,6 +41,9 @@ importers:
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
+      convex:
+        specifier: ^1.25.4
+        version: 1.25.4(react@19.1.1)
       filepond:
         specifier: ^4.32.8
         version: 4.32.8
