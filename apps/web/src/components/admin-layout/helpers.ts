@@ -5,7 +5,7 @@ const findItem = (
 	url: string,
 ): ISidebarMenuItem | null => {
 	for (const item of menuItems) {
-		if (item.url == url) {
+		if (item.url === url) {
 			return item;
 		}
 		if (item.children) {
@@ -28,18 +28,18 @@ export const getActivatedItemParentKeys = (
 	const list = [];
 
 	for (const item of menuItems) {
-		if (item.id == menuItem.id) {
+		if (item.id === menuItem.id) {
 			list.push(item.id);
 		}
 		if (item.children) {
 			for (const iItem of item.children) {
-				if (iItem.id == menuItem.id) {
+				if (iItem.id === menuItem.id) {
 					list.push(item.id);
 					list.push(iItem.id);
 				}
 				if (iItem.children != null) {
 					for (const i2Item of iItem.children) {
-						if (i2Item.id == menuItem.id) {
+						if (i2Item.id === menuItem.id) {
 							list.push(item.id);
 							list.push(iItem.id);
 							list.push(i2Item.id);

@@ -17,7 +17,7 @@ export const FileUploader = ({
 			credits={credits}
 			{...others}
 			server={
-				typeof server == "string"
+				typeof server === "string"
 					? server
 					: {
 							...server,

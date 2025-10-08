@@ -28,11 +28,11 @@ export const PageTitle = ({ title, items, centerItem }: IPageTitle) => {
 							{items.map((item, index) => {
 								return (
 									<li
-										key={index}
+										key={item.label}
 										className={`${item.active ? "opacity-80" : ""}`}
 									>
 										{item.path ? (
-											<Link key={index + 1} href={item.path}>
+											<Link key={item.label} href={item.path}>
 												{item.label}
 											</Link>
 										) : (
