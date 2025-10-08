@@ -12,9 +12,9 @@ export const Sidebar = () => {
 			</div>
 			
 
-			<div className="custom-scrollbar p-8 grow overflow-auto">
-				<div className="mt-4">
-					<div className="flex items-center justify-between px-5">
+			<div className="custom-scrollbar p-2 grow overflow-auto">
+				<div className="mt-2">
+					<div className="flex items-center justify-between px-5 mb-2">
 						<p className="menu-label">Navigation</p>
 						
 					</div>
@@ -157,29 +157,8 @@ export const Sidebar = () => {
 				<div className="bg-base-100 border-base-300 absolute -top-7 translate-y-1/2 rounded-full border px-3 py-0.5">
 					<p className="text-base-content/70 text-sm">In Meeting</p>
 				</div>
-				<div className="mt-2 flex items-center justify-between">
-					<div className="avatar-group -ms-2 -space-x-3.5">
-						<div className="avatar border-2">
-							<div className="bg-base-200 size-7 rounded-full">
-								<img alt="Avatar" src="/images/avatars/4.png" />
-							</div>
-						</div>
-						<div className="avatar border-2">
-							<div className="bg-base-200 size-7 rounded-full">
-								<img alt="Avatar" src="/images/avatars/5.png" />
-							</div>
-						</div>
-						<div className="avatar border-2">
-							<div className="bg-base-200 size-7 rounded-full">
-								<img alt="Avatar" src="/images/avatars/7.png" />
-							</div>
-						</div>
-						<div className="avatar border-2">
-							<div className="bg-base-200 size-7 rounded-full">
-								<img alt="Avatar" src="/images/avatars/8.png" />
-							</div>
-						</div>
-					</div>
+				<div className="mt-2 flex items-center justify-end">
+					
 					<span className="text-base-content/70 text-sm font-medium">
 						12:42
 					</span>
