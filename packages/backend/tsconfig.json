@@ -1,6 +1,9 @@
 {
 	"compilerOptions": {
 		"baseUrl": ".",
+		"module": "ESNext",
+		"moduleResolution": "bundler",
+		"types": ["node"],
 		"paths": {
 			"@workspace/backend/*": ["./convex/*"]
 		}
