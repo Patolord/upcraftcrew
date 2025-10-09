@@ -9,8 +9,14 @@ export function TransactionRow({
 	transaction: Transaction;
 	onEdit?: (transaction: Transaction) => void;
 }) {
-	const category = categoryConfig[transaction.category];
-	const status = statusConfig[transaction.status];
+	const category = categoryConfig[transaction.category] || {
+		label: transaction.category,
+		icon: "lucide--circle",
+	};
+	const status = statusConfig[transaction.status] || {
+		label: transaction.status,
+		color: "badge-ghost",
+	};
 	const isIncome = transaction.type === "income";
 
 	return (
