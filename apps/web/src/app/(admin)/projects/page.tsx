@@ -95,7 +95,7 @@ function ProjectCard({ project }: { project: Project }) {
 					{project.budget && (
 						<div>
 							<p className="text-xs text-base-content/60 mb-1">Budget</p>
-							<p className="text-sm font-medium">
+							<p>
 								${project.spent?.toLocaleString() || 0} / $
 								{project.budget.toLocaleString()}
 							</p>
