@@ -10,11 +10,14 @@ import { CategoryBreakdown } from "@/components/finance/CategoryBreakdown";
 import { FinancialSummaryCards } from "@/components/finance/FinancialSummaryCards";
 import { TransactionFilters } from "@/components/finance/TransactionFilters";
 import { QuickStats } from "@/components/finance/QuickStats";
+import { TransactionForm } from "@/components/forms/TransactionForm";
 
 export default function FinancePage() {
 	const [typeFilter, setTypeFilter] = useState<TransactionType | "all">("all");
 	const [categoryFilter, setCategoryFilter] = useState<TransactionCategory | "all">("all");
 	const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
+	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
 
 	// Fetch data from Convex
 	const transactions = useQuery(api.finance.getTransactions);
@@ -120,7 +123,13 @@ export default function FinancePage() {
 						<span className="iconify lucide--download size-5" />
 						Export
 					</Button>
-					<Button className="btn btn-primary gap-2">
+					<Button
+						className="btn btn-primary gap-2"
+						onClick={() => {
+							setSelectedTransaction(null);
+							setIsFormOpen(true);
+						}}
+					>
 						<span className="iconify lucide--plus size-5" />
 						New Transaction
 					</Button>
@@ -175,6 +184,10 @@ export default function FinancePage() {
 										<TransactionRow
 											key={transaction.id}
 											transaction={transaction}
+											onEdit={(t) => {
+												setSelectedTransaction(t);
+												setIsFormOpen(true);
+											}}
 										/>
 									))
 								)}
@@ -186,12 +199,20 @@ export default function FinancePage() {
 				{/* Sidebar */}
 				<div className="space-y-4">
 					{/* Category Breakdown */}
-					<CategoryBreakdown transactions={transformedTransactions} />
+					<CategoryBreakdown transactions={transactions} />
 
 					{/* Quick Stats */}
-					<QuickStats transactions={transformedTransactions} />
+					<QuickStats transactions={transactions} />
 				</div>
 			</div>
+
+			{/* Transaction Form Modal */}
+			<TransactionForm
+				open={isFormOpen}
+				onOpenChange={setIsFormOpen}
+				transaction={selectedTransaction}
+				mode={selectedTransaction ? "edit" : "create"}
+			/>
 		</div>
 	);
 }

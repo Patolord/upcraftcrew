@@ -2,7 +2,13 @@ import { Button } from "@/components/ui/button";
 import type { Transaction } from "@/types/finance";
 import { categoryConfig, statusConfig } from "@/app/(admin)/finance/config";
 
-export function TransactionRow({ transaction }: { transaction: Transaction }) {
+export function TransactionRow({
+	transaction,
+	onEdit,
+}: {
+	transaction: Transaction;
+	onEdit?: (transaction: Transaction) => void;
+}) {
 	const category = categoryConfig[transaction.category];
 	const status = statusConfig[transaction.status];
 	const isIncome = transaction.type === "income";
@@ -73,11 +79,16 @@ export function TransactionRow({ transaction }: { transaction: Transaction }) {
 			</td>
 			<td>
 				<div className="flex items-center gap-1">
+					{onEdit && (
+						<Button
+							className="btn btn-ghost btn-xs"
+							onClick={() => onEdit(transaction)}
+						>
+							<span className="iconify lucide--pencil size-4" />
+						</Button>
+					)}
 					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--eye size-4" />
-					</Button>
-					<Button className="btn btn-ghost btn-xs">
-						<span className="iconify lucide--download size-4" />
 					</Button>
 					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--more-horizontal size-4" />
