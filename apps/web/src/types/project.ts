@@ -10,8 +10,11 @@ export type Project = {
 	priority: ProjectPriority;
 	startDate: string;
 	endDate?: string;
-	budget?: number;
-	spent?: number;
+	budget?: {
+		total: number;
+		spent: number;
+		remaining: number;
+	};
 	progress: number; // 0-100
 	client?: string;
 	team: {
