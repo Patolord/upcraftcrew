@@ -3,10 +3,13 @@
  *
  * Gerenciamento de múltiplas sessões com IP tracking,
  * geolocation e informações de dispositivo.
+ * 
+ * ✅ SECURED: Funções protegidas com autorização apropriada
  */
 
 import { mutation, query } from "./_generated/server";
 import { v } from "convex/values";
+import { requireAuth, requireAdmin } from "./auth-helpers";
 
 /**
  * Criar ou atualizar sessão ativa
@@ -120,10 +123,8 @@ export const getSessionByToken = query({
 
     // Verificar se sessão expirou
     if (session.expiresAt <= now || !session.isActive) {
-      // Marcar como inativa se expirou
-      if (session.isActive) {
-        await ctx.db.patch(session._id, { isActive: false });
-      }
+      // ⚠️ NOTA: Não podemos fazer patch em query (read-only)
+      // Use cleanupExpiredSessions mutation para limpar sessões expiradas
       return null;
     }
 
@@ -138,12 +139,20 @@ export const getSessionByToken = query({
 
 /**
  * Buscar todas as sessões ativas de um usuário
+ * ✅ SECURED: Usuário só pode ver suas próprias sessões (ou admin vê de qualquer um)
  */
 export const getActiveSessions = query({
   args: {
     userId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await requireAuth(ctx);
+    
+    // Verificar ownership: só pode ver suas próprias sessões (exceto admin)
+    if (user.role !== "admin" && user.id !== args.userId) {
+      throw new Error("Forbidden: You can only view your own sessions");
+    }
+
     const now = Date.now();
 
     const sessions = await ctx.db
@@ -156,11 +165,8 @@ export const getActiveSessions = query({
     // Filtrar sessões expiradas
     const activeSessions = sessions.filter((s) => s.expiresAt > now);
 
-    // Marcar sessões expiradas como inativas (fazer em mutation separada)
-    const expiredSessions = sessions.filter((s) => s.expiresAt <= now);
-    for (const session of expiredSessions) {
-      await ctx.db.patch(session._id, { isActive: false });
-    }
+    // ⚠️ NOTA: Não podemos fazer patch em query (read-only)
+    // Use cleanupExpiredSessions mutation periodicamente para limpar sessões expiradas
 
     return activeSessions;
   },
@@ -168,6 +174,7 @@ export const getActiveSessions = query({
 
 /**
  * Revogar uma sessão específica
+ * ✅ SECURED: Usuário autenticado pode revogar sua própria sessão (ou admin revoga qualquer uma)
  */
 export const revokeSession = mutation({
   args: {
@@ -175,6 +182,8 @@ export const revokeSession = mutation({
     userId: v.string(), // Para segurança, verificar que é do usuário correto
   },
   handler: async (ctx, args) => {
+    const user = await requireAuth(ctx);
+
     const session = await ctx.db
       .query("activeSessions")
       .withIndex("by_session_token", (q) =>
@@ -184,6 +193,11 @@ export const revokeSession = mutation({
 
     if (!session) {
       throw new Error("Session not found");
+    }
+
+    // Verificar ownership: só pode revogar sua própria sessão (exceto admin)
+    if (user.role !== "admin" && session.userId !== user.id) {
+      throw new Error("Forbidden: Cannot revoke another user's session");
     }
 
     if (session.userId !== args.userId) {
@@ -200,6 +214,7 @@ export const revokeSession = mutation({
 
 /**
  * Revogar todas as outras sessões (manter apenas a atual)
+ * ✅ SECURED: Usuário só pode revogar suas próprias sessões
  */
 export const revokeOtherSessions = mutation({
   args: {
@@ -207,6 +222,13 @@ export const revokeOtherSessions = mutation({
     currentSessionToken: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await requireAuth(ctx);
+    
+    // Verificar ownership: só pode revogar suas próprias sessões
+    if (user.id !== args.userId) {
+      throw new Error("Forbidden: You can only revoke your own sessions");
+    }
+
     const sessions = await ctx.db
       .query("activeSessions")
       .withIndex("by_user_active", (q) =>
@@ -230,12 +252,20 @@ export const revokeOtherSessions = mutation({
 
 /**
  * Revogar todas as sessões do usuário
+ * ✅ SECURED: Usuário só pode revogar suas próprias sessões (ou admin revoga de qualquer um)
  */
 export const revokeAllSessions = mutation({
   args: {
     userId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await requireAuth(ctx);
+    
+    // Verificar ownership: só pode revogar suas próprias sessões (exceto admin)
+    if (user.role !== "admin" && user.id !== args.userId) {
+      throw new Error("Forbidden: You can only revoke your own sessions");
+    }
+
     const sessions = await ctx.db
       .query("activeSessions")
       .withIndex("by_user_active", (q) =>
@@ -262,10 +292,14 @@ export const revokeAllSessions = mutation({
  * - Rotação forçada de credenciais
  * 
  * ⚠️ ATENÇÃO: Isso desconectará TODOS os usuários!
+ * ✅ SECURED: APENAS ADMINS podem executar esta ação crítica
  */
 export const invalidateAllSessions = mutation({
   args: {},
   handler: async (ctx) => {
+    // ✅ REQUER ADMIN - esta é uma ação EXTREMAMENTE crítica
+    const admin = await requireAdmin(ctx);
+
     const allActiveSessions = await ctx.db
       .query("activeSessions")
       .filter((q) => q.eq(q.field("isActive"), true))
@@ -279,14 +313,20 @@ export const invalidateAllSessions = mutation({
       invalidatedCount++;
     }
 
-    // Log de auditoria
+    // Log de auditoria (corrigido com todos os campos obrigatórios)
     await ctx.db.insert("auditLogs", {
-      timestamp: Date.now(),
+      userId: admin.id,
       action: "EMERGENCY_INVALIDATE_ALL_SESSIONS",
-      details: {
+      details: JSON.stringify({
         invalidatedCount,
         reason: "Security incident response",
-      },
+        executedBy: admin.email,
+      }),
+      timestamp: Date.now(),
+      severity: "critical",
+      ipAddress: undefined,
+      userAgent: undefined,
+      geolocation: undefined,
     });
 
     return { 
@@ -322,12 +362,20 @@ export const cleanupExpiredSessions = mutation({
 
 /**
  * Estatísticas de sessões
+ * ✅ SECURED: Usuário só pode ver suas próprias stats (ou admin vê de qualquer um)
  */
 export const getSessionStats = query({
   args: {
     userId: v.string(),
   },
   handler: async (ctx, args) => {
+    const user = await requireAuth(ctx);
+    
+    // Verificar ownership: só pode ver suas próprias stats (exceto admin)
+    if (user.role !== "admin" && user.id !== args.userId) {
+      throw new Error("Forbidden: You can only view your own session stats");
+    }
+
     const now = Date.now();
 
     const allSessions = await ctx.db

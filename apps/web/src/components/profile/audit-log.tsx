@@ -6,15 +6,26 @@ import { useAuth } from "@/hooks/useAuth";
 
 export const AuditLog = () => {
   const { user } = useAuth();
+  
+  // ⚠️ NOTA: Apenas usuários com role "admin" podem ver audit logs
+  // Esta funcionalidade foi restrita por segurança (audit logs contêm IPs, senhas, dados sensíveis)
   const auditLogs = useQuery(
     api.audit.getAuditLogsByUser,
     user?.id ? { userId: user.id, limit: 20 } : "skip"
   );
 
+  // Se não tiver audit logs (erro de permissão ou carregando)
   if (!auditLogs) {
     return (
-      <div className="flex items-center justify-center p-8">
-        <span className="loading loading-spinner loading-md" />
+      <div className="space-y-4">
+        <h3 className="text-lg font-semibold">Activity Log</h3>
+        <div className="alert alert-warning">
+          <span className="iconify lucide--shield-alert size-5" />
+          <div>
+            <p className="font-semibold">Admin Only Feature</p>
+            <p className="text-sm">Audit logs are restricted to administrators for security reasons.</p>
+          </div>
+        </div>
       </div>
     );
   }
