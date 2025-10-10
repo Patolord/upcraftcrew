@@ -149,7 +149,7 @@ export const updateTeamMember = mutation({
     if (updates.email && updates.email !== existingMember.email) {
       const duplicateUser = await ctx.db
         .query("users")
-        .withIndex("by_email", (q) => q.eq("email", updates.email))
+        .withIndex("by_email", (q) => q.eq("email", updates.email!))
         .first();
 
       if (duplicateUser) {

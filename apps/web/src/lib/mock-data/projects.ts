@@ -9,8 +9,11 @@ export const mockProjects: Project[] = [
 		priority: "high",
 		startDate: "2025-09-01",
 		endDate: "2025-12-15",
-		budget: 45000,
-		spent: 22500,
+		budget: {
+			total: 45000,
+			spent: 22500,
+			remaining: 22500,
+		},
 		progress: 65,
 		client: "Tech Corp",
 		team: [
@@ -43,8 +46,11 @@ export const mockProjects: Project[] = [
 		priority: "urgent",
 		startDate: "2025-08-15",
 		endDate: "2026-01-30",
-		budget: 80000,
-		spent: 35000,
+		budget: {
+			total: 80000,
+			spent: 35000,
+			remaining: 45000,
+		},
 		progress: 45,
 		client: "Retail Solutions Inc",
 		team: [
@@ -71,8 +77,11 @@ export const mockProjects: Project[] = [
 		priority: "medium",
 		startDate: "2025-06-01",
 		endDate: "2025-08-30",
-		budget: 25000,
-		spent: 24500,
+		budget: {
+			total: 25000,
+			spent: 24500,
+			remaining: 500,
+		},
 		progress: 100,
 		client: "StartUp XYZ",
 		team: [
@@ -92,7 +101,11 @@ export const mockProjects: Project[] = [
 		status: "planning",
 		priority: "high",
 		startDate: "2026-01-15",
-		budget: 120000,
+		budget: {
+			total: 120000,
+			spent: 0,
+			remaining: 120000,
+		},
 		progress: 10,
 		client: "Fashion Outlet",
 		team: [
@@ -118,8 +131,11 @@ export const mockProjects: Project[] = [
 		status: "on-hold",
 		priority: "low",
 		startDate: "2025-11-01",
-		budget: 30000,
-		spent: 5000,
+		budget: {
+			total: 30000,
+			spent: 5000,
+			remaining: 25000,
+		},
 		progress: 20,
 		client: "Local Business",
 		team: [
@@ -140,8 +156,11 @@ export const mockProjects: Project[] = [
 		priority: "medium",
 		startDate: "2025-09-15",
 		endDate: "2025-11-30",
-		budget: 55000,
-		spent: 28000,
+		budget: {
+			total: 55000,
+			spent: 28000,
+			remaining: 27000,
+		},
 		progress: 55,
 		team: [
 			{
