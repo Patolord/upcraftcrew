@@ -1,11 +1,6 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
-import {
-  requireAuth,
-  requirePermission,
-  requireOwnership,
-  filterAccessibleResources,
-} from "./auth-helpers";
+import { requirePermission } from "./auth-helpers";
 
 // Query: Get all transactions
 // ✅ SECURED: Filtra transações baseado em acesso do usuário
@@ -284,6 +279,7 @@ export const getMonthlyFinancialSummary = query({
 });
 
 // Mutation: Create transaction
+// ✅ SECURED: Requer permissão de criar transações
 export const createTransaction = mutation({
   args: {
     description: v.string(),
@@ -301,7 +297,33 @@ export const createTransaction = mutation({
     projectId: v.optional(v.id("projects")),
   },
   handler: async (ctx, args) => {
-    const transactionId = await ctx.db.insert("transactions", args);
+    const user = await requirePermission(ctx, "finance.create");
+
+    // Se está vinculado a um projeto, verificar acesso
+    if (args.projectId) {
+      const project = await ctx.db.get(args.projectId);
+      if (!project) {
+        throw new Error("Project not found");
+      }
+
+      // Verificar acesso ao projeto (exceto para Admin e Manager)
+      if (user.role !== "admin" && user.role !== "manager") {
+        if (
+          !project.teamIds.includes(user.id) &&
+          project.createdBy !== user.id
+        ) {
+          throw new Error(
+            "Forbidden: You don't have access to create transactions for this project"
+          );
+        }
+      }
+    }
+
+    const transactionId = await ctx.db.insert("transactions", {
+      ...args,
+      createdBy: user.id,
+      createdAt: Date.now(),
+    });
 
     // If transaction is linked to a project and is completed, update project budget
     if (args.projectId && args.status === "completed") {
@@ -330,6 +352,7 @@ export const createTransaction = mutation({
 });
 
 // Mutation: Update transaction
+// ✅ SECURED: Requer permissão de editar (apenas Admin pode editar qualquer transação)
 export const updateTransaction = mutation({
   args: {
     id: v.id("transactions"),
@@ -352,10 +375,15 @@ export const updateTransaction = mutation({
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
 
+    await requirePermission(ctx, "finance.edit");
+
     const existingTransaction = await ctx.db.get(id);
     if (!existingTransaction) {
       throw new Error("Transaction not found");
     }
+
+    // Apenas Admin pode editar transações (finance.edit é restrito a admin)
+    // Verificação já feita pelo requirePermission
 
     // If status is changing to completed and transaction is linked to a project
     if (
@@ -393,14 +421,20 @@ export const updateTransaction = mutation({
 });
 
 // Mutation: Delete transaction
+// ✅ SECURED: Requer permissão de deletar (apenas Admin)
 export const deleteTransaction = mutation({
   args: { id: v.id("transactions") },
   handler: async (ctx, args) => {
+    await requirePermission(ctx, "finance.delete");
+
     const transaction = await ctx.db.get(args.id);
 
     if (!transaction) {
       throw new Error("Transaction not found");
     }
+
+    // Apenas Admin pode deletar transações (finance.delete é restrito a admin)
+    // Verificação já feita pelo requirePermission
 
     // If transaction was completed and linked to a project, revert budget changes
     if (
