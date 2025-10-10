@@ -1,6 +1,8 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { authRateLimiter, strictRateLimiter } from "@/lib/rate-limit";
+import { securityLogger, SecurityEventType } from "@/lib/security-logger";
+import { validateCSRFToken, setCSRFCookie } from "@/lib/csrf";
 
 // Rotas públicas que não precisam de autenticação
 const PUBLIC_ROUTES = [
@@ -33,6 +35,18 @@ const SENSITIVE_AUTH_ROUTES = [
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
+  // ✅ Validação CSRF para rotas que modificam dados
+  if (!validateCSRFToken(request)) {
+    securityLogger.log({
+      type: SecurityEventType.UNAUTHORIZED_ACCESS_ATTEMPT,
+      ip: request.ip || "unknown",
+      userAgent: request.headers.get("user-agent") || undefined,
+      severity: "high",
+      metadata: { reason: "Invalid CSRF token", route: pathname },
+    });
+    return new NextResponse("Forbidden - Invalid CSRF Token", { status: 403 });
+  }
+
   // ✅ Rate Limiting para rotas de autenticação
   if (SENSITIVE_AUTH_ROUTES.some((route) => pathname.startsWith(route))) {
     const rateLimitResult = await authRateLimiter.check(
@@ -42,6 +56,12 @@ export default async function middleware(request: NextRequest) {
     );
 
     if (!rateLimitResult.success) {
+      // ✅ Log de rate limit excedido
+      securityLogger.rateLimitExceeded(
+        request.ip || "unknown",
+        pathname,
+        request.headers.get("user-agent") || undefined
+      );
       return new NextResponse("Too Many Requests", {
         status: 429,
         headers: {
@@ -93,14 +113,20 @@ export default async function middleware(request: NextRequest) {
 
   // ✅ Validação melhorada: verifica se token existe
   if (isProtectedRoute && !sessionToken) {
+    // ✅ Log de tentativa de acesso não autorizado
+    securityLogger.unauthorizedAccess(
+      pathname,
+      request.ip || "unknown",
+      request.headers.get("user-agent") || undefined
+    );
     const loginUrl = new URL("/auth/login", request.url);
     loginUrl.searchParams.set("redirect", pathname);
     return NextResponse.redirect(loginUrl);
   }
 
-  // ✅ Para rotas protegidas, adicionar headers de segurança
+  // ✅ Para rotas protegidas, adicionar headers de segurança e CSRF cookie
   if (isProtectedRoute && sessionToken) {
-    const response = NextResponse.next();
+    let response = NextResponse.next();
 
     // Security headers
     response.headers.set("X-Content-Type-Options", "nosniff");
@@ -110,6 +136,27 @@ export default async function middleware(request: NextRequest) {
       "Strict-Transport-Security",
       "max-age=31536000; includeSubDomains"
     );
+
+    // ✅ Content Security Policy (CSP)
+    const cspHeader = [
+      "default-src 'self'",
+      "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://cdn.jsdelivr.net https://curious-rhinoceros-373.convex.cloud",
+      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com",
+      "font-src 'self' https://fonts.gstatic.com",
+      "img-src 'self' data: https: blob:",
+      "connect-src 'self' https://curious-rhinoceros-373.convex.cloud https://accounts.google.com",
+      "frame-src 'self' https://accounts.google.com",
+      "frame-ancestors 'none'",
+      "base-uri 'self'",
+      "form-action 'self'",
+      "upgrade-insecure-requests",
+    ].join("; ");
+    response.headers.set("Content-Security-Policy", cspHeader);
+
+    // ✅ Adicionar CSRF cookie se não existir
+    if (!request.cookies.get("csrf-token")) {
+      response = setCSRFCookie(response);
+    }
 
     return response;
   }

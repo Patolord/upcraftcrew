@@ -7,6 +7,7 @@ import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 import { toast } from "sonner";
+import { securityLogger, SecurityEventType } from "@/lib/security-logger";
 
 export const LoginForm = () => {
 	const router = useRouter();
@@ -39,11 +40,25 @@ export const LoginForm = () => {
 			});
 
 			if (result.error) {
+				// ✅ Log de falha de login
+				securityLogger.loginFailed(
+					email,
+					result.error.message || "Invalid credentials",
+					undefined,
+					navigator?.userAgent
+				);
 				toast.error(result.error.message || "Login failed");
 				setIsLoading(false);
 				return;
 			}
 
+			// ✅ Log de login bem-sucedido
+			securityLogger.loginSuccess(
+				result.data?.user?.id || "unknown",
+				email,
+				undefined,
+				navigator?.userAgent
+			);
 			toast.success("Login successful!");
 
 			// Redirecionar para a página original ou dashboard
