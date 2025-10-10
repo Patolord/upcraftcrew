@@ -66,20 +66,38 @@ export default defineSchema({
   // Projetos
   projects: defineTable({
     name: v.string(),
+    client: v.optional(v.string()),
     description: v.string(),
     status: v.union(
       v.literal("planning"),
-      v.literal("in_progress"),
+      v.literal("in-progress"),
+      v.literal("on-hold"),
       v.literal("completed"),
-      v.literal("on_hold")
+      v.literal("cancelled")
+    ),
+    priority: v.optional(
+      v.union(
+        v.literal("low"),
+        v.literal("medium"),
+        v.literal("high"),
+        v.literal("urgent")
+      )
     ),
     startDate: v.optional(v.number()),
     endDate: v.optional(v.number()),
-    budget: v.optional(v.number()),
+    progress: v.optional(v.number()),
+    budget: v.optional(
+      v.object({
+        total: v.number(),
+        spent: v.number(),
+        remaining: v.number(),
+      })
+    ),
     teamIds: v.array(v.string()), // IDs dos usuários do BetterAuth
-    createdBy: v.string(), // ID do usuário criador
-    createdAt: v.number(),
-    updatedAt: v.number(),
+    tags: v.optional(v.array(v.string())),
+    createdBy: v.optional(v.string()), // ID do usuário criador
+    createdAt: v.optional(v.number()),
+    updatedAt: v.optional(v.number()),
   })
     .index("by_status", ["status"])
     .index("by_created_at", ["createdAt"]),

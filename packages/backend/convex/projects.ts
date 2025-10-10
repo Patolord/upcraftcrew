@@ -29,6 +29,7 @@ export const getProjectById = query({
 });
 
 // Query: Get projects by status
+// ✅ OTIMIZADO: BetterAuth gerencia users, retornamos apenas IDs
 export const getProjectsByStatus = query({
   args: {
     status: v.union(
@@ -45,21 +46,10 @@ export const getProjectsByStatus = query({
       .filter((q) => q.eq(q.field("status"), args.status))
       .collect();
 
-    // Populate team members for each project
-    const projectsWithTeam = await Promise.all(
-      projects.map(async (project) => {
-        const team = await Promise.all(
-          project.teamIds.map((userId) => ctx.db.get(userId))
-        );
-
-        return {
-          ...project,
-          team: team.filter((member) => member !== null),
-        };
-      })
-    );
-
-    return projectsWithTeam;
+    // ✅ OTIMIZAÇÃO APLICADA: Evita N+1 ao não buscar users individualmente
+    // BetterAuth gerencia users - frontend pode buscar detalhes via BetterAuth
+    // Retornar projetos com teamIds (não popular team members)
+    return projects;
   },
 });
 
@@ -148,28 +138,15 @@ export const updateProject = mutation({
       throw new Error("Project not found");
     }
 
-    // If teamIds are being updated, update users' projectIds
-    if (updates.teamIds) {
-      // Remove project from old team members
-      for (const oldUserId of existingProject.teamIds) {
-        const user = await ctx.db.get(oldUserId);
-        if (user) {
-          await ctx.db.patch(oldUserId, {
-            projectIds: user.projectIds.filter((pid) => pid !== id),
-          });
-        }
-      }
-
-      // Add project to new team members
-      for (const newUserId of updates.teamIds) {
-        const user = await ctx.db.get(newUserId);
-        if (user && !user.projectIds.includes(id)) {
-          await ctx.db.patch(newUserId, {
-            projectIds: [...user.projectIds, id],
-          });
-        }
-      }
-    }
+    // ✅ OTIMIZAÇÃO APLICADA: Evita N+1 ao não atualizar users individualmente
+    // BetterAuth gerencia users - não podemos atualizar projectIds em users do BetterAuth
+    // Se necessário, manter essa relação em uma tabela separada de junction no Convex
+    
+    // ⚠️ NOTA: Código original tentava atualizar projectIds nos users, mas isso
+    // não funciona com BetterAuth. Considerar:
+    // 1. Criar tabela "userProjects" no Convex para junction table
+    // 2. Usar apenas teamIds nos projetos (abordagem atual)
+    // 3. Gerenciar relação no frontend
 
     await ctx.db.patch(id, updates);
 
@@ -178,6 +155,7 @@ export const updateProject = mutation({
 });
 
 // Mutation: Delete project
+// ✅ OTIMIZADO: Busca relacionamentos em paralelo e deleta em batch
 export const deleteProject = mutation({
   args: { id: v.id("projects") },
   handler: async (ctx, args) => {
@@ -187,37 +165,43 @@ export const deleteProject = mutation({
       throw new Error("Project not found");
     }
 
-    // Remove project from team members' projectIds
-    for (const userId of project.teamIds) {
-      const user = await ctx.db.get(userId);
-      if (user) {
-        await ctx.db.patch(userId, {
-          projectIds: user.projectIds.filter((pid) => pid !== args.id),
-        });
-      }
-    }
+    // ✅ OTIMIZAÇÃO: Buscar todos os relacionamentos em paralelo (não sequencial)
+    // Antes: 2 queries sequenciais
+    // Depois: 2 queries em paralelo
+    const [transactions, events] = await Promise.all([
+      ctx.db
+        .query("transactions")
+        .filter((q) => q.eq(q.field("projectId"), args.id))
+        .collect(),
+      ctx.db
+        .query("events")
+        .filter((q) => q.eq(q.field("projectId"), args.id))
+        .collect(),
+    ]);
+
+    // ✅ OTIMIZAÇÃO: Deletar todos os relacionamentos em paralelo
+    // Antes: Loop sequencial de deletes (N+1)
+    // Depois: Promise.all para paralelizar
+    const deleteOperations: Promise<void>[] = [];
 
     // Delete related transactions
-    const transactions = await ctx.db
-      .query("transactions")
-      .filter((q) => q.eq(q.field("projectId"), args.id))
-      .collect();
-
     for (const transaction of transactions) {
-      await ctx.db.delete(transaction._id);
+      deleteOperations.push(ctx.db.delete(transaction._id));
     }
 
     // Delete related events
-    const events = await ctx.db
-      .query("events")
-      .filter((q) => q.eq(q.field("projectId"), args.id))
-      .collect();
-
     for (const event of events) {
-      await ctx.db.delete(event._id);
+      deleteOperations.push(ctx.db.delete(event._id));
     }
 
+    // Execute all deletes in parallel
+    await Promise.all(deleteOperations);
+
+    // Delete project itself
     await ctx.db.delete(args.id);
+
+    // ⚠️ NOTA: Não atualizamos users porque BetterAuth os gerencia
+    // Se necessário, criar tabela junction "userProjects" no Convex
 
     return { success: true };
   },
