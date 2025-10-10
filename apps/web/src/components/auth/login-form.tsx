@@ -1,17 +1,18 @@
 "use client";
 
-import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
-import { useState } from "react";
-import { authClient } from "@/lib/auth-client";
-import { Button } from "@/components/ui/button";
-import { Image } from "@/components/ui/image";
 import { toast } from "sonner";
-import { securityLogger, SecurityEventType } from "@/lib/security-logger";
+import { securityLogger } from "@/lib/security-logger";
+import { Image } from "@/components/ui/image";
+import { useRouter, useSearchParams } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { useState, useId } from "react";
+import Link from "next/link";
+import { authClient } from "@/lib/auth-client";
 
 export const LoginForm = () => {
 	const router = useRouter();
 	const searchParams = useSearchParams();
+	const rememberMeId = useId();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -72,16 +73,13 @@ export const LoginForm = () => {
 		}
 	};
 
-	const handleGoogleLogin = async () => {
-		try {
-			await authClient.signIn.social({
-				provider: "google",
-				callbackURL: "/dashboard",
-			});
-		} catch (error) {
-			console.error("Google login error:", error);
-			toast.error("Failed to login with Google");
-		}
+	const handleGoogleLogin = () => {
+		console.log("Attempting Google sign in...");
+		// signIn.social faz redirect automático, não precisa de await
+		authClient.signIn.social({
+			provider: "google",
+			callbackURL: "/dashboard",
+		});
 	};
 
 	return (
@@ -139,19 +137,19 @@ export const LoginForm = () => {
 				</Link>
 			</div>
 
-			<div className="mt-4 flex items-center gap-3 md:mt-6">
-				<input
-					className="checkbox checkbox-sm checkbox-primary"
-					type="checkbox"
-					id="remember-me"
-					checked={rememberMe}
-					onChange={(e) => setRememberMe(e.target.checked)}
-					disabled={isLoading}
-				/>
-				<label htmlFor="remember-me" className="text-sm">
-					Remember me
-				</label>
-			</div>
+		<div className="mt-4 flex items-center gap-3 md:mt-6">
+			<input
+				className="checkbox checkbox-sm checkbox-primary"
+				type="checkbox"
+				id={rememberMeId}
+				checked={rememberMe}
+				onChange={(e) => setRememberMe(e.target.checked)}
+				disabled={isLoading}
+			/>
+			<label htmlFor={rememberMeId} className="text-sm">
+				Remember me
+			</label>
+		</div>
 
 			<button
 				type="submit"

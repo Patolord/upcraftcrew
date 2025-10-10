@@ -121,13 +121,23 @@ export default defineSchema({
     type: v.union(
       v.literal("meeting"),
       v.literal("deadline"),
-      v.literal("milestone")
+      v.literal("milestone"),
+      v.literal("task")
+    ),
+    priority: v.optional(
+      v.union(
+        v.literal("low"),
+        v.literal("medium"),
+        v.literal("high")
+      )
     ),
     projectId: v.optional(v.id("projects")),
     attendeeIds: v.array(v.string()), // BetterAuth user IDs
     createdBy: v.optional(v.string()),
     createdAt: v.optional(v.number()),
-  }).index("by_start_time", ["startTime"]),
+  })
+    .index("by_start_time", ["startTime"])
+    .index("by_project", ["projectId"]),
 
   // Financial Transactions
   transactions: defineTable({

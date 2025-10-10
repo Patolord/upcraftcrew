@@ -5,6 +5,15 @@ import { securityLogger, SecurityEventType } from "@/lib/security-logger";
 import { validateCSRFToken, setCSRFCookie } from "@/lib/csrf";
 import { validateSession } from "@/lib/validate-session";
 
+// Helper para obter IP do request
+function getClientIp(request: NextRequest): string {
+  return (
+    request.headers.get("x-forwarded-for")?.split(",")[0] ||
+    request.headers.get("x-real-ip") ||
+    "unknown"
+  );
+}
+
 // Rotas públicas que não precisam de autenticação
 const PUBLIC_ROUTES = [
   "/auth/login",
@@ -35,12 +44,13 @@ const SENSITIVE_AUTH_ROUTES = [
 
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
+  const clientIp = getClientIp(request);
 
   // ✅ Validação CSRF para rotas que modificam dados
   if (!validateCSRFToken(request)) {
     securityLogger.log({
       type: SecurityEventType.UNAUTHORIZED_ACCESS_ATTEMPT,
-      ip: request.ip || "unknown",
+      ip: clientIp,
       userAgent: request.headers.get("user-agent") || undefined,
       severity: "high",
       metadata: { reason: "Invalid CSRF token", route: pathname },
@@ -59,7 +69,7 @@ export default async function middleware(request: NextRequest) {
     if (!rateLimitResult.success) {
       // ✅ Log de rate limit excedido
       securityLogger.rateLimitExceeded(
-        request.ip || "unknown",
+        clientIp,
         pathname,
         request.headers.get("user-agent") || undefined
       );
@@ -78,10 +88,16 @@ export default async function middleware(request: NextRequest) {
   }
 
   // ✅ Rate Limiting para API routes
-  if (pathname.startsWith("/api/auth/")) {
+  // Excluir rotas de OAuth e social sign-in do rate limiting
+  const isOAuthRoute = 
+    pathname.includes("/callback/") || 
+    pathname.includes("/sign-in/social") ||
+    pathname.includes("/sign-up/social");
+  
+  if (pathname.startsWith("/api/auth/") && !isOAuthRoute) {
     const rateLimitResult = await strictRateLimiter.check(
       request,
-      10, // 10 requests por hora
+      20, // Aumentado de 10 para 20 requests por hora
       `api:${pathname}`
     );
 
@@ -118,7 +134,7 @@ export default async function middleware(request: NextRequest) {
       // Log de tentativa de acesso sem token
       securityLogger.unauthorizedAccess(
         pathname,
-        request.ip || "unknown",
+        clientIp,
         request.headers.get("user-agent") || undefined
       );
       const loginUrl = new URL("/auth/login", request.url);
@@ -133,7 +149,7 @@ export default async function middleware(request: NextRequest) {
       // ✅ Sessão inválida, expirada ou revogada
       securityLogger.log({
         type: SecurityEventType.INVALID_TOKEN,
-        ip: request.ip || "unknown",
+        ip: clientIp,
         userAgent: request.headers.get("user-agent") || undefined,
         severity: "medium",
         metadata: { reason: "Invalid or expired session", route: pathname },

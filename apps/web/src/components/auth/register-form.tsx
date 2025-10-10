@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useState } from "react";
+import { useState, useId } from "react";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
@@ -10,6 +10,7 @@ import { toast } from "sonner";
 
 export const RegisterForm = () => {
 	const router = useRouter();
+	const agreementId = useId();
 	const [showPassword, setShowPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
 
@@ -91,16 +92,13 @@ export const RegisterForm = () => {
 		}
 	};
 
-	const handleGoogleRegister = async () => {
-		try {
-			await authClient.signIn.social({
-				provider: "google",
-				callbackURL: "/dashboard",
-			});
-		} catch (error) {
-			console.error("Google register error:", error);
-			toast.error("Failed to register with Google");
-		}
+	const handleGoogleRegister = () => {
+		console.log("Attempting Google sign in...");
+		// signIn.social faz redirect automático, não precisa de await
+		authClient.signIn.social({
+			provider: "google",
+			callbackURL: "/dashboard",
+		});
 	};
 
 	return (
@@ -183,23 +181,23 @@ export const RegisterForm = () => {
 				</label>
 			</fieldset>
 
-			<div className="mt-4 flex items-center gap-3 md:mt-6">
-				<input
-					className="checkbox checkbox-sm checkbox-primary"
-					type="checkbox"
-					id="agreement"
-					checked={formData.agreedToTerms}
-					onChange={(e) => handleChange("agreedToTerms", e.target.checked)}
-					disabled={isLoading}
-					required
-				/>
-				<label htmlFor="agreement" className="text-sm">
-					I agree with
-					<span className="text-primary ms-1 cursor-pointer hover:underline">
-						terms and conditions
-					</span>
-				</label>
-			</div>
+		<div className="mt-4 flex items-center gap-3 md:mt-6">
+			<input
+				className="checkbox checkbox-sm checkbox-primary"
+				type="checkbox"
+				id={agreementId}
+				checked={formData.agreedToTerms}
+				onChange={(e) => handleChange("agreedToTerms", e.target.checked)}
+				disabled={isLoading}
+				required
+			/>
+			<label htmlFor={agreementId} className="text-sm">
+				I agree with
+				<span className="text-primary ms-1 cursor-pointer hover:underline">
+					terms and conditions
+				</span>
+			</label>
+		</div>
 
 			<button
 				type="submit"
@@ -221,7 +219,7 @@ export const RegisterForm = () => {
 
 			<Button
 				type="button"
-				className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3"
+				className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3 text-white"
 				onClick={handleGoogleRegister}
 				disabled={isLoading}
 			>
@@ -237,7 +235,10 @@ export const RegisterForm = () => {
 
 			<p className="text-base-content/80 mt-4 text-center text-sm md:mt-6">
 				I have already to
-				<Link className="text-primary ms-1 hover:underline" href="/auth/login">
+				<Link
+					className="text-primary ms-1 hover:underline"
+					href="/auth/login"
+				>
 					Login
 				</Link>
 			</p>

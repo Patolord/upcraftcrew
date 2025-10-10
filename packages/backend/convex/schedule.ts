@@ -11,20 +11,15 @@ export const getEvents = query({
       .order("desc")
       .collect();
 
-    // Populate attendees and project data
+    // Populate project data
     const eventsWithDetails = await Promise.all(
       events.map(async (event) => {
-        const attendees = await Promise.all(
-          event.attendeeIds.map((userId) => ctx.db.get(userId))
-        );
-
         const project = event.projectId
           ? await ctx.db.get(event.projectId)
           : null;
 
         return {
           ...event,
-          attendees: attendees.filter((a) => a !== null),
           project,
         };
       })
@@ -44,15 +39,10 @@ export const getEventById = query({
       return null;
     }
 
-    const attendees = await Promise.all(
-      event.attendeeIds.map((userId) => ctx.db.get(userId))
-    );
-
     const project = event.projectId ? await ctx.db.get(event.projectId) : null;
 
     return {
       ...event,
-      attendees: attendees.filter((a) => a !== null),
       project,
     };
   },
@@ -81,20 +71,15 @@ export const getEventsByMonth = query({
       )
       .collect();
 
-    // Populate attendees and project data
+    // Populate project data
     const eventsWithDetails = await Promise.all(
       events.map(async (event) => {
-        const attendees = await Promise.all(
-          event.attendeeIds.map((userId) => ctx.db.get(userId))
-        );
-
         const project = event.projectId
           ? await ctx.db.get(event.projectId)
           : null;
 
         return {
           ...event,
-          attendees: attendees.filter((a) => a !== null),
           project,
         };
       })
@@ -123,20 +108,15 @@ export const getEventsByDateRange = query({
       )
       .collect();
 
-    // Populate attendees and project data
+    // Populate project data
     const eventsWithDetails = await Promise.all(
       events.map(async (event) => {
-        const attendees = await Promise.all(
-          event.attendeeIds.map((userId) => ctx.db.get(userId))
-        );
-
         const project = event.projectId
           ? await ctx.db.get(event.projectId)
           : null;
 
         return {
           ...event,
-          attendees: attendees.filter((a) => a !== null),
           project,
         };
       })
@@ -155,21 +135,7 @@ export const getEventsByProject = query({
       .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
       .collect();
 
-    // Populate attendees
-    const eventsWithAttendees = await Promise.all(
-      events.map(async (event) => {
-        const attendees = await Promise.all(
-          event.attendeeIds.map((userId) => ctx.db.get(userId))
-        );
-
-        return {
-          ...event,
-          attendees: attendees.filter((a) => a !== null),
-        };
-      })
-    );
-
-    return eventsWithAttendees;
+    return events;
   },
 });
 
@@ -188,7 +154,7 @@ export const getEventsByType = query({
 
 // Query: Get events for a user
 export const getEventsByUser = query({
-  args: { userId: v.string() // BetterAuth user ID },
+  args: { userId: v.string() }, // BetterAuth user ID
   handler: async (ctx, args) => {
     const events = await ctx.db.query("events").collect();
 
@@ -230,20 +196,15 @@ export const getUpcomingEvents = query({
       .order("asc")
       .take(limit);
 
-    // Populate attendees and project data
+    // Populate project data
     const eventsWithDetails = await Promise.all(
       events.map(async (event) => {
-        const attendees = await Promise.all(
-          event.attendeeIds.map((userId) => ctx.db.get(userId))
-        );
-
         const project = event.projectId
           ? await ctx.db.get(event.projectId)
           : null;
 
         return {
           ...event,
-          attendees: attendees.filter((a) => a !== null),
           project,
         };
       })
@@ -257,17 +218,24 @@ export const getUpcomingEvents = query({
 export const createEvent = mutation({
   args: {
     title: v.string(),
-    description: v.string(),
-    type: v.string(),
+    description: v.optional(v.string()),
+    type: v.union(
+      v.literal("meeting"),
+      v.literal("deadline"),
+      v.literal("milestone"),
+      v.literal("task")
+    ),
     startTime: v.number(),
     endTime: v.number(),
     location: v.optional(v.string()),
-    attendeeIds: v.array(v.string() // BetterAuth user ID),
+    attendeeIds: v.array(v.string()), // BetterAuth user IDs
     projectId: v.optional(v.id("projects")),
-    priority: v.union(
-      v.literal("low"),
-      v.literal("medium"),
-      v.literal("high")
+    priority: v.optional(
+      v.union(
+        v.literal("low"),
+        v.literal("medium"),
+        v.literal("high")
+      )
     ),
   },
   handler: async (ctx, args) => {
@@ -283,11 +251,18 @@ export const updateEvent = mutation({
     id: v.id("events"),
     title: v.optional(v.string()),
     description: v.optional(v.string()),
-    type: v.optional(v.string()),
+    type: v.optional(
+      v.union(
+        v.literal("meeting"),
+        v.literal("deadline"),
+        v.literal("milestone"),
+        v.literal("task")
+      )
+    ),
     startTime: v.optional(v.number()),
     endTime: v.optional(v.number()),
     location: v.optional(v.string()),
-    attendeeIds: v.optional(v.array(v.string() // BetterAuth user ID)),
+    attendeeIds: v.optional(v.array(v.string())), // BetterAuth user IDs
     projectId: v.optional(v.id("projects")),
     priority: v.optional(
       v.union(
@@ -331,7 +306,7 @@ export const deleteEvent = mutation({
 export const addAttendeeToEvent = mutation({
   args: {
     eventId: v.id("events"),
-    userId: v.string() // BetterAuth user ID,
+    userId: v.string(), // BetterAuth user ID
   },
   handler: async (ctx, args) => {
     const event = await ctx.db.get(args.eventId);
@@ -357,7 +332,7 @@ export const addAttendeeToEvent = mutation({
 export const removeAttendeeFromEvent = mutation({
   args: {
     eventId: v.id("events"),
-    userId: v.string() // BetterAuth user ID,
+    userId: v.string(), // BetterAuth user ID
   },
   handler: async (ctx, args) => {
     const event = await ctx.db.get(args.eventId);
