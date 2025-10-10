@@ -7,6 +7,10 @@
  * Este arquivo apenas re-exporta do backend e adiciona React-specific utilities.
  */
 
+import type { ReactNode } from "react";
+import type { Role, Permission } from "@upcraftcrew-os/backend";
+import { hasPermission, hasRoleLevel } from "@upcraftcrew-os/backend";
+
 // Re-export tudo do backend para manter compatibilidade com imports existentes
 export {
   ROLES,
@@ -20,8 +24,8 @@ export {
 /**
  * Hook para usar permissões com user context
  */
-export function usePermissions(user: any) {
-  const userRole = (user?.role as Role) || "guest";
+export function usePermissions(user: { role?: Role } | null | undefined) {
+  const userRole = user?.role || "guest";
 
   return {
     role: userRole,
@@ -41,8 +45,8 @@ interface ProtectedProps {
   permission?: Permission;
   role?: Role;
   userRole: Role;
-  fallback?: React.ReactNode;
-  children: React.ReactNode;
+  fallback?: ReactNode;
+  children: ReactNode;
 }
 
 export function Protected({
@@ -60,5 +64,5 @@ export function Protected({
     hasAccess = hasRoleLevel(userRole, role);
   }
 
-  return hasAccess ? <>{children}</> : <>{fallback}</>;
+  return hasAccess ? children : fallback;
 }
