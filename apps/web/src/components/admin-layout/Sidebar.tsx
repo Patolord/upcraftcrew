@@ -44,11 +44,12 @@ export const Sidebar = () => {
 							<p className="grow">Finance</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
-						<Link href="/reports" className="menu-item group">
-							<span className="iconify lucide--file-text size-4"></span>
-							<p className="grow">Reports</p>
+						<Link href="/kanban" className="menu-item group">
+							<span className="iconify lucide--layout-kanban size-4"></span>
+							<p className="grow">Kanban</p>
 							<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 						</Link>
+						
 					</div>
 				</div>
 				<div className="mt-4">
