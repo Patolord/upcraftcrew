@@ -24,6 +24,53 @@ export const createAuth = (
     baseURL: siteUrl,
     database: authComponent.adapter(ctx),
 
+    // ✅ Campos customizados do usuário (Opção 1)
+    user: {
+      additionalFields: {
+        role: {
+          type: "string",
+          required: false,
+          defaultValue: "member",
+        },
+        department: {
+          type: "string",
+          required: false,
+          defaultValue: "general",
+        },
+        status: {
+          type: "string",
+          required: false,
+          defaultValue: "offline",
+        },
+        bio: {
+          type: "string",
+          required: false,
+        },
+        location: {
+          type: "string",
+          required: false,
+        },
+        website: {
+          type: "string",
+          required: false,
+        },
+        skills: {
+          type: "string",
+          required: false,
+          defaultValue: "[]", // JSON string array
+        },
+        projectIds: {
+          type: "string",
+          required: false,
+          defaultValue: "[]", // JSON string array of IDs
+        },
+        lastActive: {
+          type: "number",
+          required: false,
+        },
+      },
+    },
+
     // Email/Password authentication
     emailAndPassword: {
       enabled: true,
@@ -89,11 +136,22 @@ export const createAuth = (
   });
 };
 
-// Example function for getting the current user
-// Feel free to edit, omit, etc.
+/**
+ * Buscar usuário autenticado atual com campos customizados parseados
+ */
 export const getCurrentUser = query({
   args: {},
   handler: async (ctx) => {
-    return authComponent.getAuthUser(ctx);
+    const user = await authComponent.getAuthUser(ctx);
+    if (!user) return null;
+
+    // Parsear campos JSON armazenados como strings
+    return {
+      ...user,
+      skills: user.skills ? JSON.parse(user.skills as string) : [],
+      projectIds: user.projectIds
+        ? JSON.parse(user.projectIds as string)
+        : [],
+    };
   },
 });

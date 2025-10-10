@@ -2,23 +2,9 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
-  users: defineTable({
-    name: v.string(),
-    email: v.string(),
-    avatar: v.optional(v.string()),
-    role: v.string(),
-    department: v.string(),
-    status: v.union(
-      v.literal("online"),
-      v.literal("offline"),
-      v.literal("away"),
-      v.literal("busy")
-    ),
-    joinedAt: v.number(),
-    lastActive: v.number(),
-    skills: v.array(v.string()),
-    projectIds: v.array(v.id("projects")),
-  }).index("by_email", ["email"]),
+  // ⚠️ Tabela "users" REMOVIDA - agora gerenciada pelo BetterAuth
+  // Campos customizados foram adicionados em auth.ts via user.additionalFields
+  // BetterAuth cria automaticamente: betterAuth/users, betterAuth/sessions, etc.
 
   projects: defineTable({
     name: v.string(),
@@ -45,7 +31,7 @@ export default defineSchema({
       spent: v.number(),
       remaining: v.number(),
     }),
-    teamIds: v.array(v.id("users")),
+    teamIds: v.array(v.string()), // User IDs do BetterAuth (strings)
     tags: v.array(v.string()),
   }),
 
@@ -74,7 +60,7 @@ export default defineSchema({
     startTime: v.number(),
     endTime: v.number(),
     location: v.optional(v.string()),
-    attendeeIds: v.array(v.id("users")),
+    attendeeIds: v.array(v.string()), // User IDs do BetterAuth (strings)
     projectId: v.optional(v.id("projects")),
     priority: v.union(
       v.literal("low"),

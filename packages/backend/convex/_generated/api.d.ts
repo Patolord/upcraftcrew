@@ -15,6 +15,7 @@ import type * as projects from "../projects.js";
 import type * as schedule from "../schedule.js";
 import type * as seed from "../seed.js";
 import type * as team from "../team.js";
+import type * as users from "../users.js";
 
 import type {
   ApiFromModules,
@@ -38,6 +39,7 @@ declare const fullApi: ApiFromModules<{
   schedule: typeof schedule;
   seed: typeof seed;
   team: typeof team;
+  users: typeof users;
 }>;
 declare const fullApiWithMounts: typeof fullApi;
 
