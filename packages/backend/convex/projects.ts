@@ -7,21 +7,9 @@ export const getProjects = query({
   handler: async (ctx) => {
     const projects = await ctx.db.query("projects").collect();
 
-    // Populate team members for each project
-    const projectsWithTeam = await Promise.all(
-      projects.map(async (project) => {
-        const team = await Promise.all(
-          project.teamIds.map((userId) => ctx.db.get(userId))
-        );
-
-        return {
-          ...project,
-          team: team.filter((member) => member !== null),
-        };
-      })
-    );
-
-    return projectsWithTeam;
+    // BetterAuth gerencia users - não podemos popular team members diretamente
+    // Retornar apenas IDs, o frontend pode buscar users via BetterAuth se necessário
+    return projects;
   },
 });
 
@@ -35,15 +23,8 @@ export const getProjectById = query({
       return null;
     }
 
-    // Populate team members
-    const team = await Promise.all(
-      project.teamIds.map((userId) => ctx.db.get(userId))
-    );
-
-    return {
-      ...project,
-      team: team.filter((member) => member !== null),
-    };
+    // BetterAuth gerencia users - retornar apenas o projeto com IDs
+    return project;
   },
 });
 
@@ -109,21 +90,14 @@ export const createProject = mutation({
       spent: v.number(),
       remaining: v.number(),
     }),
-    teamIds: v.array(v.id("users")),
+    teamIds: v.array(v.string()), // BetterAuth user IDs
     tags: v.array(v.string()),
   },
   handler: async (ctx, args) => {
     const projectId = await ctx.db.insert("projects", args);
 
-    // Update team members' projectIds
-    for (const userId of args.teamIds) {
-      const user = await ctx.db.get(userId);
-      if (user) {
-        await ctx.db.patch(userId, {
-          projectIds: [...user.projectIds, projectId],
-        });
-      }
-    }
+    // ✅ BetterAuth gerencia users - não atualizamos projectIds aqui
+    // Se necessário, usar mutations em users.ts que usam BetterAuth
 
     return projectId;
   },
@@ -163,7 +137,7 @@ export const updateProject = mutation({
         remaining: v.number(),
       })
     ),
-    teamIds: v.optional(v.array(v.id("users"))),
+    teamIds: v.optional(v.array(v.string())), // BetterAuth user IDs
     tags: v.optional(v.array(v.string())),
   },
   handler: async (ctx, args) => {

@@ -254,6 +254,50 @@ export const revokeAllSessions = mutation({
 });
 
 /**
+ * 🚨 EMERGÊNCIA: Invalidar TODAS as sessões do sistema
+ * 
+ * Use em casos de:
+ * - Comprometimento de BETTER_AUTH_SECRET
+ * - Incident response de segurança
+ * - Rotação forçada de credenciais
+ * 
+ * ⚠️ ATENÇÃO: Isso desconectará TODOS os usuários!
+ */
+export const invalidateAllSessions = mutation({
+  args: {},
+  handler: async (ctx) => {
+    const allActiveSessions = await ctx.db
+      .query("activeSessions")
+      .filter((q) => q.eq(q.field("isActive"), true))
+      .collect();
+
+    let invalidatedCount = 0;
+    for (const session of allActiveSessions) {
+      await ctx.db.patch(session._id, {
+        isActive: false,
+      });
+      invalidatedCount++;
+    }
+
+    // Log de auditoria
+    await ctx.db.insert("auditLogs", {
+      timestamp: Date.now(),
+      action: "EMERGENCY_INVALIDATE_ALL_SESSIONS",
+      details: {
+        invalidatedCount,
+        reason: "Security incident response",
+      },
+    });
+
+    return { 
+      success: true,
+      invalidatedCount,
+      timestamp: new Date().toISOString(),
+    };
+  },
+});
+
+/**
  * Limpar sessões expiradas (executar periodicamente)
  */
 export const cleanupExpiredSessions = mutation({

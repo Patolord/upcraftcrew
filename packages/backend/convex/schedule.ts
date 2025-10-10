@@ -188,7 +188,7 @@ export const getEventsByType = query({
 
 // Query: Get events for a user
 export const getEventsByUser = query({
-  args: { userId: v.id("users") },
+  args: { userId: v.string() // BetterAuth user ID },
   handler: async (ctx, args) => {
     const events = await ctx.db.query("events").collect();
 
@@ -262,7 +262,7 @@ export const createEvent = mutation({
     startTime: v.number(),
     endTime: v.number(),
     location: v.optional(v.string()),
-    attendeeIds: v.array(v.id("users")),
+    attendeeIds: v.array(v.string() // BetterAuth user ID),
     projectId: v.optional(v.id("projects")),
     priority: v.union(
       v.literal("low"),
@@ -287,7 +287,7 @@ export const updateEvent = mutation({
     startTime: v.optional(v.number()),
     endTime: v.optional(v.number()),
     location: v.optional(v.string()),
-    attendeeIds: v.optional(v.array(v.id("users"))),
+    attendeeIds: v.optional(v.array(v.string() // BetterAuth user ID)),
     projectId: v.optional(v.id("projects")),
     priority: v.optional(
       v.union(
@@ -331,7 +331,7 @@ export const deleteEvent = mutation({
 export const addAttendeeToEvent = mutation({
   args: {
     eventId: v.id("events"),
-    userId: v.id("users"),
+    userId: v.string() // BetterAuth user ID,
   },
   handler: async (ctx, args) => {
     const event = await ctx.db.get(args.eventId);
@@ -357,7 +357,7 @@ export const addAttendeeToEvent = mutation({
 export const removeAttendeeFromEvent = mutation({
   args: {
     eventId: v.id("events"),
-    userId: v.id("users"),
+    userId: v.string() // BetterAuth user ID,
   },
   handler: async (ctx, args) => {
     const event = await ctx.db.get(args.eventId);

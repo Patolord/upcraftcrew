@@ -1,70 +1,39 @@
+/**
+ * Database Seed
+ *
+ * ⚠️ IMPORTANTE: Este seed NÃO cria users!
+ * Users são gerenciados pelo BetterAuth via registro (/auth/register).
+ *
+ * Este seed cria apenas:
+ * - Projects (com teamIds vazios - adicionar manualmente depois)
+ * - Transactions
+ * - Events
+ */
+
 import { mutation } from "./_generated/server";
 
 export const seedDatabase = mutation({
   args: {},
   handler: async (ctx) => {
     // Check if database already has data
-    const existingUsers = await ctx.db.query("users").collect();
-    if (existingUsers.length > 0) {
+    const existingProjects = await ctx.db.query("projects").collect();
+    if (existingProjects.length > 0) {
       console.log("Database already seeded, skipping...");
       return { success: false, message: "Database already has data" };
     }
 
     console.log("Starting database seed...");
 
-    // Seed Users
-    const users = [
-      {
-        name: "Sarah Johnson",
-        email: "sarah.johnson@upcraftcrew.com",
-        avatar: "/images/avatars/1.png",
-        role: "owner",
-        department: "Leadership",
-        status: "online" as const,
-        joinedAt: new Date("2024-01-15").getTime(),
-        lastActive: Date.now(),
-        skills: ["Leadership", "Strategy", "Business Development"],
-        projectIds: [],
-      },
-      {
-        name: "Mike Chen",
-        email: "mike.chen@upcraftcrew.com",
-        avatar: "/images/avatars/2.png",
-        role: "admin",
-        department: "Engineering",
-        status: "online" as const,
-        joinedAt: new Date("2024-02-01").getTime(),
-        lastActive: Date.now(),
-        skills: ["Full-Stack", "Architecture", "DevOps", "React", "Node.js"],
-        projectIds: [],
-      },
-      {
-        name: "Emma Wilson",
-        email: "emma.wilson@upcraftcrew.com",
-        avatar: "/images/avatars/3.png",
-        role: "manager",
-        department: "Product",
-        status: "busy" as const,
-        joinedAt: new Date("2024-03-10").getTime(),
-        lastActive: Date.now(),
-        skills: ["Product Strategy", "Agile", "User Research", "Analytics"],
-        projectIds: [],
-      },
-    ];
+    // ❌ NÃO SEED USERS - BetterAuth gerencia isso
+    // Para adicionar users: Use /auth/register na aplicação
 
-    const userIds = await Promise.all(
-      users.map((user) => ctx.db.insert("users", user))
-    );
-
-    console.log(`Seeded ${userIds.length} users`);
-
-    // Seed Projects
+    // ✅ Seed Projects (teamIds vazios por enquanto)
     const projects = [
       {
         name: "Website Redesign",
         client: "Tech Corp",
         description: "Complete overhaul of company website with modern UI/UX",
-        status: "in-progress" as const,
+        status: "in_progress" as const,
         priority: "high" as const,
         startDate: new Date("2025-09-01").getTime(),
         endDate: new Date("2025-12-15").getTime(),
@@ -74,14 +43,14 @@ export const seedDatabase = mutation({
           spent: 22500,
           remaining: 22500,
         },
-        teamIds: [userIds[0], userIds[1], userIds[2]],
+        teamIds: [], // Adicionar user IDs manualmente depois do registro
         tags: ["web", "design", "development"],
       },
       {
         name: "Mobile App Development",
         client: "Retail Solutions Inc",
         description: "iOS and Android app for customer engagement",
-        status: "in-progress" as const,
+        status: "in_progress" as const,
         priority: "urgent" as const,
         startDate: new Date("2025-08-15").getTime(),
         endDate: new Date("2026-01-30").getTime(),
@@ -91,7 +60,7 @@ export const seedDatabase = mutation({
           spent: 35000,
           remaining: 45000,
         },
-        teamIds: [userIds[1]],
+        teamIds: [],
         tags: ["mobile", "ios", "android"],
       },
       {
@@ -108,7 +77,7 @@ export const seedDatabase = mutation({
           spent: 24500,
           remaining: 500,
         },
-        teamIds: [userIds[0]],
+        teamIds: [],
         tags: ["branding", "design"],
       },
       {
@@ -125,7 +94,7 @@ export const seedDatabase = mutation({
           spent: 0,
           remaining: 120000,
         },
-        teamIds: [userIds[1]],
+        teamIds: [],
         tags: ["e-commerce", "web", "backend"],
       },
       {
@@ -149,7 +118,7 @@ export const seedDatabase = mutation({
         name: "Internal CRM System",
         client: "UpCraft Crew",
         description: "Custom CRM for tracking clients and projects",
-        status: "in-progress" as const,
+        status: "in_progress" as const,
         priority: "medium" as const,
         startDate: new Date("2025-09-15").getTime(),
         endDate: new Date("2025-11-30").getTime(),
@@ -159,7 +128,7 @@ export const seedDatabase = mutation({
           spent: 28000,
           remaining: 27000,
         },
-        teamIds: [userIds[1], userIds[2]],
+        teamIds: [],
         tags: ["internal", "crm", "development"],
       },
     ];
@@ -170,18 +139,7 @@ export const seedDatabase = mutation({
 
     console.log(`Seeded ${projectIds.length} projects`);
 
-    // Update users with project IDs
-    await ctx.db.patch(userIds[0], {
-      projectIds: [projectIds[0], projectIds[2]],
-    });
-    await ctx.db.patch(userIds[1], {
-      projectIds: [projectIds[0], projectIds[1], projectIds[3], projectIds[5]],
-    });
-    await ctx.db.patch(userIds[2], {
-      projectIds: [projectIds[0], projectIds[5]],
-    });
-
-    // Seed Transactions
+    // ✅ Seed Transactions
     const transactions = [
       {
         description: "Final milestone payment from Tech Corp",
@@ -321,7 +279,7 @@ export const seedDatabase = mutation({
 
     console.log(`Seeded ${transactionIds.length} transactions`);
 
-    // Seed Events
+    // ✅ Seed Events (sem attendeeIds por enquanto)
     const events = [
       {
         title: "Team Standup",
@@ -330,7 +288,7 @@ export const seedDatabase = mutation({
         startTime: new Date("2025-10-06T09:00:00").getTime(),
         endTime: new Date("2025-10-06T09:30:00").getTime(),
         location: "Zoom - Meeting Room 1",
-        attendeeIds: [userIds[1]],
+        attendeeIds: [], // Adicionar user IDs depois
         priority: "medium" as const,
       },
       {
@@ -340,7 +298,7 @@ export const seedDatabase = mutation({
         startTime: new Date("2025-10-06T14:00:00").getTime(),
         endTime: new Date("2025-10-06T15:30:00").getTime(),
         location: "Conference Room A",
-        attendeeIds: [userIds[0], userIds[2]],
+        attendeeIds: [],
         projectId: projectIds[0],
         priority: "high" as const,
       },
@@ -360,7 +318,7 @@ export const seedDatabase = mutation({
         type: "task",
         startTime: new Date("2025-10-07T10:00:00").getTime(),
         endTime: new Date("2025-10-07T11:30:00").getTime(),
-        attendeeIds: [userIds[1]],
+        attendeeIds: [],
         projectId: projectIds[1],
         priority: "medium" as const,
       },
@@ -371,58 +329,8 @@ export const seedDatabase = mutation({
         startTime: new Date("2025-10-08T13:00:00").getTime(),
         endTime: new Date("2025-10-08T15:00:00").getTime(),
         location: "Office - Room 3",
-        attendeeIds: [userIds[2], userIds[1]],
-        priority: "high" as const,
-      },
-      {
-        title: "Code Review Session",
-        description: "Review PRs from the week",
-        type: "task",
-        startTime: new Date("2025-10-09T11:00:00").getTime(),
-        endTime: new Date("2025-10-09T12:00:00").getTime(),
-        attendeeIds: [userIds[1]],
-        projectId: projectIds[5],
-        priority: "low" as const,
-      },
-      {
-        title: "Q4 Strategy Meeting",
-        description: "Quarterly business review and planning",
-        type: "meeting",
-        startTime: new Date("2025-10-10T10:00:00").getTime(),
-        endTime: new Date("2025-10-10T12:00:00").getTime(),
-        location: "Board Room",
-        attendeeIds: [userIds[0], userIds[1], userIds[2]],
-        priority: "high" as const,
-      },
-      {
-        title: "Team Lunch",
-        description: "Monthly team building lunch",
-        type: "reminder",
-        startTime: new Date("2025-10-11T12:30:00").getTime(),
-        endTime: new Date("2025-10-11T14:00:00").getTime(),
-        location: "Italian Restaurant",
         attendeeIds: [],
-        priority: "low" as const,
-      },
-      {
-        title: "Mobile App Beta Launch",
-        description: "Release beta version to test users",
-        type: "milestone",
-        startTime: new Date("2025-10-20T00:00:00").getTime(),
-        endTime: new Date("2025-10-20T23:59:59").getTime(),
-        attendeeIds: [],
-        projectId: projectIds[1],
         priority: "high" as const,
-      },
-      {
-        title: "1-on-1 with Team Leads",
-        description: "Individual check-ins with team leads",
-        type: "meeting",
-        startTime: new Date("2025-10-12T09:00:00").getTime(),
-        endTime: new Date("2025-10-12T11:00:00").getTime(),
-        location: "Office",
-        attendeeIds: [userIds[0]],
-        priority: "medium" as const,
       },
     ];
 
@@ -433,12 +341,14 @@ export const seedDatabase = mutation({
     console.log(`Seeded ${eventIds.length} events`);
 
     console.log("Database seed completed successfully!");
+    console.log("⚠️  NOTA: Para adicionar users, use /auth/register");
+    console.log("⚠️  NOTA: Depois adicione user IDs aos projects manualmente");
 
     return {
       success: true,
-      message: "Database seeded successfully",
+      message: "Database seeded successfully (without users)",
       stats: {
-        users: userIds.length,
+        users: 0, // Users são criados via BetterAuth registration
         projects: projectIds.length,
         transactions: transactionIds.length,
         events: eventIds.length,
