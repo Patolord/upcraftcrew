@@ -45,17 +45,23 @@ const SENSITIVE_AUTH_ROUTES = [
 export default async function middleware(request: NextRequest) {
   const { pathname } = request.nextUrl;
   const clientIp = getClientIp(request);
+  const method = request.method;
 
-  // ✅ Validação CSRF para rotas que modificam dados
-  if (!validateCSRFToken(request)) {
-    securityLogger.log({
-      type: SecurityEventType.UNAUTHORIZED_ACCESS_ATTEMPT,
-      ip: clientIp,
-      userAgent: request.headers.get("user-agent") || undefined,
-      severity: "high",
-      metadata: { reason: "Invalid CSRF token", route: pathname },
-    });
-    return new NextResponse("Forbidden - Invalid CSRF Token", { status: 403 });
+  // ✅ Validação CSRF apenas para métodos que modificam dados em API routes
+  const isStateMutatingMethod = ["POST", "PUT", "PATCH", "DELETE"].includes(method);
+  const isApiRoute = pathname.startsWith("/api/") && !pathname.startsWith("/api/auth/");
+  
+  if (isStateMutatingMethod && isApiRoute) {
+    if (!validateCSRFToken(request)) {
+      securityLogger.log({
+        type: SecurityEventType.UNAUTHORIZED_ACCESS_ATTEMPT,
+        ip: clientIp,
+        userAgent: request.headers.get("user-agent") || undefined,
+        severity: "high",
+        metadata: { reason: "Invalid CSRF token", route: pathname, method },
+      });
+      return new NextResponse("Forbidden - Invalid CSRF Token", { status: 403 });
+    }
   }
 
   // ✅ Rate Limiting para rotas de autenticação
