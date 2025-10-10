@@ -8,12 +8,14 @@
  * @module
  */
 
+import type * as audit from "../audit.js";
 import type * as auth from "../auth.js";
 import type * as finance from "../finance.js";
 import type * as http from "../http.js";
 import type * as projects from "../projects.js";
 import type * as schedule from "../schedule.js";
 import type * as seed from "../seed.js";
+import type * as sessions from "../sessions.js";
 import type * as team from "../team.js";
 import type * as users from "../users.js";
 
@@ -32,12 +34,14 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  audit: typeof audit;
   auth: typeof auth;
   finance: typeof finance;
   http: typeof http;
   projects: typeof projects;
   schedule: typeof schedule;
   seed: typeof seed;
+  sessions: typeof sessions;
   team: typeof team;
   users: typeof users;
 }>;

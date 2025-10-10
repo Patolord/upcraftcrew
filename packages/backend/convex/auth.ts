@@ -1,9 +1,10 @@
 import { createClient, type GenericCtx } from "@convex-dev/better-auth";
+import { betterAuth } from "better-auth";
 import { convex } from "@convex-dev/better-auth/plugins";
 import { components } from "./_generated/api";
 import { DataModel } from "./_generated/dataModel";
 import { query } from "./_generated/server";
-import { betterAuth } from "better-auth";
+import { twoFactor } from "better-auth/plugins";
 
 const siteUrl = process.env.SITE_URL!;
 
@@ -132,6 +133,10 @@ export const createAuth = (
     plugins: [
       // The Convex plugin is required for Convex compatibility
       convex(),
+      // ✅ Two-Factor Authentication (TOTP)
+      twoFactor({
+        issuer: "UpcraftCrew",
+      }),
     ],
   });
 };
@@ -146,12 +151,11 @@ export const getCurrentUser = query({
     if (!user) return null;
 
     // Parsear campos JSON armazenados como strings
+    const userWithFields = user as typeof user & { skills?: string; projectIds?: string };
     return {
       ...user,
-      skills: user.skills ? JSON.parse(user.skills as string) : [],
-      projectIds: user.projectIds
-        ? JSON.parse(user.projectIds as string)
-        : [],
+      skills: userWithFields.skills ? JSON.parse(userWithFields.skills) : [],
+      projectIds: userWithFields.projectIds ? JSON.parse(userWithFields.projectIds) : [],
     };
   },
 });
