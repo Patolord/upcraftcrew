@@ -1,25 +1,50 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import {
+  requireAuth,
+  requirePermission,
+  requireOwnership,
+  filterAccessibleResources,
+} from "./auth-helpers";
 
 // Query: Get all transactions
+// ✅ SECURED: Filtra transações baseado em acesso do usuário
 export const getTransactions = query({
   args: {},
   handler: async (ctx) => {
+    const user = await requirePermission(ctx, "finance.view");
+
     const transactions = await ctx.db
       .query("transactions")
       .withIndex("by_date")
       .order("desc")
       .collect();
 
+    // Admin e Manager veem todas as transações
+    // Outros usuários veem apenas suas próprias transações
+    const accessibleTransactions =
+      user.role === "admin" || user.role === "manager"
+        ? transactions
+        : transactions.filter((t) => t.createdBy === user.id);
+
     // Populate project data for each transaction
     const transactionsWithProject = await Promise.all(
-      transactions.map(async (transaction) => {
+      accessibleTransactions.map(async (transaction) => {
         if (transaction.projectId) {
           const project = await ctx.db.get(transaction.projectId);
-          return {
-            ...transaction,
-            project,
-          };
+          // Verificar se usuário tem acesso ao projeto
+          if (
+            project &&
+            (user.role === "admin" ||
+              user.role === "manager" ||
+              project.teamIds.includes(user.id) ||
+              project.createdBy === user.id)
+          ) {
+            return {
+              ...transaction,
+              project,
+            };
+          }
         }
         return transaction;
       })
@@ -30,21 +55,31 @@ export const getTransactions = query({
 });
 
 // Query: Get transactions by type
+// ✅ SECURED: Filtra por tipo com autorização
 export const getTransactionsByType = query({
   args: {
     type: v.union(v.literal("income"), v.literal("expense")),
   },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "finance.view");
+
     const transactions = await ctx.db
       .query("transactions")
       .filter((q) => q.eq(q.field("type"), args.type))
       .collect();
 
-    return transactions;
+    // Filtrar por acesso do usuário
+    const accessibleTransactions =
+      user.role === "admin" || user.role === "manager"
+        ? transactions
+        : transactions.filter((t) => t.createdBy === user.id);
+
+    return accessibleTransactions;
   },
 });
 
 // Query: Get transactions by status
+// ✅ SECURED: Filtra por status com autorização
 export const getTransactionsByStatus = query({
   args: {
     status: v.union(
@@ -55,19 +90,48 @@ export const getTransactionsByStatus = query({
     ),
   },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "finance.view");
+
     const transactions = await ctx.db
       .query("transactions")
       .filter((q) => q.eq(q.field("status"), args.status))
       .collect();
 
-    return transactions;
+    // Filtrar por acesso do usuário
+    const accessibleTransactions =
+      user.role === "admin" || user.role === "manager"
+        ? transactions
+        : transactions.filter((t) => t.createdBy === user.id);
+
+    return accessibleTransactions;
   },
 });
 
 // Query: Get transactions by project
+// ✅ SECURED: Verifica acesso ao projeto antes de retornar transações
 export const getTransactionsByProject = query({
   args: { projectId: v.id("projects") },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "finance.view");
+
+    // Verificar se usuário tem acesso ao projeto
+    const project = await ctx.db.get(args.projectId);
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    // Verificar acesso ao projeto
+    if (user.role !== "admin" && user.role !== "manager") {
+      if (
+        !project.teamIds.includes(user.id) &&
+        project.createdBy !== user.id
+      ) {
+        throw new Error(
+          "Forbidden: You don't have access to this project's transactions"
+        );
+      }
+    }
+
     const transactions = await ctx.db
       .query("transactions")
       .withIndex("by_project", (q) => q.eq("projectId", args.projectId))
@@ -78,12 +142,15 @@ export const getTransactionsByProject = query({
 });
 
 // Query: Get transactions by date range
+// ✅ SECURED: Filtra por data com autorização
 export const getTransactionsByDateRange = query({
   args: {
     startDate: v.number(),
     endDate: v.number(),
   },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "finance.view");
+
     const transactions = await ctx.db
       .query("transactions")
       .withIndex("by_date")
@@ -96,15 +163,30 @@ export const getTransactionsByDateRange = query({
       )
       .collect();
 
-    return transactions;
+    // Filtrar por acesso do usuário
+    const accessibleTransactions =
+      user.role === "admin" || user.role === "manager"
+        ? transactions
+        : transactions.filter((t) => t.createdBy === user.id);
+
+    return accessibleTransactions;
   },
 });
 
 // Query: Get financial summary
+// ✅ SECURED: Summary apenas para Admin e Manager
 export const getFinancialSummary = query({
   args: {},
   handler: async (ctx) => {
-    const transactions = await ctx.db.query("transactions").collect();
+    const user = await requirePermission(ctx, "finance.view");
+
+    const allTransactions = await ctx.db.query("transactions").collect();
+
+    // Filtrar por acesso do usuário
+    const transactions =
+      user.role === "admin" || user.role === "manager"
+        ? allTransactions
+        : allTransactions.filter((t) => t.createdBy === user.id);
 
     // Calculate totals
     const totalIncome = transactions
@@ -154,17 +236,20 @@ export const getFinancialSummary = query({
 });
 
 // Query: Get monthly financial summary
+// ✅ SECURED: Summary mensal com autorização
 export const getMonthlyFinancialSummary = query({
   args: {
     year: v.number(),
     month: v.number(), // 1-12
   },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "finance.view");
+
     // Calculate start and end of month
     const startDate = new Date(args.year, args.month - 1, 1).getTime();
     const endDate = new Date(args.year, args.month, 0, 23, 59, 59).getTime();
 
-    const transactions = await ctx.db
+    const allTransactions = await ctx.db
       .query("transactions")
       .withIndex("by_date")
       .filter(
@@ -172,6 +257,12 @@ export const getMonthlyFinancialSummary = query({
           q.and(q.gte(q.field("date"), startDate), q.lte(q.field("date"), endDate))
       )
       .collect();
+
+    // Filtrar por acesso do usuário
+    const transactions =
+      user.role === "admin" || user.role === "manager"
+        ? allTransactions
+        : allTransactions.filter((t) => t.createdBy === user.id);
 
     const totalIncome = transactions
       .filter((t) => t.type === "income" && t.status === "completed")

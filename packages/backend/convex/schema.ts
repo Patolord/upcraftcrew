@@ -165,10 +165,18 @@ export default defineSchema({
     description: v.string(),
     projectId: v.optional(v.id("projects")),
     date: v.number(),
+    status: v.union(
+      v.literal("pending"),
+      v.literal("completed"),
+      v.literal("failed"),
+      v.literal("cancelled")
+    ),
+    clientId: v.optional(v.string()),
     createdBy: v.string(),
     createdAt: v.number(),
   })
     .index("by_project", ["projectId"])
     .index("by_date", ["date"])
-    .index("by_type", ["type"]),
+    .index("by_type", ["type"])
+    .index("by_created_by", ["createdBy"]),
 });

@@ -1,35 +1,60 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import {
+  requireAuth,
+  requirePermission,
+  requireOwnership,
+  requireTeamMember,
+  filterAccessibleResources,
+} from "./auth-helpers";
 
 // Query: Get all projects
+// ✅ SECURED: Filtra projetos baseado em acesso do usuário
 export const getProjects = query({
   args: {},
   handler: async (ctx) => {
+    const user = await requirePermission(ctx, "projects.view");
+
     const projects = await ctx.db.query("projects").collect();
 
-    // BetterAuth gerencia users - não podemos popular team members diretamente
-    // Retornar apenas IDs, o frontend pode buscar users via BetterAuth se necessário
-    return projects;
+    // Filtrar projetos baseado no acesso do usuário
+    // Admin e Manager veem todos, outros veem apenas os que participam
+    const accessibleProjects = filterAccessibleResources(
+      user,
+      projects,
+      "projects.view"
+    );
+
+    return accessibleProjects;
   },
 });
 
 // Query: Get project by ID
+// ✅ SECURED: Verifica se usuário tem acesso ao projeto
 export const getProjectById = query({
   args: { id: v.id("projects") },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "projects.view");
+
     const project = await ctx.db.get(args.id);
 
     if (!project) {
       return null;
     }
 
-    // BetterAuth gerencia users - retornar apenas o projeto com IDs
+    // Verificar acesso: Admin, Manager, ou membro da equipe
+    if (user.role !== "admin" && user.role !== "manager") {
+      if (!project.teamIds.includes(user.id) && project.createdBy !== user.id) {
+        throw new Error("Forbidden: You don't have access to this project");
+      }
+    }
+
     return project;
   },
 });
 
 // Query: Get projects by status
-// ✅ OTIMIZADO: BetterAuth gerencia users, retornamos apenas IDs
+// ✅ SECURED: Filtra projetos por status com base no acesso do usuário
 export const getProjectsByStatus = query({
   args: {
     status: v.union(
@@ -41,19 +66,26 @@ export const getProjectsByStatus = query({
     ),
   },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "projects.view");
+
     const projects = await ctx.db
       .query("projects")
       .filter((q) => q.eq(q.field("status"), args.status))
       .collect();
 
-    // ✅ OTIMIZAÇÃO APLICADA: Evita N+1 ao não buscar users individualmente
-    // BetterAuth gerencia users - frontend pode buscar detalhes via BetterAuth
-    // Retornar projetos com teamIds (não popular team members)
-    return projects;
+    // Filtrar projetos baseado no acesso do usuário
+    const accessibleProjects = filterAccessibleResources(
+      user,
+      projects,
+      "projects.view"
+    );
+
+    return accessibleProjects;
   },
 });
 
 // Mutation: Create project
+// ✅ SECURED: Requer permissão de criar projetos
 export const createProject = mutation({
   args: {
     name: v.string(),
@@ -84,16 +116,21 @@ export const createProject = mutation({
     tags: v.array(v.string()),
   },
   handler: async (ctx, args) => {
-    const projectId = await ctx.db.insert("projects", args);
+    const user = await requirePermission(ctx, "projects.create");
 
-    // ✅ BetterAuth gerencia users - não atualizamos projectIds aqui
-    // Se necessário, usar mutations em users.ts que usam BetterAuth
+    const projectId = await ctx.db.insert("projects", {
+      ...args,
+      createdBy: user.id,
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+    });
 
     return projectId;
   },
 });
 
 // Mutation: Update project
+// ✅ SECURED: Requer permissão de editar E (ser dono OU membro da equipe)
 export const updateProject = mutation({
   args: {
     id: v.id("projects"),
@@ -133,32 +170,39 @@ export const updateProject = mutation({
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
 
+    const user = await requirePermission(ctx, "projects.edit");
+
     const existingProject = await ctx.db.get(id);
     if (!existingProject) {
       throw new Error("Project not found");
     }
 
-    // ✅ OTIMIZAÇÃO APLICADA: Evita N+1 ao não atualizar users individualmente
-    // BetterAuth gerencia users - não podemos atualizar projectIds em users do BetterAuth
-    // Se necessário, manter essa relação em uma tabela separada de junction no Convex
-    
-    // ⚠️ NOTA: Código original tentava atualizar projectIds nos users, mas isso
-    // não funciona com BetterAuth. Considerar:
-    // 1. Criar tabela "userProjects" no Convex para junction table
-    // 2. Usar apenas teamIds nos projetos (abordagem atual)
-    // 3. Gerenciar relação no frontend
+    // Verificar acesso: Admin, Manager, ou membro da equipe/criador
+    if (user.role !== "admin" && user.role !== "manager") {
+      if (
+        !existingProject.teamIds.includes(user.id) &&
+        existingProject.createdBy !== user.id
+      ) {
+        throw new Error("Forbidden: You don't have access to edit this project");
+      }
+    }
 
-    await ctx.db.patch(id, updates);
+    await ctx.db.patch(id, {
+      ...updates,
+      updatedAt: Date.now(),
+    });
 
     return id;
   },
 });
 
 // Mutation: Delete project
-// ✅ OTIMIZADO: Busca relacionamentos em paralelo e deleta em batch
+// ✅ SECURED: Requer permissão de deletar (apenas Admin)
 export const deleteProject = mutation({
   args: { id: v.id("projects") },
   handler: async (ctx, args) => {
+    const user = await requirePermission(ctx, "projects.delete");
+
     const project = await ctx.db.get(args.id);
 
     if (!project) {
@@ -166,8 +210,6 @@ export const deleteProject = mutation({
     }
 
     // ✅ OTIMIZAÇÃO: Buscar todos os relacionamentos em paralelo (não sequencial)
-    // Antes: 2 queries sequenciais
-    // Depois: 2 queries em paralelo
     const [transactions, events] = await Promise.all([
       ctx.db
         .query("transactions")
@@ -180,8 +222,6 @@ export const deleteProject = mutation({
     ]);
 
     // ✅ OTIMIZAÇÃO: Deletar todos os relacionamentos em paralelo
-    // Antes: Loop sequencial de deletes (N+1)
-    // Depois: Promise.all para paralelizar
     const deleteOperations: Promise<void>[] = [];
 
     // Delete related transactions
@@ -199,9 +239,6 @@ export const deleteProject = mutation({
 
     // Delete project itself
     await ctx.db.delete(args.id);
-
-    // ⚠️ NOTA: Não atualizamos users porque BetterAuth os gerencia
-    // Se necessário, criar tabela junction "userProjects" no Convex
 
     return { success: true };
   },
