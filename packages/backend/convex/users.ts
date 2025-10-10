@@ -148,7 +148,7 @@ export const getUserById = query({
 });
 
 /**
- * Listar todos os usuários (admin)
+ * Listar todos os usuários
  */
 export const listUsers = query({
   args: {},
@@ -156,11 +156,6 @@ export const listUsers = query({
     const currentUser = await authComponent.getAuthUser(ctx);
     if (!currentUser) {
       throw new Error("Unauthorized");
-    }
-
-    // Verificar se usuário é admin
-    if (currentUser.role !== "admin") {
-      throw new Error("Forbidden: Admin only");
     }
 
     // TODO: Implementar listagem via BetterAuth
@@ -181,5 +176,84 @@ export const updateLastActive = mutation({
 
     // TODO: Atualizar via BetterAuth
     return { success: true, lastActive: now };
+  },
+});
+
+/**
+ * ✅ Buscar usuários com filtros
+ */
+export const searchUsers = query({
+  args: {
+    searchTerm: v.optional(v.string()),
+    role: v.optional(v.string()),
+    department: v.optional(v.string()),
+    status: v.optional(v.string()),
+    limit: v.optional(v.number()),
+  },
+  handler: async (ctx, args) => {
+    const currentUser = await authComponent.getAuthUser(ctx);
+    if (!currentUser) {
+      throw new Error("Unauthorized");
+    }
+
+    // TODO: Implementar busca real via BetterAuth
+    // BetterAuth não expõe queries diretas para users table
+    // Opção 1: Criar cache/índice separado
+    // Opção 2: Usar API do BetterAuth se disponível
+    // Por enquanto, retornar array vazio
+
+    // Placeholder de resposta
+    return {
+      users: [],
+      total: 0,
+      hasMore: false,
+    };
+  },
+});
+
+/**
+ * ✅ Filtrar usuários por role
+ */
+export const getUsersByRole = query({
+  args: {
+    role: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const currentUser = await authComponent.getAuthUser(ctx);
+    if (!currentUser) {
+      throw new Error("Unauthorized");
+    }
+
+    // TODO: Implementar busca por role
+    return [];
+  },
+});
+
+/**
+ * ✅ Buscar membros de um projeto
+ */
+export const getProjectMembers = query({
+  args: {
+    projectId: v.id("projects"),
+  },
+  handler: async (ctx, args) => {
+    const currentUser = await authComponent.getAuthUser(ctx);
+    if (!currentUser) {
+      throw new Error("Unauthorized");
+    }
+
+    // Buscar projeto
+    const project = await ctx.db.get(args.projectId);
+    if (!project) {
+      throw new Error("Project not found");
+    }
+
+    // TODO: Buscar usuários por IDs via BetterAuth
+    // Por enquanto, retornar apenas os IDs
+    return {
+      projectId: args.projectId,
+      memberIds: project.teamIds,
+      members: [], // Placeholder para dados completos dos membros
+    };
   },
 });

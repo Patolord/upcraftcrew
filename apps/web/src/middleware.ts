@@ -3,6 +3,7 @@ import type { NextRequest } from "next/server";
 import { authRateLimiter, strictRateLimiter } from "@/lib/rate-limit";
 import { securityLogger, SecurityEventType } from "@/lib/security-logger";
 import { validateCSRFToken, setCSRFCookie } from "@/lib/csrf";
+import { validateSession } from "@/lib/validate-session";
 
 // Rotas públicas que não precisam de autenticação
 const PUBLIC_ROUTES = [
@@ -111,17 +112,42 @@ export default async function middleware(request: NextRequest) {
     pathname.startsWith(route)
   );
 
-  // ✅ Validação melhorada: verifica se token existe
-  if (isProtectedRoute && !sessionToken) {
-    // ✅ Log de tentativa de acesso não autorizado
-    securityLogger.unauthorizedAccess(
-      pathname,
-      request.ip || "unknown",
-      request.headers.get("user-agent") || undefined
-    );
-    const loginUrl = new URL("/auth/login", request.url);
-    loginUrl.searchParams.set("redirect", pathname);
-    return NextResponse.redirect(loginUrl);
+  // ✅ Validação REAL de sessão via BetterAuth API
+  if (isProtectedRoute) {
+    if (!sessionToken) {
+      // Log de tentativa de acesso sem token
+      securityLogger.unauthorizedAccess(
+        pathname,
+        request.ip || "unknown",
+        request.headers.get("user-agent") || undefined
+      );
+      const loginUrl = new URL("/auth/login", request.url);
+      loginUrl.searchParams.set("redirect", pathname);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    // Validar se o token é válido, não expirado, e não revogado
+    const validation = await validateSession(request);
+
+    if (!validation.valid) {
+      // ✅ Sessão inválida, expirada ou revogada
+      securityLogger.log({
+        type: SecurityEventType.INVALID_TOKEN,
+        ip: request.ip || "unknown",
+        userAgent: request.headers.get("user-agent") || undefined,
+        severity: "medium",
+        metadata: { reason: "Invalid or expired session", route: pathname },
+      });
+
+      // Limpar cookie inválido e redirecionar
+      const response = NextResponse.redirect(
+        new URL("/auth/login?expired=true", request.url)
+      );
+      response.cookies.delete("better-auth.session_token");
+      return response;
+    }
+
+    // ✅ Sessão válida - continuar
   }
 
   // ✅ Para rotas protegidas, adicionar headers de segurança e CSRF cookie

@@ -126,7 +126,7 @@ export default defineSchema({
     projectId: v.optional(v.id("projects")),
     attendeeIds: v.array(v.string()), // BetterAuth user IDs
     createdBy: v.string(),
-    createdAt: v.number(),
+    createdAt: v.optional(v.number()),
   }).index("by_start_time", ["startTime"]),
 
   // Financial Transactions

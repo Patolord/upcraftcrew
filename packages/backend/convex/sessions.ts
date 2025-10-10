@@ -100,6 +100,43 @@ export const updateSessionActivity = mutation({
 });
 
 /**
+ * ✅ Validar sessão por token (para middleware)
+ */
+export const getSessionByToken = query({
+  args: {
+    sessionToken: v.string(),
+  },
+  handler: async (ctx, args) => {
+    const session = await ctx.db
+      .query("activeSessions")
+      .withIndex("by_session_token", (q) =>
+        q.eq("sessionToken", args.sessionToken)
+      )
+      .first();
+
+    if (!session) return null;
+
+    const now = Date.now();
+
+    // Verificar se sessão expirou
+    if (session.expiresAt <= now || !session.isActive) {
+      // Marcar como inativa se expirou
+      if (session.isActive) {
+        await ctx.db.patch(session._id, { isActive: false });
+      }
+      return null;
+    }
+
+    return {
+      userId: session.userId,
+      isActive: session.isActive,
+      expiresAt: session.expiresAt,
+      lastActivityAt: session.lastActivityAt,
+    };
+  },
+});
+
+/**
  * Buscar todas as sessões ativas de um usuário
  */
 export const getActiveSessions = query({
