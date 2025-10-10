@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-import { ResetPasswordAuth } from "./ResetPasswordAuth";
+import { ResetPasswordForm } from "@/components/auth/reset-password-form";
 
 export const metadata: Metadata = {
 	title: "Reset Password",
@@ -27,7 +26,7 @@ const ResetPasswordPage = () => {
 				Experience.
 			</h3>
 			<div className="mt-6 md:mt-10">
-				<ResetPasswordAuth />
+				<ResetPasswordForm />
 			</div>
 		</div>
 	);

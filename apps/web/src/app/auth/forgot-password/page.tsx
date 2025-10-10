@@ -3,7 +3,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-import { useId } from "react";
+import { ForgotPasswordForm } from "@/components/auth/forgot-password-form";
 
 export const metadata: Metadata = {
 	title: "Forgot Password",
@@ -26,49 +26,7 @@ const ForgotPasswordPage = () => {
 				Experience.
 			</h3>
 			<div className="mt-6 md:mt-10">
-				<fieldset className="fieldset">
-					<legend className="fieldset-legend">Email Address</legend>
-					<label className="input w-full focus:outline-0">
-						<span className="iconify lucide--mail text-base-content/80 size-5"></span>
-						<input
-							className="grow focus:outline-0"
-							placeholder="Email Address"
-							type="email"
-						/>
-					</label>
-				</fieldset>
-
-				<div className="mt-2 flex items-center gap-3 md:mt-4">
-					<input
-						id={`agreement-${useId()}`}
-						className="checkbox checkbox-sm checkbox-primary"
-						aria-label="Checkbox example"
-						type="checkbox" 
-					/>
-					<label htmlFor="agreement" className="text-sm">
-						I agree with
-						<span className="text-primary ms-1 cursor-pointer hover:underline">
-							terms and conditions
-						</span>
-					</label>
-				</div>
-
-				<Link
-					href="/auth/reset-password"
-					className="btn btn-primary btn-wide mt-4 max-w-full gap-3 md:mt-6"
-				>
-					<span className="iconify lucide--mail-plus size-4" />
-					Send a reset link
-				</Link>
-				<p className="text-base-content/80 mt-4 text-center text-sm md:mt-6">
-					I have already to
-					<Link
-						className="text-primary ms-1 hover:underline"
-						href="/auth/login"
-					>
-						Login
-					</Link>
-				</p>
+				<ForgotPasswordForm />
 			</div>
 		</div>
 	);

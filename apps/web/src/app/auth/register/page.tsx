@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-import { RegisterAuth } from "./RegisterAuth";
+import { RegisterForm } from "@/components/auth/register-form";
 
 export const metadata: Metadata = {
 	title: "Register",
@@ -27,7 +26,7 @@ const RegisterPage = () => {
 				Experience.
 			</h3>
 			<div className="mt-6 md:mt-10">
-				<RegisterAuth />
+				<RegisterForm />
 			</div>
 		</div>
 	);

@@ -1,27 +1,83 @@
+"use client";
+
 import Link from "next/link";
+import { useAuth } from "@/hooks/useAuth";
 
 export const ProfileMenu = () => {
+	const { user, logout, isLoading } = useAuth();
+
+	const handleLogout = async () => {
+		await logout();
+	};
+
+	// Função para pegar iniciais do nome
+	const getInitials = (name: string | null | undefined) => {
+		if (!name) return "U";
+		const parts = name.split(" ");
+		if (parts.length >= 2) {
+			return `${parts[0][0]}${parts[1][0]}`.toUpperCase();
+		}
+		return name.substring(0, 2).toUpperCase();
+	};
+
 	return (
 		<div className="dropdown dropdown-bottom sm:dropdown-end max-sm:dropdown-center">
 			<div className="flex cursor-pointer items-center gap-3">
 				<div className="avatar bg-base-200 size-12 overflow-hidden rounded-full px-1 pt-1">
-					<img src="/images/avatars/6.png" alt="Avatar" />
+					{user?.image ? (
+						<img src={user.image} alt={user.name || "User"} />
+					) : (
+						<div className="bg-primary text-primary-content flex size-full items-center justify-center font-semibold">
+							{getInitials(user?.name)}
+						</div>
+					)}
 				</div>
 			</div>
 
 			<div className="dropdown-content mt-2 w-54">
+				{/* User Info Section */}
+				{user && (
+					<div className="bg-base-100 rounded-box shadow-lg mb-1.5 p-3">
+						<div className="flex items-center gap-3">
+							<div className="avatar bg-base-200 size-10 overflow-hidden rounded-full">
+								{user.image ? (
+									<img src={user.image} alt={user.name || "User"} />
+								) : (
+									<div className="bg-primary text-primary-content flex size-full items-center justify-center font-semibold text-sm">
+										{getInitials(user.name)}
+									</div>
+								)}
+							</div>
+							<div className="flex-1 min-w-0">
+								<p className="font-medium text-sm truncate">
+									{user.name || "User"}
+								</p>
+								<p className="text-xs text-base-content/60 truncate">
+									{user.email}
+								</p>
+							</div>
+						</div>
+					</div>
+				)}
+
 				<div className="bg-base-100 rounded-box shadow-lg">
 					<ul className="menu w-full p-2">
 						<li>
-							<Link href="#">
-								<span className="iconify lucide--layout-dashboard size-4.5" />
-								<span>Project Overview</span>
+							<Link href="/profile">
+								<span className="iconify lucide--user size-4.5" />
+								<span>My Profile</span>
 							</Link>
 						</li>
 						<li>
-							<Link href="#">
+							<Link href="/settings">
+								<span className="iconify lucide--settings size-4.5" />
+								<span>Settings</span>
+							</Link>
+						</li>
+						<li>
+							<Link href="/projects">
 								<span className="iconify lucide--folder-open size-4.5" />
-								<span>My Workspaces</span>
+								<span>My Projects</span>
 							</Link>
 						</li>
 					</ul>
@@ -61,16 +117,15 @@ export const ProfileMenu = () => {
 				<div className="bg-base-100 rounded-box mt-1.5 shadow-lg">
 					<ul className="menu w-full p-2">
 						<li>
-							<div>
-								<span className="iconify lucide--repeat size-4.5" />
-								<span>Switch Team</span>
-							</div>
-						</li>
-						<li>
-							<Link className="text-error hover:bg-error/10" href="#">
+							<button
+								type="button"
+								onClick={handleLogout}
+								className="text-error hover:bg-error/10"
+								disabled={isLoading}
+							>
 								<span className="iconify lucide--log-out size-4.5" />
 								<span>Sign Out</span>
-							</Link>
+							</button>
 						</li>
 					</ul>
 				</div>

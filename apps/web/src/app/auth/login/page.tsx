@@ -3,8 +3,7 @@ import Link from "next/link";
 
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
-
-import { LoginAuth } from "./LoginAuth";
+import { LoginForm } from "@/components/auth/login-form";
 
 export const metadata: Metadata = {
 	title: "Login",
@@ -27,7 +26,7 @@ const LoginPage = () => {
 				Experience.
 			</h3>
 			<div className="mt-6 md:mt-10">
-				<LoginAuth />
+				<LoginForm />
 			</div>
 		</div>
 	);
