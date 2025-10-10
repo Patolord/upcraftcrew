@@ -1,6 +1,10 @@
 import { Button } from "@/components/ui/button";
 
-export function ProjectsHeader() {
+interface ProjectsHeaderProps {
+	onNewProject?: () => void;
+}
+
+export function ProjectsHeader({ onNewProject }: ProjectsHeaderProps) {
 	return (
 		<div className="flex items-center justify-between">
 			<div>
@@ -9,7 +13,10 @@ export function ProjectsHeader() {
 					Manage and track all your projects
 				</p>
 			</div>
-			<Button className="btn btn-primary gap-2">
+			<Button
+				className="btn btn-primary gap-2"
+				onClick={onNewProject}
+			>
 				<span className="iconify lucide--plus size-5" />
 				New Project
 			</Button>

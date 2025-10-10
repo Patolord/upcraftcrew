@@ -68,7 +68,7 @@ export default function ProjectsPage() {
 
 	return (
 		<div className="p-6 space-y-6">
-			<ProjectsHeader />
+			<ProjectsHeader onNewProject={() => setIsModalOpen(true)} />
 			<ProjectsStats projects={projects} />
 			<ProjectsFilters
 				searchQuery={searchQuery}
