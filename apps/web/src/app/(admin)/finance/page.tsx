@@ -9,11 +9,13 @@ import { CategoryBreakdown } from "@/components/finance/CategoryBreakdown";
 import { FinancialSummaryCards } from "@/components/finance/FinancialSummaryCards";
 import { TransactionFilters } from "@/components/finance/TransactionFilters";
 import { QuickStats } from "@/components/finance/QuickStats";
+import { NewTransactionModal } from "@/components/finance/NewTransactionModal";
 
 export default function FinancePage() {
 	const [typeFilter, setTypeFilter] = useState<TransactionType | "all">("all");
 	const [categoryFilter, setCategoryFilter] = useState<TransactionCategory | "all">("all");
 	const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// Calculate financial summary
 	const summary = useMemo(() => {
@@ -72,7 +74,7 @@ export default function FinancePage() {
 						<span className="iconify lucide--download size-5" />
 						Export
 					</Button>
-					<Button className="btn btn-primary gap-2">
+					<Button className="btn btn-primary gap-2" onClick={() => setIsModalOpen(true)}>
 						<span className="iconify lucide--plus size-5" />
 						New Transaction
 					</Button>
@@ -144,6 +146,9 @@ export default function FinancePage() {
 					<QuickStats transactions={mockTransactions} />
 				</div>
 			</div>
+
+			{/* New Transaction Modal */}
+			<NewTransactionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }

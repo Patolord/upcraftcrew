@@ -165,6 +165,17 @@ export const updateProject = mutation({
     ),
     teamIds: v.optional(v.array(v.id("users"))),
     tags: v.optional(v.array(v.string())),
+    notes: v.optional(v.string()),
+    files: v.optional(
+      v.array(
+        v.object({
+          name: v.string(),
+          url: v.string(),
+          size: v.number(),
+          uploadedAt: v.number(),
+        })
+      )
+    ),
   },
   handler: async (ctx, args) => {
     const { id, ...updates } = args;
