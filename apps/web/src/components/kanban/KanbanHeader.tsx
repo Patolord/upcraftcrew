@@ -3,9 +3,10 @@ import { Button } from "@/components/ui/button";
 interface KanbanHeaderProps {
 	searchQuery: string;
 	setSearchQuery: (query: string) => void;
+	onNewProject?: () => void;
 }
 
-export function KanbanHeader({ searchQuery, setSearchQuery }: KanbanHeaderProps) {
+export function KanbanHeader({ searchQuery, setSearchQuery, onNewProject }: KanbanHeaderProps) {
 	return (
 		<div className="flex items-center justify-between">
 			<div>
@@ -27,7 +28,7 @@ export function KanbanHeader({ searchQuery, setSearchQuery }: KanbanHeaderProps)
 						/>
 					</div>
 				</div>
-				<Button className="btn btn-primary">
+				<Button className="btn btn-primary" onClick={onNewProject}>
 					<span className="iconify lucide--plus size-5" />
 					New Project
 				</Button>

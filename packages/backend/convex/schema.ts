@@ -47,6 +47,17 @@ export default defineSchema({
     }),
     teamIds: v.array(v.id("users")),
     tags: v.array(v.string()),
+    notes: v.optional(v.string()),
+    files: v.optional(
+      v.array(
+        v.object({
+          name: v.string(),
+          url: v.string(),
+          size: v.number(),
+          uploadedAt: v.number(),
+        })
+      )
+    ),
   }),
 
   transactions: defineTable({
@@ -84,4 +95,62 @@ export default defineSchema({
   })
     .index("by_start_time", ["startTime"])
     .index("by_project", ["projectId"]),
+
+  budgets: defineTable({
+    title: v.string(),
+    client: v.string(),
+    description: v.string(),
+    status: v.union(
+      v.literal("draft"),
+      v.literal("sent"),
+      v.literal("approved"),
+      v.literal("rejected"),
+      v.literal("expired")
+    ),
+    totalAmount: v.number(),
+    items: v.array(
+      v.object({
+        description: v.string(),
+        quantity: v.number(),
+        unitPrice: v.number(),
+        total: v.number(),
+      })
+    ),
+    validUntil: v.number(),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+    projectId: v.optional(v.id("projects")),
+    notes: v.optional(v.string()),
+  })
+    .index("by_status", ["status"])
+    .index("by_client", ["client"])
+    .index("by_created_at", ["createdAt"]),
+
+  tasks: defineTable({
+    title: v.string(),
+    description: v.string(),
+    status: v.union(
+      v.literal("todo"),
+      v.literal("in-progress"),
+      v.literal("review"),
+      v.literal("done"),
+      v.literal("blocked")
+    ),
+    priority: v.union(
+      v.literal("low"),
+      v.literal("medium"),
+      v.literal("high"),
+      v.literal("urgent")
+    ),
+    assignedTo: v.optional(v.id("users")),
+    projectId: v.optional(v.id("projects")),
+    dueDate: v.optional(v.number()),
+    tags: v.array(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_status", ["status"])
+    .index("by_assigned", ["assignedTo"])
+    .index("by_project", ["projectId"])
+    .index("by_created_at", ["createdAt"]),
 });

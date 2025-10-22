@@ -7,12 +7,14 @@ import { Button } from "@/components/ui/button";
 import type { TeamMemberRole } from "@/types/team";
 import { TeamMemberCard } from "@/components/team/team-member-card";
 import { TeamMemberRow } from "@/components/team/team-member-row";
+import { NewTeamMemberModal } from "@/components/team/NewTeamMemberModal";
 
 export default function TeamPage() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [roleFilter, setRoleFilter] = useState<TeamMemberRole | "all">("all");
 	const [departmentFilter, setDepartmentFilter] = useState<string>("all");
 	const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// Fetch team members from Convex
 	const teamMembers = useQuery(api.team.getTeamMembers);
@@ -105,7 +107,7 @@ export default function TeamPage() {
 						Manage your team members and permissions
 					</p>
 				</div>
-				<Button className="btn btn-primary gap-2">
+				<Button className="btn btn-primary gap-2" onClick={() => setIsModalOpen(true)}>
 					<span className="iconify lucide--user-plus size-5" />
 					Add Member
 				</Button>
@@ -234,6 +236,9 @@ export default function TeamPage() {
 					</table>
 				</div>
 			)}
+
+			{/* New Team Member Modal */}
+			<NewTeamMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }

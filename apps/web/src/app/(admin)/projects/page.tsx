@@ -45,10 +45,14 @@ export default function ProjectsPage() {
 	if (convexProjects === undefined) {
 		return (
 			<div className="p-6 space-y-6">
-				<ProjectsHeader />
+				<ProjectsHeader onNewProject={() => setIsModalOpen(true)} />
 				<div className="flex items-center justify-center py-12">
 					<span className="loading loading-spinner loading-lg" />
 				</div>
+				<NewProjectModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+				/>
 			</div>
 		);
 	}
@@ -57,18 +61,22 @@ export default function ProjectsPage() {
 	if (convexProjects === null) {
 		return (
 			<div className="p-6 space-y-6">
-				<ProjectsHeader />
+				<ProjectsHeader onNewProject={() => setIsModalOpen(true)} />
 				<div className="alert alert-error">
 					<span className="iconify lucide--alert-circle size-5" />
 					<span>Failed to load projects. Please try again later.</span>
 				</div>
+				<NewProjectModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+				/>
 			</div>
 		);
 	}
 
 	return (
 		<div className="p-6 space-y-6">
-			<ProjectsHeader />
+			<ProjectsHeader onNewProject={() => setIsModalOpen(true)} />
 			<ProjectsStats projects={projects} />
 			<ProjectsFilters
 				searchQuery={searchQuery}
