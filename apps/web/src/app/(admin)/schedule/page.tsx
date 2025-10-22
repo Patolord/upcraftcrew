@@ -7,6 +7,7 @@ import { CalendarDay } from "@/components/schedule/calendar-day";
 import { api } from "@workspace/backend/_generated/api";
 import { useQuery } from "convex/react";
 import { Button } from "@/components/ui/button";
+import { NewEventModal } from "@/components/schedule/NewEventModal";
 
 // Helper function to get event color based on type
 function getEventColor(type: EventType): string {
@@ -24,6 +25,7 @@ export default function SchedulePage() {
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [viewMode, setViewMode] = useState<"month" | "list">("month");
 	const [typeFilter, setTypeFilter] = useState<EventType | "all">("all");
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
 	// Get current month calendar
 	const year = selectedDate.getFullYear();
@@ -114,7 +116,7 @@ export default function SchedulePage() {
 						Manage your events, meetings, and deadlines
 					</p>
 				</div>
-				<Button className="btn btn-primary gap-2">
+				<Button className="btn btn-primary gap-2" onClick={() => setIsModalOpen(true)}>
 					<span className="iconify lucide--plus size-5" />
 					New Event
 				</Button>
@@ -280,6 +282,9 @@ export default function SchedulePage() {
 					)}
 				</>
 			)}
+
+			{/* New Event Modal */}
+			<NewEventModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} preSelectedDate={selectedDate} />
 		</div>
 	);
 }

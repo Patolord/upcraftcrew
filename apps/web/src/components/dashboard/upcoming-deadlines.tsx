@@ -12,7 +12,16 @@ export function UpcomingDeadlines({ projects }: UpcomingDeadlinesProps) {
 	return (
 		<div className="card bg-base-100 border border-base-300">
 			<div className="card-body">
-				<h2 className="card-title text-lg mb-4">Upcoming Deadlines</h2>
+				<div className="flex items-center justify-between mb-4">
+					<h2 className="card-title text-lg">Upcoming Deadlines</h2>
+					<a
+						href="/schedule"
+						className="btn btn-ghost btn-sm flex items-center"
+						aria-label="View full schedule"
+					>
+						<span className="iconify lucide--calendar size-4" aria-hidden="true" />
+					</a>
+				</div>
 				<div className="space-y-3">
 					{projects.map((project) => {
 						const daysUntil = Math.ceil(

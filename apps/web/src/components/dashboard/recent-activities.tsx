@@ -30,19 +30,14 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
 							className="flex items-start gap-3 pb-4 border-b border-base-300 last:border-0 last:pb-0"
 						>
 							<div className="avatar">
-								<div className="w-10 rounded-full">
-									<Image
-										src={activity.user.avatar}
-										alt={activity.user.name}
-										width={40}
-										height={40}
-									/>
-								</div>
+								<div className="w-10 rounded-full"></div>
 							</div>
 							<div className="flex-1 min-w-0">
 								<p className="text-sm">
 									<span className="font-medium">{activity.user.name}</span>{" "}
-									<span className="text-base-content/60">{activity.action}</span>{" "}
+									<span className="text-base-content/60">
+										{activity.action}
+									</span>{" "}
 									<span className="font-medium">{activity.target}</span>
 								</p>
 								<p className="text-xs text-base-content/60 mt-1">
@@ -61,7 +56,7 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
 					<a href="/team" className="btn btn-ghost btn-sm">
 						View All Activity
 						<span className="iconify lucide--arrow-right size-4 ml-1" />
-						</a>
+					</a>
 				</div>
 			</div>
 		</div>

@@ -10,6 +10,8 @@ import { UpcomingDeadlines, type Project } from "../../../components/dashboard/u
 import { ProjectsOverview } from "../../../components/dashboard/projects-overview";
 import { ErrorState } from "../../../components/dashboard/error-state";
 import { DashboardSkeleton } from "../../../components/ui/dashboard-skeleton";
+import { ActiveTasks, type Task } from "../../../components/dashboard/active-tasks";
+import { FinanceOverview } from "../../../components/dashboard/finance-overview";
 
 export default function DashboardPage() {
 	const [retryCount, setRetryCount] = useState(0);
