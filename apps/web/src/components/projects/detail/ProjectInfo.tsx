@@ -76,8 +76,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 				},
 				tags: formData.tags
 					.split(",")
-					.map((tag) => tag.trim())
-					.filter((tag) => tag.length > 0),
+					.map((tag: string) => tag.trim())
+					.filter((tag: string) => tag.length > 0),
 				notes: formData.notes,
 				files: files,
 			});
@@ -305,8 +305,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="cancelled">Cancelled</option>
 								</select>
 							) : (
-								<span className={`badge ${statusConfig[project.status].color}`}>
-									{statusConfig[project.status].label}
+								<span className={`badge ${statusConfig[project.status as keyof typeof statusConfig].color}`}>
+									{statusConfig[project.status as keyof typeof statusConfig].label}
 								</span>
 							)}
 						</div>
@@ -333,8 +333,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="urgent">Urgent</option>
 								</select>
 							) : (
-								<span className={`badge ${priorityConfig[project.priority].color}`}>
-									{priorityConfig[project.priority].label}
+								<span className={`badge ${priorityConfig[project.priority as keyof typeof priorityConfig].color}`}>
+									{priorityConfig[project.priority as keyof typeof priorityConfig].label}
 								</span>
 							)}
 						</div>

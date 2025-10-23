@@ -45,7 +45,20 @@ export default function KanbanPage() {
 		return statuses.map(status => ({
 			id: status,
 			title: statusTitles[status],
-			tasks: filteredTasks.filter(t => t.status === status)
+			tasks: filteredTasks
+				.filter(t => t.status === status)
+				.map(task => ({
+					...task,
+					assignedUser: task.assignedUser ? {
+						_id: task.assignedUser._id,
+						name: task.assignedUser.name,
+						avatar: task.assignedUser.avatar
+					} : undefined,
+					project: task.project ? {
+						_id: task.project._id,
+						name: task.project.name
+					} : undefined
+				}))
 		}));
 	}, [filteredTasks]);
 
