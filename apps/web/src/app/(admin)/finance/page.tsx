@@ -4,7 +4,7 @@ import { useMemo, useState } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { Button } from "@/components/ui/button";
-import type { TransactionCategory, TransactionType } from "@/types/finance";
+import type { Transaction, TransactionCategory, TransactionType } from "@/types/finance";
 import { TransactionRow } from "@/components/finance/TransactionRow";
 import { CategoryBreakdown } from "@/components/finance/CategoryBreakdown";
 import { FinancialSummaryCards } from "@/components/finance/FinancialSummaryCards";
@@ -17,7 +17,7 @@ export default function FinancePage() {
 	const [categoryFilter, setCategoryFilter] = useState<TransactionCategory | "all">("all");
 	const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
 	const [isFormOpen, setIsFormOpen] = useState(false);
-	const [selectedTransaction, setSelectedTransaction] = useState<any>(null);
+	const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
 
 	// Fetch data from Convex
 	const transactions = useQuery(api.finance.getTransactions);
@@ -118,22 +118,22 @@ export default function FinancePage() {
 						Track income, expenses, and financial performance
 					</p>
 				</div>
-				<div className="flex gap-2">
-					<Button className="btn btn-ghost gap-2">
-						<span className="iconify lucide--download size-5" />
-						Export
-					</Button>
-					<Button
-						className="btn btn-primary gap-2"
-						onClick={() => {
-							setSelectedTransaction(null);
-							setIsFormOpen(true);
-						}}
-					>
-						<span className="iconify lucide--plus size-5" />
-						New Transaction
-					</Button>
-				</div>
+			<div className="flex gap-2">
+				<Button className="btn btn-ghost gap-2">
+					<span className="iconify lucide--download size-5" />
+					Export
+				</Button>
+				<Button
+					className="btn btn-primary gap-2"
+					onClick={() => {
+						setSelectedTransaction(null);
+						setIsFormOpen(true);
+					}}
+				>
+					<span className="iconify lucide--plus size-5" />
+					New Transaction
+				</Button>
+			</div>
 			</div>
 
 			{/* Financial Summary Cards */}
