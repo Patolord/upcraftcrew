@@ -1,247 +1,101 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { useQuery } from "convex/react";
+import { api } from "@workspace/backend/_generated/api";
 import { Button } from "@/components/ui/button";
-import { Image } from "@/components/ui/image";
-import { mockTeamMembers } from "@/lib/mock-data/team";
-import type { TeamMember, TeamMemberRole } from "@/types/team";
-
-const roleConfig = {
-	owner: {
-		label: "Owner",
-		color: "badge-error",
-	},
-	admin: {
-		label: "Admin",
-		color: "badge-warning",
-	},
-	manager: {
-		label: "Manager",
-		color: "badge-info",
-	},
-	developer: {
-		label: "Developer",
-		color: "badge-primary",
-	},
-	designer: {
-		label: "Designer",
-		color: "badge-secondary",
-	},
-	member: {
-		label: "Member",
-		color: "badge-ghost",
-	},
-};
-
-const statusConfig = {
-	active: {
-		label: "Active",
-		color: "bg-success",
-		textColor: "text-success",
-	},
-	away: {
-		label: "Away",
-		color: "bg-warning",
-		textColor: "text-warning",
-	},
-	busy: {
-		label: "Busy",
-		color: "bg-error",
-		textColor: "text-error",
-	},
-	offline: {
-		label: "Offline",
-		color: "bg-base-300",
-		textColor: "text-base-content/40",
-	},
-};
-
-function TeamMemberCard({ member }: { member: TeamMember }) {
-	const role = roleConfig[member.role];
-	const status = statusConfig[member.status];
-
-	return (
-		<div className="card bg-base-100 border border-base-300 hover:shadow-lg transition-shadow">
-			<div className="card-body">
-				{/* Header with Avatar */}
-				<div className="flex items-start gap-4">
-					<div className="relative">
-						<div className="avatar">
-							<div className="w-16 rounded-full">
-								<Image src={member.avatar} alt={member.name} width={28} height={28} />
-							</div>
-						</div>
-						<div
-							className={`absolute bottom-0 right-0 w-4 h-4 ${status.color} rounded-full border-2 border-base-100`}
-						/>
-					</div>
-					<div className="flex-1">
-						<h3 className="font-semibold text-lg">{member.name}</h3>
-						<p className="text-sm text-base-content/60">{member.position}</p>
-						<div className="flex items-center gap-2 mt-2">
-							<span className={`badge ${role.color} badge-sm`}>
-								{role.label}
-							</span>
-							<span className={`text-xs ${status.textColor}`}>
-								{status.label}
-							</span>
-						</div>
-					</div>
-				</div>
-
-				{/* Contact Info */}
-				<div className="mt-4 space-y-2">
-					<div className="flex items-center gap-2 text-sm">
-						<span className="iconify lucide--mail size-4 text-base-content/60" />
-						<span className="text-base-content/70">{member.email}</span>
-					</div>
-					{member.location && (
-						<div className="flex items-center gap-2 text-sm">
-							<span className="iconify lucide--map-pin size-4 text-base-content/60" />
-							<span className="text-base-content/70">{member.location}</span>
-						</div>
-					)}
-					{member.phone && (
-						<div className="flex items-center gap-2 text-sm">
-							<span className="iconify lucide--phone size-4 text-base-content/60" />
-							<span className="text-base-content/70">{member.phone}</span>
-						</div>
-					)}
-				</div>
-
-				{/* Stats */}
-				<div className="grid grid-cols-3 gap-3 mt-4 pt-4 border-t border-base-300">
-					<div className="text-center">
-						<p className="text-lg font-semibold">{member.projectsCount}</p>
-						<p className="text-xs text-base-content/60">Projects</p>
-					</div>
-					<div className="text-center">
-						<p className="text-lg font-semibold">{member.tasksCompleted}</p>
-						<p className="text-xs text-base-content/60">Tasks</p>
-					</div>
-					<div className="text-center">
-						<p className="text-lg font-semibold">{member.performance}%</p>
-						<p className="text-xs text-base-content/60">Performance</p>
-					</div>
-				</div>
-
-				{/* Skills */}
-				{member.skills && member.skills.length > 0 && (
-					<div className="mt-4">
-						<p className="text-xs text-base-content/60 mb-2">Skills</p>
-						<div className="flex flex-wrap gap-1">
-							{member.skills.slice(0, 4).map((skill) => (
-								<span key={skill} className="badge badge-sm badge-outline">
-									{skill}
-								</span>
-							))}
-							{member.skills.length > 4 && (
-								<span className="badge badge-sm badge-ghost">
-									+{member.skills.length - 4}
-								</span>
-							)}
-						</div>
-					</div>
-				)}
-
-				{/* Actions */}
-				<div className="card-actions justify-end mt-4">
-					<Button className="btn btn-ghost btn-sm">
-						<span className="iconify lucide--message-circle size-4" />
-						Message
-					</Button>
-					<Button className="btn btn-ghost btn-sm">
-						<span className="iconify lucide--user size-4" />
-						View Profile
-					</Button>
-				</div>
-			</div>
-		</div>
-	);
-}
-
-function TeamMemberRow({ member }: { member: TeamMember }) {
-	const role = roleConfig[member.role];
-	const status = statusConfig[member.status];
-
-	return (
-		<tr className="hover">
-			<td>
-				<div className="flex items-center gap-3">
-					<div className="relative">
-						<div className="avatar">
-							<div className="w-10 rounded-full">
-								<Image src={member.avatar} alt={member.name} width={28} height={28} />
-							</div>
-						</div>
-						<div
-							className={`absolute bottom-0 right-0 w-3 h-3 ${status.color} rounded-full border-2 border-base-100`}
-						/>
-					</div>
-					<div>
-						<div className="font-medium">{member.name}</div>
-						<div className="text-sm text-base-content/60">{member.position}</div>
-					</div>
-				</div>
-			</td>
-			<td>
-				<div className="text-sm">{member.email}</div>
-				{member.department && (
-					<div className="text-xs text-base-content/60">{member.department}</div>
-				)}
-			</td>
-			<td>
-				<span className={`badge ${role.color} badge-sm`}>{role.label}</span>
-			</td>
-			<td>
-				<span className={`text-sm ${status.textColor}`}>{status.label}</span>
-			</td>
-			<td className="text-center">
-				<div className="text-sm font-medium">{member.projectsCount}</div>
-			</td>
-			<td className="text-center">
-				<div className="text-sm font-medium">{member.performance}%</div>
-			</td>
-			<td>
-				<div className="flex items-center gap-1">
-					<Button className="btn btn-ghost btn-xs">
-						<span className="iconify lucide--message-circle size-4" />
-					</Button>
-					<Button className="btn btn-ghost btn-xs">
-						<span className="iconify lucide--user size-4" />
-					</Button>
-					<Button className="btn btn-ghost btn-xs">
-						<span className="iconify lucide--more-horizontal size-4" />
-					</Button>
-				</div>
-			</td>
-		</tr>
-	);
-}
+import type { TeamMemberRole } from "@/types/team";
+import { TeamMemberCard } from "@/components/team/team-member-card";
+import { TeamMemberRow } from "@/components/team/team-member-row";
+import { NewTeamMemberModal } from "@/components/team/NewTeamMemberModal";
 
 export default function TeamPage() {
 	const [searchQuery, setSearchQuery] = useState("");
 	const [roleFilter, setRoleFilter] = useState<TeamMemberRole | "all">("all");
 	const [departmentFilter, setDepartmentFilter] = useState<string>("all");
 	const [viewMode, setViewMode] = useState<"grid" | "table">("grid");
+	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	const departments = Array.from(
-		new Set(mockTeamMembers.map((m) => m.department).filter(Boolean))
-	) as string[];
+	// Fetch team members from Convex
+	const teamMembers = useQuery(api.team.getTeamMembers);
 
-	const filteredMembers = mockTeamMembers.filter((member) => {
-		const matchesSearch =
-			member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
-			member.position.toLowerCase().includes(searchQuery.toLowerCase());
+	// Compute departments and filtered members
+	const { departments, filteredMembers } = useMemo(() => {
+		if (!teamMembers) {
+			return { departments: [], filteredMembers: [] };
+		}
 
-		const matchesRole = roleFilter === "all" || member.role === roleFilter;
+		const departments = Array.from(
+			new Set(teamMembers.map((m) => m.department).filter(Boolean))
+		) as string[];
 
-		const matchesDepartment =
-			departmentFilter === "all" || member.department === departmentFilter;
+		const filteredMembers = teamMembers.filter((member) => {
+			const matchesSearch =
+				member.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				member.email.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				member.department.toLowerCase().includes(searchQuery.toLowerCase());
 
-		return matchesSearch && matchesRole && matchesDepartment;
-	});
+			const matchesRole = roleFilter === "all" || member.role === roleFilter;
+
+			const matchesDepartment =
+				departmentFilter === "all" || member.department === departmentFilter;
+
+			return matchesSearch && matchesRole && matchesDepartment;
+		});
+
+		return { departments, filteredMembers };
+	}, [teamMembers, searchQuery, roleFilter, departmentFilter]);
+
+	// Calculate stats
+	const stats = useMemo(() => {
+		if (!teamMembers) {
+			return {
+				total: 0,
+				online: 0,
+				departments: 0,
+				avgProjects: 0,
+			};
+		}
+
+		return {
+			total: teamMembers.length,
+			online: teamMembers.filter((m) => m.status === "online").length,
+			departments: departments.length,
+			avgProjects: teamMembers.length > 0
+				? Math.round(
+						teamMembers.reduce((acc, m) => acc + m.projects.length, 0) /
+							teamMembers.length
+				  )
+				: 0,
+		};
+	}, [teamMembers, departments]);
+
+	// Loading state
+	if (teamMembers === undefined) {
+		return (
+			<div className="p-6 flex items-center justify-center min-h-[400px]">
+				<div className="text-center">
+					<span className="loading loading-spinner loading-lg text-primary" />
+					<p className="mt-4 text-base-content/60">Loading team members...</p>
+				</div>
+			</div>
+		);
+	}
+
+	// Error state (empty data)
+	if (!teamMembers) {
+		return (
+			<div className="p-6 flex items-center justify-center min-h-[400px]">
+				<div className="text-center">
+					<span className="iconify lucide--alert-circle size-16 text-error mb-4" />
+					<h3 className="text-lg font-medium mb-2">Failed to load team members</h3>
+					<p className="text-base-content/60 text-sm">
+						Please try refreshing the page
+					</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="p-6 space-y-6">
@@ -253,7 +107,7 @@ export default function TeamPage() {
 						Manage your team members and permissions
 					</p>
 				</div>
-				<Button className="btn btn-primary gap-2">
+				<Button className="btn btn-primary gap-2" onClick={() => setIsModalOpen(true)}>
 					<span className="iconify lucide--user-plus size-5" />
 					Add Member
 				</Button>
@@ -264,32 +118,28 @@ export default function TeamPage() {
 				<div className="stats shadow border border-base-300">
 					<div className="stat py-4">
 						<div className="stat-title text-xs">Total Members</div>
-						<div className="stat-value text-2xl">{mockTeamMembers.length}</div>
+						<div className="stat-value text-2xl">{stats.total}</div>
 					</div>
 				</div>
 				<div className="stats shadow border border-base-300">
 					<div className="stat py-4">
-						<div className="stat-title text-xs">Active</div>
+						<div className="stat-title text-xs">Online</div>
 						<div className="stat-value text-2xl text-success">
-							{mockTeamMembers.filter((m) => m.status === "active").length}
+							{stats.online}
 						</div>
 					</div>
 				</div>
 				<div className="stats shadow border border-base-300">
 					<div className="stat py-4">
 						<div className="stat-title text-xs">Departments</div>
-						<div className="stat-value text-2xl">{departments.length}</div>
+						<div className="stat-value text-2xl">{stats.departments}</div>
 					</div>
 				</div>
 				<div className="stats shadow border border-base-300">
 					<div className="stat py-4">
-						<div className="stat-title text-xs">Avg Performance</div>
+						<div className="stat-title text-xs">Avg Projects</div>
 						<div className="stat-value text-2xl">
-							{Math.round(
-								mockTeamMembers.reduce((acc, m) => acc + m.performance, 0) /
-									mockTeamMembers.length
-							)}
-							%
+							{stats.avgProjects}
 						</div>
 					</div>
 				</div>
@@ -362,7 +212,7 @@ export default function TeamPage() {
 			) : viewMode === "grid" ? (
 				<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
 					{filteredMembers.map((member) => (
-						<TeamMemberCard key={member.id} member={member} />
+						<TeamMemberCard key={member._id} member={member} />
 					))}
 				</div>
 			) : (
@@ -371,22 +221,24 @@ export default function TeamPage() {
 						<thead>
 							<tr>
 								<th>Member</th>
-								<th>Contact</th>
+								<th>Contact & Skills</th>
 								<th>Role</th>
 								<th>Status</th>
 								<th className="text-center">Projects</th>
-								<th className="text-center">Performance</th>
 								<th>Actions</th>
 							</tr>
 						</thead>
 						<tbody>
 							{filteredMembers.map((member) => (
-								<TeamMemberRow key={member.id} member={member} />
+								<TeamMemberRow key={member._id} member={member} />
 							))}
 						</tbody>
 					</table>
 				</div>
 			)}
+
+			{/* New Team Member Modal */}
+			<NewTeamMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
 	);
 }

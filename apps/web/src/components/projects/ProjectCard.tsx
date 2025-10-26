@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 import type { Project } from "@/types/project";
+import Link from "next/link";
 
 const statusConfig = {
 	planning: {
@@ -165,14 +166,12 @@ export function ProjectCard({ project }: { project: Project }) {
 
 				{/* Actions */}
 				<div className="card-actions justify-end mt-4 pt-4 border-t border-base-300">
-					<Button className="btn btn-ghost btn-sm">
-						<span className="iconify lucide--eye size-4" />
-						View
-					</Button>
-					<Button className="btn btn-ghost btn-sm">
-						<span className="iconify lucide--pencil size-4" />
-						Edit
-					</Button>
+					<Link href={`/projects/${project.id}`}>
+						<Button className="btn btn-primary btn-sm">
+							<span className="iconify lucide--eye size-4" />
+							View
+						</Button>
+					</Link>
 				</div>
 			</div>
 		</div>
