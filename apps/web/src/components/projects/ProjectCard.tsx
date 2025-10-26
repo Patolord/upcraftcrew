@@ -2,7 +2,6 @@ import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 import type { Project } from "@/types/project";
-import Link from "next/link";
 
 const statusConfig = {
 	planning: {
