@@ -20,7 +20,7 @@ interface Task {
 		_id: string;
 		name: string;
 		avatar?: string;
-	} | null;
+	} | null | undefined;
 	project: {
 		_id: string;
 		name: string;
