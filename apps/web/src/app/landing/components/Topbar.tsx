@@ -6,7 +6,7 @@ import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
 import { Logo } from "@/components/Logo";
-import { ThemeToggleDropdown } from "@/components/ThemeToggleDropdown";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 const menu = [
 	{
@@ -120,10 +120,7 @@ export const Topbar = () => {
 					))}
 				</div>
 
-				<ThemeToggleDropdown
-					dropdownClass="md:dropdown-center dropdown-end"
-					triggerClass="btn btn-sm btn-ghost btn-circle"
-				/>
+				<ThemeToggle className="btn btn-sm btn-ghost btn-circle" />
 			</div>
 		</div>
 	);
