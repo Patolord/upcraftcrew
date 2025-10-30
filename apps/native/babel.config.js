@@ -2,6 +2,7 @@ module.exports = (api) => {
 	api.cache(true);
 	const plugins = [];
 
+	plugins.push("react-native-worklets-core/plugin");
 	plugins.push("react-native-reanimated/plugin");
 
 	return {

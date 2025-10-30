@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
-
-import { ConfigProvider } from "@/contexts/config";
+import type React from "react";
 import { Providers } from "@/components/providers";
+import { ConfigProvider } from "@/contexts/config";
 import "@/styles/app.css";
 
 export const metadata: Metadata = {
@@ -22,7 +21,11 @@ export const metadata: Metadata = {
 	},
 };
 
-export default function RootLayout({ children }: { children: ReactNode }) {
+export default function RootLayout({
+	children,
+}: {
+	children: React.ReactNode;
+}) {
 	return (
 		<html lang="en" suppressHydrationWarning className="group/html">
 			<head>
