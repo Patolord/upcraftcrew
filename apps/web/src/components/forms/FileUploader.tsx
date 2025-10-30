@@ -3,8 +3,8 @@
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.min.css";
 import "filepond/dist/filepond.css";
-import { FilePond, registerPlugin } from "react-filepond";
 import type { FilePondServerConfigProps } from "filepond";
+import { FilePond, registerPlugin } from "react-filepond";
 
 registerPlugin(FilePondPluginImagePreview);
 
@@ -29,7 +29,12 @@ export const FileUploader = ({
 					? server
 					: {
 							...server,
-							process: (_: unknown, __: unknown, ___: unknown, load: (arg: { message: string }) => void) => load({ message: "done" }),
+							process: (
+								_: unknown,
+								__: unknown,
+								___: unknown,
+								load: (arg: { message: string }) => void,
+							) => load({ message: "done" }),
 						}
 			}
 		/>
