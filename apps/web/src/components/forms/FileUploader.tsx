@@ -12,8 +12,9 @@ export const FileUploader = ({
 	server,
 	...others
 }: FilePondProps) => {
+	const FilePondComponent = FilePond as any;
 	return (
-		<FilePond
+		<FilePondComponent
 			credits={credits}
 			{...others}
 			server={
@@ -21,7 +22,12 @@ export const FileUploader = ({
 					? server
 					: {
 							...server,
-							process: (_, __, ___, load) => load({ message: "done" }),
+							process: (
+								_: any,
+								__: any,
+								___: any,
+								load: (result: any) => void,
+							) => load({ message: "done" }),
 						}
 			}
 		/>
