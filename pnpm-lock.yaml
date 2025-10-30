@@ -56,6 +56,9 @@ importers:
       flatpickr:
         specifier: ^4.6.13
         version: 4.6.13
+      gsap:
+        specifier: ^3.13.0
+        version: 3.13.0
       lucide-react:
         specifier: ^0.541.0
         version: 0.541.0(react@19.1.1)
@@ -98,6 +101,9 @@ importers:
       sortablejs:
         specifier: ^1.15.6
         version: 1.15.6
+      split-type:
+        specifier: ^0.3.4
+        version: 0.3.4
       swiper:
         specifier: ^11.2.10
         version: 11.2.10
@@ -1616,6 +1622,9 @@ packages:
   graceful-fs@4.2.11:
     resolution: {integrity: sha512-RbJ5/jmFcNNCcDV5o9eTnBLJ/HszWV0P73bc+Ff4nS/rJj+YaS6IGyiOL0VoBYX+l1Wrl3k63h/KrH+nhJ0XvQ==}
 
+  gsap@3.13.0:
+    resolution: {integrity: sha512-QL7MJ2WMjm1PHWsoFrAQH/J8wUeqZvMtHO58qdekHpCfhvhSL4gSiz6vJf5EeMP0LOn3ZCprL2ki/gjED8ghVw==}
+
   is-arrayish@0.3.2:
     resolution: {integrity: sha512-eVRqCvVlZbuw3GrM63ovNSNAeA1K16kaR/LRY/92w0zxQ5/1YzwblUX652i4Xs9RwAGjW9d9y6X88t8OaAJfWQ==}
 
@@ -1949,6 +1958,9 @@ packages:
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
     engines: {node: '>=0.10.0'}
+
+  split-type@0.3.4:
+    resolution: {integrity: sha512-otEk9vnD8qwfLsk3Lx0gz+qRkNIJCx0mlyL47ImP/DjMuV39d75Lpfwjn9fHteDRz0aoOblSzQjSNT9+Sswxcg==}
 
   styled-jsx@5.1.6:
     resolution: {integrity: sha512-qSVyDTeMotdvQYoHWLNGwRFJHC+i+ZvdBRYosOFgC+Wg1vx4frN2/RG/NA7SYqqvKNLf39P2LSRA2pu6n0XYZA==}
@@ -3417,6 +3429,8 @@ snapshots:
 
   graceful-fs@4.2.11: {}
 
+  gsap@3.13.0: {}
+
   is-arrayish@0.3.2:
     optional: true
 
@@ -3786,6 +3800,8 @@ snapshots:
   sortablejs@1.15.6: {}
 
   source-map-js@1.2.1: {}
+
+  split-type@0.3.4: {}
 
   styled-jsx@5.1.6(react@19.1.1):
     dependencies:
