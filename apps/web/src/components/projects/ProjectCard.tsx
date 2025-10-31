@@ -1,7 +1,7 @@
+import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 import type { Project } from "@/types/project";
-import Link from "next/link";
 
 const statusConfig = {
 	planning: {
@@ -115,21 +115,31 @@ export function ProjectCard({ project }: { project: Project }) {
 				</div>
 
 				{/* Team Avatars */}
-				{project.team.length > 0 && (
+				{project.team && project.team.length > 0 && (
 					<div className="mt-4">
 						<div className="flex items-center justify-between">
 							<div className="avatar-group -space-x-4">
 								{project.team.slice(0, 4).map((member) => (
-									<div key={member.id} className="avatar border-2 border-base-100">
+									<div
+										key={member._id || member.name}
+										className="avatar border-2 border-base-100"
+									>
 										<div className="w-8">
-											<Image src={member.avatar} alt={member.name} width={28} height={28} />
+											<Image
+												src={member.avatar || "/default-avatar.png"}
+												alt={member.name}
+												width={28}
+												height={28}
+											/>
 										</div>
 									</div>
 								))}
 								{project.team.length > 4 && (
 									<div className="avatar placeholder border-2 border-base-100">
 										<div className="w-8 bg-base-300">
-											<span className="text-xs">+{project.team.length - 4}</span>
+											<span className="text-xs">
+												+{project.team.length - 4}
+											</span>
 										</div>
 									</div>
 								)}
@@ -146,10 +156,7 @@ export function ProjectCard({ project }: { project: Project }) {
 				{project.tags && project.tags.length > 0 && (
 					<div className="flex flex-wrap gap-1 mt-3">
 						{project.tags.slice(0, 3).map((tag) => (
-							<span
-								key={tag}
-								className="badge badge-sm badge-ghost text-xs"
-							>
+							<span key={tag} className="badge badge-sm badge-ghost text-xs">
 								{tag}
 							</span>
 						))}

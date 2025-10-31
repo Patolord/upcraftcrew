@@ -69,10 +69,7 @@ export function KanbanCard({ project }: KanbanCardProps) {
 				{project.tags && project.tags.length > 0 && (
 					<div className="flex flex-wrap gap-1 mt-2">
 						{project.tags.slice(0, 2).map((tag) => (
-							<span
-								key={tag}
-								className="badge badge-xs badge-ghost"
-							>
+							<span key={tag} className="badge badge-xs badge-ghost">
 								{tag}
 							</span>
 						))}
@@ -87,19 +84,29 @@ export function KanbanCard({ project }: KanbanCardProps) {
 				{/* Footer */}
 				<div className="flex items-center justify-between mt-3 pt-3 border-t border-base-300">
 					{/* Team Avatars */}
-					{project.team.length > 0 && (
+					{project.team && project.team.length > 0 && (
 						<div className="avatar-group -space-x-3">
 							{project.team.slice(0, 3).map((member) => (
-								<div key={member.id} className="avatar border-2 border-base-100">
+								<div
+									key={member._id || member.name}
+									className="avatar border-2 border-base-100"
+								>
 									<div className="w-6">
-										<Image src={member.avatar} alt={member.name} width={24} height={24} />
+										<Image
+											src={member.avatar || "/default-avatar.png"}
+											alt={member.name}
+											width={24}
+											height={24}
+										/>
 									</div>
 								</div>
 							))}
 							{project.team.length > 3 && (
 								<div className="avatar placeholder border-2 border-base-100">
 									<div className="w-6 bg-base-300">
-										<span className="text-[9px]">+{project.team.length - 3}</span>
+										<span className="text-[9px]">
+											+{project.team.length - 3}
+										</span>
 									</div>
 								</div>
 							)}

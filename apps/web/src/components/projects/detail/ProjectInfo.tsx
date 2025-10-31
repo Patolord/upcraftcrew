@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { api } from "@workspace/backend/_generated/api";
 import { useMutation } from "convex/react";
 import { useRouter } from "next/navigation";
-import { api } from "@workspace/backend/_generated/api";
+import { useId, useState } from "react";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
-import { toast } from "sonner";
-import type { ProjectStatus, ProjectPriority } from "@/types/project";
+import type {
+	Project,
+	ProjectPriority,
+	ProjectStatus,
+	TeamMember,
+} from "@/types/project";
 
 interface ProjectInfoProps {
-	project: any;
+	project: Project;
 }
 
 const statusConfig = {
@@ -30,37 +35,70 @@ const priorityConfig = {
 
 export function ProjectInfo({ project }: ProjectInfoProps) {
 	const router = useRouter();
+	const fileUploadId = useId();
+	const nameId = useId();
+	const clientId = useId();
+	const descriptionId = useId();
+	const statusId = useId();
+	const priorityId = useId();
+	const startDateId = useId();
+	const endDateId = useId();
+	const progressId = useId();
+	const budgetTotalId = useId();
+	const budgetSpentId = useId();
+	const tagsId = useId();
+	const notesId = useId();
 	const [isEditing, setIsEditing] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [isDeleting, setIsDeleting] = useState(false);
 	const updateProject = useMutation(api.projects.updateProject);
 	const deleteProject = useMutation(api.projects.deleteProject);
 
+	const projectId = (project._id || project.id) as string | undefined;
+	const statusKey = project.status as keyof typeof statusConfig;
+	const statusDisplay = statusConfig[statusKey];
+	const priorityKey = project.priority as keyof typeof priorityConfig;
+	const priorityDisplay = priorityConfig[priorityKey];
+
 	const [formData, setFormData] = useState({
 		name: project.name,
-		client: project.client,
+		client: project.client || "",
 		description: project.description,
 		status: project.status as ProjectStatus,
 		priority: project.priority as ProjectPriority,
 		startDate: new Date(project.startDate).toISOString().split("T")[0],
-		endDate: new Date(project.endDate).toISOString().split("T")[0],
+		endDate: project.endDate
+			? new Date(project.endDate).toISOString().split("T")[0]
+			: "",
 		progress: project.progress,
-		budgetTotal: project.budget.total,
-		budgetSpent: project.budget.spent,
-		tags: project.tags.join(", "),
+		budgetTotal: project.budget?.total || 0,
+		budgetSpent: project.budget?.spent || 0,
+		tags: (project.tags || []).join(", "),
 		notes: project.notes || "",
 	});
 
-	const [files, setFiles] = useState<Array<{ name: string; url: string; size: number; uploadedAt: number }>>(
-		project.files || []
+	const [files, setFiles] = useState<
+		Array<{
+			id?: string;
+			name: string;
+			url: string;
+			size: number;
+			uploadedAt: number;
+		}>
+	>(
+		project.files?.map((f) => ({
+			...f,
+			id: f.id || `${f.uploadedAt}-${f.name}`,
+		})) || [],
 	);
 	const [uploadingFile, setUploadingFile] = useState(false);
 
 	const handleSave = async () => {
 		setIsSubmitting(true);
 		try {
+			if (!projectId) return;
 			await updateProject({
-				id: project._id,
+				id: projectId as string as any,
 				name: formData.name,
 				client: formData.client,
 				description: formData.description,
@@ -76,8 +114,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 				},
 				tags: formData.tags
 					.split(",")
-					.map((tag) => tag.trim())
-					.filter((tag) => tag.length > 0),
+					.map((tag: string) => tag.trim())
+					.filter((tag: string) => tag.length > 0),
 				notes: formData.notes,
 				files: files,
 			});
@@ -95,19 +133,26 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 	const handleCancel = () => {
 		setFormData({
 			name: project.name,
-			client: project.client,
+			client: project.client || "",
 			description: project.description,
 			status: project.status,
 			priority: project.priority,
 			startDate: new Date(project.startDate).toISOString().split("T")[0],
-			endDate: new Date(project.endDate).toISOString().split("T")[0],
+			endDate: project.endDate
+				? new Date(project.endDate).toISOString().split("T")[0]
+				: "",
 			progress: project.progress,
-			budgetTotal: project.budget.total,
-			budgetSpent: project.budget.spent,
-			tags: project.tags.join(", "),
+			budgetTotal: project.budget?.total || 0,
+			budgetSpent: project.budget?.spent || 0,
+			tags: (project.tags || []).join(", "),
 			notes: project.notes || "",
 		});
-		setFiles(project.files || []);
+		setFiles(
+			project.files?.map((f) => ({
+				...f,
+				id: f.id || `${f.uploadedAt}-${f.name}`,
+			})) || [],
+		);
 		setIsEditing(false);
 	};
 
@@ -119,6 +164,7 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 		try {
 			// Simulate file upload (in production, upload to storage service)
 			const fileData = {
+				id: `${Date.now()}-${file.name}`,
 				name: file.name,
 				url: URL.createObjectURL(file), // In production, this would be the actual URL from storage
 				size: file.size,
@@ -136,8 +182,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 		}
 	};
 
-	const handleRemoveFile = (index: number) => {
-		const newFiles = files.filter((_, i) => i !== index);
+	const handleRemoveFile = (fileId: string) => {
+		const newFiles = files.filter((f) => f.id !== fileId);
 		setFiles(newFiles);
 		toast.success("Arquivo removido!");
 	};
@@ -147,17 +193,22 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 		const k = 1024;
 		const sizes = ["Bytes", "KB", "MB", "GB"];
 		const i = Math.floor(Math.log(bytes) / Math.log(k));
-		return Math.round(bytes / Math.pow(k, i) * 100) / 100 + " " + sizes[i];
+		return Math.round((bytes / k ** i) * 100) / 100 + " " + sizes[i];
 	};
 
 	const handleDelete = async () => {
-		if (!confirm("Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.")) {
+		if (
+			!confirm(
+				"Tem certeza que deseja excluir este projeto? Esta ação não pode ser desfeita.",
+			)
+		) {
 			return;
 		}
 
 		setIsDeleting(true);
 		try {
-			await deleteProject({ id: project._id });
+			if (!projectId) return;
+			await deleteProject({ id: projectId as string as any });
 			toast.success("Projeto excluído com sucesso!");
 			router.push("/projects");
 		} catch (error) {
@@ -192,7 +243,10 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 				<div className="flex gap-2">
 					{!isEditing ? (
-						<Button className="btn btn-primary" onClick={() => setIsEditing(true)}>
+						<Button
+							className="btn btn-primary"
+							onClick={() => setIsEditing(true)}
+						>
 							<span className="iconify lucide--pencil size-4" />
 							Editar
 						</Button>
@@ -235,15 +289,20 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
 						{/* Name */}
 						<div className="form-control">
-							<label className="label">
-								<span className="label-text font-semibold">Nome do Projeto</span>
+							<label className="label" htmlFor={nameId}>
+								<span className="label-text font-semibold">
+									Nome do Projeto
+								</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="text"
+									id={nameId}
 									className="input input-bordered"
 									value={formData.name}
-									onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, name: e.target.value })
+									}
 								/>
 							) : (
 								<p className="text-base-content">{project.name}</p>
@@ -252,15 +311,18 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Client */}
 						<div className="form-control">
-							<label className="label">
+							<label className="label" htmlFor={clientId}>
 								<span className="label-text font-semibold">Cliente</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="text"
+									id={clientId}
 									className="input input-bordered"
 									value={formData.client}
-									onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, client: e.target.value })
+									}
 								/>
 							) : (
 								<p className="text-base-content">{project.client}</p>
@@ -269,11 +331,12 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Description - Full width */}
 						<div className="form-control md:col-span-2">
-							<label className="label">
+							<label className="label" htmlFor={descriptionId}>
 								<span className="label-text font-semibold">Descrição</span>
 							</label>
 							{isEditing ? (
 								<textarea
+									id={descriptionId}
 									className="textarea textarea-bordered h-24"
 									value={formData.description}
 									onChange={(e) =>
@@ -287,15 +350,19 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Status */}
 						<div className="form-control">
-							<label className="label">
+							<label className="label" htmlFor={statusId}>
 								<span className="label-text font-semibold">Status</span>
 							</label>
 							{isEditing ? (
 								<select
+									id={statusId}
 									className="select select-bordered"
 									value={formData.status}
 									onChange={(e) =>
-										setFormData({ ...formData, status: e.target.value as ProjectStatus })
+										setFormData({
+											...formData,
+											status: e.target.value as ProjectStatus,
+										})
 									}
 								>
 									<option value="planning">Planning</option>
@@ -305,19 +372,20 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="cancelled">Cancelled</option>
 								</select>
 							) : (
-								<span className={`badge ${statusConfig[project.status].color}`}>
-									{statusConfig[project.status].label}
+								<span className={`badge ${statusDisplay.color}`}>
+									{statusDisplay.label}
 								</span>
 							)}
 						</div>
 
 						{/* Priority */}
 						<div className="form-control">
-							<label className="label">
+							<label className="label" htmlFor={priorityId}>
 								<span className="label-text font-semibold">Prioridade</span>
 							</label>
 							{isEditing ? (
 								<select
+									id={priorityId}
 									className="select select-bordered"
 									value={formData.priority}
 									onChange={(e) =>
@@ -333,20 +401,21 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="urgent">Urgent</option>
 								</select>
 							) : (
-								<span className={`badge ${priorityConfig[project.priority].color}`}>
-									{priorityConfig[project.priority].label}
+								<span className={`badge ${priorityDisplay.color}`}>
+									{priorityDisplay.label}
 								</span>
 							)}
 						</div>
 
 						{/* Start Date */}
 						<div className="form-control">
-							<label className="label">
+							<label className="label" htmlFor={startDateId}>
 								<span className="label-text font-semibold">Data de Início</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="date"
+									id={startDateId}
 									className="input input-bordered"
 									value={formData.startDate}
 									onChange={(e) =>
@@ -362,26 +431,33 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* End Date */}
 						<div className="form-control">
-							<label className="label">
-								<span className="label-text font-semibold">Data de Término</span>
+							<label className="label" htmlFor={endDateId}>
+								<span className="label-text font-semibold">
+									Data de Término
+								</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="date"
+									id={endDateId}
 									className="input input-bordered"
 									value={formData.endDate}
-									onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, endDate: e.target.value })
+									}
 								/>
-							) : (
+							) : project.endDate ? (
 								<p className="text-base-content">
 									{new Date(project.endDate).toLocaleDateString("pt-BR")}
 								</p>
+							) : (
+								<p className="text-base-content/60">Não definido</p>
 							)}
 						</div>
 
 						{/* Progress */}
 						<div className="form-control md:col-span-2">
-							<label className="label">
+							<label className="label" htmlFor={progressId}>
 								<span className="label-text font-semibold">
 									Progresso: {isEditing ? formData.progress : project.progress}%
 								</span>
@@ -389,13 +465,17 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 							{isEditing ? (
 								<input
 									type="range"
+									id={progressId}
 									className="range range-primary"
 									min="0"
 									max="100"
 									step="5"
 									value={formData.progress}
 									onChange={(e) =>
-										setFormData({ ...formData, progress: Number(e.target.value) })
+										setFormData({
+											...formData,
+											progress: Number(e.target.value),
+										})
 									}
 								/>
 							) : (
@@ -409,62 +489,81 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Budget Total */}
 						<div className="form-control">
-							<label className="label">
-								<span className="label-text font-semibold">Orçamento Total</span>
+							<label className="label" htmlFor={budgetTotalId}>
+								<span className="label-text font-semibold">
+									Orçamento Total
+								</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="number"
+									id={budgetTotalId}
 									className="input input-bordered"
 									value={formData.budgetTotal}
 									onChange={(e) =>
-										setFormData({ ...formData, budgetTotal: Number(e.target.value) })
+										setFormData({
+											...formData,
+											budgetTotal: Number(e.target.value),
+										})
 									}
 									min="0"
 								/>
-							) : (
+							) : project.budget ? (
 								<p className="text-base-content">
 									${project.budget.total.toLocaleString()}
 								</p>
+							) : (
+								<p className="text-base-content/60">Não definido</p>
 							)}
 						</div>
 
 						{/* Budget Spent */}
 						<div className="form-control">
-							<label className="label">
-								<span className="label-text font-semibold">Orçamento Gasto</span>
+							<label className="label" htmlFor={budgetSpentId}>
+								<span className="label-text font-semibold">
+									Orçamento Gasto
+								</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="number"
+									id={budgetSpentId}
 									className="input input-bordered"
 									value={formData.budgetSpent}
 									onChange={(e) =>
-										setFormData({ ...formData, budgetSpent: Number(e.target.value) })
+										setFormData({
+											...formData,
+											budgetSpent: Number(e.target.value),
+										})
 									}
 									min="0"
 								/>
-							) : (
+							) : project.budget ? (
 								<p className="text-base-content">
 									${project.budget.spent.toLocaleString()}
 								</p>
+							) : (
+								<p className="text-base-content/60">Não definido</p>
 							)}
 						</div>
 
 						{/* Tags */}
 						<div className="form-control md:col-span-2">
-							<label className="label">
+							<label className="label" htmlFor={tagsId}>
 								<span className="label-text font-semibold">Tags</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="text"
+									id={tagsId}
 									className="input input-bordered"
 									placeholder="design, development, urgent (separadas por vírgula)"
 									value={formData.tags}
-									onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
+									onChange={(e) =>
+										setFormData({ ...formData, tags: e.target.value })
+									}
 								/>
-							) : (
+							) : project.tags && project.tags.length > 0 ? (
 								<div className="flex flex-wrap gap-2">
 									{project.tags.map((tag: string) => (
 										<span key={tag} className="badge badge-ghost">
@@ -472,6 +571,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 										</span>
 									))}
 								</div>
+							) : (
+								<p className="text-base-content/60">Nenhuma tag</p>
 							)}
 						</div>
 					</div>
@@ -482,13 +583,13 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 			<div className="card bg-base-100 border border-base-300">
 				<div className="card-body">
 					<h2 className="card-title text-lg mb-4">Equipe do Projeto</h2>
-					{project.team.length === 0 ? (
+					{!project.team || project.team.length === 0 ? (
 						<p className="text-base-content/60">Nenhum membro adicionado</p>
 					) : (
 						<div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-							{project.team.map((member: any) => (
+							{project.team.map((member: TeamMember) => (
 								<div
-									key={member._id}
+									key={member._id || member.name}
 									className="flex items-center gap-3 p-3 border border-base-300 rounded-lg"
 								>
 									<div className="avatar">
@@ -503,7 +604,9 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									</div>
 									<div>
 										<p className="font-medium">{member.name}</p>
-										<p className="text-xs text-base-content/60">{member.role}</p>
+										<p className="text-xs text-base-content/60">
+											{member.role}
+										</p>
 									</div>
 								</div>
 							))}
@@ -518,10 +621,13 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 					<h2 className="card-title text-lg mb-4">Notas</h2>
 					{isEditing ? (
 						<textarea
+							id={notesId}
 							className="textarea textarea-bordered h-32"
 							placeholder="Adicione notas sobre o projeto..."
 							value={formData.notes}
-							onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
+							onChange={(e) =>
+								setFormData({ ...formData, notes: e.target.value })
+							}
 						/>
 					) : (
 						<div className="text-base-content">
@@ -544,13 +650,13 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 							<div className="relative">
 								<input
 									type="file"
-									id="file-upload"
+									id={fileUploadId}
 									className="hidden"
 									onChange={handleFileUpload}
 									disabled={uploadingFile}
 								/>
 								<label
-									htmlFor="file-upload"
+									htmlFor={fileUploadId}
 									className="btn btn-sm btn-primary cursor-pointer"
 								>
 									{uploadingFile ? (
@@ -573,9 +679,9 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 						<p className="text-base-content/60">Nenhum arquivo adicionado</p>
 					) : (
 						<div className="space-y-2">
-							{files.map((file, index) => (
+							{files.map((file) => (
 								<div
-									key={index}
+									key={file.id || file.name}
 									className="flex items-center justify-between p-3 border border-base-300 rounded-lg"
 								>
 									<div className="flex items-center gap-3">
@@ -598,7 +704,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 										</a>
 										{isEditing && (
 											<button
-												onClick={() => handleRemoveFile(index)}
+												type="button"
+												onClick={() => handleRemoveFile(file.id || file.name)}
 												className="btn btn-ghost btn-sm text-error"
 											>
 												<span className="iconify lucide--trash-2 size-4" />
