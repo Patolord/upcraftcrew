@@ -9,6 +9,10 @@ import { FilePond, registerPlugin } from "react-filepond";
 registerPlugin(FilePondPluginImagePreview);
 
 interface FileUploaderProps {
+	/**
+	 * When `true`, show the default FilePond credits.
+	 * When `false`, hide the credits (FilePond only accepts `false` explicitly).
+	 */
 	credits?: boolean;
 	server?: string | FilePondServerConfigProps;
 	[key: string]: unknown;
@@ -19,10 +23,11 @@ export const FileUploader = ({
 	server,
 	...others
 }: FileUploaderProps) => {
+	const pondCredits: false | undefined = credits ? undefined : false;
+
 	return (
-		// @ts-expect-error - FilePond React wrapper has type compatibility issues with React 19
 		<FilePond
-			credits={credits}
+			credits={pondCredits}
 			{...others}
 			server={
 				typeof server === "string"
