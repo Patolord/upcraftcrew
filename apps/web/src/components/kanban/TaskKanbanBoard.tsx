@@ -1,12 +1,12 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { useMutation } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
+import type { Id } from "@workspace/backend/_generated/dataModel";
+import { useMutation } from "convex/react";
+import { useEffect, useRef } from "react";
+import { toast } from "sonner";
 import Sortable from "sortablejs";
 import { TaskCard } from "./TaskCard";
-import { toast } from "sonner";
-import type { Id } from "@workspace/backend/_generated/dataModel";
 
 type TaskStatus = "todo" | "in-progress" | "review" | "done" | "blocked";
 
@@ -17,14 +17,14 @@ interface Task {
 	status: TaskStatus;
 	priority: "low" | "medium" | "high" | "urgent";
 	assignedUser?: {
-		_id: string;
+		_id: Id<"users">;
 		name: string;
 		avatar?: string;
-	};
+	} | null;
 	project?: {
-		_id: string;
+		_id: Id<"projects">;
 		name: string;
-	};
+	} | null;
 	dueDate?: number;
 	tags: string[];
 }
@@ -47,7 +47,9 @@ export function TaskKanbanBoard({ columns }: TaskKanbanBoardProps) {
 		if (!boardRef.current) return;
 
 		// Initialize drag and drop for columns
-		const columnElements = boardRef.current.querySelectorAll(".kanban-column-content");
+		const columnElements = boardRef.current.querySelectorAll(
+			".kanban-column-content",
+		);
 		const sortables: Sortable[] = [];
 
 		columnElements.forEach((columnElement) => {
@@ -86,24 +88,26 @@ export function TaskKanbanBoard({ columns }: TaskKanbanBoardProps) {
 		});
 
 		return () => {
-			sortables.forEach((s) => s.destroy());
+			sortables.forEach((s) => {
+				s.destroy();
+			});
 		};
-	}, [columns, updateTaskStatus]);
+	}, [updateTaskStatus]);
 
 	const statusColors: Record<TaskStatus, string> = {
-		"todo": "border-info",
+		todo: "border-info",
 		"in-progress": "border-primary",
-		"review": "border-warning",
-		"done": "border-success",
-		"blocked": "border-error",
+		review: "border-warning",
+		done: "border-success",
+		blocked: "border-error",
 	};
 
 	const statusBadgeColors: Record<TaskStatus, string> = {
-		"todo": "badge-info",
+		todo: "badge-info",
 		"in-progress": "badge-primary",
-		"review": "badge-warning",
-		"done": "badge-success",
-		"blocked": "badge-error",
+		review: "badge-warning",
+		done: "badge-success",
+		blocked: "badge-error",
 	};
 
 	return (
@@ -117,7 +121,9 @@ export function TaskKanbanBoard({ columns }: TaskKanbanBoardProps) {
 					<div className="p-4 border-b border-base-300">
 						<div className="flex items-center justify-between">
 							<h3 className="font-semibold text-lg">{column.title}</h3>
-							<span className={`badge ${statusBadgeColors[column.id]} badge-sm`}>
+							<span
+								className={`badge ${statusBadgeColors[column.id]} badge-sm`}
+							>
 								{column.tasks.length}
 							</span>
 						</div>
