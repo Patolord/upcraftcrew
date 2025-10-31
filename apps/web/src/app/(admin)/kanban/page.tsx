@@ -40,7 +40,10 @@ export default function KanbanPage() {
 
 		return statuses.map(status => ({
 			id: status,
-			title: status.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
+			title: status
+				.split("-")
+				.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" "),
 			projects: filteredProjects.filter(p => p.status === status)
 		}));
 	}, [filteredProjects]);
