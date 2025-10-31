@@ -2,7 +2,6 @@
 	"$schema": "https://biomejs.dev/schemas/2.2.0/schema.json",
 	"files": {
 		"ignoreUnknown": false,
-		"ignore": ["**/*.css"],
 		"includes": [
 			"**",
 			"!**/.next",
@@ -24,7 +23,20 @@
 			"!apps/web/src/app/components",
 			"!apps/web/src/app/landing",
 			"!apps/web/src/components",
-			"!apps/web/src"
+			"!apps/web/src",
+			"!**/_generated",
+			"!**/global.css"
 		]
+	},
+	"linter": {
+		"enabled": true,
+		"rules": {
+			"suspicious": {
+				"noArrayIndexKey": "warn"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
+			}
+		}
 	}
 }
