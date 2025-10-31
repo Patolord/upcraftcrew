@@ -1,23 +1,32 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
-import { Button } from "@/components/ui/button";
-import type { Transaction, TransactionCategory, TransactionType } from "@/types/finance";
-import { TransactionRow } from "@/components/finance/TransactionRow";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
 import { CategoryBreakdown } from "@/components/finance/CategoryBreakdown";
 import { FinancialSummaryCards } from "@/components/finance/FinancialSummaryCards";
-import { TransactionFilters } from "@/components/finance/TransactionFilters";
 import { QuickStats } from "@/components/finance/QuickStats";
+import { TransactionFilters } from "@/components/finance/TransactionFilters";
+import { TransactionRow } from "@/components/finance/TransactionRow";
 import { TransactionForm } from "@/components/forms/TransactionForm";
+import { Button } from "@/components/ui/button";
+import type {
+	Transaction,
+	TransactionCategory,
+	TransactionType,
+} from "@/types/finance";
 
 export default function FinancePage() {
 	const [typeFilter, setTypeFilter] = useState<TransactionType | "all">("all");
-	const [categoryFilter, setCategoryFilter] = useState<TransactionCategory | "all">("all");
-	const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
+	const [categoryFilter, setCategoryFilter] = useState<
+		TransactionCategory | "all"
+	>("all");
+	const [statusFilter, setStatusFilter] = useState<
+		"all" | "completed" | "pending"
+	>("all");
 	const [isFormOpen, setIsFormOpen] = useState(false);
-	const [selectedTransaction, setSelectedTransaction] = useState<Transaction | null>(null);
+	const [selectedTransaction, setSelectedTransaction] =
+		useState<Transaction | null>(null);
 
 	// Fetch data from Convex
 	const transactions = useQuery(api.finance.getTransactions);
@@ -47,7 +56,10 @@ export default function FinancePage() {
 			amount: t.amount,
 			type: t.type,
 			category: t.category as TransactionCategory,
-			status: (t.status === "failed" ? "cancelled" : t.status) as "pending" | "completed" | "cancelled",
+			status: (t.status === "failed" ? "cancelled" : t.status) as
+				| "pending"
+				| "completed"
+				| "cancelled",
 			date: new Date(t.date).toISOString(),
 			projectId: t.projectId,
 			projectName: "project" in t ? t.project?.name : undefined,
@@ -118,29 +130,31 @@ export default function FinancePage() {
 						Track income, expenses, and financial performance
 					</p>
 				</div>
-			<div className="flex gap-2">
-				<Button className="btn btn-ghost gap-2">
-					<span className="iconify lucide--download size-5" />
-					Export
-				</Button>
-				<Button
-					className="btn btn-primary gap-2"
-					onClick={() => {
-						setSelectedTransaction(null);
-						setIsFormOpen(true);
-					}}
-				>
-					<span className="iconify lucide--plus size-5" />
-					New Transaction
-				</Button>
-			</div>
+				<div className="flex gap-2">
+					<Button className="btn btn-ghost gap-2">
+						<span className="iconify lucide--download size-5" />
+						Export
+					</Button>
+					<Button
+						className="btn btn-primary gap-2"
+						onClick={() => {
+							setSelectedTransaction(null);
+							setIsFormOpen(true);
+						}}
+					>
+						<span className="iconify lucide--plus size-5" />
+						New Transaction
+					</Button>
+				</div>
 			</div>
 
 			{/* Financial Summary Cards */}
 			<FinancialSummaryCards
 				summary={summary}
 				totalTransactions={financialSummary.transactionCount}
-				pendingTransactions={transformedTransactions.filter((t) => t.status === "pending").length}
+				pendingTransactions={
+					transformedTransactions.filter((t) => t.status === "pending").length
+				}
 			/>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -199,10 +213,10 @@ export default function FinancePage() {
 				{/* Sidebar */}
 				<div className="space-y-4">
 					{/* Category Breakdown */}
-					<CategoryBreakdown transactions={transactions} />
+					<CategoryBreakdown transactions={transformedTransactions} />
 
 					{/* Quick Stats */}
-					<QuickStats transactions={transactions} />
+					<QuickStats transactions={transformedTransactions} />
 				</div>
 			</div>
 
@@ -210,7 +224,17 @@ export default function FinancePage() {
 			<TransactionForm
 				open={isFormOpen}
 				onOpenChange={setIsFormOpen}
-				transaction={selectedTransaction}
+				transaction={
+					selectedTransaction
+						? {
+								...selectedTransaction,
+								status:
+									selectedTransaction.status === "cancelled"
+										? "pending"
+										: selectedTransaction.status,
+							}
+						: undefined
+				}
 				mode={selectedTransaction ? "edit" : "create"}
 			/>
 		</div>
