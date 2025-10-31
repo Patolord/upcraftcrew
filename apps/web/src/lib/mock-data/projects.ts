@@ -18,19 +18,19 @@ export const mockProjects: Project[] = [
 		client: "Tech Corp",
 		team: [
 			{
-				id: "1",
+				_id: "1",
 				name: "Sarah Johnson",
 				avatar: "/images/avatars/1.png",
 				role: "Designer",
 			},
 			{
-				id: "2",
+				_id: "2",
 				name: "Mike Chen",
 				avatar: "/images/avatars/2.png",
 				role: "Developer",
 			},
 			{
-				id: "3",
+				_id: "3",
 				name: "Emma Wilson",
 				avatar: "/images/avatars/3.png",
 				role: "PM",
@@ -55,13 +55,13 @@ export const mockProjects: Project[] = [
 		client: "Retail Solutions Inc",
 		team: [
 			{
-				id: "4",
+				_id: "4",
 				name: "John Doe",
 				avatar: "/images/avatars/4.png",
 				role: "Mobile Dev",
 			},
 			{
-				id: "5",
+				_id: "5",
 				name: "Lisa Park",
 				avatar: "/images/avatars/5.png",
 				role: "UI Designer",
@@ -86,7 +86,7 @@ export const mockProjects: Project[] = [
 		client: "StartUp XYZ",
 		team: [
 			{
-				id: "1",
+				_id: "1",
 				name: "Sarah Johnson",
 				avatar: "/images/avatars/1.png",
 				role: "Designer",
@@ -110,13 +110,13 @@ export const mockProjects: Project[] = [
 		client: "Fashion Outlet",
 		team: [
 			{
-				id: "2",
+				_id: "2",
 				name: "Mike Chen",
 				avatar: "/images/avatars/2.png",
 				role: "Developer",
 			},
 			{
-				id: "6",
+				_id: "6",
 				name: "Alex Kumar",
 				avatar: "/images/avatars/6.png",
 				role: "Backend Dev",
@@ -140,7 +140,7 @@ export const mockProjects: Project[] = [
 		client: "Local Business",
 		team: [
 			{
-				id: "7",
+				_id: "7",
 				name: "Rachel Green",
 				avatar: "/images/avatars/7.png",
 				role: "Marketing",
@@ -164,19 +164,19 @@ export const mockProjects: Project[] = [
 		progress: 55,
 		team: [
 			{
-				id: "2",
+				_id: "2",
 				name: "Mike Chen",
 				avatar: "/images/avatars/2.png",
 				role: "Developer",
 			},
 			{
-				id: "6",
+				_id: "6",
 				name: "Alex Kumar",
 				avatar: "/images/avatars/6.png",
 				role: "Backend Dev",
 			},
 			{
-				id: "3",
+				_id: "3",
 				name: "Emma Wilson",
 				avatar: "/images/avatars/3.png",
 				role: "PM",
