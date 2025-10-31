@@ -1,15 +1,28 @@
-export type ProjectStatus = "planning" | "in-progress" | "on-hold" | "completed" | "cancelled";
+export type ProjectStatus =
+	| "planning"
+	| "in-progress"
+	| "on-hold"
+	| "completed"
+	| "cancelled";
 
 export type ProjectPriority = "low" | "medium" | "high" | "urgent";
 
+export type TeamMember = {
+	_id?: string;
+	name: string;
+	role: string;
+	avatar?: string;
+};
+
 export type Project = {
-	id: string;
+	id?: string;
+	_id?: string;
 	name: string;
 	description: string;
 	status: ProjectStatus;
 	priority: ProjectPriority;
-	startDate: string;
-	endDate?: string;
+	startDate: string | number;
+	endDate?: string | number;
 	budget?: {
 		total: number;
 		spent: number;
@@ -17,11 +30,14 @@ export type Project = {
 	};
 	progress: number; // 0-100
 	client?: string;
-	team: {
-		id: string;
-		name: string;
-		avatar: string;
-		role: string;
-	}[];
+	team?: TeamMember[];
 	tags?: string[];
+	notes?: string;
+	files?: Array<{
+		id?: string;
+		name: string;
+		url: string;
+		size: number;
+		uploadedAt: number;
+	}>;
 };
