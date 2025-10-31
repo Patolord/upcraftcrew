@@ -13,3 +13,19 @@ README.md
 **/public/worker-*.js
 **/public/worker-*.js.map
 **/public/fallback-*.js
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+expo-env.d.ts
+
+# Metro
+.cache/
