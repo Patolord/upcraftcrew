@@ -8,6 +8,11 @@ overrides:
   '@types/react': 19.0.10
   '@types/react-dom': 19.0.3
 
+patchedDependencies:
+  expo-modules-core@2.5.0:
+    hash: 6525b88281fbfe7d5785c0e812c5b88af9e9802aa250d078c99792c3426aefbf
+    path: patches/expo-modules-core@2.5.0.patch
+
 importers:
 
   .:
@@ -8185,7 +8190,7 @@ snapshots:
       require-from-string: 2.0.2
       resolve-from: 5.0.0
 
-  expo-modules-core@2.5.0:
+  expo-modules-core@2.5.0(patch_hash=6525b88281fbfe7d5785c0e812c5b88af9e9802aa250d078c99792c3426aefbf):
     dependencies:
       invariant: 2.2.4
 
@@ -8275,7 +8280,7 @@ snapshots:
       expo-font: 13.3.2(expo@53.0.23(@babel/core@7.28.5)(@expo/metro-runtime@5.0.5(react-native@0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0)))(react-native@0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0))(react@19.0.0))(react@19.0.0)
       expo-keep-awake: 14.1.4(expo@53.0.23(@babel/core@7.28.5)(@expo/metro-runtime@5.0.5(react-native@0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0)))(react-native@0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0))(react@19.0.0))(react@19.0.0)
       expo-modules-autolinking: 2.1.14
-      expo-modules-core: 2.5.0
+      expo-modules-core: 2.5.0(patch_hash=6525b88281fbfe7d5785c0e812c5b88af9e9802aa250d078c99792c3426aefbf)
       react: 19.0.0
       react-native: 0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0)
       react-native-edge-to-edge: 1.6.0(react-native@0.79.6(@babel/core@7.28.5)(@types/react@19.0.10)(react@19.0.0))(react@19.0.0)
