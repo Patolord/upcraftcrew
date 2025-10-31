@@ -1,19 +1,18 @@
 import { Image } from "@/components/ui/image";
-import type { Id } from "@workspace/backend/_generated/dataModel";
 
 interface Task {
-	_id: Id<"tasks">;
+	_id: string;
 	title: string;
 	description: string;
 	status: "todo" | "in-progress" | "review" | "done" | "blocked";
 	priority: "low" | "medium" | "high" | "urgent";
-	assignedUser?: {
-		_id: Id<"users">;
+	assignedUser: {
+		_id: string;
 		name: string;
 		avatar?: string;
 	} | null;
-	project?: {
-		_id: Id<"projects">;
+	project: {
+		_id: string;
 		name: string;
 	} | null;
 	dueDate?: number;

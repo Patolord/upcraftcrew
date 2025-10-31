@@ -1,10 +1,26 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-	darkMode: "class",
-	content: ["./app/**/*.{js,ts,tsx}", "./components/**/*.{js,ts,tsx}"],
+import type { Config } from "tailwindcss";
 
-	presets: [require("nativewind/preset")],
+const config: Config = {
+	darkMode: "class",
+	content: [
+		"./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
+		"./src/components/**/*.{js,ts,jsx,tsx,mdx}",
+		"./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+	],
 	theme: {
+		container: {
+			center: true,
+			padding: {
+				DEFAULT: "1rem",
+				sm: "2rem",
+				lg: "4rem",
+				xl: "5rem",
+				"2xl": "6rem",
+			},
+			screens: {
+				"2xl": "1400px",
+			},
+		},
 		extend: {
 			colors: {
 				border: "hsl(var(--border))",
@@ -42,7 +58,6 @@ module.exports = {
 				},
 			},
 			borderRadius: {
-				xl: "calc(var(--radius) + 4px)",
 				lg: "var(--radius)",
 				md: "calc(var(--radius) - 2px)",
 				sm: "calc(var(--radius) - 4px)",
@@ -50,15 +65,19 @@ module.exports = {
 			fontFamily: {
 				sans: [
 					"Inter",
+					"Geist",
+					"ui-sans-serif",
 					"system-ui",
-					"-apple-system",
-					"BlinkMacSystemFont",
-					"Segoe UI",
-					"Roboto",
 					"sans-serif",
+					"Apple Color Emoji",
+					"Segoe UI Emoji",
+					"Segoe UI Symbol",
+					"Noto Color Emoji",
 				],
 			},
 		},
 	},
 	plugins: [],
 };
+
+export default config;
