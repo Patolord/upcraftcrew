@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type React from "react";
 import { Providers } from "@/components/providers";
 import { ConfigProvider } from "@/contexts/config";
@@ -6,7 +6,8 @@ import "@/styles/app.css";
 
 export const metadata: Metadata = {
 	title: "UpCraftCrew",
-	description: "UpCraftCrew",
+	description: "UpCraftCrew - Plataforma de Gestão de Projetos",
+	manifest: "/manifest.json",
 	icons: {
 		icon: [
 			{
@@ -18,7 +19,23 @@ export const metadata: Metadata = {
 				media: "(prefers-color-scheme: dark)",
 			},
 		],
+		apple: [
+			{
+				url: "/icon-192.png",
+				sizes: "192x192",
+				type: "image/png",
+			},
+		],
 	},
+	appleWebApp: {
+		capable: true,
+		statusBarStyle: "default",
+		title: "UpCraftCrew",
+	},
+};
+
+export const viewport: Viewport = {
+	themeColor: "#3b82f6",
 };
 
 export default function RootLayout({
