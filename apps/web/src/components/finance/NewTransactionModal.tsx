@@ -21,9 +21,18 @@ const transactionSchema = z.object({
 	category: z.string().min(1, "Category is required"),
 	status: z.enum(["pending", "completed", "failed", "cancelled"]),
 	date: z.string().min(1, "Date is required"),
-	clientId: z.string().optional(),
-	projectId: z.string().optional(),
+	clientId: z.string(),
+	projectId: z.string(),
 });
+
+function formatErrorMessage(error: unknown) {
+	if (typeof error === "string") return error;
+	if (error && typeof error === "object" && "message" in error) {
+		const message = (error as { message?: unknown }).message;
+		if (typeof message === "string") return message;
+	}
+	return "Invalid value";
+}
 
 export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProps) {
 	const createTransaction = useMutation(api.finance.createTransaction);
@@ -120,7 +129,9 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 								/>
 								{field.state.meta.errors.length > 0 && (
 									<label className="label">
-										<span className="label-text-alt text-error">{field.state.meta.errors[0]}</span>
+									<span className="label-text-alt text-error">
+										{formatErrorMessage(field.state.meta.errors[0])}
+									</span>
 									</label>
 								)}
 							</div>
@@ -175,7 +186,9 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 									</div>
 									{field.state.meta.errors.length > 0 && (
 										<label className="label">
-											<span className="label-text-alt text-error">{field.state.meta.errors[0]}</span>
+									<span className="label-text-alt text-error">
+										{formatErrorMessage(field.state.meta.errors[0])}
+									</span>
 										</label>
 									)}
 								</div>
@@ -206,7 +219,9 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 								</select>
 								{field.state.meta.errors.length > 0 && (
 									<label className="label">
-										<span className="label-text-alt text-error">{field.state.meta.errors[0]}</span>
+								<span className="label-text-alt text-error">
+									{formatErrorMessage(field.state.meta.errors[0])}
+								</span>
 									</label>
 								)}
 							</div>
@@ -256,7 +271,9 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 									/>
 									{field.state.meta.errors.length > 0 && (
 										<label className="label">
-											<span className="label-text-alt text-error">{field.state.meta.errors[0]}</span>
+									<span className="label-text-alt text-error">
+										{formatErrorMessage(field.state.meta.errors[0])}
+									</span>
 										</label>
 									)}
 								</div>
@@ -276,8 +293,8 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 									type="text"
 									className="input input-bordered"
 									placeholder="Client or Vendor name"
-									value={field.state.value}
-									onChange={(e) => field.handleChange(e.target.value)}
+						value={field.state.value}
+						onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
 								/>
 							</div>
@@ -294,8 +311,8 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 								<select
 									id={`${formId}-project`}
 									className="select select-bordered"
-									value={field.state.value}
-									onChange={(e) => field.handleChange(e.target.value)}
+						value={field.state.value}
+						onChange={(e) => field.handleChange(e.target.value)}
 									onBlur={field.handleBlur}
 								>
 									<option value="">None</option>
