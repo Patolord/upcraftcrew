@@ -1,10 +1,10 @@
 "use client";
 
-import { useState, useMemo } from "react";
-import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
-import type { ProjectStatus } from "@/types/project";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
 import { adaptConvexProject } from "@/lib/utils/project-adapter";
+import type { ProjectStatus } from "@/types/project";
 import { KanbanBoard } from "../../../components/kanban/KanbanBoard";
 import { KanbanHeader } from "../../../components/kanban/KanbanHeader";
 
@@ -36,15 +36,21 @@ export default function KanbanPage() {
 
 	// Group projects by status
 	const columns = useMemo(() => {
-		const statuses: ProjectStatus[] = ["planning", "in-progress", "on-hold", "completed", "cancelled"];
+		const statuses: ProjectStatus[] = [
+			"planning",
+			"in-progress",
+			"on-hold",
+			"completed",
+			"cancelled",
+		];
 
-		return statuses.map(status => ({
+		return statuses.map((status) => ({
 			id: status,
 			title: status
 				.split("-")
-				.map(word => word.charAt(0).toUpperCase() + word.slice(1))
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
 				.join(" "),
-			projects: filteredProjects.filter(p => p.status === status)
+			projects: filteredProjects.filter((p) => p.status === status),
 		}));
 	}, [filteredProjects]);
 
@@ -52,7 +58,10 @@ export default function KanbanPage() {
 	if (convexProjects === undefined) {
 		return (
 			<div className="p-6 space-y-6">
-				<KanbanHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+				<KanbanHeader
+					searchQuery={searchQuery}
+					setSearchQuery={setSearchQuery}
+				/>
 				<div className="flex items-center justify-center py-12">
 					<span className="loading loading-spinner loading-lg" />
 				</div>
@@ -64,7 +73,10 @@ export default function KanbanPage() {
 	if (convexProjects === null) {
 		return (
 			<div className="p-6 space-y-6">
-				<KanbanHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+				<KanbanHeader
+					searchQuery={searchQuery}
+					setSearchQuery={setSearchQuery}
+				/>
 				<div className="alert alert-error">
 					<span className="iconify lucide--alert-circle size-5" />
 					<span>Failed to load projects. Please try again later.</span>
