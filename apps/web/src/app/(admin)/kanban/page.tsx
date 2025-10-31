@@ -40,8 +40,21 @@ export default function KanbanPage() {
 
 		return statuses.map(status => ({
 			id: status,
-			title: status.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' '),
-			projects: filteredProjects.filter(p => p.status === status)
+			title: statusTitles[status],
+			tasks: filteredTasks
+				.filter(t => t.status === status)
+				.map(task => ({
+					...task,
+					assignedUser: task.assignedUser ? {
+						_id: task.assignedUser._id,
+						name: task.assignedUser.name,
+						avatar: task.assignedUser.avatar
+					} : undefined,
+					project: task.project ? {
+						_id: task.project._id,
+						name: task.project.name
+					} : undefined
+				}))
 		}));
 	}, [filteredProjects]);
 
