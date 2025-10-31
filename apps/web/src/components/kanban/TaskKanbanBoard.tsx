@@ -16,13 +16,13 @@ interface Task {
 	description: string;
 	status: TaskStatus;
 	priority: "low" | "medium" | "high" | "urgent";
-	assignedUser: {
-		_id: string;
+	assignedUser?: {
+		_id: Id<"users">;
 		name: string;
 		avatar?: string;
 	} | null;
-	project: {
-		_id: string;
+	project?: {
+		_id: Id<"projects">;
 		name: string;
 	} | null;
 	dueDate?: number;
