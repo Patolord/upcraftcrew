@@ -6,15 +6,15 @@ interface Task {
 	description: string;
 	status: "todo" | "in-progress" | "review" | "done" | "blocked";
 	priority: "low" | "medium" | "high" | "urgent";
-	assignedUser?: {
+	assignedUser: {
 		_id: string;
 		name: string;
 		avatar?: string;
-	};
-	project?: {
+	} | null;
+	project: {
 		_id: string;
 		name: string;
-	};
+	} | null;
 	dueDate?: number;
 	tags: string[];
 }
