@@ -1,9 +1,9 @@
-/* eslint-disable @next/next/no-img-element */
 "use client";
 
 import gsap from "gsap";
 import { CustomEase } from "gsap/CustomEase";
 import { Flip } from "gsap/Flip";
+import Image from "next/image";
 import { useEffect, useRef } from "react";
 import SplitType from "split-type";
 
@@ -85,14 +85,20 @@ export default function Hero() {
 		mainTl
 			.add(revealerTl)
 			.add(scaleTl, "-=1.25")
-			.add(() => {
+			.call(() => {
+				// Remove non-main images
 				document.querySelectorAll(".img:not(.main)").forEach((img) => {
 					img.remove();
 				});
 
+				// Capture Flip state BEFORE changes
+				const state = Flip.getState(".main");
+
+				// Add stacked-container class
 				const imagesContainer = document.querySelector(".images");
 				imagesContainer?.classList.add("stacked-container");
 
+				// Add stacked class and order to main images
 				document.querySelectorAll(".main").forEach((img, i) => {
 					img.classList.add("stacked");
 					(img as HTMLElement).style.order = i.toString();
@@ -100,17 +106,17 @@ export default function Hero() {
 						clearProps: "transform,top,left",
 					});
 				});
-			})
-			.add(
-				Flip.from(Flip.getState(".main"), {
+
+				// Animate with Flip - call it directly
+				Flip.from(state, {
 					duration: 2,
 					ease: "hop",
 					absolute: true,
 					stagger: {
 						amount: -0.3,
 					},
-				}),
-			)
+				});
+			})
 			.to(".word h1, .nav-item p, .line p, .site-info h2 .line span", {
 				y: 0,
 				duration: 3,
@@ -140,59 +146,70 @@ export default function Hero() {
 			{/* Images */}
 			<div className="images absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full origin-center">
 				<div className="img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0 first:opacity-100">
-					<img
+					<Image
 						src="/hero-assets/img1.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 1"
+						fill
+						className="object-cover"
 					/>
 				</div>
 				<div className="img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img2.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 2"
+						fill
+						className="object-cover"
 					/>
 				</div>
 				<div className="img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img3.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 3"
+						fill
+						className="object-cover"
 					/>
 				</div>
 				<div className="img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img4.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 4"
+						fill
+						className="object-cover"
 					/>
 				</div>
 				<div className="img absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img5.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 5"
+						fill
+						className="object-cover"
 					/>
 				</div>
 				<div className="img main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img6.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 6"
+						fill
+						priority
+						className="object-cover pointer-events-none"
 					/>
 				</div>
 				<div className="img main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img7.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 7"
+						fill
+						priority
+						className="object-cover pointer-events-none"
 					/>
 				</div>
 				<div className="img main absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 scale-150 w-full h-full opacity-0">
-					<img
+					<Image
 						src="/hero-assets/img8.jpeg"
-						alt=""
-						className="w-full h-full object-cover"
+						alt="Hero image 8"
+						fill
+						priority
+						className="object-cover pointer-events-none"
 					/>
 				</div>
 			</div>
@@ -230,10 +247,11 @@ export default function Hero() {
 
 				{/* Team Image */}
 				<div className="team-img absolute right-8 bottom-8 w-[40%] h-1/2 [clip-path:polygon(0_100%,100%_100%,100%_100%,0%_100%)]">
-					<img
+					<Image
 						src="/hero-assets/img3.jpeg"
-						alt=""
-						className="w-full h-full object-cover saturate-0"
+						alt="Team image"
+						fill
+						className="object-cover saturate-0"
 					/>
 				</div>
 

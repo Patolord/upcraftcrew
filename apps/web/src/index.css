@@ -148,25 +148,36 @@ body {
 	font-style: normal;
 }
 
+.images {
+	will-change: transform;
+}
+
+.img {
+	visibility: visible;
+	will-change: transform;
+}
+
 .images.stacked-container {
-	position: fixed;
-	left: 2rem;
-	bottom: 2rem;
-	width: auto;
-	height: auto;
-	display: flex;
-	flex-direction: column-reverse;
-	align-items: flex-start;
-	gap: 1rem;
-	transform: none;
+	position: fixed !important;
+	left: 2em !important;
+	bottom: 2em !important;
+	width: auto !important;
+	height: auto !important;
+	display: flex !important;
+	flex-direction: column-reverse !important;
+	align-items: flex-start !important;
+	gap: 1em !important;
+	transform: none !important;
+	will-change: transform;
 }
 
 .img.stacked {
-	position: relative;
-	width: 150px;
-	height: 100px;
-	transform: none;
-	top: auto;
-	left: auto;
-	opacity: 1;
+	position: relative !important;
+	width: 150px !important;
+	height: 100px !important;
+	transform: none !important;
+	top: auto !important;
+	left: auto !important;
+	opacity: 1 !important;
+	will-change: transform;
 }
