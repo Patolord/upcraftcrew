@@ -2,9 +2,21 @@ import { Button } from "@/components/ui/button";
 import type { Transaction } from "@/types/finance";
 import { categoryConfig, statusConfig } from "@/app/(admin)/finance/config";
 
-export function TransactionRow({ transaction }: { transaction: Transaction }) {
-	const category = categoryConfig[transaction.category];
-	const status = statusConfig[transaction.status];
+export function TransactionRow({
+	transaction,
+	onEdit,
+}: {
+	transaction: Transaction;
+	onEdit?: (transaction: Transaction) => void;
+}) {
+	const category = categoryConfig[transaction.category] || {
+		label: transaction.category,
+		icon: "lucide--circle",
+	};
+	const status = statusConfig[transaction.status] || {
+		label: transaction.status,
+		color: "badge-ghost",
+	};
 	const isIncome = transaction.type === "income";
 
 	return (
@@ -73,11 +85,16 @@ export function TransactionRow({ transaction }: { transaction: Transaction }) {
 			</td>
 			<td>
 				<div className="flex items-center gap-1">
+					{onEdit && (
+						<Button
+							className="btn btn-ghost btn-xs"
+							onClick={() => onEdit(transaction)}
+						>
+							<span className="iconify lucide--pencil size-4" />
+						</Button>
+					)}
 					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--eye size-4" />
-					</Button>
-					<Button className="btn btn-ghost btn-xs">
-						<span className="iconify lucide--download size-4" />
 					</Button>
 					<Button className="btn btn-ghost btn-xs">
 						<span className="iconify lucide--more-horizontal size-4" />

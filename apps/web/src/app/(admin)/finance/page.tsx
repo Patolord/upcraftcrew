@@ -1,63 +1,124 @@
 "use client";
 
+import { api } from "@workspace/backend/_generated/api";
+import { useQuery } from "convex/react";
 import { useMemo, useState } from "react";
-import { Button } from "@/components/ui/button";
-import { mockTransactions } from "@/lib/mock-data/finance";
-import type { TransactionCategory, TransactionType } from "@/types/finance";
-import { TransactionRow } from "@/components/finance/TransactionRow";
 import { CategoryBreakdown } from "@/components/finance/CategoryBreakdown";
 import { FinancialSummaryCards } from "@/components/finance/FinancialSummaryCards";
-import { TransactionFilters } from "@/components/finance/TransactionFilters";
 import { QuickStats } from "@/components/finance/QuickStats";
-import { NewTransactionModal } from "@/components/finance/NewTransactionModal";
+import { TransactionFilters } from "@/components/finance/TransactionFilters";
+import { TransactionRow } from "@/components/finance/TransactionRow";
+import { TransactionForm } from "@/components/forms/TransactionForm";
+import { Button } from "@/components/ui/button";
+import type {
+	Transaction,
+	TransactionCategory,
+	TransactionType,
+} from "@/types/finance";
 
 export default function FinancePage() {
 	const [typeFilter, setTypeFilter] = useState<TransactionType | "all">("all");
-	const [categoryFilter, setCategoryFilter] = useState<TransactionCategory | "all">("all");
-	const [statusFilter, setStatusFilter] = useState<"all" | "completed" | "pending">("all");
-	const [isModalOpen, setIsModalOpen] = useState(false);
+	const [categoryFilter, setCategoryFilter] = useState<
+		TransactionCategory | "all"
+	>("all");
+	const [statusFilter, setStatusFilter] = useState<
+		"all" | "completed" | "pending"
+	>("all");
+	const [isFormOpen, setIsFormOpen] = useState(false);
+	const [selectedTransaction, setSelectedTransaction] =
+		useState<Transaction | null>(null);
 
-	// Calculate financial summary
+	// Fetch data from Convex
+	const transactions = useQuery(api.finance.getTransactions);
+	const financialSummary = useQuery(api.finance.getFinancialSummary);
+
+	// Calculate financial summary for the UI format
 	const summary = useMemo(() => {
-		const completed = mockTransactions.filter((t) => t.status === "completed");
-		const pending = mockTransactions.filter((t) => t.status === "pending");
-
-		const totalIncome = completed
-			.filter((t) => t.type === "income")
-			.reduce((sum, t) => sum + t.amount, 0);
-
-		const totalExpenses = completed
-			.filter((t) => t.type === "expense")
-			.reduce((sum, t) => sum + t.amount, 0);
-
-		const pendingIncome = pending
-			.filter((t) => t.type === "income")
-			.reduce((sum, t) => sum + t.amount, 0);
-
-		const pendingExpenses = pending
-			.filter((t) => t.type === "expense")
-			.reduce((sum, t) => sum + t.amount, 0);
+		if (!financialSummary) return null;
 
 		return {
-			totalIncome,
-			totalExpenses,
-			netProfit: totalIncome - totalExpenses,
-			pendingIncome,
-			pendingExpenses,
+			totalIncome: financialSummary.totalIncome,
+			totalExpenses: financialSummary.totalExpense,
+			netProfit: financialSummary.balance,
+			pendingIncome: financialSummary.pendingIncome,
+			pendingExpenses: financialSummary.pendingExpense,
 		};
-	}, []);
+	}, [financialSummary]);
+
+	// Transform transactions from Convex format to UI format
+	const transformedTransactions = useMemo(() => {
+		if (!transactions) return [];
+
+		return transactions.map((t) => ({
+			id: t._id,
+			title: t.description,
+			description: t.description,
+			amount: t.amount,
+			type: t.type,
+			category: t.category as TransactionCategory,
+			status: (t.status === "failed" ? "cancelled" : t.status) as
+				| "pending"
+				| "completed"
+				| "cancelled",
+			date: new Date(t.date).toISOString(),
+			projectId: t.projectId,
+			projectName: "project" in t ? t.project?.name : undefined,
+			client: t.clientId,
+		}));
+	}, [transactions]);
 
 	// Filter transactions
-	const filteredTransactions = mockTransactions.filter((transaction) => {
-		const matchesType =
-			typeFilter === "all" || transaction.type === typeFilter;
-		const matchesCategory =
-			categoryFilter === "all" || transaction.category === categoryFilter;
-		const matchesStatus =
-			statusFilter === "all" || transaction.status === statusFilter;
+	const filteredTransactions = useMemo(() => {
+		return transformedTransactions.filter((transaction) => {
+			const matchesType =
+				typeFilter === "all" || transaction.type === typeFilter;
+			const matchesCategory =
+				categoryFilter === "all" || transaction.category === categoryFilter;
+			const matchesStatus =
+				statusFilter === "all" || transaction.status === statusFilter;
 
-		return matchesType && matchesCategory && matchesStatus;
-	});
+			return matchesType && matchesCategory && matchesStatus;
+		});
+	}, [transformedTransactions, typeFilter, categoryFilter, statusFilter]);
+
+	// Loading state
+	if (transactions === undefined || financialSummary === undefined) {
+		return (
+			<div className="p-6 space-y-6">
+				<div className="flex items-center justify-between">
+					<div>
+						<h1 className="text-2xl font-bold">Finance</h1>
+						<p className="text-base-content/60 text-sm mt-1">
+							Track income, expenses, and financial performance
+						</p>
+					</div>
+				</div>
+				<div className="flex items-center justify-center py-12">
+					<span className="loading loading-spinner loading-lg" />
+				</div>
+			</div>
+		);
+	}
+
+	// Error state
+	if (!transactions || !summary) {
+		return (
+			<div className="p-6 space-y-6">
+				<div className="flex items-center justify-between">
+					<div>
+						<h1 className="text-2xl font-bold">Finance</h1>
+						<p className="text-base-content/60 text-sm mt-1">
+							Track income, expenses, and financial performance
+						</p>
+					</div>
+				</div>
+				<div className="alert alert-error">
+					<span className="iconify lucide--alert-circle size-5" />
+					<span>Failed to load financial data. Please try again.</span>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<div className="p-6 space-y-6">
@@ -74,7 +135,13 @@ export default function FinancePage() {
 						<span className="iconify lucide--download size-5" />
 						Export
 					</Button>
-					<Button className="btn btn-primary gap-2" onClick={() => setIsModalOpen(true)}>
+					<Button
+						className="btn btn-primary gap-2"
+						onClick={() => {
+							setSelectedTransaction(null);
+							setIsFormOpen(true);
+						}}
+					>
 						<span className="iconify lucide--plus size-5" />
 						New Transaction
 					</Button>
@@ -84,8 +151,10 @@ export default function FinancePage() {
 			{/* Financial Summary Cards */}
 			<FinancialSummaryCards
 				summary={summary}
-				totalTransactions={mockTransactions.length}
-				pendingTransactions={mockTransactions.filter((t) => t.status === "pending").length}
+				totalTransactions={financialSummary.transactionCount}
+				pendingTransactions={
+					transformedTransactions.filter((t) => t.status === "pending").length
+				}
 			/>
 
 			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
@@ -129,6 +198,10 @@ export default function FinancePage() {
 										<TransactionRow
 											key={transaction.id}
 											transaction={transaction}
+											onEdit={(t) => {
+												setSelectedTransaction(t);
+												setIsFormOpen(true);
+											}}
 										/>
 									))
 								)}
@@ -140,15 +213,30 @@ export default function FinancePage() {
 				{/* Sidebar */}
 				<div className="space-y-4">
 					{/* Category Breakdown */}
-					<CategoryBreakdown transactions={mockTransactions} />
+					<CategoryBreakdown transactions={transformedTransactions} />
 
 					{/* Quick Stats */}
-					<QuickStats transactions={mockTransactions} />
+					<QuickStats transactions={transformedTransactions} />
 				</div>
 			</div>
 
-			{/* New Transaction Modal */}
-			<NewTransactionModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+			{/* Transaction Form Modal */}
+			<TransactionForm
+				open={isFormOpen}
+				onOpenChange={setIsFormOpen}
+				transaction={
+					selectedTransaction
+						? {
+								...selectedTransaction,
+								status:
+									selectedTransaction.status === "cancelled"
+										? "pending"
+										: selectedTransaction.status,
+							}
+						: undefined
+				}
+				mode={selectedTransaction ? "edit" : "create"}
+			/>
 		</div>
 	);
 }
