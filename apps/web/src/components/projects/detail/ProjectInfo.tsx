@@ -55,10 +55,6 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 	const deleteProject = useMutation(api.projects.deleteProject);
 
 	const projectId = (project._id || project.id) as string | undefined;
-	const statusKey = project.status as keyof typeof statusConfig;
-	const statusDisplay = statusConfig[statusKey];
-	const priorityKey = project.priority as keyof typeof priorityConfig;
-	const priorityDisplay = priorityConfig[priorityKey];
 
 	const [formData, setFormData] = useState({
 		name: project.name,
@@ -372,8 +368,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="cancelled">Cancelled</option>
 								</select>
 							) : (
-								<span className={`badge ${statusDisplay.color}`}>
-									{statusDisplay.label}
+								<span className={`badge ${statusConfig[project.status].color}`}>
+									{statusConfig[project.status].label}
 								</span>
 							)}
 						</div>
@@ -401,8 +397,10 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="urgent">Urgent</option>
 								</select>
 							) : (
-								<span className={`badge ${priorityDisplay.color}`}>
-									{priorityDisplay.label}
+								<span
+									className={`badge ${priorityConfig[project.priority].color}`}
+								>
+									{priorityConfig[project.priority].label}
 								</span>
 							)}
 						</div>
