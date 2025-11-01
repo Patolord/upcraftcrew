@@ -4,3 +4,28 @@ node_modules
 README.md
 .DS_Store
 .vscode
+
+# PWA files
+**/public/sw.js
+**/public/sw.js.map
+**/public/workbox-*.js
+**/public/workbox-*.js.map
+**/public/worker-*.js
+**/public/worker-*.js.map
+**/public/fallback-*.js
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+expo-env.d.ts
+
+# Metro
+.cache/
