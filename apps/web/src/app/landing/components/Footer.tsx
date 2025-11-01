@@ -1,12 +1,13 @@
 import Link from "next/link";
-
+import { useId } from "react";
 import { Logo } from "@/components/Logo";
+import { Button } from "@/components/ui/button";
 
 export const Footer = () => {
 	return (
 		<div
 			className="group/section border-base-200 bg-neutral/1 scroll-mt-12 rounded-t-xl border-t pt-8 md:pt-12 lg:pt-16 2xl:pt-28"
-			id="contact"
+			id={`contact-${useId()}`}
 		>
 			<div className="container">
 				<div className="flex items-center justify-center gap-1.5">
@@ -35,7 +36,7 @@ export const Footer = () => {
 							Never spam!
 						</p>
 					</div>
-					<button className="btn btn-primary">Get Free Consultation</button>
+					<Button className="btn btn-primary">Get Free Consultation</Button>
 				</div>
 				<div className="mt-8 grid gap-6 md:mt-16 lg:grid-cols-2 xl:mt-24 2xl:mt-32">
 					<div className="col-span-1">
@@ -49,7 +50,7 @@ export const Footer = () => {
 								attention, skilled enough to deliver enterprise-grade results.
 							</p>
 							<div className="mt-6 flex items-center gap-3">
-								<button
+								<Button
 									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
 									aria-label="Google"
 								>
@@ -58,8 +59,8 @@ export const Footer = () => {
 										className="size-5 dark:invert"
 										alt="Google"
 									/>
-								</button>
-								<button
+								</Button>
+								<Button
 									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
 									aria-label="Apple"
 								>
@@ -68,8 +69,8 @@ export const Footer = () => {
 										className="size-5 dark:invert"
 										alt="Apple"
 									/>
-								</button>
-								<button
+								</Button>
+								<Button
 									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
 									aria-label="Github"
 								>
@@ -78,8 +79,8 @@ export const Footer = () => {
 										className="size-5 dark:invert"
 										alt="Github"
 									/>
-								</button>
-								<button
+								</Button>
+								<Button
 									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
 									aria-label="X"
 								>
@@ -88,7 +89,7 @@ export const Footer = () => {
 										className="size-4 dark:invert"
 										alt="X"
 									/>
-								</button>
+								</Button>
 							</div>
 						</div>
 					</div>

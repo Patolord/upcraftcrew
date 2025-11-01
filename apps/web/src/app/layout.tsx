@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import type React from "react";
 import { Providers } from "@/components/providers";
 import { ConfigProvider } from "@/contexts/config";
@@ -31,6 +31,10 @@ export const metadata: Metadata = {
 			{ url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
 		],
 	},
+};
+
+export const viewport: Viewport = {
+	themeColor: "#000000",
 };
 
 export default function RootLayout({

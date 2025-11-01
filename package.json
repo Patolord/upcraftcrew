@@ -15,10 +15,15 @@
 		"dev:server": "turbo -F @upcraftcrew-os/backend dev",
 		"dev:setup": "turbo -F @upcraftcrew-os/backend dev:setup"
 	},
-	"dependencies": {},
 	"devDependencies": {
-		"turbo": "^2.5.6",
-		"@biomejs/biome": "^2.2.0"
+		"@biomejs/biome": "^2.2.0",
+		"turbo": "^2.5.6"
+	},
+	"pnpm": {
+		"overrides": {
+			"@types/react": "19.0.10",
+			"@types/react-dom": "19.0.3"
+		}
 	},
 	"pnpm": {
 		"overrides": {

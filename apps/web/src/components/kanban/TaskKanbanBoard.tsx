@@ -16,15 +16,15 @@ interface Task {
 	description: string;
 	status: TaskStatus;
 	priority: "low" | "medium" | "high" | "urgent";
-	assignedUser?: {
+	assignedUser: {
 		_id: string;
 		name: string;
 		avatar?: string;
-	};
-	project?: {
+	} | null;
+	project: {
 		_id: string;
 		name: string;
-	};
+	} | null;
 	dueDate?: number;
 	tags: string[];
 }
@@ -86,9 +86,11 @@ export function TaskKanbanBoard({ columns }: TaskKanbanBoardProps) {
 		});
 
 		return () => {
-			sortables.forEach((s) => s.destroy());
+			sortables.forEach((s) => {
+				s.destroy();
+			});
 		};
-	}, [columns, updateTaskStatus]);
+	}, [updateTaskStatus]);
 
 	const statusColors: Record<TaskStatus, string> = {
 		"todo": "border-info",
