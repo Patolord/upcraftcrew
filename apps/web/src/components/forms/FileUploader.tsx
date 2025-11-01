@@ -26,6 +26,7 @@ export const FileUploader = ({
 	const pondCredits: false | undefined = credits ? undefined : false;
 
 	return (
+		// @ts-expect-error - FilePond types are incompatible with React 19
 		<FilePond
 			credits={pondCredits}
 			{...others}
