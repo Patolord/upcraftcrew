@@ -3,130 +3,92 @@
 import { api } from "@workspace/backend/_generated/api";
 import { useQuery } from "convex/react";
 import { useMemo, useState } from "react";
+import { adaptConvexProject } from "@/lib/utils/project-adapter";
+import type { ProjectStatus } from "@/types/project";
+import { KanbanBoard } from "../../../components/kanban/KanbanBoard";
 import { KanbanHeader } from "../../../components/kanban/KanbanHeader";
-import { NewTaskModal } from "../../../components/kanban/NewTaskModal";
-import { TaskKanbanBoard } from "../../../components/kanban/TaskKanbanBoard";
-
-type TaskStatus = "todo" | "in-progress" | "review" | "done" | "blocked";
 
 export default function KanbanPage() {
 	const [searchQuery, setSearchQuery] = useState("");
-	const [isModalOpen, setIsModalOpen] = useState(false);
 
-	// Fetch tasks from Convex
-	const tasks = useQuery(api.tasks.getTasks);
+	// Fetch projects from Convex
+	const convexProjects = useQuery(api.projects.getProjects);
 
-	// Filter tasks based on search
-	const filteredTasks = useMemo(() => {
-		if (!tasks) return [];
-		if (!searchQuery) return tasks;
+	// Transform Convex data to Project type
+	const projects = useMemo(() => {
+		if (!convexProjects) return [];
+		return convexProjects.map(adaptConvexProject);
+	}, [convexProjects]);
 
-		return tasks.filter((task) => {
+	// Filter projects based on search
+	const filteredProjects = useMemo(() => {
+		if (!searchQuery) return projects;
+
+		return projects.filter((project) => {
 			const matchesSearch =
-				task.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				task.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
-				task.tags.some((tag) =>
-					tag.toLowerCase().includes(searchQuery.toLowerCase()),
-				);
+				project.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
+				project.client?.toLowerCase().includes(searchQuery.toLowerCase());
 
 			return matchesSearch;
 		});
-	}, [tasks, searchQuery]);
+	}, [projects, searchQuery]);
 
-	// Group tasks by status
+	// Group projects by status
 	const columns = useMemo(() => {
-		const statuses: TaskStatus[] = [
-			"todo",
+		const statuses: ProjectStatus[] = [
+			"planning",
 			"in-progress",
-			"review",
-			"done",
-			"blocked",
+			"on-hold",
+			"completed",
+			"cancelled",
 		];
-		const statusTitles: Record<TaskStatus, string> = {
-			todo: "To Do",
-			"in-progress": "In Progress",
-			review: "Review",
-			done: "Done",
-			blocked: "Blocked",
-		};
 
 		return statuses.map((status) => ({
 			id: status,
-			title: statusTitles[status],
-			tasks: filteredTasks
-				.filter((t) => t.status === status)
-				.map((task) => ({
-					...task,
-					assignedUser: task.assignedUser
-						? {
-								_id: task.assignedUser._id,
-								name: task.assignedUser.name,
-								avatar: task.assignedUser.avatar,
-							}
-						: undefined,
-					project: task.project
-						? {
-								_id: task.project._id,
-								name: task.project.name,
-							}
-						: undefined,
-				})),
+			title: status
+				.split("-")
+				.map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+				.join(" "),
+			projects: filteredProjects.filter((p) => p.status === status),
 		}));
-	}, [filteredTasks]);
+	}, [filteredProjects]);
 
 	// Loading state
-	if (tasks === undefined) {
+	if (convexProjects === undefined) {
 		return (
 			<div className="p-6 space-y-6">
 				<KanbanHeader
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
-					onNewProject={() => setIsModalOpen(true)}
 				/>
 				<div className="flex items-center justify-center py-12">
 					<span className="loading loading-spinner loading-lg" />
 				</div>
-				<NewTaskModal
-					isOpen={isModalOpen}
-					onClose={() => setIsModalOpen(false)}
-				/>
 			</div>
 		);
 	}
 
 	// Error state
-	if (tasks === null) {
+	if (convexProjects === null) {
 		return (
 			<div className="p-6 space-y-6">
 				<KanbanHeader
 					searchQuery={searchQuery}
 					setSearchQuery={setSearchQuery}
-					onNewProject={() => setIsModalOpen(true)}
 				/>
 				<div className="alert alert-error">
 					<span className="iconify lucide--alert-circle size-5" />
-					<span>Failed to load tasks. Please try again later.</span>
+					<span>Failed to load projects. Please try again later.</span>
 				</div>
-				<NewTaskModal
-					isOpen={isModalOpen}
-					onClose={() => setIsModalOpen(false)}
-				/>
 			</div>
 		);
 	}
 
 	return (
 		<div className="p-6 space-y-6">
-			<KanbanHeader
-				searchQuery={searchQuery}
-				setSearchQuery={setSearchQuery}
-				onNewProject={() => setIsModalOpen(true)}
-			/>
-			<TaskKanbanBoard columns={columns} />
-			<NewTaskModal
-				isOpen={isModalOpen}
-				onClose={() => setIsModalOpen(false)}
-			/>
+			<KanbanHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
+			<KanbanBoard columns={columns} />
 		</div>
 	);
 }
