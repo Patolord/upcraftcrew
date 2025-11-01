@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -29,10 +29,10 @@ export default function SchedulePage() {
 
   const upcomingEvents = useMemo(() => {
     if (!events) return [];
-    const now = new Date();
+    const now = Date.now();
     return events
-      .filter(e => new Date(e.startDate) >= now)
-      .sort((a, b) => new Date(a.startDate).getTime() - new Date(b.startDate).getTime());
+      .filter(e => e.startTime >= now)
+      .sort((a, b) => a.startTime - b.startTime);
   }, [events]);
 
   if (events === undefined) {
@@ -64,14 +64,14 @@ export default function SchedulePage() {
     }
   };
 
-  const formatDate = (dateStr: string) => {
-    const date = new Date(dateStr);
+  const formatDate = (timestamp: number) => {
+    const date = new Date(timestamp);
     return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
 
-  const formatTime = (timeStr: string) => {
-    if (!timeStr) return "";
-    return timeStr;
+  const formatTime = (timestamp: number) => {
+    const date = new Date(timestamp);
+    return date.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
   };
 
   const monthName = selectedDate.toLocaleDateString('en-US', { month: 'long', year: 'numeric' });
@@ -156,8 +156,8 @@ export default function SchedulePage() {
                     <View className="flex-row justify-between items-start mb-2">
                       <View className="flex-1">
                         <Text className="text-lg font-semibold text-gray-800">{event.title}</Text>
-                        {event.projectName && (
-                          <Text className="text-sm text-gray-500 mt-1">{event.projectName}</Text>
+                        {event.project && (
+                          <Text className="text-sm text-gray-500 mt-1">{event.project.name}</Text>
                         )}
                       </View>
                       <View className={`px-3 py-1 rounded-full ${typeColor.bg}`}>
@@ -180,8 +180,7 @@ export default function SchedulePage() {
                       <View className="flex-row items-center">
                         <Ionicons name="calendar-outline" size={16} color="#9ca3af" />
                         <Text className="text-sm text-gray-600 ml-2">
-                          {formatDate(event.startDate)}
-                          {event.startTime && ` at ${formatTime(event.startTime)}`}
+                          {formatDate(event.startTime)} at {formatTime(event.startTime)}
                         </Text>
                       </View>
 
@@ -215,10 +214,10 @@ export default function SchedulePage() {
                     </View>
 
                     {/* Status */}
-                    {event.completed && (
+                    {event.endTime < Date.now() && (
                       <View className="mt-3 bg-green-50 px-3 py-2 rounded-lg flex-row items-center">
                         <Ionicons name="checkmark-circle" size={16} color="#22c55e" />
-                        <Text className="text-green-700 text-sm ml-2 font-medium">Completed</Text>
+                        <Text className="text-green-700 text-sm ml-2 font-medium">Past Event</Text>
                       </View>
                     )}
                   </View>

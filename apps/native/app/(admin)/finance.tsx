@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -159,9 +159,9 @@ export default function FinancePage() {
                   {/* Header */}
                   <View className="flex-row justify-between items-start mb-2">
                     <View className="flex-1">
-                      <Text className="text-lg font-semibold text-gray-800">{transaction.title}</Text>
-                      {transaction.projectName && (
-                        <Text className="text-sm text-gray-500 mt-1">{transaction.projectName}</Text>
+                      <Text className="text-lg font-semibold text-gray-800">{transaction.description}</Text>
+                      {transaction.projectId && 'project' in transaction && transaction.project && (
+                        <Text className="text-sm text-gray-500 mt-1">{transaction.project.name}</Text>
                       )}
                     </View>
                     <Text className={`text-lg font-bold ${
@@ -197,20 +197,18 @@ export default function FinancePage() {
                     </View>
 
                     {/* Client */}
-                    {transaction.client && (
+                    {transaction.clientId && (
                       <View className="flex-row items-center">
                         <Ionicons name="person-outline" size={14} color="#9ca3af" />
-                        <Text className="text-xs text-gray-600 ml-1">{transaction.client}</Text>
+                        <Text className="text-xs text-gray-600 ml-1">{transaction.clientId}</Text>
                       </View>
                     )}
 
-                    {/* Invoice Number */}
-                    {transaction.invoiceNumber && (
-                      <View className="flex-row items-center">
-                        <Ionicons name="document-text-outline" size={14} color="#9ca3af" />
-                        <Text className="text-xs text-gray-600 ml-1">{transaction.invoiceNumber}</Text>
-                      </View>
-                    )}
+                    {/* Transaction ID */}
+                    <View className="flex-row items-center">
+                      <Ionicons name="document-text-outline" size={14} color="#9ca3af" />
+                      <Text className="text-xs text-gray-600 ml-1">ID: {transaction._id}</Text>
+                    </View>
                   </View>
 
                   {/* Status Badge */}

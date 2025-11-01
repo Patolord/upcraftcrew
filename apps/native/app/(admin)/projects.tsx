@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, TextInput, TouchableOpacity, FlatList } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
 

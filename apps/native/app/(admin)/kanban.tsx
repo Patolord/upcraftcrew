@@ -1,5 +1,5 @@
 import { Ionicons } from "@expo/vector-icons";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { useMemo, useState } from "react";
 import {
@@ -159,11 +159,11 @@ export default function KanbanPage() {
 												)}
 
 												{/* Task Meta */}
-												{task.assignee && (
+												{task.assignedUser && (
 													<View className="flex-row items-center mt-2">
 														<View className="w-6 h-6 rounded-full bg-blue-100 items-center justify-center mr-2">
 															<Text className="text-blue-600 text-xs font-semibold">
-																{task.assignee
+																{task.assignedUser.name
 																	.split(" ")
 																	.map((n: string) => n[0])
 																	.join("")
@@ -171,7 +171,7 @@ export default function KanbanPage() {
 															</Text>
 														</View>
 														<Text className="text-xs text-gray-600">
-															{task.assignee}
+															{task.assignedUser.name}
 														</Text>
 													</View>
 												)}

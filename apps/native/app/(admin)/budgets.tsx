@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, TouchableOpacity } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
 
@@ -87,7 +87,7 @@ export default function BudgetsPage() {
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
                     <Text className="text-sm text-gray-500">Pending</Text>
                     <Text className="text-3xl font-bold text-yellow-600 mt-1">
-                      {budgetStats.pending || 0}
+                      {budgetStats.sent || 0}
                     </Text>
                   </View>
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
@@ -106,8 +106,8 @@ export default function BudgetsPage() {
                   <View key={budget._id} className={`py-3 ${index !== 0 ? 'border-t border-gray-100' : ''}`}>
                     <View className="flex-row justify-between items-start">
                       <View className="flex-1">
-                        <Text className="font-semibold text-gray-800">{budget.clientName}</Text>
-                        <Text className="text-xs text-gray-500 mt-1">{budget.projectName}</Text>
+                        <Text className="font-semibold text-gray-800">{budget.client}</Text>
+                        <Text className="text-xs text-gray-500 mt-1">{budget.title}</Text>
                       </View>
                       <View className="items-end">
                         <Text className="text-sm font-bold text-blue-600">
@@ -115,12 +115,12 @@ export default function BudgetsPage() {
                         </Text>
                         <View className={`px-2 py-1 rounded mt-1 ${
                           budget.status === 'approved' ? 'bg-green-100' :
-                          budget.status === 'pending' ? 'bg-yellow-100' :
+                          budget.status === 'sent' ? 'bg-yellow-100' :
                           budget.status === 'rejected' ? 'bg-red-100' : 'bg-gray-100'
                         }`}>
                           <Text className={`text-xs ${
                             budget.status === 'approved' ? 'text-green-700' :
-                            budget.status === 'pending' ? 'text-yellow-700' :
+                            budget.status === 'sent' ? 'text-yellow-700' :
                             budget.status === 'rejected' ? 'text-red-700' : 'text-gray-700'
                           }`}>
                             {budget.status}
@@ -140,18 +140,18 @@ export default function BudgetsPage() {
                   {/* Header */}
                   <View className="flex-row justify-between items-start mb-3">
                     <View className="flex-1">
-                      <Text className="text-lg font-semibold text-gray-800">{budget.projectName}</Text>
-                      <Text className="text-sm text-gray-500 mt-1">{budget.clientName}</Text>
+                      <Text className="text-lg font-semibold text-gray-800">{budget.title}</Text>
+                      <Text className="text-sm text-gray-500 mt-1">{budget.client}</Text>
                     </View>
                     <View className={`px-3 py-1 rounded-full ${
                       budget.status === 'approved' ? 'bg-green-100' :
-                      budget.status === 'pending' ? 'bg-yellow-100' :
+                      budget.status === 'sent' ? 'bg-yellow-100' :
                       budget.status === 'rejected' ? 'bg-red-100' :
                       budget.status === 'draft' ? 'bg-gray-100' : 'bg-blue-100'
                     }`}>
                       <Text className={`text-xs font-medium ${
                         budget.status === 'approved' ? 'text-green-700' :
-                        budget.status === 'pending' ? 'text-yellow-700' :
+                        budget.status === 'sent' ? 'text-yellow-700' :
                         budget.status === 'rejected' ? 'text-red-700' :
                         budget.status === 'draft' ? 'text-gray-700' : 'text-blue-700'
                       }`}>

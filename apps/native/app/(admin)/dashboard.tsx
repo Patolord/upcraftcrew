@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, RefreshControl } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState } from "react";
 
 export default function DashboardPage() {

@@ -1,4 +1,4 @@
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useQuery } from "convex/react";
 import { ScrollView, Text, View, TouchableOpacity } from "react-native";
 import { Container } from "@/components/container";

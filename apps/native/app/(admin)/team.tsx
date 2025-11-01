@@ -1,6 +1,6 @@
 import { View, Text, ScrollView, ActivityIndicator, TextInput, TouchableOpacity } from "react-native";
 import { useQuery } from "convex/react";
-import { api } from "@repo/backend/convex/_generated/api";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import { useState, useMemo } from "react";
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
@@ -29,7 +29,7 @@ export default function TeamPage() {
     if (!teamMembers) return { total: 0, online: 0, departments: 0, avgProjects: 0 };
 
     const departments = new Set(teamMembers.map(m => m.department).filter(Boolean));
-    const totalProjects = teamMembers.reduce((sum, m) => sum + (m.projectsCount || 0), 0);
+    const totalProjects = teamMembers.reduce((sum, m) => sum + (m.projects?.length || 0), 0);
 
     return {
       total: teamMembers.length,
@@ -172,18 +172,12 @@ export default function TeamPage() {
                       </View>
                     </View>
 
-                    {/* Department & Position */}
+                    {/* Department */}
                     <View className="flex-row items-center mt-2">
                       {member.department && (
                         <>
                           <MaterialCommunityIcons name="office-building-outline" size={14} color="#9ca3af" />
                           <Text className="text-xs text-gray-600 ml-1">{member.department}</Text>
-                        </>
-                      )}
-                      {member.position && (
-                        <>
-                          <Text className="text-gray-400 mx-1">•</Text>
-                          <Text className="text-xs text-gray-600">{member.position}</Text>
                         </>
                       )}
                     </View>
@@ -193,13 +187,13 @@ export default function TeamPage() {
                       <View className="flex-row items-center">
                         <Ionicons name="briefcase-outline" size={14} color="#9ca3af" />
                         <Text className="text-xs text-gray-600 ml-1">
-                          {member.projectsCount || 0} projects
+                          {member.projects.length || 0} projects
                         </Text>
                       </View>
                       <View className="flex-row items-center">
                         <Ionicons name="checkmark-circle-outline" size={14} color="#9ca3af" />
                         <Text className="text-xs text-gray-600 ml-1">
-                          {member.tasksCompleted || 0} tasks
+                          {0 || 0} tasks
                         </Text>
                       </View>
                     </View>
