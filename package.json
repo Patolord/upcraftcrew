@@ -1,29 +1,37 @@
 {
-	"name": "upcraftcrew-os",
-	"private": true,
-	"workspaces": [
-		"apps/*",
-		"packages/*"
-	],
-	"scripts": {
-		"check": "biome check --write .",
-		"dev": "turbo dev",
-		"build": "turbo build",
-		"check-types": "turbo check-types",
-		"dev:native": "turbo -F native dev",
-		"dev:web": "turbo -F web dev",
-		"dev:server": "turbo -F @upcraftcrew-os/backend dev",
-		"dev:setup": "turbo -F @upcraftcrew-os/backend dev:setup"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "^2.2.0",
-		"turbo": "^2.5.6"
-	},
-	"pnpm": {
-		"overrides": {
-			"@types/react": "19.0.10",
-			"@types/react-dom": "19.0.3"
-		}
-	},
-	"packageManager": "pnpm@10.15.0"
+  "name": "upcraftcrew-os",
+  "private": true,
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "check": "biome check --write .",
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "check-types": "turbo check-types",
+    "dev:native": "turbo -F native dev",
+    "dev:web": "turbo -F web dev",
+    "dev:server": "turbo -F @upcraftcrew-os/backend dev",
+    "dev:setup": "turbo -F @upcraftcrew-os/backend dev:setup",
+    "android": "expo run:android",
+    "ios": "expo run:ios"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.2.0",
+    "turbo": "^2.5.6"
+  },
+  "pnpm": {
+    "overrides": {
+      "@types/react": "19.0.10",
+      "@types/react-dom": "19.0.3"
+    }
+  },
+  "packageManager": "pnpm@10.15.0",
+  "version": "1.0.0",
+  "dependencies": {
+    "expo": "~53.0.22",
+    "react": "19.0.0",
+    "react-native": "0.79.6"
+  }
 }

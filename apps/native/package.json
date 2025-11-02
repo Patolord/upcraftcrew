@@ -3,11 +3,12 @@
   "version": "1.0.0",
   "main": "expo-router/entry",
   "scripts": {
-    "dev": "expo start --clear",
+    "dev": "expo start",
     "android": "expo run:android",
     "ios": "expo run:ios",
     "prebuild": "expo prebuild",
-    "web": "expo start --web"
+    "web": "expo start --web",
+    "clean": "rm -rf .expo .cache/metro && watchman watch-del-all || true"
   },
   "dependencies": {
     "@babel/runtime": "^7.28.4",
@@ -44,10 +45,12 @@
     "react-native": "0.79.6",
     "react-native-css-interop": "^0.2.1",
     "react-native-gesture-handler": "~2.24.0",
+    "react-native-is-edge-to-edge": "^1.2.1",
     "react-native-reanimated": "~3.17.4",
     "react-native-safe-area-context": "5.4.0",
     "react-native-screens": "~4.11.1",
     "react-native-web": "^0.20.0",
+    "react-native-worklets-core": "^1.6.2",
     "use-latest-callback": "^0.2.6",
     "whatwg-fetch": "^3.6.20"
   },

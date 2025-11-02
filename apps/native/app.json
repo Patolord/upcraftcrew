@@ -16,7 +16,7 @@
       "expo-font"
     ],
     "experiments": {
-      "typedRoutes": true,
+      "typedRoutes": false,
       "tsconfigPaths": true
     },
     "newArchEnabled": true,
