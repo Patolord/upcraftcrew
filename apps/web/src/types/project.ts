@@ -1,9 +1,7 @@
 export type ProjectStatus =
 	| "planning"
 	| "in-progress"
-	| "on-hold"
 	| "completed"
-	| "cancelled";
 
 export type ProjectPriority = "low" | "medium" | "high" | "urgent";
 

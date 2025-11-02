@@ -38,7 +38,7 @@ export default function FinancePage() {
   if (transactions === undefined) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading finance...</Text>
       </View>
     );
@@ -54,7 +54,7 @@ export default function FinancePage() {
     { label: "All", value: "all" },
     { label: "Completed", value: "completed" },
     { label: "Pending", value: "pending" },
-    { label: "Cancelled", value: "cancelled" },
+
   ];
 
   return (
@@ -63,8 +63,8 @@ export default function FinancePage() {
         <View className="p-4 space-y-4">
           {/* Header */}
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-gray-800">Finance</Text>
-            <TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+            <Text className="text-2xl font-bold text-orange-500">Finance</Text>
+            <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ New Transaction</Text>
             </TouchableOpacity>
           </View>
@@ -73,25 +73,25 @@ export default function FinancePage() {
           <View className="flex-row flex-wrap gap-3">
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Total Income</Text>
-              <Text className="text-2xl font-bold text-green-600 mt-1">
+              <Text className="text-2xl font-bold text-orange-500 mt-1">
                 ${stats.income.toLocaleString()}
               </Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Total Expenses</Text>
-              <Text className="text-2xl font-bold text-red-600 mt-1">
+              <Text className="text-2xl font-bold text-orange-500 mt-1">
                 ${stats.expenses.toLocaleString()}
               </Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Net Profit</Text>
-              <Text className={`text-2xl font-bold mt-1 ${stats.profit >= 0 ? 'text-green-600' : 'text-red-600'}`}>
+              <Text className={`text-2xl font-bold mt-1 ${stats.profit >= 0 ? 'text-orange-500' : 'text-orange-500'}`}>
                 ${stats.profit.toLocaleString()}
               </Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Pending</Text>
-              <Text className="text-2xl font-bold text-yellow-600 mt-1">
+              <Text className="text-2xl font-bold text-orange-500 mt-1">
                 ${stats.pending.toLocaleString()}
               </Text>
             </View>
@@ -110,7 +110,7 @@ export default function FinancePage() {
                   onPress={() => setTypeFilter(option.value)}
                   className={`px-4 py-2 rounded-full ${
                     typeFilter === option.value
-                      ? "bg-blue-600"
+                      ? "bg-orange-500"
                       : "bg-gray-100"
                   }`}
                 >
@@ -134,7 +134,7 @@ export default function FinancePage() {
                   onPress={() => setStatusFilter(option.value)}
                   className={`px-4 py-2 rounded-full ${
                     statusFilter === option.value
-                      ? "bg-blue-600"
+                      ? "bg-orange-500"
                       : "bg-gray-100"
                   }`}
                 >
@@ -152,7 +152,7 @@ export default function FinancePage() {
 
           {/* Transactions List */}
           <View>
-            <Text className="text-lg font-semibold text-gray-800 mb-3">Transactions</Text>
+            <Text className="text-lg font-semibold text-orange-500 mb-3">Transactions</Text>
             <View className="space-y-3">
               {filteredTransactions.map((transaction) => (
                 <View key={transaction._id} className="bg-white p-4 rounded-lg shadow">
@@ -165,7 +165,7 @@ export default function FinancePage() {
                       )}
                     </View>
                     <Text className={`text-lg font-bold ${
-                      transaction.type === 'income' ? 'text-green-600' : 'text-red-600'
+                      transaction.type === 'income' ? 'text-orange-500' : 'text-orange-500'
                     }`}>
                       {transaction.type === 'income' ? '+' : '-'}${transaction.amount.toLocaleString()}
                     </Text>

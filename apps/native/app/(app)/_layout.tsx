@@ -1,11 +1,11 @@
 import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
-import { Tabs } from "expo-router";
+import { Tabs } from "expo-router/tabs";
 
-const AdminLayout = () => {
+export default function AppLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#3b82f6",
+        tabBarActiveTintColor: "#FF5722",
         headerShown: true,
       }}
     >
@@ -74,6 +74,4 @@ const AdminLayout = () => {
       />
     </Tabs>
   );
-};
-
-export default AdminLayout;
+}

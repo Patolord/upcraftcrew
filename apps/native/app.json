@@ -1,9 +1,9 @@
 {
   "expo": {
-    "name": "my-better-t-app",
-    "slug": "my-better-t-app",
+    "name": "UpCraft Crew",
+    "slug": "upcraft-crew",
     "version": "1.0.0",
-    "scheme": "my-better-t-app",
+    "scheme": "upcraft-crew",
     "web": {
       "bundler": "metro",
       "output": "static",

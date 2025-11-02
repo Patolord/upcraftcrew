@@ -24,10 +24,6 @@ const DARK_THEME: Theme = {
 	colors: NAV_THEME.dark,
 };
 
-export const unstable_settings = {
-	initialRouteName: "(tabs)",
-};
-
 const convexUrl = process.env.EXPO_PUBLIC_CONVEX_URL;
 if (!convexUrl) {
 	throw new Error("EXPO_PUBLIC_CONVEX_URL environment variable is required");
@@ -64,11 +60,9 @@ export default function RootLayout() {
 				<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
 				<GestureHandlerRootView style={{ flex: 1 }}>
 					<Stack>
-						<Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-						<Stack.Screen
-							name="modal"
-							options={{ title: "Modal", presentation: "modal" }}
-						/>
+						<Stack.Screen name="index" options={{ headerShown: false }} />
+						<Stack.Screen name="(auth)" options={{ headerShown: false }} />
+						<Stack.Screen name="(app)" options={{ headerShown: false }} />
 					</Stack>
 				</GestureHandlerRootView>
 			</ThemeProvider>

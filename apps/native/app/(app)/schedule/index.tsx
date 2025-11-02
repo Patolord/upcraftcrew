@@ -38,7 +38,7 @@ export default function SchedulePage() {
   if (events === undefined) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading schedule...</Text>
       </View>
     );
@@ -46,12 +46,12 @@ export default function SchedulePage() {
 
   const getEventTypeColor = (type: string) => {
     switch (type) {
-      case "meeting": return { bg: "bg-blue-100", text: "text-blue-700", icon: "people" };
-      case "deadline": return { bg: "bg-red-100", text: "text-red-700", icon: "flag" };
-      case "task": return { bg: "bg-green-100", text: "text-green-700", icon: "checkmark-circle" };
-      case "reminder": return { bg: "bg-yellow-100", text: "text-yellow-700", icon: "alarm" };
-      case "milestone": return { bg: "bg-purple-100", text: "text-purple-700", icon: "trophy" };
-      default: return { bg: "bg-gray-100", text: "text-gray-700", icon: "calendar" };
+      case "meeting": return { bg: "bg-orange-100", text: "text-orange-700", icon: "people" };
+      case "deadline": return { bg: "bg-orange-100", text: "text-orange-700", icon: "flag" };
+      case "task": return { bg: "bg-orange-100", text: "text-orange-700", icon: "checkmark-circle" };
+      case "reminder": return { bg: "bg-orange-100", text: "text-orange-700", icon: "alarm" };
+      case "milestone": return { bg: "bg-orange-100", text: "text-orange-700", icon: "trophy" };
+      default: return { bg: "bg-orange-100", text: "text-orange-700", icon: "calendar" };
     }
   };
 
@@ -82,8 +82,8 @@ export default function SchedulePage() {
         <View className="p-4 space-y-4">
           {/* Header */}
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-gray-800">Schedule</Text>
-            <TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+            <Text className="text-2xl font-bold text-orange-500">Schedule</Text>
+            <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ New Event</Text>
             </TouchableOpacity>
           </View>
@@ -92,19 +92,19 @@ export default function SchedulePage() {
           <View className="flex-row flex-wrap gap-3">
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Total Events</Text>
-              <Text className="text-2xl font-bold text-gray-800 mt-1">{stats.total}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.total}</Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Meetings</Text>
-              <Text className="text-2xl font-bold text-blue-600 mt-1">{stats.meetings}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.meetings}</Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Deadlines</Text>
-              <Text className="text-2xl font-bold text-red-600 mt-1">{stats.deadlines}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.deadlines}</Text>
             </View>
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Tasks</Text>
-              <Text className="text-2xl font-bold text-green-600 mt-1">{stats.tasks}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.tasks}</Text>
             </View>
           </View>
 
@@ -119,7 +119,7 @@ export default function SchedulePage() {
                 }}
                 className="p-2"
               >
-                <Ionicons name="chevron-back" size={24} color="#3b82f6" />
+                <Ionicons name="chevron-back" size={24} color="#FF5722" />
               </TouchableOpacity>
 
               <Text className="text-lg font-semibold text-gray-800">{monthName}</Text>
@@ -132,21 +132,21 @@ export default function SchedulePage() {
                 }}
                 className="p-2"
               >
-                <Ionicons name="chevron-forward" size={24} color="#3b82f6" />
+                <Ionicons name="chevron-forward" size={24} color="#FF5722" />
               </TouchableOpacity>
             </View>
 
             <TouchableOpacity
               onPress={() => setSelectedDate(new Date())}
-              className="mt-3 bg-blue-50 py-2 rounded-lg"
+              className="mt-3 bg-orange-500 py-2 rounded-lg"
             >
-              <Text className="text-blue-600 text-center font-medium">Today</Text>
+              <Text className="text-white text-center font-medium">Today</Text>
             </TouchableOpacity>
           </View>
 
           {/* Events List */}
           <View>
-            <Text className="text-lg font-semibold text-gray-800 mb-3">Upcoming Events</Text>
+            <Text className="text-lg font-semibold text-orange-500 mb-3">Upcoming Events</Text>
             <View className="space-y-3">
               {upcomingEvents.map((event) => {
                 const typeColor = getEventTypeColor(event.type);
@@ -155,7 +155,7 @@ export default function SchedulePage() {
                     {/* Header */}
                     <View className="flex-row justify-between items-start mb-2">
                       <View className="flex-1">
-                        <Text className="text-lg font-semibold text-gray-800">{event.title}</Text>
+                        <Text className="text-lg font-semibold text-orange-500">{event.title}</Text>
                         {event.project && (
                           <Text className="text-sm text-gray-500 mt-1">{event.project.name}</Text>
                         )}

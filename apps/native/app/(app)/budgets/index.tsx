@@ -7,12 +7,12 @@ import { Ionicons } from "@expo/vector-icons";
 export default function BudgetsPage() {
   const budgets = useQuery(api.budgets.getBudgets);
   const budgetStats = useQuery(api.budgets.getBudgetStats);
-  const [activeTab, setActiveTab] = useState<"dashboard" | "all">("all");
+  const [activeTab, setActiveTab] = useState<"dashboard" | "all">("dashboard");
 
   if (budgets === undefined || budgetStats === undefined) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading budgets...</Text>
       </View>
     );
@@ -23,9 +23,9 @@ export default function BudgetsPage() {
       {/* Header */}
       <View className="bg-white p-4 border-b border-gray-200">
         <View className="flex-row justify-between items-center mb-3">
-          <Text className="text-2xl font-bold text-gray-800">Orçamentos</Text>
+          <Text className="text-2xl font-bold text-orange-500">Orçamentos</Text>
           {activeTab === "all" && (
-            <TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+            <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ Novo Orçamento</Text>
             </TouchableOpacity>
           )}
@@ -36,7 +36,7 @@ export default function BudgetsPage() {
           <TouchableOpacity
             onPress={() => setActiveTab("dashboard")}
             className={`flex-1 py-2 rounded-lg ${
-              activeTab === "dashboard" ? "bg-blue-600" : "bg-gray-100"
+              activeTab === "dashboard" ? "bg-orange-500" : "bg-gray-100"
             }`}
           >
             <Text
@@ -50,7 +50,7 @@ export default function BudgetsPage() {
           <TouchableOpacity
             onPress={() => setActiveTab("all")}
             className={`flex-1 py-2 rounded-lg ${
-              activeTab === "all" ? "bg-blue-600" : "bg-gray-100"
+              activeTab === "all" ? "bg-orange-500" : "bg-gray-100"
             }`}
           >
             <Text
@@ -74,25 +74,25 @@ export default function BudgetsPage() {
                 <View className="flex-row flex-wrap gap-3">
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
                     <Text className="text-sm text-gray-500">Total Budgets</Text>
-                    <Text className="text-3xl font-bold text-gray-800 mt-1">
+                    <Text className="text-3xl font-bold text-orange-500 mt-1">
                       {budgetStats.total || 0}
                     </Text>
                   </View>
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
                     <Text className="text-sm text-gray-500">Approved</Text>
-                    <Text className="text-3xl font-bold text-green-600 mt-1">
+                    <Text className="text-3xl font-bold text-orange-500 mt-1">
                       {budgetStats.approved || 0}
                     </Text>
                   </View>
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
                     <Text className="text-sm text-gray-500">Pending</Text>
-                    <Text className="text-3xl font-bold text-yellow-600 mt-1">
+                    <Text className="text-3xl font-bold text-orange-500 mt-1">
                       {budgetStats.sent || 0}
                     </Text>
                   </View>
                   <View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
                     <Text className="text-sm text-gray-500">Total Value</Text>
-                    <Text className="text-3xl font-bold text-blue-600 mt-1">
+                    <Text className="text-3xl font-bold text-orange-500 mt-1">
                       ${(budgetStats.totalValue || 0).toLocaleString()}
                     </Text>
                   </View>
@@ -101,7 +101,7 @@ export default function BudgetsPage() {
 
               {/* Recent Budgets */}
               <View className="bg-white p-4 rounded-lg shadow">
-                <Text className="text-lg font-semibold text-gray-800 mb-3">Recent Budgets</Text>
+                <Text className="text-lg font-semibold text-orange-500 mb-3">Recent Budgets</Text>
                 {budgets?.slice(0, 5).map((budget, index) => (
                   <View key={budget._id} className={`py-3 ${index !== 0 ? 'border-t border-gray-100' : ''}`}>
                     <View className="flex-row justify-between items-start">
@@ -110,7 +110,7 @@ export default function BudgetsPage() {
                         <Text className="text-xs text-gray-500 mt-1">{budget.title}</Text>
                       </View>
                       <View className="items-end">
-                        <Text className="text-sm font-bold text-blue-600">
+                        <Text className="text-sm font-bold text-orange-500">
                           ${budget.totalAmount?.toLocaleString()}
                         </Text>
                         <View className={`px-2 py-1 rounded mt-1 ${
@@ -172,7 +172,7 @@ export default function BudgetsPage() {
                     {/* Amount */}
                     <View className="flex-row justify-between items-center py-2 border-t border-gray-100">
                       <Text className="text-sm text-gray-600">Total Amount</Text>
-                      <Text className="text-lg font-bold text-blue-600">
+                      <Text className="text-lg font-bold text-orange-500">
                         ${budget.totalAmount?.toLocaleString()}
                       </Text>
                     </View>

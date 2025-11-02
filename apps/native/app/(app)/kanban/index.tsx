@@ -54,7 +54,7 @@ export default function KanbanPage() {
 	if (tasks === undefined) {
 		return (
 			<View className="flex-1 items-center justify-center bg-white">
-				<ActivityIndicator size="large" color="#3b82f6" />
+				<ActivityIndicator size="large" color="#FF5722" />
 				<Text className="mt-4 text-gray-600">Loading kanban...</Text>
 			</View>
 		);
@@ -62,7 +62,7 @@ export default function KanbanPage() {
 
 	const columns: { id: TaskStatus; title: string; color: string }[] = [
 		{ id: "todo", title: "To Do", color: "bg-gray-100" },
-		{ id: "in-progress", title: "In Progress", color: "bg-blue-100" },
+		{ id: "in-progress", title: "In Progress", color: "bg-orange-100" },
 		{ id: "review", title: "Review", color: "bg-yellow-100" },
 		{ id: "done", title: "Done", color: "bg-green-100" },
 		{ id: "blocked", title: "Blocked", color: "bg-red-100" },
@@ -73,8 +73,8 @@ export default function KanbanPage() {
 			{/* Header */}
 			<View className="bg-white p-4 border-b border-gray-200">
 				<View className="flex-row justify-between items-center mb-3">
-					<Text className="text-2xl font-bold text-gray-800">Kanban</Text>
-					<TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+					<Text className="text-2xl font-bold text-orange-500">Kanban</Text>
+					<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
 						<Text className="text-white font-semibold">+ New Task</Text>
 					</TouchableOpacity>
 				</View>
@@ -148,9 +148,9 @@ export default function KanbanPage() {
 														{task.tags.map((tag, idx) => (
 															<View
 																key={idx}
-																className="bg-blue-100 px-2 py-1 rounded"
+																className="bg-orange-100 px-2 py-1 rounded"
 															>
-																<Text className="text-xs text-blue-700">
+																<Text className="text-xs text-orange-700">
 																	{tag}
 																</Text>
 															</View>
@@ -161,8 +161,8 @@ export default function KanbanPage() {
 												{/* Task Meta */}
 												{task.assignedUser && (
 													<View className="flex-row items-center mt-2">
-														<View className="w-6 h-6 rounded-full bg-blue-100 items-center justify-center mr-2">
-															<Text className="text-blue-600 text-xs font-semibold">
+														<View className="w-6 h-6 rounded-full bg-orange-100 items-center justify-center mr-2">
+															<Text className="text-orange-500 text-xs font-semibold">
 																{task.assignedUser.name
 																	.split(" ")
 																	.map((n: string) => n[0])

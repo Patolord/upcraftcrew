@@ -56,10 +56,9 @@ export default function FinancePage() {
 			amount: t.amount,
 			type: t.type,
 			category: t.category as TransactionCategory,
-			status: (t.status === "failed" ? "cancelled" : t.status) as
+			status: t.status as
 				| "pending"
-				| "completed"
-				| "cancelled",
+				| "completed",
 			date: new Date(t.date).toISOString(),
 			projectId: t.projectId,
 			projectName: "project" in t ? t.project?.name : undefined,
@@ -229,9 +228,7 @@ export default function FinancePage() {
 						? {
 								...selectedTransaction,
 								status:
-									selectedTransaction.status === "cancelled"
-										? "pending"
-										: selectedTransaction.status,
+									selectedTransaction.status as "completed" | "pending",
 							}
 						: undefined
 				}

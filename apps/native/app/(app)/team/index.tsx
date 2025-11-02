@@ -42,7 +42,7 @@ export default function TeamPage() {
   if (teamMembers === undefined) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading team...</Text>
       </View>
     );
@@ -64,8 +64,8 @@ export default function TeamPage() {
         <View className="p-4 space-y-4">
           {/* Header */}
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-gray-800">Team</Text>
-            <TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+            <Text className="text-2xl font-bold text-orange-500">Team</Text>
+            <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ Add Member</Text>
             </TouchableOpacity>
           </View>
@@ -74,19 +74,13 @@ export default function TeamPage() {
           <View className="flex-row flex-wrap gap-3">
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Total Members</Text>
-              <Text className="text-2xl font-bold text-gray-800 mt-1">{stats.total}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.total}</Text>
             </View>
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-              <Text className="text-xs text-gray-500">Online</Text>
-              <Text className="text-2xl font-bold text-green-600 mt-1">{stats.online}</Text>
-            </View>
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-              <Text className="text-xs text-gray-500">Departments</Text>
-              <Text className="text-2xl font-bold text-purple-600 mt-1">{stats.departments}</Text>
-            </View>
+            
+          
             <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
               <Text className="text-xs text-gray-500">Avg Projects</Text>
-              <Text className="text-2xl font-bold text-blue-600 mt-1">{stats.avgProjects}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.avgProjects}</Text>
             </View>
           </View>
 
@@ -109,7 +103,7 @@ export default function TeamPage() {
                 onPress={() => setRoleFilter(option.value)}
                 className={`px-4 py-2 rounded-full ${
                   roleFilter === option.value
-                    ? "bg-blue-600"
+                    ? "bg-orange-500"
                     : "bg-white border border-gray-300"
                 }`}
               >
@@ -131,8 +125,8 @@ export default function TeamPage() {
                 <View className="flex-row items-start">
                   {/* Avatar */}
                   <View className="relative">
-                    <View className="w-14 h-14 rounded-full bg-blue-100 items-center justify-center">
-                      <Text className="text-blue-600 font-bold text-lg">
+                      <View className="w-14 h-14 rounded-full bg-orange-100 items-center justify-center">
+                      <Text className="text-orange-500 font-bold text-lg">
                         {member.name.split(' ').map(n => n[0]).join('').slice(0, 2)}
                       </Text>
                     </View>
@@ -156,16 +150,16 @@ export default function TeamPage() {
                       <View className={`px-2 py-1 rounded ${
                         member.role === 'owner' ? 'bg-purple-100' :
                         member.role === 'admin' ? 'bg-red-100' :
-                        member.role === 'manager' ? 'bg-blue-100' :
+                        member.role === 'manager' ? 'bg-orange-100' :
                         member.role === 'developer' ? 'bg-green-100' :
                         member.role === 'designer' ? 'bg-pink-100' : 'bg-gray-100'
                       }`}>
                         <Text className={`text-xs font-medium ${
-                          member.role === 'owner' ? 'text-purple-700' :
-                          member.role === 'admin' ? 'text-red-700' :
-                          member.role === 'manager' ? 'text-blue-700' :
-                          member.role === 'developer' ? 'text-green-700' :
-                          member.role === 'designer' ? 'text-pink-700' : 'text-gray-700'
+                          member.role === 'owner' ? 'text-orange-700' :
+                          member.role === 'admin' ? 'text-orange-700' :
+                            member.role === 'manager' ? 'text-orange-700' :
+                          member.role === 'developer' ? 'text-orange-700' :
+                          member.role === 'designer' ? 'text-orange-700' : 'text-gray-700'
                         }`}>
                           {member.role}
                         </Text>

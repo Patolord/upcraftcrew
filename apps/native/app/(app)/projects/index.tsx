@@ -41,7 +41,7 @@ export default function ProjectsPage() {
   if (projects === undefined) {
     return (
       <View className="flex-1 items-center justify-center bg-white">
-        <ActivityIndicator size="large" color="#3b82f6" />
+        <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading projects...</Text>
       </View>
     );
@@ -51,9 +51,8 @@ export default function ProjectsPage() {
     { label: "All", value: "all" },
     { label: "Planning", value: "planning" },
     { label: "In Progress", value: "in-progress" },
-    { label: "On Hold", value: "on-hold" },
     { label: "Completed", value: "completed" },
-    { label: "Cancelled", value: "cancelled" },
+
   ];
 
   return (
@@ -62,34 +61,34 @@ export default function ProjectsPage() {
         <View className="p-4 space-y-4">
           {/* Header */}
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-gray-800">Projects</Text>
-            <TouchableOpacity className="bg-blue-600 px-4 py-2 rounded-lg">
+            <Text className="text-3xl font-bold text-orange-500 pb-4">Projects</Text>
+            <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ New</Text>
             </TouchableOpacity>
           </View>
 
           {/* Stats */}
           <View className="flex-row flex-wrap gap-3">
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
               <Text className="text-xs text-gray-500">Total</Text>
-              <Text className="text-2xl font-bold text-gray-800 mt-1">{stats.total}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.total}</Text>
             </View>
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
               <Text className="text-xs text-gray-500">Active</Text>
-              <Text className="text-2xl font-bold text-blue-600 mt-1">{stats.active}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.active}</Text>
             </View>
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
               <Text className="text-xs text-gray-500">Completed</Text>
-              <Text className="text-2xl font-bold text-green-600 mt-1">{stats.completed}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.completed}</Text>
             </View>
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
               <Text className="text-xs text-gray-500">Planning</Text>
-              <Text className="text-2xl font-bold text-yellow-600 mt-1">{stats.planning}</Text>
+              <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.planning}</Text>
             </View>
           </View>
 
           {/* Search */}
-          <View className="bg-white p-3 rounded-lg shadow flex-row items-center">
+          <View className="bg-white p-3 mb-4 mt-4 rounded-lg border border-orange-500 flex-row items-center">
             <Ionicons name="search-outline" size={20} color="#9ca3af" />
             <TextInput
               className="flex-1 ml-2 text-gray-800"
@@ -100,15 +99,15 @@ export default function ProjectsPage() {
           </View>
 
           {/* Status Filter */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-2">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-2 mb-4">
             {statusOptions.map((option) => (
               <TouchableOpacity
                 key={option.value}
                 onPress={() => setStatusFilter(option.value)}
                 className={`px-4 py-2 rounded-full ${
                   statusFilter === option.value
-                    ? "bg-blue-600"
-                    : "bg-white border border-gray-300"
+                    ? "bg-orange-500"
+                    : "bg-white border border-orange-500"
                 }`}
               >
                 <Text
@@ -132,16 +131,14 @@ export default function ProjectsPage() {
                     <Text className="text-sm text-gray-500 mt-1">{project.client}</Text>
                   </View>
                   <View className={`px-3 py-1 rounded-full ${
-                    project.status === 'completed' ? 'bg-green-100' :
-                    project.status === 'in-progress' ? 'bg-blue-100' :
-                    project.status === 'planning' ? 'bg-yellow-100' :
-                    project.status === 'on-hold' ? 'bg-orange-100' : 'bg-gray-100'
+                    project.status === 'completed' ? 'bg-orange-100' :
+                    project.status === 'in-progress' ? 'bg-orange-100' :
+                    project.status === 'planning' ? 'bg-orange-100' :'bg-gray-100'
                   }`}>
                     <Text className={`text-xs font-medium ${
-                      project.status === 'completed' ? 'text-green-700' :
-                      project.status === 'in-progress' ? 'text-blue-700' :
-                      project.status === 'planning' ? 'text-yellow-700' :
-                      project.status === 'on-hold' ? 'text-orange-700' : 'text-gray-700'
+                      project.status === 'completed' ? 'text-orange-700' :
+                      project.status === 'in-progress' ? 'text-orange-700' :
+                      project.status === 'planning' ? 'text-orange-700' :'text-gray-700'
                     }`}>
                       {project.status}
                     </Text>
@@ -158,11 +155,11 @@ export default function ProjectsPage() {
                 <View className="mb-3">
                   <View className="flex-row justify-between mb-1">
                     <Text className="text-xs text-gray-500">Progress</Text>
-                    <Text className="text-xs font-semibold text-blue-600">{project.progress}%</Text>
+                    <Text className="text-xs font-semibold text-orange-500">{project.progress}%</Text>
                   </View>
                   <View className="h-2 bg-gray-200 rounded-full overflow-hidden">
                     <View
-                      className="h-full bg-blue-600 rounded-full"
+                      className="h-full bg-orange-500 rounded-full"
                       style={{ width: `${project.progress}%` }}
                     />
                   </View>
@@ -178,7 +175,7 @@ export default function ProjectsPage() {
                   </View>
                   {project.budget && (
                     <Text className="text-sm font-semibold text-gray-700">
-                      ${project.budget.toLocaleString()}
+                      ${project.budget.spent.toLocaleString()} / ${project.budget.total.toLocaleString()}
                     </Text>
                   )}
                 </View>
