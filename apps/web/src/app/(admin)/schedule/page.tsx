@@ -8,6 +8,7 @@ import { api } from "@workspace/backend/_generated/api";
 import { useQuery } from "convex/react";
 import { Button } from "@/components/ui/button";
 import { NewEventModal } from "@/components/schedule/NewEventModal";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 // Helper function to get event color based on type
 function getEventColor(type: EventType): string {
@@ -107,6 +108,7 @@ export default function SchedulePage() {
 	};
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			{/* Header */}
 			<div className="flex items-center justify-between">
@@ -286,5 +288,6 @@ export default function SchedulePage() {
 			{/* New Event Modal */}
 			<NewEventModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} preSelectedDate={selectedDate} />
 		</div>
+		</AuthWrapper>
 	);
 }

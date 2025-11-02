@@ -1,4 +1,5 @@
 import { NewProjectModal } from "./new-project-modal";
+import { UserMenu } from "./user-menu";
 
 export function DashboardHeader() {
 	return (
@@ -9,7 +10,10 @@ export function DashboardHeader() {
 					Welcome back! Here's what's happening today
 				</p>
 			</div>
-			<NewProjectModal />
+			<div className="flex items-center gap-3">
+				<UserMenu />
+				<NewProjectModal />
+			</div>
 		</div>
 	);
 }
