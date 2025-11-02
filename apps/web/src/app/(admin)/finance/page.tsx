@@ -10,6 +10,7 @@ import { TransactionFilters } from "@/components/finance/TransactionFilters";
 import { TransactionRow } from "@/components/finance/TransactionRow";
 import { TransactionForm } from "@/components/forms/TransactionForm";
 import { Button } from "@/components/ui/button";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 import type {
 	Transaction,
 	TransactionCategory,
@@ -121,6 +122,7 @@ export default function FinancePage() {
 	}
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			{/* Header */}
 			<div className="flex items-center justify-between">
@@ -238,5 +240,6 @@ export default function FinancePage() {
 				mode={selectedTransaction ? "edit" : "create"}
 			/>
 		</div>
+		</AuthWrapper>
 	);
 }

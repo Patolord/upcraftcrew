@@ -1,12 +1,14 @@
 import { Menu } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
+import { Authenticated } from "convex/react";
 import { Button } from "../ui/button";
 
 export const Sidebar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(false);
 
 	return (
+		<Authenticated>
 		<div
 			className={`sidebar-menu relative flex h-screen flex-shrink-0 flex-col border-r border-base-300 py-3 transition-all duration-300 ${isCollapsed ? "w-20" : "w-56"}`}
 		>
@@ -54,12 +56,12 @@ export const Sidebar = () => {
 						<Link
 							href="/budgets"
 							className="menu-item group"
-							title={isCollapsed ? "Orçamentos" : ""}
+							title={isCollapsed ? "Budgets" : ""}
 						>
 							<span className="iconify lucide--file-text size-4"></span>
 							{!isCollapsed && (
 								<>
-									<p className="grow">Orçamentos</p>
+									<p className="grow">Budgets</p>
 									<span className="iconify lucide--chevron-right size-3.5 -translate-x-1 opacity-0 transition-all duration-300 group-hover:translate-x-0 group-hover:opacity-60"></span>
 								</>
 							)}
@@ -149,5 +151,6 @@ export const Sidebar = () => {
 				</div>
 			</div>
 		</div>
+		</Authenticated>
 	);
 };

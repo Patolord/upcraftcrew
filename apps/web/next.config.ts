@@ -3,7 +3,7 @@ import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
 	typedRoutes: true,
-	reactCompiler: true,
+	reactCompiler: false,
 	turbopack: {
 		// Configure custom module resolution extensions
 		resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".mjs", ".json", ".css"],

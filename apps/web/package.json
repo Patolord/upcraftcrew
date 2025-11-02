@@ -11,11 +11,9 @@
   },
   "dependencies": {
     "@ducanh2912/next-pwa": "^10.2.9",
-    "@radix-ui/react-dialog": "^1.1.15",
     "@tanstack/react-form": "^1.19.2",
     "@tanstack/react-table": "^8.21.3",
-    "@tanstack/table-core": "^8.21.3",
-   
+    "@tanstack/table-core": "^8.21.3",   
     "apexcharts": "^5.3.4",
     "choices.js": "^11.1.0",
     "class-variance-authority": "^0.7.1",

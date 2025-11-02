@@ -10,6 +10,7 @@ import { ProjectsStats } from "../../../components/projects/ProjectsStats";
 import { ProjectsFilters } from "../../../components/projects/ProjectsFilters";
 import { ProjectsList } from "../../../components/projects/ProjectsList";
 import { NewProjectModal } from "../../../components/projects/NewProjectModal";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function ProjectsPage() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -75,6 +76,7 @@ export default function ProjectsPage() {
 	}
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			<ProjectsHeader onNewProject={() => setIsModalOpen(true)} />
 			<ProjectsStats projects={projects} />
@@ -92,5 +94,6 @@ export default function ProjectsPage() {
 				onClose={() => setIsModalOpen(false)}
 			/>
 		</div>
+		</AuthWrapper>
 	);
 }
