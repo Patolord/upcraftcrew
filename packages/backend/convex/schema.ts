@@ -27,9 +27,7 @@ export default defineSchema({
 		status: v.union(
 			v.literal("planning"),
 			v.literal("in-progress"),
-			v.literal("on-hold"),
 			v.literal("completed"),
-			v.literal("cancelled"),
 		),
 		priority: v.union(
 			v.literal("low"),
@@ -69,7 +67,6 @@ export default defineSchema({
 			v.literal("pending"),
 			v.literal("completed"),
 			v.literal("failed"),
-			v.literal("cancelled"),
 		),
 		date: v.number(),
 		clientId: v.optional(v.string()),

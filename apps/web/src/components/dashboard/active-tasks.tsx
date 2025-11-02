@@ -3,7 +3,7 @@ import { Image } from "@/components/ui/image";
 export interface Task {
 	id: string;
 	name: string;
-	status: "planning" | "in-progress" | "on-hold";
+	status: "planning" | "in-progress" ;
 	priority: "low" | "medium" | "high" | "urgent";
 	team: Array<{
 		id: string;
@@ -26,7 +26,7 @@ const priorityConfig = {
 const statusConfig = {
 	planning: { color: "text-base-content/60", icon: "lucide--lightbulb" },
 	"in-progress": { color: "text-primary", icon: "lucide--zap" },
-	"on-hold": { color: "text-warning", icon: "lucide--pause-circle" },
+
 };
 
 export function ActiveTasks({ tasks }: ActiveTasksProps) {

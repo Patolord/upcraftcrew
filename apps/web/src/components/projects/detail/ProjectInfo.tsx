@@ -21,9 +21,8 @@ interface ProjectInfoProps {
 const statusConfig = {
 	planning: { label: "Planning", color: "badge-info" },
 	"in-progress": { label: "In Progress", color: "badge-primary" },
-	"on-hold": { label: "On Hold", color: "badge-warning" },
 	completed: { label: "Completed", color: "badge-success" },
-	cancelled: { label: "Cancelled", color: "badge-error" },
+
 };
 
 const priorityConfig = {
@@ -363,9 +362,8 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 								>
 									<option value="planning">Planning</option>
 									<option value="in-progress">In Progress</option>
-									<option value="on-hold">On Hold</option>
 									<option value="completed">Completed</option>
-									<option value="cancelled">Cancelled</option>
+							
 								</select>
 							) : (
 								<span

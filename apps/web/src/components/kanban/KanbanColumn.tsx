@@ -14,17 +14,14 @@ interface KanbanColumnProps {
 const statusColors: Record<ProjectStatus, string> = {
 	planning: "border-info",
 	"in-progress": "border-primary",
-	"on-hold": "border-warning",
 	completed: "border-success",
-	cancelled: "border-error",
+
 };
 
 const statusBadgeColors: Record<ProjectStatus, string> = {
 	planning: "badge-info",
 	"in-progress": "badge-primary",
-	"on-hold": "badge-warning",
 	completed: "badge-success",
-	cancelled: "badge-error",
 };
 
 export function KanbanColumn({ column }: KanbanColumnProps) {

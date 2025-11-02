@@ -30,7 +30,14 @@ export function RecentActivities({ activities }: RecentActivitiesProps) {
 							className="flex items-start gap-3 pb-4 border-b border-base-300 last:border-0 last:pb-0"
 						>
 							<div className="avatar">
-								<div className="w-10 rounded-full"></div>
+								<div className="w-10 rounded-full">
+									<Image
+										src={activity.user.avatar || '/placeholder-avatar.png'}
+										alt={activity.user.name}
+										width={40}
+										height={40}
+									/>
+								</div>
 							</div>
 							<div className="flex-1 min-w-0">
 								<p className="text-sm">

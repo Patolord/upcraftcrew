@@ -19,7 +19,7 @@ const transactionSchema = z.object({
 	amount: z.number().min(0.01, "Amount must be greater than 0"),
 	type: z.enum(["income", "expense"]),
 	category: z.string().min(1, "Category is required"),
-	status: z.enum(["pending", "completed", "failed", "cancelled"]),
+	status: z.enum(["pending", "completed", "failed"]),
 	date: z.string().min(1, "Date is required"),
 	clientId: z.string(),
 	projectId: z.string(),
@@ -66,7 +66,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 			amount: 0,
 			type: "income" as "income" | "expense",
 			category: "",
-			status: "pending" as "pending" | "completed" | "failed" | "cancelled",
+			status: "pending" as "pending" | "completed" | "failed",
 			date: new Date().toISOString().split("T")[0],
 			clientId: "",
 			projectId: "",
@@ -242,7 +242,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 										value={field.state.value}
 										onChange={(e) =>
 											field.handleChange(
-												e.target.value as "pending" | "completed" | "failed" | "cancelled",
+												e.target.value as "pending" | "completed" | "failed" ,
 											)
 										}
 										onBlur={field.handleBlur}
@@ -250,7 +250,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 										<option value="pending">Pending</option>
 										<option value="completed">Completed</option>
 										<option value="failed">Failed</option>
-										<option value="cancelled">Cancelled</option>
+									
 									</select>
 								</div>
 							)}

@@ -132,7 +132,7 @@ export const seedDatabase = mutation({
 				name: "Marketing Campaign",
 				client: "Local Business",
 				description: "Q1 2026 digital marketing campaign across all channels",
-				status: "on-hold" as const,
+				status: "planning" as const,	
 				priority: "low" as const,
 				startDate: new Date("2025-11-01").getTime(),
 				endDate: new Date("2026-02-28").getTime(),
