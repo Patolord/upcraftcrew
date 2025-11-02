@@ -1,9 +1,10 @@
 import Link from "next/link";
+import type { Route } from "next";
 import type { ReactNode } from "react";
 
 export type IBreadcrumbItem = {
 	label: string;
-	path?: string;
+	path?: Route;
 	active?: boolean;
 };
 
