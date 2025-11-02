@@ -2,6 +2,8 @@ import withPWA from "@ducanh2912/next-pwa";
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+	typedRoutes: true,
+	reactCompiler: true,
 	turbopack: {
 		// Configure custom module resolution extensions
 		resolveExtensions: [".tsx", ".ts", ".jsx", ".js", ".mjs", ".json", ".css"],
