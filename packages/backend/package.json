@@ -11,9 +11,13 @@
 	"license": "ISC",
 	"description": "",
 	"devDependencies": {
-		"typescript": "^5.9.2"
+		"@types/node": "catalog:",
+		"typescript": "catalog:"
 	},
 	"dependencies": {
-		"convex": "^1.25.4"
+		"convex": "catalog:",
+		"better-auth": "catalog:",
+		"@convex-dev/better-auth": "catalog:",
+		"@better-auth/expo": "1.3.27"
 	}
 }
