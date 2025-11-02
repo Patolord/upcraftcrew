@@ -21,12 +21,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
 				<div className="flex">
 					<Sidebar />
 					<div className="flex h-screen min-w-0 grow flex-col overflow-auto">
-						
 						<div id={layoutContentId}>{children}</div>
 						<Footer />
 					</div>
 				</div>
-
 			</div>
 		</Providers>
 	);

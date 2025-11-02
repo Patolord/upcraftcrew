@@ -47,11 +47,11 @@ export const NavBar = () => {
 					>
 						<ul className="menu w-full p-2">
 							<li>
-								<Link href="/profile-menu">
+								<a href="/profile-menu">
 									<span className="iconify lucide--user size-4" />
 									<span>My Profile</span>
-									
-								</Link>
+
+								</a>
 							</li>
 							<li>
 								<Link href="#">

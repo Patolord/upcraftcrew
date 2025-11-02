@@ -8,6 +8,7 @@ import type { TeamMemberRole } from "@/types/team";
 import { TeamMemberCard } from "@/components/team/team-member-card";
 import { TeamMemberRow } from "@/components/team/team-member-row";
 import { NewTeamMemberModal } from "@/components/team/NewTeamMemberModal";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function TeamPage() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -98,6 +99,7 @@ export default function TeamPage() {
 	}
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			{/* Header */}
 			<div className="flex items-center justify-between">
@@ -240,5 +242,6 @@ export default function TeamPage() {
 			{/* New Team Member Modal */}
 			<NewTeamMemberModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
 		</div>
+		</AuthWrapper>
 	);
 }

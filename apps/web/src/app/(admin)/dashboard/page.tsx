@@ -12,6 +12,7 @@ import { ErrorState } from "../../../components/dashboard/error-state";
 import { DashboardSkeleton } from "../../../components/ui/dashboard-skeleton";
 import { ActiveTasks, type Task } from "../../../components/dashboard/active-tasks";
 import { FinanceOverview } from "../../../components/dashboard/finance-overview";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function DashboardPage() {
 	const [retryCount, setRetryCount] = useState(0);
@@ -136,54 +137,56 @@ export default function DashboardPage() {
 	}
 
 	return (
-		<div className="p-6 space-y-6">
-			<DashboardHeader />
+		<AuthWrapper>
+			<div className="p-6 space-y-6">
+				<DashboardHeader />
 
-			{isLoading ? (
-				<DashboardSkeleton variant="stats" />
-			) : (
-				<DashboardStats
-					stats={stats}
-					totalProjects={projects.length}
-					totalMembers={teamMembers.length}
-				/>
-			)}
+				{isLoading ? (
+					<DashboardSkeleton variant="stats" />
+				) : (
+					<DashboardStats
+						stats={stats}
+						totalProjects={projects.length}
+						totalMembers={teamMembers.length}
+					/>
+				)}
 
-			<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-				<div className="lg:col-span-2">
-					{isLoading ? (
-						<DashboardSkeleton variant="activities" />
-					) : (
-						<RecentActivities activities={recentActivities} />
-					)}
+				<div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+					<div className="lg:col-span-2">
+						{isLoading ? (
+							<DashboardSkeleton variant="activities" />
+						) : (
+							<RecentActivities activities={recentActivities} />
+						)}
+					</div>
+
+					<div>
+						{isLoading ? (
+							<DashboardSkeleton variant="deadlines" />
+						) : (
+							<UpcomingDeadlines projects={upcomingDeadlines} />
+						)}
+					</div>
 				</div>
 
-				<div>
-					{isLoading ? (
-						<DashboardSkeleton variant="deadlines" />
-					) : (
-						<UpcomingDeadlines projects={upcomingDeadlines} />
-					)}
-				</div>
+				{isLoading ? (
+					<DashboardSkeleton variant="projects" />
+				) : (
+					<ProjectsOverview
+						projects={projects.slice(0, 5).map(p => ({
+							id: p._id,
+							name: p.name,
+							status: p.status,
+							progress: p.progress,
+							team: p.team.map(m => ({
+								id: m._id,
+								name: m.name,
+								avatar: m.avatar || '',
+							})),
+						}))}
+					/>
+				)}
 			</div>
-
-			{isLoading ? (
-				<DashboardSkeleton variant="projects" />
-			) : (
-				<ProjectsOverview
-					projects={projects.slice(0, 5).map(p => ({
-						id: p._id,
-						name: p.name,
-						status: p.status,
-						progress: p.progress,
-						team: p.team.map(m => ({
-							id: m._id,
-							name: m.name,
-							avatar: m.avatar || '',
-						})),
-					}))}
-				/>
-			)}
-		</div>
+		</AuthWrapper>
 	);
 }

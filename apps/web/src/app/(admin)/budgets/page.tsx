@@ -7,6 +7,7 @@ import { Button } from "@/components/ui/button";
 import { BudgetDashboard } from "@/components/budgets/BudgetDashboard";
 import { AllBudgets } from "@/components/budgets/AllBudgets";
 import { NewBudgetModal } from "@/components/budgets/NewBudgetModal";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function BudgetsPage() {
 	const [activeTab, setActiveTab] = useState<"dashboard" | "all">("dashboard");
@@ -18,6 +19,7 @@ export default function BudgetsPage() {
 	const isLoading = budgets === undefined || stats === undefined;
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			{/* Header */}
 			<div className="flex items-center justify-between">
@@ -80,5 +82,6 @@ export default function BudgetsPage() {
 				onClose={() => setIsModalOpen(false)}
 			/>
 		</div>
+		</AuthWrapper>
 	);
 }

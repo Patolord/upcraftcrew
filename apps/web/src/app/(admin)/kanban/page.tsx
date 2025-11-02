@@ -7,6 +7,7 @@ import { adaptConvexProject } from "@/lib/utils/project-adapter";
 import type { ProjectStatus } from "@/types/project";
 import { KanbanBoard } from "../../../components/kanban/KanbanBoard";
 import { KanbanHeader } from "../../../components/kanban/KanbanHeader";
+import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function KanbanPage() {
 	const [searchQuery, setSearchQuery] = useState("");
@@ -85,9 +86,11 @@ export default function KanbanPage() {
 	}
 
 	return (
+		<AuthWrapper>
 		<div className="p-6 space-y-6">
 			<KanbanHeader searchQuery={searchQuery} setSearchQuery={setSearchQuery} />
 			<KanbanBoard columns={columns} />
 		</div>
+		</AuthWrapper>
 	);
 }
