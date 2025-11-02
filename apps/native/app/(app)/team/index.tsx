@@ -41,7 +41,7 @@ export default function TeamPage() {
 
   if (teamMembers === undefined) {
     return (
-      <View className="flex-1 items-center justify-center bg-white">
+      <View className="flex-1 pt-10 items-center justify-center bg-white">
         <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading team...</Text>
       </View>
@@ -59,12 +59,12 @@ export default function TeamPage() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 pt-16 bg-gray-50">
       <ScrollView className="flex-1">
         <View className="p-4 space-y-4">
           {/* Header */}
           <View className="flex-row justify-between items-center">
-            <Text className="text-2xl font-bold text-orange-500">Team</Text>
+            <Text className="text-3xl pb-4 font-bold text-orange-500">Team</Text>
             <TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
               <Text className="text-white font-semibold">+ Add Member</Text>
             </TouchableOpacity>
@@ -72,20 +72,20 @@ export default function TeamPage() {
 
           {/* Stats */}
           <View className="flex-row flex-wrap gap-3">
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg border border-orange-500">
               <Text className="text-xs text-gray-500">Total Members</Text>
               <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.total}</Text>
             </View>
             
           
-            <View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
+            <View className="flex-1 min-w-[45%] bg-white p-3 border border-orange-500 rounded-lg ">
               <Text className="text-xs text-gray-500">Avg Projects</Text>
               <Text className="text-2xl font-bold text-orange-500 mt-1">{stats.avgProjects}</Text>
             </View>
           </View>
 
           {/* Search */}
-          <View className="bg-white p-3 rounded-lg shadow flex-row items-center">
+          <View className="bg-white p-3 mb-4 mt-4 rounded-lg border border-orange-500 flex-row items-center">
             <Ionicons name="search-outline" size={20} color="#9ca3af" />
             <TextInput
               className="flex-1 ml-2 text-gray-800"
@@ -119,7 +119,7 @@ export default function TeamPage() {
           </ScrollView>
 
           {/* Team Members List */}
-          <View className="space-y-3">
+          <View className="space-y-3 mt-4">
             {filteredMembers.map((member) => (
               <View key={member._id} className="bg-white p-4 rounded-lg shadow">
                 <View className="flex-row items-start">

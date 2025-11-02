@@ -56,7 +56,7 @@ export default function ProjectsPage() {
   ];
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 pt-16 bg-gray-50">
       <ScrollView className="flex-1">
         <View className="p-4 space-y-4">
           {/* Header */}
@@ -99,20 +99,20 @@ export default function ProjectsPage() {
           </View>
 
           {/* Status Filter */}
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row gap-2 mb-4">
+          <ScrollView horizontal showsHorizontalScrollIndicator={false} className="flex-row justify gap-6 mb-4">
             {statusOptions.map((option) => (
               <TouchableOpacity
                 key={option.value}
                 onPress={() => setStatusFilter(option.value)}
-                className={`px-4 py-2 rounded-full ${
+                className={`px-4 py-2 text-gray-300 rounded-full ${
                   statusFilter === option.value
                     ? "bg-orange-500"
                     : "bg-white border border-orange-500"
                 }`}
               >
                 <Text
-                  className={`font-medium ${
-                    statusFilter === option.value ? "text-white" : "text-gray-700"
+                  className={`font-medium  ${
+                    statusFilter === option.value ? "text-white" : "text-gray-400"
                   }`}
                 >
                   {option.label}
@@ -124,7 +124,7 @@ export default function ProjectsPage() {
           {/* Projects List */}
           <View className="space-y-3">
             {filteredProjects.map((project) => (
-              <View key={project._id} className="bg-white p-4 rounded-lg shadow">
+              <View key={project._id} className="bg-white p-4 rounded-lg border border-orange-500">
                 <View className="flex-row justify-between items-start mb-2">
                   <View className="flex-1">
                     <Text className="text-lg font-semibold text-gray-800">{project.name}</Text>

@@ -20,7 +20,7 @@ export default function DashboardPage() {
 
   if (projects === undefined || teamMembers === undefined || transactions === undefined) {
     return (
-      <View className="flex-1 items-center justify-center bg-white">
+      <View className="flex-1 pt-10 items-center justify-center bg-white">
         <ActivityIndicator size="large" color="#FF5722" />
         <Text className="mt-4 text-gray-600">Loading dashboard...</Text>
       </View>
@@ -46,10 +46,10 @@ export default function DashboardPage() {
     : 0;
 
   return (
-    <View className="flex-1 bg-gray-50">
+    <View className="flex-1 pt-16 bg-gray-50">
       {/* Header */}
       <View className="bg-white p-4 border-b border-gray-200">
-        <Text className="text-2xl font-bold text-orange-500 mb-3">Dashboard</Text>
+        <Text className="text-3xl font-bold text-orange-500 mb-3">Dashboard</Text>
 
         {/* Tab Navigation */}
         <View className="flex-row gap-2">
