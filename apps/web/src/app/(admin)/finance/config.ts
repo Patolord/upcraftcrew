@@ -15,5 +15,5 @@ export const categoryConfig: Record<TransactionCategory, { label: string; icon: 
 export const statusConfig = {
 	completed: { label: "Completed", color: "badge-success" },
 	pending: { label: "Pending", color: "badge-warning" },
-	cancelled: { label: "Cancelled", color: "badge-error" },
+
 };

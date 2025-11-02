@@ -12,17 +12,9 @@ const statusConfig = {
 		label: "In Progress",
 		color: "badge-primary",
 	},
-	"on-hold": {
-		label: "On Hold",
-		color: "badge-warning",
-	},
 	completed: {
 		label: "Completed",
 		color: "badge-success",
-	},
-	cancelled: {
-		label: "Cancelled",
-		color: "badge-error",
 	},
 };
 
@@ -46,7 +38,7 @@ const priorityConfig = {
 };
 
 export function ProjectCard({ project }: { project: Project }) {
-	const status = statusConfig[project.status];
+	const status = statusConfig[project.status as keyof typeof statusConfig];
 	const priority = priorityConfig[project.priority];
 
 	return (

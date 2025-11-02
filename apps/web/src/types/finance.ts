@@ -11,7 +11,7 @@ export type TransactionCategory =
 	| "consultant"
 	| "other";
 
-export type PaymentStatus = "pending" | "completed" | "cancelled";
+export type PaymentStatus = "pending" | "completed" ;
 
 export type Transaction = {
 	id: string;

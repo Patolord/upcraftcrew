@@ -1,15 +1,12 @@
 import { Link, Stack } from "expo-router";
 import { Text, View } from "react-native";
-import { Container } from "@/components/container";
 
 export default function NotFoundScreen() {
 	return (
-		<>
-			<Stack.Screen options={{ title: "Oops!" }} />
-			<Container>
+
 				<View className="flex-1 items-center justify-center p-6">
 					<View className="items-center">
-						<Text className="mb-4 text-6xl">🤔</Text>
+						
 						<Text className="mb-2 text-center font-bold text-2xl text-foreground">
 							Page Not Found
 						</Text>
@@ -23,7 +20,5 @@ export default function NotFoundScreen() {
 						</Link>
 					</View>
 				</View>
-			</Container>
-		</>
 	);
 }
