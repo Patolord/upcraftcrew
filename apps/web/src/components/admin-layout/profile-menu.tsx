@@ -69,7 +69,7 @@ export const ProfileMenu = () => {
 						<li>
 							<Link className="text-error hover:bg-error/10" href="#">
 								<span className="iconify lucide--log-out size-4.5" />
-								<span>Sign Out</span>
+								<span>Sign Out (todo)</span>
 							</Link>
 						</li>
 					</ul>
