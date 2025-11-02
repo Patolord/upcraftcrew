@@ -157,9 +157,7 @@ export function NewProjectModal() {
 							>
 								<option value="planning">Planning</option>
 								<option value="in-progress">In Progress</option>
-								<option value="on-hold">On Hold</option>
 								<option value="completed">Completed</option>
-								<option value="cancelled">Cancelled</option>
 							</select>
 						</div>
 						<div className="space-y-2">

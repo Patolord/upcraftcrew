@@ -29,14 +29,6 @@ export function ProjectsStats({ projects }: ProjectsStatsProps) {
 					</div>
 				</div>
 			</div>
-			<div className="stats shadow border border-base-300">
-				<div className="stat py-4">
-					<div className="stat-title text-xs">On Hold</div>
-					<div className="stat-value text-2xl text-warning">
-						{projects.filter((p) => p.status === "on-hold").length}
-					</div>
-				</div>
-			</div>
 		</div>
 	);
 }

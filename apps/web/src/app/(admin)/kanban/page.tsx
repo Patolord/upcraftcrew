@@ -40,9 +40,8 @@ export default function KanbanPage() {
 		const statuses: ProjectStatus[] = [
 			"planning",
 			"in-progress",
-			"on-hold",
 			"completed",
-			"cancelled",
+			
 		];
 
 		return statuses.map((status) => ({

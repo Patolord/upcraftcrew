@@ -51,7 +51,7 @@ export const getTransactionsByStatus = query({
 			v.literal("pending"),
 			v.literal("completed"),
 			v.literal("failed"),
-			v.literal("cancelled"),
+
 		),
 	},
 	handler: async (ctx, args) => {
@@ -204,7 +204,7 @@ export const createTransaction = mutation({
 			v.literal("pending"),
 			v.literal("completed"),
 			v.literal("failed"),
-			v.literal("cancelled"),
+		
 		),
 		date: v.number(),
 		clientId: v.optional(v.string()),
@@ -252,7 +252,7 @@ export const updateTransaction = mutation({
 				v.literal("pending"),
 				v.literal("completed"),
 				v.literal("failed"),
-				v.literal("cancelled"),
+
 			),
 		),
 		date: v.optional(v.number()),

@@ -4,7 +4,7 @@ import { Image } from "@/components/ui/image";
 export interface ProjectOverview {
 	id: string;
 	name: string;
-	status: "in-progress" | "completed" | "planning" | "on-hold" | "cancelled";
+	status: "in-progress" | "completed" | "planning";
 	progress: number;
 	team: Array<{
 		id: string;
@@ -66,9 +66,7 @@ export function ProjectsOverview({ projects }: ProjectsOverviewProps) {
 												? "Completed"
 												: project.status === "planning"
 													? "Planning"
-													: project.status === "on-hold"
-														? "On Hold"
-														: "Cancelled"}
+													: ""}
 									</span>
 									<span className="text-sm font-medium min-w-[3rem] text-right">
 										{project.progress}%
