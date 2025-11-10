@@ -1,0 +1,395 @@
+{
+  "common": {
+    "cta": {
+      "getFreeConsultation": "Receber consultoria gratuita",
+      "getQuote": "Solicitar orçamento",
+      "startProject": "Iniciar projeto",
+      "contactUs": "Fale conosco"
+    },
+    "status": {
+      "pending": "Pendente...",
+      "optimal": "Ideal"
+    },
+    "form": {
+      "emailPlaceholder": "Endereço de e-mail",
+      "emailHelper": "Sem spam, prometemos!"
+    },
+    "badges": {
+      "mostPopular": "Mais popular",
+      "custom": "Sob medida",
+      "new": "Novo",
+      "bestValue": "Melhor custo-benefício"
+    }
+  },
+  "topbar": {
+    "menu": [
+      { "title": "Início", "target": "hero" },
+      { "title": "Recursos", "target": "features" },
+      { "title": "Benefícios", "target": "benefits" },
+      { "title": "Planos", "target": "pricing" },
+      { "title": "Contato", "target": "contact" }
+    ],
+    "mobileNavigationLabel": "Navegação",
+    "languageSwitch": {
+      "label": "Idioma",
+      "ariaLabel": "Alterar idioma",
+      "options": {
+        "pt-BR": "Português",
+        "en": "Inglês"
+      }
+    }
+  },
+  "hero": {
+    "badge": {
+      "prefix": "Confiado por",
+      "highlight": "Empresas globais"
+    },
+    "title": {
+      "line1": "Desenvolvimento web de alta qualidade",
+      "line2": "Entregue",
+      "highlight": "com fluidez"
+    },
+    "description": "Ajudamos empresas a crescer mais rápido com soluções web e de software sob medida — construídas com os mais altos padrões, comunicação clara e entrega confiável.",
+    "primaryCta": "Receber consultoria gratuita",
+    "secondaryCta": "Nosso processo",
+    "cards": {
+      "left": {
+        "badgeTitle": "Desenvolvimento web moderno",
+        "secondaryCard": {
+          "title": "React & Next.js",
+          "description": "Stack moderna"
+        },
+        "performance": {
+          "label": "Desempenho",
+          "value": "Ideal"
+        },
+        "email": {
+          "title": "Alerta por e-mail",
+          "status": "Pendente...",
+          "percentage": "47%"
+        }
+      },
+      "center": {
+        "highlight": "Soluções personalizadas em ação"
+      },
+      "right": {
+        "badgeTitle": "Desenvolvimento de apps",
+        "supportCard": {
+          "title": "Suporte contínuo",
+          "growth": "+78%"
+        }
+      },
+      "top": {
+        "title": "Código limpo e boas práticas"
+      }
+    }
+  },
+  "features": {
+    "eyebrow": "Nossos serviços",
+    "title": "Criado para o seu sucesso",
+    "description": "Do conceito à implantação, entregamos soluções web modernas que impulsionam o seu negócio com tecnologia de ponta.",
+    "items": [
+      {
+        "title": "Aplicações web personalizadas",
+        "description": "Aplicações feitas sob medida com React, Next.js e frameworks modernos para atender às necessidades do seu negócio."
+      },
+      {
+        "title": "Desenvolvimento de plataformas SaaS",
+        "description": "Soluções SaaS completas com autenticação, pagamentos integrados e arquitetura escalável para empresas em crescimento."
+      },
+      {
+        "title": "Soluções de e-commerce",
+        "description": "Plataformas de e-commerce modernas com pagamentos seguros, gestão de estoque e experiência de uso impecável."
+      },
+      {
+        "title": "APIs e integrações",
+        "description": "APIs REST e integrações de terceiros para conectar seus sistemas e otimizar processos."
+      },
+      {
+        "title": "Deploy em nuvem e DevOps",
+        "description": "Implantação simplificada na AWS, Vercel ou na nuvem de sua escolha, com pipelines de CI/CD e monitoramento."
+      },
+      {
+        "title": "Suporte contínuo",
+        "description": "Manutenção, atualizações e suporte técnico para manter suas aplicações em perfeito funcionamento.",
+        "cta": "Saiba mais sobre nossos serviços"
+      }
+    ]
+  },
+  "benefits": {
+    "eyebrow": "Por que nos escolher",
+    "title": "Por que trabalhar conosco?",
+    "description": "Somos um estúdio boutique especializado em React, Next.js e nuvem moderna. Pequenos o bastante para oferecer atenção próxima, experientes o suficiente para entregar resultados de nível enterprise.",
+    "items": [
+      {
+        "title": "Soluções sob medida",
+        "description": "Aplicações pensadas especificamente para os objetivos do seu negócio"
+      },
+      {
+        "title": "Custo-benefício real",
+        "description": "Valores competitivos sem abrir mão de qualidade ou comunicação"
+      },
+      {
+        "title": "Comunicação clara",
+        "description": "Desenvolvedores fluentes em inglês e horários flexíveis em vários fusos"
+      },
+      {
+        "title": "Expertise comprovada",
+        "description": "Aplicações full-stack, plataformas SaaS e landing pages modernas"
+      },
+      {
+        "title": "Atendimento próximo",
+        "description": "Contato direto com desenvolvedores seniors, sem intermediários"
+      },
+      {
+        "title": "Entrega confiável",
+        "description": "Projetos consistentes com atualizações transparentes de progresso"
+      }
+    ]
+  },
+  "process": {
+    "eyebrow": "Nosso processo",
+    "title": "Como conduzimos o desenvolvimento",
+    "description": "Da primeira conversa à publicação, seguimos um processo comprovado que garante qualidade e transparência.",
+    "steps": [
+      {
+        "title": "Descoberta e planejamento",
+        "subtitle": "Começamos entendendo sua visão e requisitos.",
+        "items": [
+          "Levantamento de requisitos",
+          "Wireframes",
+          "Planejamento de cronograma",
+          "Especificação técnica"
+        ]
+      },
+      {
+        "title": "Design e desenvolvimento",
+        "subtitle": "Nossa equipe dá vida à sua ideia com código limpo"
+      },
+      {
+        "title": "Testes e implantação",
+        "subtitle": "Testes rigorosos e deploy sem atritos para produção",
+        "items": [
+          "Garantia de qualidade",
+          "Deploy em nuvem",
+          "Auditoria de segurança",
+          "Go live"
+        ]
+      },
+      {
+        "title": "Suporte contínuo",
+        "subtitle": "Manutenção e suporte permanentes para sua aplicação.",
+        "items": [
+          "Monitoramento de performance",
+          "Atualizações e correções",
+          "Atualizações de segurança",
+          "Suporte técnico",
+          "Evolução de funcionalidades",
+          "Code reviews",
+          "Mais"
+        ]
+      }
+    ]
+  },
+  "integrations": {
+    "eyebrow": "Sincronização sem esforço",
+    "title": "Integrações poderosas",
+    "description": "Nossa plataforma se conecta às ferramentas que você já usa, deixando a automação simples e natural.",
+    "items": [
+      {
+        "title": "HubSpot",
+        "description": "Sincronize dados de clientes e acompanhe interações para potencializar vendas e suporte",
+        "category": "CRM",
+        "image": "/images/brand-logo/hubspot.svg"
+      },
+      {
+        "title": "Shopify",
+        "description": "Atualize estoque, processe pedidos e envie notificações automaticamente",
+        "category": "E-commerce",
+        "image": "/images/brand-logo/shopify.svg"
+      },
+      {
+        "title": "Zapier",
+        "description": "Conecte-se a mais de 5.000 apps para automatizar tarefas repetitivas e fluxos de trabalho",
+        "category": "Automação",
+        "image": "/images/brand-logo/zapier.svg"
+      },
+      {
+        "title": "Stripe",
+        "description": "Automatize faturas, pagamentos e cobranças recorrentes com integração Stripe",
+        "category": "Pagamentos",
+        "image": "/images/brand-logo/stripe.svg"
+      },
+      {
+        "title": "Slack",
+        "description": "Envie atualizações instantâneas para o time sem trocar de aplicativo",
+        "category": "Comunicação",
+        "image": "/images/brand-logo/slack.svg"
+      },
+      {
+        "title": "Google Drive",
+        "description": "Armazene e organize documentos importantes garantindo acesso fácil sempre que precisar",
+        "category": "Armazenamento",
+        "image": "/images/brand-logo/g-drive.svg"
+      }
+    ]
+  },
+  "testimonials": {
+    "eyebrow": "Histórias de sucesso",
+    "title": "Empresas que confiam no nosso trabalho",
+    "description": "Veja como organizações ao redor do mundo ampliaram sua presença digital com nossas soluções sob medida.",
+    "stats": [
+      {
+        "title": "Entrega pontual",
+        "number": "100%",
+        "description": "Projetos entregues dentro do prazo e do orçamento."
+      },
+      {
+        "title": "Suporte gratuito",
+        "number": "30 dias",
+        "description": "Ajustes complementares e suporte contínuo incluídos."
+      },
+      {
+        "title": "Clientes satisfeitos",
+        "number": "100%",
+        "description": "Taxa de satisfação em projetos concluídos."
+      },
+      {
+        "title": "Tempo de resposta",
+        "number": "< 2h",
+        "description": "Tempo médio de retorno em comunicações com clientes."
+      }
+    ],
+    "list": [
+      {
+        "image": "/images/avatars/1.png",
+        "name": "Sarah Mitchell",
+        "comments": "Trabalhar com a equipe foi excepcional. Entregaram nossa plataforma SaaS personalizada no prazo e dentro do orçamento. A qualidade superou nossas expectativas.",
+        "company": "TechFlow Solutions",
+        "position": "Diretora de Operações",
+        "location": "Manchester, Reino Unido"
+      },
+      {
+        "image": "/images/avatars/2.png",
+        "name": "Alex Rodriguez",
+        "comments": "Experiência de desenvolvimento impecável. Comunicação clara em diferentes fusos, entrega confiável e o produto final ficou exatamente como precisávamos.",
+        "company": "InnovateCore",
+        "position": "CTO",
+        "location": "Toronto, Canadá"
+      }
+    ]
+  },
+  "pricing": {
+    "eyebrow": "Preços transparentes",
+    "title": "Planos de desenvolvimento sem surpresa",
+    "description": "Escolha o modelo de contratação que melhor se adapta ao seu projeto. Transparência total e zero custos ocultos.",
+    "sectionsLabel": "O que está incluso",
+    "tabs": {
+      "projectBased": "Por projeto",
+      "retainer": "Assinatura",
+      "bestValue": "Melhor custo-benefício"
+    },
+    "plans": [
+      {
+        "title": "Essenciais Web",
+        "subtitle": "Perfeito para pequenas empresas",
+        "prices": {
+          "project": "1.000",
+          "retainer": "30"
+        },
+        "priceLabel": {
+          "project": "a partir de",
+          "retainer": "/mês"
+        },
+        "features": [
+          { "label": "Site responsivo de até 5 páginas", "included": true },
+          { "label": "Design mobile-first", "included": true },
+          { "label": "Formulários de contato e SEO básico", "included": true },
+          { "label": "Integração com CMS", "included": true },
+          { "label": "Funcionalidade de e-commerce", "included": false },
+          { "label": "Integrações personalizadas", "included": false }
+        ],
+        "quote": "\"Perfeito para startups e pequenos negócios entrando no digital\"",
+        "cta": "Solicitar orçamento"
+      },
+      {
+        "title": "Business Pro",
+        "badge": "Mais popular",
+        "subtitle": "Aplicações web avançadas",
+        "prices": {
+          "project": "2.900",
+          "retainer": "250"
+        },
+        "priceLabel": {
+          "project": "a partir de",
+          "retainer": "/mês"
+        },
+        "features": [
+          { "label": "Aplicação web personalizada", "included": true },
+          { "label": "Sistema de autenticação", "included": true },
+          { "label": "Modelagem de dados e API", "included": true },
+          { "label": "Integração de pagamentos", "included": true },
+          { "label": "Deploy e hospedagem em nuvem", "included": true },
+          { "label": "3 meses de suporte incluso", "included": true }
+        ],
+        "quote": "\"Ideal para negócios em crescimento que precisam de funcionalidades sob medida\"",
+        "cta": "Iniciar projeto"
+      },
+      {
+        "title": "Enterprise",
+        "badge": "Sob medida",
+        "subtitle": "Soluções de grande escala",
+        "prices": {
+          "project": "25k+",
+          "retainer": "2.900"
+        },
+        "priceLabel": {
+          "project": "orçamento personalizado",
+          "retainer": "/mês"
+        },
+        "features": [
+          { "label": "Plataformas SaaS complexas", "included": true },
+          { "label": "Arquitetura multi-tenant", "included": true },
+          { "label": "APIs e integrações customizadas", "included": true },
+          { "label": "Segurança enterprise", "included": true },
+          { "label": "Gerente de projeto dedicado", "included": true },
+          { "label": "Manutenção e suporte contínuos", "included": true }
+        ],
+        "quote": "\"Para empresas que precisam de soluções escaláveis e sob medida\"",
+        "cta": "Fale conosco"
+      }
+    ]
+  },
+  "footer": {
+    "eyebrow": "Fique conectado",
+    "title": "Pronto para iniciar seu projeto?",
+    "description": "Vamos conversar sobre as necessidades do seu negócio. Ganhe uma consultoria gratuita e descubra como podemos tirar sua ideia do papel.",
+    "cta": "Receber consultoria gratuita",
+    "summary": "Estúdio boutique especializado em React, Next.js e soluções modernas em nuvem. Proximidade no atendimento e resultados em nível enterprise.",
+    "social": {
+      "google": "Google",
+      "apple": "Apple",
+      "github": "Github",
+      "x": "X"
+    },
+    "quickLinks": {
+      "title": "Links rápidos",
+      "items": ["Início", "Recursos", "Planos", "Sobre nós", "Contato"]
+    },
+    "resources": {
+      "title": "Materiais",
+      "items": ["Documentação", "Central de ajuda", "FAQs", "Comunidade", "Blog"]
+    },
+    "communityBadge": "Novo",
+    "legal": {
+      "copyright": "© {year} Upcraft Crew",
+      "credit": {
+        "prefix": "Do conceito à realidade por",
+        "linkLabel": "Upcraft Crew"
+      },
+      "terms": "Termos",
+      "privacy": "Política de privacidade"
+    }
+  }
+}
+

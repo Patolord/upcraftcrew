@@ -10,7 +10,9 @@ import { v } from "convex/values";
 const siteUrl = process.env.SITE_URL!;
 const nativeAppUrl = process.env.NATIVE_APP_URL || "upcraftcrew-os://";
 
-export const authComponent = createClient<DataModel>((components as any).betterAuth);
+export const authComponent = createClient<DataModel>(
+	(components as any).betterAuth,
+);
 
 function createAuth(
 	ctx: GenericCtx<DataModel>,
@@ -40,6 +42,3 @@ export const getCurrentUser = query({
 		return authComponent.getAuthUser(ctx);
 	},
 });
-
-
-

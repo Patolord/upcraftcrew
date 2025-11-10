@@ -1,24 +1,37 @@
+"use client";
+
+import { SECTION_IDS } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+
 export const Features = () => {
+	const { messages } = useLandingI18n();
+	const { features } = messages;
+	const [
+		customApps,
+		saas,
+		ecommerce,
+		api,
+		cloud,
+		support,
+	] = features.items;
+
 	return (
 		<div
 			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
-			id="features"
+			id={SECTION_IDS.features}
 		>
 			<div className="flex items-center justify-center gap-1.5">
 				<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
 				<p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
-					Our Services
+					{features.eyebrow}
 				</p>
 				<div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
 			</div>
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
-				Built for Your Success
+				{features.title}
 			</p>
 			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">
-					From concept to deployment, we deliver modern web solutions that drive
-					your business forward with cutting-edge technology.
-				</p>
+				<p className="text-base-content/80 max-w-lg">{features.description}</p>
 			</div>
 			<div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-2 lg:mt-16 xl:grid-cols-3 2xl:mt-24">
 				<div className="bg-base-100 card group relative cursor-pointer overflow-hidden shadow transition-all hover:shadow-lg">
@@ -26,10 +39,9 @@ export const Features = () => {
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">
 							<span className="iconify lucide--workflow size-6"></span>
 						</div>
-						<p className="mt-3 text-lg font-medium">Custom Web Applications</p>
+						<p className="mt-3 text-lg font-medium">{customApps.title}</p>
 						<p className="text-base-content/80 mt-0.5 text-sm">
-							Bespoke web applications built with React, Next.js, and modern
-							frameworks tailored to your specific business requirements.
+							{customApps.description}
 						</p>
 						<div className="*:fill-base-content/5 absolute -end-6 top-4.5 flex rotate-45 items-center justify-center space-x-1.5 transition-all *:transition-all group-hover:-end-5 group-hover:top-3.5 group-hover:-space-x-3.5 group-hover:*:fill-orange-400">
 							<svg
@@ -60,12 +72,9 @@ export const Features = () => {
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">
 							<span className="iconify lucide--play-circle size-6"></span>
 						</div>
-						<p className="mt-3 text-lg font-medium">
-							SaaS Platform Development
-						</p>
+						<p className="mt-3 text-lg font-medium">{saas.title}</p>
 						<p className="text-base-content/80 mt-0.5 text-sm">
-							Complete SaaS solutions with user authentication, payment
-							integration, and scalable architecture for growing businesses.
+							{saas.description}
 						</p>
 						<div className="absolute end-1 top-2">
 							<svg
@@ -88,10 +97,9 @@ export const Features = () => {
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">
 							<span className="iconify lucide--radio size-6"></span>
 						</div>
-						<p className="mt-3 text-lg font-medium">E-commerce Solutions</p>
+						<p className="mt-3 text-lg font-medium">{ecommerce.title}</p>
 						<p className="text-base-content/80 mt-0.5 text-sm">
-							Modern e-commerce platforms with secure payment processing,
-							inventory management, and seamless user experience.
+							{ecommerce.description}
 						</p>
 						<div className="absolute end-3.5 top-3.5">
 							<svg
@@ -112,12 +120,9 @@ export const Features = () => {
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">
 							<span className="iconify lucide--user-round-cog size-6"></span>
 						</div>
-						<p className="mt-3 text-lg font-medium">
-							API Development & Integration
-						</p>
+						<p className="mt-3 text-lg font-medium">{api.title}</p>
 						<p className="text-base-content/80 mt-0.5 text-sm">
-							RESTful APIs and third-party integrations to connect your systems
-							and streamline business processes.
+							{api.description}
 						</p>
 						<div className="absolute end-3.5 top-3.5">
 							<svg
@@ -138,12 +143,9 @@ export const Features = () => {
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">
 							<span className="iconify lucide--git-branch size-6"></span>
 						</div>
-						<p className="mt-3 text-lg font-medium">
-							Cloud Deployment & DevOps
-						</p>
+						<p className="mt-3 text-lg font-medium">{cloud.title}</p>
 						<p className="text-base-content/80 mt-0.5 text-sm">
-							Seamless deployment to AWS, Vercel, or your preferred cloud
-							platform with CI/CD pipelines and monitoring.
+							{cloud.description}
 						</p>
 						<div className="absolute end-3.5 top-3.5">
 							<svg
@@ -167,14 +169,11 @@ export const Features = () => {
 				</div>
 				<div className="bg-base-100 card group relative cursor-pointer overflow-hidden shadow">
 					<div className="p-5">
-						<p className="text-lg font-medium">Ongoing Support</p>
-						<p className="text-sm opacity-80">
-							Comprehensive maintenance, updates, and technical support to keep
-							your applications running smoothly.
-						</p>
+						<p className="text-lg font-medium">{support.title}</p>
+						<p className="text-sm opacity-80">{support.description}</p>
 						<div className="mt-9 flex items-center justify-between">
 							<p className="text-sm opacity-40 transition-all group-hover:opacity-80">
-								Learn more about our services
+								{support.cta}
 							</p>
 						</div>
 						<div className="absolute end-4 bottom-3">
@@ -196,3 +195,4 @@ export const Features = () => {
 		</div>
 	);
 };
+

@@ -55,7 +55,6 @@ export const getProjectsByStatus = query({
 			v.literal("in-progress"),
 
 			v.literal("completed"),
-
 		),
 	},
 	handler: async (ctx, args) => {
@@ -91,9 +90,8 @@ export const createProject = mutation({
 		status: v.union(
 			v.literal("planning"),
 			v.literal("in-progress"),
-	
-			v.literal("completed"),
 
+			v.literal("completed"),
 		),
 		priority: v.union(
 			v.literal("low"),
@@ -141,7 +139,6 @@ export const updateProject = mutation({
 				v.literal("planning"),
 				v.literal("in-progress"),
 				v.literal("completed"),
-	
 			),
 		),
 		priority: v.optional(

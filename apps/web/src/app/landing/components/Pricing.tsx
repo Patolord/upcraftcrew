@@ -1,24 +1,30 @@
+"use client";
+
+import { SECTION_IDS } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+
 export const Pricing = () => {
+	const { messages } = useLandingI18n();
+	const { pricing } = messages;
+	const [webEssentials, businessPro, enterprise] = pricing.plans;
+
 	return (
 		<div
 			className="group/section container py-8 md:py-12 lg:py-16 2xl:py-28"
-			id="pricing"
+			id={SECTION_IDS.pricing}
 		>
 			<div className="flex items-center justify-center gap-1.5">
 				<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
 				<p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
-					Transparent Pricing
+					{pricing.eyebrow}
 				</p>
 				<div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
 			</div>
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
-				Transparent Development Pricing
+				{pricing.title}
 			</p>
 			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">
-					Choose the engagement model that works best for your project.
-					Transparent pricing with no hidden costs.
-				</p>
+				<p className="text-base-content/80 max-w-lg">{pricing.description}</p>
 			</div>
 
 			<div className="mt-6 flex items-center justify-center lg:mt-8 2xl:mt-12">
@@ -30,14 +36,14 @@ export const Pricing = () => {
 							defaultChecked
 							value="project"
 						/>
-						<p className="mx-2">Project-Based</p>
+						<p className="mx-2">{pricing.tabs.projectBased}</p>
 					</label>
 
 					<label className="tab gap-0">
 						<input type="radio" name="plan_duration" value="retainer" />
 						<div className="gap mx-2 flex items-center gap-1.5">
 							<span className="iconify lucide--award size-4"></span>
-							<p>Retainer</p>
+							<p>{pricing.tabs.retainer}</p>
 						</div>
 					</label>
 					<div className="*:stroke-success/80 absolute -end-10 -bottom-6 -rotate-40 max-sm:hidden">
@@ -63,7 +69,7 @@ export const Pricing = () => {
 						</svg>
 					</div>
 					<p className="text-success absolute -end-30 bottom-4 text-sm font-semibold max-sm:hidden">
-						Best Value
+						{pricing.tabs.bestValue}
 					</p>
 				</div>
 			</div>
@@ -71,9 +77,9 @@ export const Pricing = () => {
 				<div className="card bg-base-100 border-base-300 flex flex-col border border-dashed p-6">
 					<div className="flex justify-between gap-3">
 						<div>
-							<p className="text-2xl font-semibold">Web Essentials</p>
+							<p className="text-2xl font-semibold">{webEssentials.title}</p>
 							<p className="text-base-content/80 text-sm">
-								Perfect for small businesses
+								{webEssentials.subtitle}
 							</p>
 						</div>
 					</div>
@@ -84,69 +90,59 @@ export const Pricing = () => {
 							</span>
 							<span className="relative inline-block h-8 w-20">
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
-									1,000
+									{webEssentials.prices.project}
 								</span>
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
-									30
+									{webEssentials.prices.retainer}
 								</span>
 							</span>
 						</p>
 						<p className="text-base-content/80 mt-3 text-sm">
 							<span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
-								starting from
+								{webEssentials.priceLabel.project}
 							</span>
 							<span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
-								/month
+								{webEssentials.priceLabel.retainer}
 							</span>
 						</p>
 					</div>
 					<p className="text-base-content/80 mt-6 text-sm font-medium">
-						What's Included
+						{pricing.sectionsLabel}
 					</p>
 					<div className="mt-2.5 space-y-1.5">
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							5-page responsive website
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Mobile-first design
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Contact forms & basic SEO
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							CMS integration
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--x text-error size-4.5"></span>
-							E-commerce functionality
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--x text-error size-4.5"></span>
-							Custom integrations
-						</div>
+						{webEssentials.features.map((feature) => (
+							<div className="flex items-center gap-2" key={feature.label}>
+								<span
+									className={`iconify ${
+										feature.included
+											? "lucide--check text-success"
+											: "lucide--x text-error"
+									} size-4.5`}
+								></span>
+								{feature.label}
+							</div>
+						))}
 					</div>
 					<p className="text-base-content/70 mt-12 text-center font-medium italic">
-						"Perfect for startups and small businesses getting online"
+						{webEssentials.quote}
 					</p>
 					<button className="btn btn-outline border-base-300 mt-6 gap-2.5">
-						<span className="iconify lucide--arrow-right size-4"></span>Get
-						Quote
+						<span className="iconify lucide--arrow-right size-4"></span>
+						{webEssentials.cta}
 					</button>
 				</div>
 				<div className="card bg-base-100 border-base-300 flex flex-col border p-6">
 					<div className="flex justify-between gap-3">
-						<p className="text-primary text-2xl font-semibold">Business Pro</p>
-						<div className="badge badge-primary badge-sm shadow-primary/10 shadow-lg">
-							Most Popular
-						</div>
+						<p className="text-primary text-2xl font-semibold">
+							{businessPro.title}
+						</p>
+						{businessPro.badge ? (
+							<div className="badge badge-primary badge-sm shadow-primary/10 shadow-lg">
+								{businessPro.badge}
+							</div>
+						) : null}
 					</div>
-					<p className="text-base-content/80 text-sm">
-						Advanced web applications
-					</p>
+					<p className="text-base-content/80 text-sm">{businessPro.subtitle}</p>
 					<div className="mt-6 text-center">
 						<p className="text-primary text-5xl leading-0 font-semibold">
 							<span className="text-base-content/80 align-super text-xl font-medium">
@@ -154,70 +150,52 @@ export const Pricing = () => {
 							</span>
 							<span className="relative inline-block h-8 w-20">
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
-									2,900
+									{businessPro.prices.project}
 								</span>
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
-									250
+									{businessPro.prices.retainer}
 								</span>
 							</span>
 						</p>
 						<p className="text-base-content/80 mt-3 text-sm">
 							<span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
-								starting from
+								{businessPro.priceLabel.project}
 							</span>
 							<span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
-								/month
+								{businessPro.priceLabel.retainer}
 							</span>
 						</p>
 					</div>
 
 					<p className="text-base-content/80 mt-6 text-sm font-medium">
-						What's Included
+						{pricing.sectionsLabel}
 					</p>
 					<div className="mt-2.5 space-y-1.5">
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Custom web application
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							User authentication system
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Database design & API
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Payment integration
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Cloud deployment & hosting
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							3 months support included
-						</div>
+						{businessPro.features.map((feature) => (
+							<div className="flex items-center gap-2" key={feature.label}>
+								<span className="iconify lucide--check text-success size-4.5"></span>
+								{feature.label}
+							</div>
+						))}
 					</div>
 					<p className="text-base-content/70 mt-12 text-center font-medium italic">
-						"Perfect for growing businesses needing custom functionality"
+						{businessPro.quote}
 					</p>
 					<button className="btn btn-primary mt-6 gap-2.5">
 						<span className="iconify lucide--rocket size-4"></span>
-						Start Project
+						{businessPro.cta}
 					</button>
 				</div>
 				<div className="card bg-base-100 border-base-300 flex flex-col border p-6">
 					<div className="flex justify-between gap-3">
-						<p className="text-2xl font-semibold">Enterprise</p>
-						<div className="badge badge-neutral badge-sm shadow-neutral/10 shadow-lg">
-							Custom
-						</div>
+						<p className="text-2xl font-semibold">{enterprise.title}</p>
+						{enterprise.badge ? (
+							<div className="badge badge-neutral badge-sm shadow-neutral/10 shadow-lg">
+								{enterprise.badge}
+							</div>
+						) : null}
 					</div>
-					<p className="text-base-content/80 text-sm">
-						Large-scale & custom solutions
-					</p>
+					<p className="text-base-content/80 text-sm">{enterprise.subtitle}</p>
 
 					<div className="mt-6 text-center">
 						<p className="text-5xl leading-0 font-semibold">
@@ -226,59 +204,43 @@ export const Pricing = () => {
 							</span>
 							<span className="relative inline-block h-8 w-20">
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-100 opacity-100 transition-all duration-500 group-has-[[value=project]:checked]/section:scale-100 group-has-[[value=project]:checked]/section:opacity-100 group-has-[[value=retainer]:checked]/section:scale-0 group-has-[[value=retainer]:checked]/section:opacity-0">
-									25k+
+									{enterprise.prices.project}
 								</span>
 								<span className="absolute start-0 top-1/2 -translate-y-1/2 scale-0 opacity-0 transition-all duration-500 group-has-[[value=retainer]:checked]/section:scale-100 group-has-[[value=retainer]:checked]/section:opacity-100 group-has-[[value=project]:checked]/section:scale-0 group-has-[[value=project]:checked]/section:opacity-0">
-									2,900
+									{enterprise.prices.retainer}
 								</span>
 							</span>
 						</p>
 						<p className="text-base-content/80 mt-3 text-sm">
 							<span className="group-has-[[value=project]:checked]/section:inline group-has-[[value=retainer]:checked]/section:hidden">
-								custom quote
+								{enterprise.priceLabel.project}
 							</span>
 							<span className="group-has-[[value=project]:checked]/section:hidden group-has-[[value=retainer]:checked]/section:inline">
-								/month
+								{enterprise.priceLabel.retainer}
 							</span>
 						</p>
 					</div>
 					<p className="text-base-content/80 mt-6 text-sm font-medium">
-						What's Included
+						{pricing.sectionsLabel}
 					</p>
 					<div className="mt-2.5 space-y-1.5">
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Complex SaaS platforms
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Multi-tenant architecture
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Custom API & integrations
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Enterprise security
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Dedicated project manager
-						</div>
-						<div className="flex items-center gap-2">
-							<span className="iconify lucide--check text-success size-4.5"></span>
-							Ongoing maintenance & support
-						</div>
+						{enterprise.features.map((feature) => (
+							<div className="flex items-center gap-2" key={feature.label}>
+								<span className="iconify lucide--check text-success size-4.5"></span>
+								{feature.label}
+							</div>
+						))}
 					</div>
 					<p className="text-base-content/70 mt-12 text-center font-medium italic">
-						"For enterprises requiring scalable, custom-built solutions"
+						{enterprise.quote}
 					</p>
 					<button className="btn btn-neutral mt-6 gap-2.5">
-						<span className="iconify lucide--phone size-4"></span>Contact Us
+						<span className="iconify lucide--phone size-4"></span>
+						{enterprise.cta}
 					</button>
 				</div>
 			</div>
 		</div>
 	);
 };
+
