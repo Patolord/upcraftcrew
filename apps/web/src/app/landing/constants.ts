@@ -1,5 +1,6 @@
 export const SECTION_IDS = {
 	hero: "hero",
+	portfolio: "portfolio",
 	features: "features",
 	process: "process",
 	benefits: "benefits",

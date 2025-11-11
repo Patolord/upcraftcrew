@@ -1,0 +1,282 @@
+"use client";
+
+import {
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+	type CSSProperties,
+} from "react";
+
+import { SECTION_IDS } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+
+const VISIBLE_COUNT = 3;
+const AUTO_PLAY_INTERVAL = 2300;
+const TRANSITION_MS = 320;
+
+const accentBadgeClasses = [
+	"bg-primary/10 text-primary",
+	"bg-secondary/10 text-secondary",
+	"bg-accent/10 text-accent",
+];
+
+const accentIconClasses = [
+	"iconify lucide--sparkles",
+	"iconify lucide--rocket",
+	"iconify lucide--workflow",
+];
+
+export const Portfolio = () => {
+	const { messages } = useLandingI18n();
+	const { portfolio } = messages;
+	const projects = portfolio.projects;
+	const totalProjects = projects.length;
+
+	if (totalProjects === 0) {
+		return null;
+	}
+
+	const canNavigate = totalProjects > VISIBLE_COUNT;
+
+	const projectsLoop = useMemo(() => {
+		if (!canNavigate) {
+			return projects;
+		}
+
+		return [
+			...projects.slice(-VISIBLE_COUNT),
+			...projects,
+			...projects.slice(0, VISIBLE_COUNT),
+		];
+	}, [projects, canNavigate]);
+
+	const initialIndex = canNavigate ? VISIBLE_COUNT : 0;
+
+	const [currentIndex, setCurrentIndex] = useState(initialIndex);
+	const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+
+	useEffect(() => {
+		setCurrentIndex(initialIndex);
+		setIsTransitionEnabled(true);
+	}, [initialIndex, totalProjects]);
+
+	const slideWidth = 100 / VISIBLE_COUNT;
+	const translatePercentage = currentIndex * slideWidth;
+
+	const trackStyle: CSSProperties = {
+		transform: `translateX(-${translatePercentage}%)`,
+		transition: isTransitionEnabled
+			? `transform ${TRANSITION_MS}ms cubic-bezier(0.4, 0, 0.2, 1)`
+			: "none",
+	};
+
+	const handleNext = useCallback(() => {
+		if (!canNavigate) return;
+		setCurrentIndex((previous) => previous + 1);
+	}, [canNavigate]);
+
+	const handlePrevious = useCallback(() => {
+		if (!canNavigate) return;
+		setCurrentIndex((previous) => previous - 1);
+	}, [canNavigate]);
+
+	const handleDotSelect = useCallback(
+		(targetIndex: number) => {
+			if (!canNavigate) return;
+			setCurrentIndex(initialIndex + targetIndex);
+		},
+		[initialIndex, canNavigate],
+	);
+
+	useEffect(() => {
+		if (!canNavigate) return;
+
+		const intervalId = window.setInterval(() => {
+			setCurrentIndex((previous) => previous + 1);
+		}, AUTO_PLAY_INTERVAL);
+
+		return () => window.clearInterval(intervalId);
+	}, [canNavigate]);
+
+	useEffect(() => {
+		if (!isTransitionEnabled) {
+			const id = requestAnimationFrame(() => {
+				setIsTransitionEnabled(true);
+			});
+			return () => cancelAnimationFrame(id);
+		}
+	}, [isTransitionEnabled]);
+
+	const handleTransitionEnd = useCallback(() => {
+		if (!canNavigate) return;
+
+		if (currentIndex >= totalProjects + VISIBLE_COUNT) {
+			setIsTransitionEnabled(false);
+			setCurrentIndex((previous) => previous - totalProjects);
+			return;
+		}
+
+		if (currentIndex < VISIBLE_COUNT) {
+			setIsTransitionEnabled(false);
+			setCurrentIndex((previous) => previous + totalProjects);
+		}
+	}, [canNavigate, currentIndex, totalProjects]);
+
+
+
+	const baseOffset = canNavigate ? VISIBLE_COUNT : 0;
+	const activeDotIndex = canNavigate
+		? ((currentIndex - baseOffset) % totalProjects + totalProjects) % totalProjects
+		: 0;
+
+	return (
+		<section
+			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
+			id={SECTION_IDS.portfolio}
+		>
+			<div className="flex items-center justify-center gap-1.5">
+				<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
+				<p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
+					{portfolio.eyebrow}
+				</p>
+				<div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
+			</div>
+			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
+				{portfolio.title}
+			</p>
+			<div className="mt-2 flex justify-center text-center">
+				<p className="text-base-content/80 max-w-2xl text-sm sm:text-base">
+					{portfolio.description}
+				</p>
+			</div>
+
+			<div className="mt-10 flex items-center justify-between gap-4">
+				<span className="text-xs uppercase tracking-[0.3em] text-base-content/60">
+					{portfolio.controls.previous}
+				</span>
+				{canNavigate && (
+					<div className="flex items-center gap-2">
+						<button
+							type="button"
+							onClick={handlePrevious}
+							className="btn btn-ghost btn-sm btn-square border border-base-200/60"
+							aria-label={portfolio.controls.previous}
+						>
+							<span className="iconify lucide--arrow-left size-4"></span>
+						</button>
+						<button
+							type="button"
+							onClick={handleNext}
+							className="btn btn-ghost btn-sm btn-square border border-base-200/60"
+							aria-label={portfolio.controls.next}
+						>
+							<span className="iconify lucide--arrow-right size-4"></span>
+						</button>
+					</div>
+				)}
+			</div>
+
+		<div className="relative mt-6 overflow-hidden">
+			<div
+				className="flex -mx-4"
+				style={trackStyle}
+				onTransitionEnd={handleTransitionEnd}
+			>
+				{projectsLoop.map((project, index) => {
+					const normalizedIndex = totalProjects
+						? (index - baseOffset + totalProjects) % totalProjects
+						: index;
+					const accentIndex = totalProjects
+						? normalizedIndex % accentBadgeClasses.length
+						: index % accentBadgeClasses.length;
+
+					return (
+						<article
+							key={`${project.name}-${index}`}
+							className="flex px-4"
+							style={{ flex: `0 0 ${slideWidth}%` }}
+						>
+									<div className="bg-base-100 border border-base-200/70 flex h-full grow flex-col rounded-3xl shadow-sm transition-transform duration-500 hover:-translate-y-1.5 hover:shadow-xl">
+										<div className="relative overflow-hidden rounded-t-3xl">
+											<img
+												src={project.image}
+												alt={project.alt}
+												className="h-56 w-full object-cover transition-transform duration-700 ease-out hover:scale-110"
+												loading="lazy"
+											/>
+											<div className="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-4">
+												<span className="badge badge-outline bg-base-100/80 text-[0.65rem] uppercase tracking-[0.2em] text-base-content/70">
+													{project.industry}
+												</span>
+												<span className="rounded-full bg-base-100/80 px-2 py-0.5 text-xs font-medium text-base-content/70">
+													{project.year}
+												</span>
+											</div>
+										</div>
+										<div className="flex grow flex-col gap-4 p-6">
+											<div className="flex items-center gap-3">
+												<div
+													className={`inline-flex size-11 items-center justify-center rounded-2xl ${accentBadgeClasses[accentIndex]}`}
+												>
+													<span className={`${accentIconClasses[accentIndex]} size-5`}></span>
+												</div>
+												<div>
+													<h3 className="text-lg font-semibold">{project.name}</h3>
+													<p className="text-xs uppercase tracking-[0.2em] text-base-content/60">
+														{project.industry} · {project.year}
+													</p>
+												</div>
+											</div>
+											<p className="text-base-content/70 text-sm">{project.tagline}</p>
+											<div className="flex flex-wrap gap-2">
+												{project.stack.map((tech) => (
+													<span className="badge badge-ghost" key={tech}>
+														{tech}
+													</span>
+												))}
+											</div>
+											<p className="text-base-content/70 text-sm leading-relaxed">
+												{project.description}
+											</p>
+											<ul className="space-y-2 text-sm text-base-content/70">
+												{project.highlights.map((highlight) => (
+													<li className="flex gap-2" key={highlight}>
+														<span className="iconify lucide--check mt-0.5 size-4 text-primary"></span>
+														<span>{highlight}</span>
+													</li>
+												))}
+											</ul>
+										</div>
+									</div>
+								</article>
+							);
+						})}
+			</div>
+
+				{totalProjects > 1 && (
+					<div className="mt-5 flex justify-center gap-2">
+						{projects.map((project, index) => {
+							const isActive = index === activeDotIndex;
+							return (
+								<button
+									type="button"
+									onClick={() => handleDotSelect(index)}
+									key={project.name}
+									className="transition-all"
+									aria-label={`${project.name} - ${index + 1}`}
+								>
+									<span
+										className={`block h-1.5 rounded-full ${
+											isActive ? "w-8 bg-base-content" : "w-4 bg-base-200"
+										}`}
+									></span>
+								</button>
+							);
+						})}
+					</div>
+				)}
+			</div>
+		</section>
+	);
+};

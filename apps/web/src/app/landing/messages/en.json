@@ -24,6 +24,7 @@
   "topbar": {
     "menu": [
       { "title": "Home", "target": "hero" },
+      { "title": "Portfolio", "target": "portfolio" },
       { "title": "Features", "target": "features" },
       { "title": "Benefits", "target": "benefits" },
       { "title": "Pricing", "target": "pricing" },
@@ -83,6 +84,107 @@
         "title": "Clean Code & Best Practices"
       }
     }
+  },
+  "portfolio": {
+    "eyebrow": "Our Work",
+    "title": "Portfolio Highlights",
+    "description": "Real-world products that blend delightful design with measurable business outcomes.",
+    "controls": {
+      "previous": "Previous projects",
+      "next": "Next projects"
+    },
+    "projects": [
+      {
+        "name": "Pulse Analytics",
+        "industry": "Data Intelligence",
+        "year": "2024",
+        "image": "/images/landing/dashboard-gen-ai-light.jpg",
+        "alt": "Analytics dashboard with real-time charts",
+        "tagline": "AI-guided analytics hub delivering intelligent insights.",
+        "stack": ["Next.js", "Convex", "Tailwind"],
+        "description": "SaaS platform for marketing teams to track live metrics with automated alerts and intelligent reporting.",
+        "highlights": [
+          "Integrations with HubSpot, Notion, and Slack",
+          "Bilingual AI report generator",
+          "Scalable architecture with responsive layouts"
+        ]
+      },
+      {
+        "name": "Aurora Commerce",
+        "industry": "B2C E-commerce",
+        "year": "2025",
+        "image": "/images/landing/dashboard-ecommerce-light.jpg",
+        "alt": "E-commerce dashboard showing sales metrics",
+        "tagline": "Omnichannel shopping experience with app-grade performance.",
+        "stack": ["Next.js", "Stripe", "Vercel"],
+        "description": "Headless storefront with dynamic catalog, optimized checkout, and customer portal with live order history.",
+        "highlights": [
+          "Two-step checkout optimised to reduce abandonment",
+          "Merchant dashboard with KPIs and inventory forecasting",
+          "Edge deployment with sub-80ms latency worldwide"
+        ]
+      },
+      {
+        "name": "Atlas Workspace",
+        "industry": "Internal Operations",
+        "year": "2023",
+        "image": "/images/landing/components-home-light.jpg",
+        "alt": "Collaborative workspace app with task cards",
+        "tagline": "Collaboration hub tailored for distributed teams.",
+        "stack": ["React Native", "Expo", "Supabase"],
+        "description": "Multi-platform app enabling squads to manage tasks, calendar, and documentation in a single workspace.",
+        "highlights": [
+          "Offline-first sync with intelligent notifications",
+          "Reusable UI components and automatic dark mode",
+          "Custom dashboards by department and access level"
+        ]
+      },
+      {
+        "name": "Nimbus CRM",
+        "industry": "B2B Sales",
+        "year": "2024",
+        "image": "/images/landing/dashboard-crm-light.jpg",
+        "alt": "CRM dashboard highlighting performance metrics",
+        "tagline": "Modular CRM that adapts to your revenue operations.",
+        "stack": ["Next.js", "PostgreSQL", "tRPC"],
+        "description": "Custom-built CRM suite for high-performing sales teams featuring multi-stage pipelines, contextual automations, and squad-specific reports.",
+        "highlights": [
+          "Automation flows triggered by business rules",
+          "Unified lead timeline with full interaction history",
+          "White-label component library for new teams"
+        ]
+      },
+      {
+        "name": "Helios Finance",
+        "industry": "Fintech",
+        "year": "2025",
+        "image": "/images/landing/dashboard-crm-dark.jpg",
+        "alt": "Financial platform with asset overview charts",
+        "tagline": "Wealth management platform with a mobile-first client experience.",
+        "stack": ["Next.js", "Plaid", "AWS"],
+        "description": "Secure advisory application consolidating banking data, delivering automated risk alerts, and forecasting portfolio scenarios with AI.",
+        "highlights": [
+          "Plaid integration with automatic reconciliation",
+          "Themed dashboards with real-time updates",
+          "Approval workflows with full audit trail"
+        ]
+      },
+      {
+        "name": "Voyager Logistics",
+        "industry": "Logistics",
+        "year": "2023",
+        "image": "/images/landing/showcase-card-image.png",
+        "alt": "Logistics dashboard displaying delivery routes",
+        "tagline": "Delivery orchestration with minute-by-minute tracking.",
+        "stack": ["Next.js", "Mapbox", "Redis"],
+        "description": "Last-mile operations platform featuring intelligent route planning, live tracking, and multi-channel customer communication.",
+        "highlights": [
+          "Real-time routing algorithm balancing workloads",
+          "Customer portal with live status and proof of delivery",
+          "Automated notifications via SMS, WhatsApp, and email"
+        ]
+      }
+    ]
   },
   "features": {
     "eyebrow": "Our Services",

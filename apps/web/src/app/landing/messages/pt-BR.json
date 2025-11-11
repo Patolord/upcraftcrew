@@ -24,6 +24,7 @@
   "topbar": {
     "menu": [
       { "title": "Início", "target": "hero" },
+      { "title": "Portfólio", "target": "portfolio" },
       { "title": "Recursos", "target": "features" },
       { "title": "Benefícios", "target": "benefits" },
       { "title": "Planos", "target": "pricing" },
@@ -83,6 +84,107 @@
         "title": "Código limpo e boas práticas"
       }
     }
+  },
+  "portfolio": {
+    "eyebrow": "Nossos projetos",
+    "title": "Portfólio em destaque",
+    "description": "Aplicações reais que combinam design envolvente com performance e resultados de negócio.",
+    "controls": {
+      "previous": "Projetos anteriores",
+      "next": "Próximos projetos"
+    },
+    "projects": [
+      {
+        "name": "Pulse Analytics",
+        "industry": "Inteligência de dados",
+        "year": "2024",
+        "image": "/images/landing/dashboard-gen-ai-light.jpg",
+        "alt": "Dashboard inteligente com gráficos em tempo real",
+        "tagline": "Painel analítico com insights guiados por IA generativa.",
+        "stack": ["Next.js", "Convex", "Tailwind"],
+        "description": "Plataforma SaaS para times de marketing acompanharem métricas em tempo real, com alertas automáticos e relatórios inteligentes.",
+        "highlights": [
+          "Integrações com HubSpot, Notion e Slack",
+          "Gerador de relatórios com IA em português e inglês",
+          "Arquitetura escalável com layout responsivo"
+        ]
+      },
+      {
+        "name": "Aurora Commerce",
+        "industry": "E-commerce B2C",
+        "year": "2025",
+        "image": "/images/landing/dashboard-ecommerce-light.jpg",
+        "alt": "Dashboard de e-commerce com métricas de vendas",
+        "tagline": "Experiência de compra omnichannel com performance de app nativo.",
+        "stack": ["Next.js", "Stripe", "Vercel"],
+        "description": "Loja virtual headless com catálogo dinâmico, checkout otimizado e área do cliente com histórico em tempo real.",
+        "highlights": [
+          "Checkout em 2 etapas com taxas de abandono minimizadas",
+          "Painel do lojista com KPIs e previsões de estoque",
+          "Deploy em edge com latência inferior a 80ms"
+        ]
+      },
+      {
+        "name": "Atlas Workspace",
+        "industry": "Gestão interna",
+        "year": "2023",
+        "image": "/images/landing/components-home-light.jpg",
+        "alt": "Aplicação colaborativa com cards de tarefas",
+        "tagline": "Hub de colaboração para times distribuídos.",
+        "stack": ["React Native", "Expo", "Supabase"],
+        "description": "Aplicativo multi-plataforma para squads gerenciarem tarefas, calendário e documentação em um só lugar.",
+        "highlights": [
+          "Sincronização offline-first com notificações inteligentes",
+          "Componentes UI reutilizáveis e tema escuro automático",
+          "Painéis customizáveis por área e nível de acesso"
+        ]
+      },
+      {
+        "name": "Nimbus CRM",
+        "industry": "Vendas B2B",
+        "year": "2024",
+        "image": "/images/landing/dashboard-crm-light.jpg",
+        "alt": "Dashboard de CRM com gráficos de performance",
+        "tagline": "CRM modular que se conecta ao ecossistema da sua operação.",
+        "stack": ["Next.js", "PostgreSQL", "tRPC"],
+        "description": "Suite CRM personalizada para times de alto desempenho com funis multi-etapas, automações contextuais e relatórios por squad.",
+        "highlights": [
+          "Fluxos automatizados disparados por regras de negócio",
+          "Timeline unificada por lead com histórico completo",
+          "Biblioteca de componentes white-label para novas squads"
+        ]
+      },
+      {
+        "name": "Helios Finance",
+        "industry": "Fintech",
+        "year": "2025",
+        "image": "/images/landing/dashboard-crm-dark.jpg",
+        "alt": "Aplicação financeira com gráficos de ativos",
+        "tagline": "Plataforma de wealth management com experiência mobile-first.",
+        "stack": ["Next.js", "Plaid", "AWS"],
+        "description": "Aplicação segura para consultores gerenciarem carteiras, com consolidação de dados bancários, alertas de risco e projeções com IA.",
+        "highlights": [
+          "Integração Plaid com reconciliação automática",
+          "Dashboards temáticos com atualizações em tempo real",
+          "Esteira de aprovação com auditoria completa"
+        ]
+      },
+      {
+        "name": "Voyager Logistics",
+        "industry": "Logística",
+        "year": "2023",
+        "image": "/images/landing/showcase-card-image.png",
+        "alt": "Dashboard logístico com mapa de entregas",
+        "tagline": "Orquestração de entregas com rastreamento minuto a minuto.",
+        "stack": ["Next.js", "Mapbox", "Redis"],
+        "description": "Plataforma de operações last-mile com roteirização inteligente, tracking em tempo real e comunicação com clientes via multicanal.",
+        "highlights": [
+          "Algoritmo de roteamento com balanceamento em tempo real",
+          "Portal do cliente com status e provas de entrega",
+          "Notificações automatizadas por SMS, WhatsApp e e-mail"
+        ]
+      }
+    ]
   },
   "features": {
     "eyebrow": "Nossos serviços",
