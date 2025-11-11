@@ -11,7 +11,6 @@ import {
 import { SECTION_IDS } from "@/app/landing/constants";
 import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
 
-const VISIBLE_COUNT = 3;
 const AUTO_PLAY_INTERVAL = 2300;
 const TRANSITION_MS = 320;
 
@@ -33,11 +32,29 @@ export const Portfolio = () => {
 	const projects = portfolio.projects;
 	const totalProjects = projects.length;
 
+	const [visibleCount, setVisibleCount] = useState(3);
+
+	useEffect(() => {
+		const updateVisibleCount = () => {
+			if (window.innerWidth < 768) {
+				setVisibleCount(1);
+			} else if (window.innerWidth < 1024) {
+				setVisibleCount(2);
+			} else {
+				setVisibleCount(3);
+			}
+		};
+
+		updateVisibleCount();
+		window.addEventListener("resize", updateVisibleCount);
+		return () => window.removeEventListener("resize", updateVisibleCount);
+	}, []);
+
 	if (totalProjects === 0) {
 		return null;
 	}
 
-	const canNavigate = totalProjects > VISIBLE_COUNT;
+	const canNavigate = totalProjects > visibleCount;
 
 	const projectsLoop = useMemo(() => {
 		if (!canNavigate) {
@@ -45,23 +62,24 @@ export const Portfolio = () => {
 		}
 
 		return [
-			...projects.slice(-VISIBLE_COUNT),
+			...projects.slice(-visibleCount),
 			...projects,
-			...projects.slice(0, VISIBLE_COUNT),
+			...projects.slice(0, visibleCount),
 		];
-	}, [projects, canNavigate]);
+	}, [projects, canNavigate, visibleCount]);
 
-	const initialIndex = canNavigate ? VISIBLE_COUNT : 0;
+	const initialIndex = canNavigate ? visibleCount : 0;
 
 	const [currentIndex, setCurrentIndex] = useState(initialIndex);
 	const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+	const [isPaused, setIsPaused] = useState(false);
 
 	useEffect(() => {
 		setCurrentIndex(initialIndex);
 		setIsTransitionEnabled(true);
 	}, [initialIndex, totalProjects]);
 
-	const slideWidth = 100 / VISIBLE_COUNT;
+	const slideWidth = 100 / visibleCount;
 	const translatePercentage = currentIndex * slideWidth;
 
 	const trackStyle: CSSProperties = {
@@ -90,14 +108,14 @@ export const Portfolio = () => {
 	);
 
 	useEffect(() => {
-		if (!canNavigate) return;
+		if (!canNavigate || isPaused) return;
 
 		const intervalId = window.setInterval(() => {
 			setCurrentIndex((previous) => previous + 1);
 		}, AUTO_PLAY_INTERVAL);
 
 		return () => window.clearInterval(intervalId);
-	}, [canNavigate]);
+	}, [canNavigate, isPaused]);
 
 	useEffect(() => {
 		if (!isTransitionEnabled) {
@@ -111,29 +129,40 @@ export const Portfolio = () => {
 	const handleTransitionEnd = useCallback(() => {
 		if (!canNavigate) return;
 
-		if (currentIndex >= totalProjects + VISIBLE_COUNT) {
+		if (currentIndex >= totalProjects + visibleCount) {
 			setIsTransitionEnabled(false);
 			setCurrentIndex((previous) => previous - totalProjects);
 			return;
 		}
 
-		if (currentIndex < VISIBLE_COUNT) {
+		if (currentIndex < visibleCount) {
 			setIsTransitionEnabled(false);
 			setCurrentIndex((previous) => previous + totalProjects);
 		}
-	}, [canNavigate, currentIndex, totalProjects]);
+	}, [canNavigate, currentIndex, totalProjects, visibleCount]);
 
 
 
-	const baseOffset = canNavigate ? VISIBLE_COUNT : 0;
+	const baseOffset = canNavigate ? visibleCount : 0;
 	const activeDotIndex = canNavigate
 		? ((currentIndex - baseOffset) % totalProjects + totalProjects) % totalProjects
 		: 0;
+
+	const handleMouseEnter = useCallback(() => {
+		if (!canNavigate) return;
+		setIsPaused(true);
+	}, [canNavigate]);
+
+	const handleMouseLeave = useCallback(() => {
+		setIsPaused(false);
+	}, []);
 
 	return (
 		<section
 			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
 			id={SECTION_IDS.portfolio}
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
 		>
 			<div className="flex items-center justify-center gap-1.5">
 				<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
@@ -177,7 +206,11 @@ export const Portfolio = () => {
 				)}
 			</div>
 
-		<div className="relative mt-6 overflow-hidden">
+		<div 
+			className="relative mt-6 overflow-hidden"
+			onMouseEnter={handleMouseEnter}
+			onMouseLeave={handleMouseLeave}
+		>
 			<div
 				className="flex -mx-4"
 				style={trackStyle}
@@ -197,7 +230,7 @@ export const Portfolio = () => {
 							className="flex px-4"
 							style={{ flex: `0 0 ${slideWidth}%` }}
 						>
-									<div className="bg-base-100 border border-base-200/70 flex h-full grow flex-col rounded-3xl shadow-sm transition-transform duration-500 hover:-translate-y-1.5 hover:shadow-xl">
+									<div className="group/card bg-base-100 border border-base-200/70 flex h-full grow flex-col rounded-3xl shadow-sm transition-transform duration-500 hover:-translate-y-1.5 hover:shadow-xl">
 										<div className="relative overflow-hidden rounded-t-3xl">
 											<img
 												src={project.image}
@@ -206,7 +239,7 @@ export const Portfolio = () => {
 												loading="lazy"
 											/>
 											<div className="absolute inset-x-0 top-0 flex items-start justify-between gap-2 p-4">
-												<span className="badge badge-outline bg-base-100/80 text-[0.65rem] uppercase tracking-[0.2em] text-base-content/70">
+												<span className="badge badge-outline bg-base-100/80 text-[0.65rem] uppercase tracking-[0.2em] text-base-content/70 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
 													{project.industry}
 												</span>
 												<span className="rounded-full bg-base-100/80 px-2 py-0.5 text-xs font-medium text-base-content/70">
@@ -224,7 +257,10 @@ export const Portfolio = () => {
 												<div>
 													<h3 className="text-lg font-semibold">{project.name}</h3>
 													<p className="text-xs uppercase tracking-[0.2em] text-base-content/60">
-														{project.industry} · {project.year}
+														<span>{project.year}</span>
+														<span className="ms-2 opacity-0 transition-opacity duration-300 group-hover/card:opacity-100">
+															{project.industry}
+														</span>
 													</p>
 												</div>
 											</div>

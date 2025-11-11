@@ -95,93 +95,108 @@
     },
     "projects": [
       {
-        "name": "Pulse Analytics",
-        "industry": "Data Intelligence",
-        "year": "2024",
-        "image": "/images/landing/dashboard-gen-ai-light.jpg",
-        "alt": "Analytics dashboard with real-time charts",
-        "tagline": "AI-guided analytics hub delivering intelligent insights.",
-        "stack": ["Next.js", "Convex", "Tailwind"],
-        "description": "SaaS platform for marketing teams to track live metrics with automated alerts and intelligent reporting.",
-        "highlights": [
-          "Integrations with HubSpot, Notion, and Slack",
-          "Bilingual AI report generator",
-          "Scalable architecture with responsive layouts"
-        ]
-      },
-      {
-        "name": "Aurora Commerce",
-        "industry": "B2C E-commerce",
+        "name": "Luis Fernando Aviation Consulting",
+        "industry": "Aerospace Consultancy",
         "year": "2025",
-        "image": "/images/landing/dashboard-ecommerce-light.jpg",
-        "alt": "E-commerce dashboard showing sales metrics",
-        "tagline": "Omnichannel shopping experience with app-grade performance.",
-        "stack": ["Next.js", "Stripe", "Vercel"],
-        "description": "Headless storefront with dynamic catalog, optimized checkout, and customer portal with live order history.",
+        "image": "/ ",
+        "alt": "Portfolio page highlighting aviation consulting services",
+        "tagline": "Compliance-driven support for global aviation operators.",
+        "stack": ["responsive", "seo", "authentication"],
+        "description": "Responsive portfolio showcasing 20+ years de-risking aircraft deliveries and lease returns for airlines, lessors, and MRO partners.",
         "highlights": [
-          "Two-step checkout optimised to reduce abandonment",
-          "Merchant dashboard with KPIs and inventory forecasting",
-          "Edge deployment with sub-80ms latency worldwide"
+          "Mission, experience, and expertise modules surfaced above the fold",
+          "Carousel featuring 50+ projects and 8 supported aircraft families",
+          "Call-to-action flows driving consultation requests across locales"
         ]
       },
       {
-        "name": "Atlas Workspace",
-        "industry": "Internal Operations",
-        "year": "2023",
-        "image": "/images/landing/components-home-light.jpg",
-        "alt": "Collaborative workspace app with task cards",
-        "tagline": "Collaboration hub tailored for distributed teams.",
-        "stack": ["React Native", "Expo", "Supabase"],
-        "description": "Multi-platform app enabling squads to manage tasks, calendar, and documentation in a single workspace.",
-        "highlights": [
-          "Offline-first sync with intelligent notifications",
-          "Reusable UI components and automatic dark mode",
-          "Custom dashboards by department and access level"
-        ]
-      },
-      {
-        "name": "Nimbus CRM",
-        "industry": "B2B Sales",
-        "year": "2024",
-        "image": "/images/landing/dashboard-crm-light.jpg",
-        "alt": "CRM dashboard highlighting performance metrics",
-        "tagline": "Modular CRM that adapts to your revenue operations.",
-        "stack": ["Next.js", "PostgreSQL", "tRPC"],
-        "description": "Custom-built CRM suite for high-performing sales teams featuring multi-stage pipelines, contextual automations, and squad-specific reports.",
-        "highlights": [
-          "Automation flows triggered by business rules",
-          "Unified lead timeline with full interaction history",
-          "White-label component library for new teams"
-        ]
-      },
-      {
-        "name": "Helios Finance",
-        "industry": "Fintech",
+        "name": "OrtoQBank",
+        "industry": "Medical Education",
         "year": "2025",
-        "image": "/images/landing/dashboard-crm-dark.jpg",
-        "alt": "Financial platform with asset overview charts",
-        "tagline": "Wealth management platform with a mobile-first client experience.",
-        "stack": ["Next.js", "Plaid", "AWS"],
-        "description": "Secure advisory application consolidating banking data, delivering automated risk alerts, and forecasting portfolio scenarios with AI.",
+        "image": "/pagini.png",
+        "alt": "Question bank platform preview across devices",
+        "tagline": "Orthopedic exam prep with adaptive study analytics.",
+        "stack": ["courses", "quizzes", "pagination"],
+        "description": "Marketing site and learning portal for TEOT/TEPOT residents featuring guided trails, responsive UX, and subscription onboarding.",
         "highlights": [
-          "Plaid integration with automatic reconciliation",
-          "Themed dashboards with real-time updates",
-          "Approval workflows with full audit trail"
+          "Pricing tiers tailored to R1–R3 cohorts with recurring billing",
+          "Performance dashboards tracking accuracy by specialty",
+          "Mobile-first simulator for solving annotated past exams"
         ]
       },
       {
-        "name": "Voyager Logistics",
-        "industry": "Logistics",
-        "year": "2023",
-        "image": "/images/landing/showcase-card-image.png",
-        "alt": "Logistics dashboard displaying delivery routes",
-        "tagline": "Delivery orchestration with minute-by-minute tracking.",
-        "stack": ["Next.js", "Mapbox", "Redis"],
-        "description": "Last-mile operations platform featuring intelligent route planning, live tracking, and multi-channel customer communication.",
+        "name": "Starbem",
+        "industry": "Mental Health & Wellness",
+        "year": "2025",
+        "image": "/starbem.png",
+        "alt": "Therapy platform with scheduling interface",
+        "tagline": "On-demand therapy access with transparent pricing.",
+        "stack": ["online therapy", "instant booking", "onboarding funnel"],
+        "description": "Bilingual experience for the Canadian teletherapy startup, including instant therapist booking, onboarding funnel, and tiered plans.",
         "highlights": [
-          "Real-time routing algorithm balancing workloads",
-          "Customer portal with live status and proof of delivery",
-          "Automated notifications via SMS, WhatsApp, and email"
+          "Hero with immediate availability promise and free 60-minute trial",
+          "Modular service catalog covering anxiety, burnout, and sleep",
+          "Checkout flow supporting pay-per-session and discounted bundles"
+        ]
+      },
+      {
+        "name": "Chat Do",
+        "industry": "Team Collaboration",
+        "year": "2025",
+        "image": "/chatdo.png",
+        "alt": "Team productivity platform with chat and task widgets",
+        "tagline": "Chat-powered task orchestration that nudges teams to deliver.",
+        "stack": ["kanban", "chat", "task"],
+        "description": "Marketing site and product tour for Chat Do, showcasing conversation-to-task automation, real-time collaboration, and email nudges.",
+        "highlights": [
+          "Hero slider introducing Talk, Taskify, and Team Up journeys",
+          "Feature grid detailing tasks, chat, team management, and notifications",
+          "Conversion funnel encouraging users to start building instantly"
+        ]
+      },
+      {
+        "name": "Paloma S. Queiroz Portfolio",
+        "industry": "Industrial Engineering",
+        "year": "2025",
+        "image": "/paloma.png",
+        "alt": "Portfolio website for mechanical engineer Paloma S. Queiroz",
+        "tagline": "Showcasing engineering leadership and ISO 9001 initiatives.",
+        "stack": ["timeline", "carousel", "downloadable"],
+        "description": "Personal site presenting Paloma’s mechanical engineering career, ISO 9001 committee leadership, MBA pursuits, and highlighted projects spanning quality management and digital solutions.",
+        "highlights": [
+          "Experience timeline covering service consulting and technical assistance roles",
+          "Project spotlight carousel featuring ISO 9001 rollout, OrtoQBank coordination, and RLP site build",
+          "Downloadable résumé and multilingual skills section for quick recruiter access"
+        ]
+      },
+      {
+        "name": "Vibra 50 Years Challenge",
+        "industry": "Corporate Gamification",
+        "year": "2024",
+        "image": "/vibra.webp",
+        "alt": "Vibra celebratory gaming platform with leaderboard",
+        "tagline": "Employee gaming hub celebrating Vibra’s 50-year legacy.",
+        "stack": ["gamification", "leaderboard", "quizzes"],
+        "description": "Interactive platform built for Vibra employees featuring themed quizzes about company history, brand, and business units, with live rankings and award distribution to commemorate five decades of operations.",
+        "highlights": [
+          "Progressive quiz missions spanning history, brand values, and innovation initiatives",
+          "Company-wide leaderboard encouraging friendly competition between business units",
+          "Automated reward system spotlighting top performers during the anniversary celebration"
+        ]
+      },
+      {
+        "name": "Warehouse Watcher",
+        "industry": "Logistics & Inventory",
+        "year": "2024",
+        "image": "/warehouse.webp",
+        "alt": "Warehouse management platform with real-time dashboards",
+        "tagline": "Standalone inventory management with real-time visibility.",
+        "stack": ["inventory", "analytics", "dashboard"],
+        "description": "Web application delivering instant stock updates, logistics tracking, and audit-ready reporting for enterprises managing high-volume warehouses.",
+        "highlights": [
+          "Real-time telemetry syncing inbound and outbound stock movements",
+          "Advanced reporting center with drill-down KPIs and exportable audits",
+          "Customer-ready portal separating business and client experiences in one solution"
         ]
       }
     ]
