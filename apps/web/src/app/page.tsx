@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 
 import Landing from "./landing/page";
 import { LandingI18nProvider } from "./landing/providers/LandingI18nProvider";
@@ -9,7 +10,9 @@ export const metadata: Metadata = {
 const LandingPage = () => {
 	return (
 		<LandingI18nProvider>
-			<Landing />
+			<Suspense fallback={<div />}>
+				<Landing />
+			</Suspense>
 		</LandingI18nProvider>
 	);
 };
