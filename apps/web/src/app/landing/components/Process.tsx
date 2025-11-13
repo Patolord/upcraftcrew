@@ -60,7 +60,7 @@ export const Process = () => {
 							{discovery.subtitle}
 						</p>
 						<div className="mt-6 space-y-1.5 space-x-1.5">
-							{(discovery.items || []).map((item, index) => (
+							{discovery.items?.map((item, index) => (
 								<div
 									key={item}
 									className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5"
@@ -116,7 +116,7 @@ export const Process = () => {
 								{testing.subtitle}
 							</p>
 							<div className="mt-5 space-y-2 space-x-2">
-								{(testing.items || []).map((item, index) => (
+								{testing.items?.map((item, index) => (
 									<div
 										key={item}
 										className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1"
@@ -144,7 +144,7 @@ export const Process = () => {
 						</p>
 
 						<div className="mt-6 flex flex-wrap gap-2.5">
-							{(support.items || []).map((item, index) => (
+							{support.items?.map((item, index) => (
 								<button
 									key={item}
 									className={`btn btn-sm gap-2 ${
