@@ -14,8 +14,9 @@ export function Button({
 	className,
 	...props
 }: ButtonProps) {
-	const baseClasses = "items-center justify-center rounded-md font-medium active:opacity-70";
-	
+	const baseClasses =
+		"items-center justify-center rounded-md font-medium active:opacity-70";
+
 	const variantClasses = {
 		default: "bg-primary text-primary-foreground",
 		outline: "border border-input bg-background",
@@ -40,4 +41,3 @@ export function Button({
 		</Pressable>
 	);
 }
-

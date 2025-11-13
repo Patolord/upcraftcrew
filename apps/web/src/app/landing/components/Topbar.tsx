@@ -1,38 +1,53 @@
 "use client";
 
 import Link from "next/link";
-import { useCallback, useEffect, useState } from "react";
+import type { UrlObject } from "url";
+import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
+import { SECTION_IDS, type SectionId } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
-const menu = [
-	{
-		title: "Home",
-		href: "#hero",
-	},
-	{
-		title: "Features",
-		href: "#features",
-	},
-	{
-		title: "Benefits",
-		href: "#benefits",
-	},
-	{
-		title: "Pricing",
-		href: "#pricing",
-	},
-	{
-		title: "Contact",
-		href: "#contact",
-	},
-] as const;
-
 export const Topbar = () => {
 	const [scrollPosition, setScrollPosition] = useState<number>(0);
+	const { locale, messages, switchLocale } = useLandingI18n();
+	const {
+		topbar: { menu, mobileNavigationLabel, languageSwitch },
+	} = messages;
+
+	const menuItems = useMemo(
+		() =>
+			menu.map((item) => {
+				const target = item.target as SectionId;
+				const sectionId = SECTION_IDS[target] ?? item.target;
+				const href: UrlObject = {
+					pathname: "/",
+					hash: sectionId,
+				};
+				return {
+					...item,
+					href,
+				};
+			}),
+		[menu],
+	);
+
+	const handleToggleLocale = useCallback(() => {
+		const nextLocale = locale === "en" ? "pt-BR" : "en";
+		switchLocale(nextLocale);
+	}, [locale, switchLocale]);
+
+	const languageToggleId = useId();
+	const localeAbbreviations = useMemo(
+		() => ({
+			"pt-BR": "PT",
+			en: "EN",
+		}),
+		[],
+	);
 
 	const handleScroll = useCallback(() => {
 		setScrollPosition(window.scrollY);
@@ -83,14 +98,14 @@ export const Topbar = () => {
 									<div className="min-h-0 grow">
 										<SimpleBar className="mt-5 size-full">
 											<p className="text-base-content/60 mx-3 text-sm font-medium">
-												Navigation
+												{mobileNavigationLabel}
 											</p>
 											<ul className="menu mt-1 w-full p-0">
-												{menu.map((item, index) => (
+												{menuItems.map((item, index) => (
 													<li key={index}>
 														<Link
 															key={index}
-															href={item.href ?? ""}
+															href={item.href}
 															className="hover:bg-base-200 rounded-box block px-3 py-1.5 text-sm"
 														>
 															{item.title}
@@ -109,9 +124,9 @@ export const Topbar = () => {
 					</Link>
 				</div>
 				<div className="hidden items-center gap-1 md:flex">
-					{menu.map((item, index) => (
+					{menuItems.map((item, index) => (
 						<Link
-							href={item.href ?? ""}
+							href={item.href}
 							className="hover:bg-base-200 rounded-box block px-3 py-1.5 text-sm"
 							key={index}
 						>
@@ -120,7 +135,35 @@ export const Topbar = () => {
 					))}
 				</div>
 
-				<ThemeToggle className="btn btn-sm btn-ghost btn-circle" />
+				<div className="flex items-center gap-2">
+					<span id={`${languageToggleId}-label`} className="sr-only">
+						{languageSwitch.ariaLabel}
+					</span>
+					<div className="flex items-center gap-2 rounded-full bg-base-100/90 px-2 py-1">
+						<span
+							className="text-xs font-medium uppercase text-base-content/70"
+							title={languageSwitch.options["pt-BR"]}
+						>
+							{localeAbbreviations["pt-BR"]}
+						</span>
+						<input
+							className="toggle toggle-sm toggle-primary"
+							id={languageToggleId}
+							type="checkbox"
+							role="switch"
+							aria-labelledby={`${languageToggleId}-label`}
+							checked={locale === "en"}
+							onChange={handleToggleLocale}
+						/>
+						<span
+							className="text-xs font-medium uppercase text-base-content/70"
+							title={languageSwitch.options.en}
+						>
+							{localeAbbreviations.en}
+						</span>
+					</div>
+					<ThemeToggle className="btn btn-sm btn-ghost btn-circle" />
+				</div>
 			</div>
 		</div>
 	);

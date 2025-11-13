@@ -1,18 +1,29 @@
+"use client";
+
 import Link from "next/link";
+
+import { SECTION_IDS } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
 
 import { WavePath } from "./WavePath";
 
 export const Hero = () => {
+	const { messages } = useLandingI18n();
+	const { hero } = messages;
+
 	return (
 		<>
-			<div className="relative z-2 overflow-hidden lg:h-screen">
+			<div
+				className="relative z-2 overflow-hidden lg:h-screen"
+				id={SECTION_IDS.hero}
+			>
 				<div className="container flex items-center justify-center pt-20 md:pt-28 xl:pt-36 2xl:pt-48">
 					<div className="w-100 text-center md:w-120 xl:w-160 2xl:w-200">
 						<div className="flex justify-center">
 							<div className="inline-flex items-center rounded-full border border-orange-500/20 bg-orange-500/5 py-0.5 ps-2.5 pe-1 text-sm">
-								Trusted by{" "}
+								{hero.badge.prefix}{" "}
 								<span className="ms-1 font-medium text-orange-500">
-									Global Businesses
+									{hero.badge.highlight}
 								</span>
 								<div className="ms-2 rounded-full bg-orange-500 p-0.5">
 									<span className="iconify lucide--arrow-right block size-3 text-white"></span>
@@ -20,27 +31,25 @@ export const Hero = () => {
 							</div>
 						</div>
 						<p className="mt-3 text-2xl leading-tight font-extrabold tracking-[-0.5px] transition-all duration-1000 md:text-4xl xl:text-5xl 2xl:text-6xl starting:scale-110 starting:blur-md">
-							High-Quality Web Development
-							<br /> Delivered{" "}
+							{hero.title.line1}
+							<br /> {hero.title.line2}{" "}
 							<span className="animate-background-shift from-primary to-secondary bg-linear-to-r bg-[400%,400%] bg-clip-text text-transparent">
-								Seamlessly
+								{hero.title.highlight}
 							</span>
 						</p>
 						<p className="text-base-content/80 mt-5 xl:text-lg">
-							We help businesses scale faster with bespoke web and software
-							solutions — built to the highest standards, with clear
-							communication and reliable delivery.
+							{hero.description}
 						</p>
 						<div className="mt-8 inline-flex justify-center gap-3 transition-all duration-1000 starting:scale-110">
 							<Link
-								href="#pricing"
+								href={`#${SECTION_IDS.pricing}`}
 								className="btn btn-primary shadow-primary/20 shadow-xl"
 							>
-								Get Free Consultation
+								{hero.primaryCta}
 							</Link>
-							<Link href="#process" className="btn btn-ghost">
+							<Link href={`#${SECTION_IDS.process}`} className="btn btn-ghost">
 								<span className="iconify lucide--arrow-down size-4"></span>
-								Our Process
+								{hero.secondaryCta}
 							</Link>
 						</div>
 					</div>
@@ -54,7 +63,7 @@ export const Hero = () => {
 										<span className="iconify lucide--circuit-board block size-6"></span>
 									</div>
 									<p className="text-primary mt-1 font-medium">
-										Modern Web Development
+										{hero.cards.left.badgeTitle}
 									</p>
 								</div>
 								<div className="rounded-box card bg-base-100 absolute end-20 top-68 w-48 p-3 shadow max-2xl:hidden">
@@ -81,10 +90,10 @@ export const Hero = () => {
 										</div>
 									</div>
 									<p className="text-primary mt-1 font-medium">
-										React & Next.js
+										{hero.cards.left.secondaryCard.title}
 									</p>
-									<p className="text-base-content/80 text-sm/none">
-										Modern Tech Stack
+									<p className="text-base-content/80 text-sm">
+										{hero.cards.left.secondaryCard.description}
 									</p>
 								</div>
 							</div>
@@ -98,7 +107,7 @@ export const Hero = () => {
 
 							<div className="from-primary to-secondary text-primary-content rounded-box w-60 bg-linear-to-r p-4">
 								<p className="text-center font-medium">
-									Bespoke Solutions in Action
+									{hero.cards.center.highlight}
 								</p>
 							</div>
 						</div>
@@ -114,7 +123,7 @@ export const Hero = () => {
 										<span className="iconify lucide--zap block size-6"></span>
 									</div>
 									<p className="text-secondary mt-1 font-medium">
-										Seamless Development Process
+										{hero.cards.right.badgeTitle}
 									</p>
 								</div>
 								<div className="rounded-box card bg-base-100 absolute start-20 top-70 p-3 shadow max-2xl:hidden">
@@ -150,9 +159,9 @@ export const Hero = () => {
 									</div>
 									<div className="text-base-content/80 mt-2.5 flex items-center gap-3 text-sm">
 										<span className="iconify lucide--gauge text-secondary size-4"></span>
-										Performance{" "}
+										{hero.cards.left.performance.label}{" "}
 										<span className="badge badge-ghost badge-xs ms-auto">
-											Optimal
+											{hero.cards.left.performance.value}
 										</span>
 									</div>
 								</div>
@@ -166,7 +175,7 @@ export const Hero = () => {
 							<div className="bg-base-200 inline-block rounded-full p-2.5">
 								<span className="iconify lucide--database-backup block size-6"></span>
 							</div>
-							<p className="mt-1 font-medium">Clean Code & Best Practices</p>
+							<p className="mt-1 font-medium">{hero.cards.top.title}</p>
 						</div>
 						<div className="rounded-box card bg-base-100 absolute start-10 top-40 z-2 overflow-visible shadow max-2xl:hidden">
 							<div className="flex items-center gap-3 p-3">
@@ -174,14 +183,16 @@ export const Hero = () => {
 									<span className="iconify lucide--bell-ring block size-4"></span>
 								</div>
 								<div>
-									<p className="text-base-content/80 text-sm/none font-medium italic">
-										Email Alert
+									<p className="text-base-content/80 text-sm font-medium italic">
+										{hero.cards.left.email.title}
 									</p>
 									<p className="text-base-content/60 text-xs italic">
-										Pending...
+										{hero.cards.left.email.status}
 									</p>
 								</div>
-								<p className="text-sm font-medium">47%</p>
+								<p className="text-sm font-medium">
+									{hero.cards.left.email.percentage}
+								</p>
 							</div>
 						</div>
 					</div>
@@ -192,7 +203,9 @@ export const Hero = () => {
 							<div className="inline-block rounded-full bg-teal-500/10 p-2.5 text-teal-500">
 								<span className="iconify lucide--bar-chart-3 block size-6"></span>
 							</div>
-							<p className="mt-1 font-medium text-teal-500">Ongoing Support</p>
+							<p className="mt-1 font-medium text-teal-500">
+								{hero.cards.right.supportCard.title}
+							</p>
 						</div>
 						<div className="rounded-box card bg-base-100 absolute start-10 top-40 shadow max-2xl:hidden">
 							<div className="flex items-center gap-3 p-3">
@@ -203,7 +216,9 @@ export const Hero = () => {
 									<div className="skeleton rounded-box h-2 w-16"></div>
 									<div className="skeleton rounded-box mt-1 h-2.5 w-8"></div>
 								</div>
-								<p className="text-sm font-medium text-teal-500">+78%</p>
+								<p className="text-sm font-medium text-teal-500">
+									{hero.cards.right.supportCard.growth}
+								</p>
 							</div>
 						</div>
 					</div>
@@ -217,3 +232,4 @@ export const Hero = () => {
 		</>
 	);
 };
+

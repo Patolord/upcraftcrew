@@ -3,6 +3,7 @@ import { Features } from "./components/Features";
 import { Footer } from "./components/Footer";
 import { Hero } from "./components/Hero";
 import { Integrations } from "./components/Integrations";
+import { Portfolio } from "./components/Portfolio";
 import { Pricing } from "./components/Pricing";
 import { Process } from "./components/Process";
 import { Testimonials } from "./components/Testimonials";
@@ -13,6 +14,7 @@ const LandingPage = () => {
 		<>
 			<Topbar />
 			<Hero />
+			<Portfolio />
 			<Features />
 			<Process />
 			<Benefits />

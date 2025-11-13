@@ -1,24 +1,51 @@
+"use client";
+
+import { SECTION_IDS } from "@/app/landing/constants";
+import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+
 export const Process = () => {
+	const { messages } = useLandingI18n();
+	const { process } = messages;
+	const [discovery, development, testing, support] = process.steps;
+
+	const discoveryIcons = [
+		"lucide--users",
+		"lucide--layout",
+		"lucide--calendar",
+		"lucide--file-text",
+	] as const;
+	const testingIcons = [
+		"lucide--check-circle",
+		"lucide--cloud-upload",
+		"lucide--shield-check",
+		"lucide--rocket",
+	] as const;
+	const supportIcons = [
+		"lucide--monitor",
+		"lucide--refresh-cw",
+		"lucide--shield",
+		"lucide--help-circle",
+		"lucide--trending-up",
+		"lucide--code",
+	] as const;
+
 	return (
 		<div
 			className="group container py-8 md:py-12 lg:py-16 2xl:py-28"
-			id="process"
+			id={SECTION_IDS.process}
 		>
 			<div className="flex items-center justify-center gap-1.5">
 				<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
 				<p className="text-base-content/60 group-hover:text-primary font-mono text-sm font-medium transition-all">
-					Our Process
+					{process.eyebrow}
 				</p>
 				<div className="bg-primary/80 h-4 w-0.5 -translate-x-1.5 rounded-full opacity-0 transition-all group-hover:translate-x-0 group-hover:opacity-100" />
 			</div>
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
-				Our Development Process
+				{process.title}
 			</p>
 			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">
-					From initial consultation to final deployment, we follow a proven
-					process that ensures quality and transparency
-				</p>
+				<p className="text-base-content/80 max-w-lg">{process.description}</p>
 			</div>
 			<div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-12 lg:mt-16 xl:grid-cols-4 2xl:mt-24">
 				<div>
@@ -28,29 +55,20 @@ export const Process = () => {
 						</div>
 					</div>
 					<div className="card bg-base-200/60 border-base-200 mt-4 min-h-76 border p-5">
-						<p className="text-center text-lg font-medium">
-							Discovery & Planning
-						</p>
+						<p className="text-center text-lg font-medium">{discovery.title}</p>
 						<p className="text-base-content/60 mt-1 text-center text-sm italic">
-							We start by understanding your vision and requirements.
+							{discovery.subtitle}
 						</p>
 						<div className="mt-6 space-y-1.5 space-x-1.5">
-							<div className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5">
-								<span className="iconify lucide--users"></span>
-								Requirements gathering
-							</div>
-							<div className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5">
-								<span className="iconify lucide--layout"></span>
-								Wireframing
-							</div>
-							<div className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5">
-								<span className="iconify lucide--calendar"></span>
-								Timeline planning
-							</div>
-							<div className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5">
-								<span className="iconify lucide--file-text"></span>
-								Technical specification
-							</div>
+							{discovery.items.map((item, index) => (
+								<div
+									key={item}
+									className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5"
+								>
+									<span className={`iconify ${discoveryIcons[index]} size-4`}></span>
+									{item}
+								</div>
+							))}
 						</div>
 					</div>
 				</div>
@@ -61,11 +79,9 @@ export const Process = () => {
 						</div>
 					</div>
 					<div className="card from-primary to-secondary text-primary-content mt-4 min-h-76 bg-linear-to-br p-5">
-						<p className="text-center text-lg font-medium">
-							Development & Design
-						</p>
+						<p className="text-center text-lg font-medium">{development.title}</p>
 						<p className="text-primary-content/60 mt-1 text-center text-sm italic">
-							Our team brings your vision to life with clean code
+							{development.subtitle}
 						</p>
 
 						<div className="mt-10 text-center">
@@ -95,29 +111,22 @@ export const Process = () => {
 					</div>
 					<div className="from-primary to-secondary card mt-4 bg-linear-to-br p-1">
 						<div className="bg-base-100 rounded-box min-h-74 p-5">
-							<p className="text-center text-lg font-medium">
-								Testing & Deployment
-							</p>
+							<p className="text-center text-lg font-medium">{testing.title}</p>
 							<p className="text-base-content/60 mt-1 text-center text-sm italic">
-								Rigorous testing and seamless deployment to production
+								{testing.subtitle}
 							</p>
 							<div className="mt-5 space-y-2 space-x-2">
-								<div className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1">
-									<span className="iconify lucide--check-circle"></span>
-									Quality assurance
-								</div>
-								<div className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1">
-									<span className="iconify lucide--cloud-upload"></span>
-									Cloud deployment
-								</div>
-								<div className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1">
-									<span className="iconify lucide--shield-check"></span>
-									Security audit
-								</div>
-								<div className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1">
-									<span className="iconify lucide--rocket"></span>
-									Go live
-								</div>
+								{testing.items.map((item, index) => (
+									<div
+										key={item}
+										className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1"
+									>
+										<span
+											className={`iconify ${testingIcons[index]} size-4`}
+										></span>
+										{item}
+									</div>
+								))}
 							</div>
 						</div>
 					</div>
@@ -129,37 +138,29 @@ export const Process = () => {
 						</div>
 					</div>
 					<div className="card border-base-300 mt-4 min-h-76 border border-dashed p-5">
-						<p className="text-center text-lg font-medium">Ongoing Support</p>
+						<p className="text-center text-lg font-medium">{support.title}</p>
 						<p className="text-base-content/60 mt-1 text-center text-sm italic">
-							Continuous maintenance and support for your application.
+							{support.subtitle}
 						</p>
 
 						<div className="mt-6 flex flex-wrap gap-2.5">
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--monitor size-4"></span>
-								Performance Monitoring
-							</button>
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--refresh-cw size-4"></span>
-								Updates & Patches
-							</button>
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--shield size-4"></span>
-								Security Updates
-							</button>
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--help-circle size-4"></span>
-								Technical Support
-							</button>
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--trending-up size-4"></span>
-								Feature Enhancements
-							</button>
-							<button className="btn btn-soft btn-primary btn-sm gap-2">
-								<span className="iconify lucide--code size-4"></span>
-								Code Reviews
-							</button>
-							<button className="btn btn-ghost btn-primary btn-sm">More</button>
+							{support.items.map((item, index) => (
+								<button
+									key={item}
+									className={`btn btn-sm gap-2 ${
+										index < supportIcons.length
+											? "btn-soft btn-primary"
+											: "btn-ghost btn-primary"
+									}`}
+								>
+									{index < supportIcons.length ? (
+										<span
+											className={`iconify ${supportIcons[index]} size-4`}
+										></span>
+									) : null}
+									{item}
+								</button>
+							))}
 						</div>
 					</div>
 				</div>
