@@ -31,10 +31,23 @@ export const Portfolio = () => {
 	const { portfolio } = messages;
 	const allProjects = portfolio.projects;
 
-	// Get unique industries
+	// Get unique industries that have projects
 	const industries = useMemo(() => {
-		const uniqueIndustries = Array.from(new Set(allProjects.map(p => p.industry)));
-		return ["All", ...uniqueIndustries];
+		const allTags = [
+			"Landing Básica",
+			"Landing Artística",
+			"Site Institucional",
+			"Loja Virtual (E-commerce)",
+			"Web App",
+			"App Mobile",
+			"Consultoria"
+		];
+
+		const tagsWithProjects = allTags.filter(tag =>
+			allProjects.some(project => project.industry === tag)
+		);
+
+		return ["All", ...tagsWithProjects];
 	}, [allProjects]);
 
 	const [selectedIndustry, setSelectedIndustry] = useQueryState(
@@ -51,6 +64,24 @@ export const Portfolio = () => {
 	const totalProjects = projects.length;
 
 	const [visibleCount, setVisibleCount] = useState(3);
+	const canNavigate = totalProjects > visibleCount;
+	const initialIndex = canNavigate ? visibleCount : 0;
+
+	const [currentIndex, setCurrentIndex] = useState(initialIndex);
+	const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
+	const [isPaused, setIsPaused] = useState(false);
+
+	const projectsLoop = useMemo(() => {
+		if (!canNavigate) {
+			return projects;
+		}
+
+		return [
+			...projects.slice(-visibleCount),
+			...projects,
+			...projects.slice(0, visibleCount),
+		];
+	}, [projects, canNavigate, visibleCount]);
 
 	useEffect(() => {
 		const updateVisibleCount = () => {
@@ -67,30 +98,6 @@ export const Portfolio = () => {
 		window.addEventListener("resize", updateVisibleCount);
 		return () => window.removeEventListener("resize", updateVisibleCount);
 	}, []);
-
-	if (totalProjects === 0) {
-		return null;
-	}
-
-	const canNavigate = totalProjects > visibleCount;
-
-	const projectsLoop = useMemo(() => {
-		if (!canNavigate) {
-			return projects;
-		}
-
-		return [
-			...projects.slice(-visibleCount),
-			...projects,
-			...projects.slice(0, visibleCount),
-		];
-	}, [projects, canNavigate, visibleCount]);
-
-	const initialIndex = canNavigate ? visibleCount : 0;
-
-	const [currentIndex, setCurrentIndex] = useState(initialIndex);
-	const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
-	const [isPaused, setIsPaused] = useState(false);
 
 	useEffect(() => {
 		setCurrentIndex(initialIndex);
@@ -175,6 +182,10 @@ export const Portfolio = () => {
 		setIsPaused(false);
 	}, []);
 
+	if (totalProjects === 0) {
+		return null;
+	}
+
 	return (
 		<section
 			className="group/section container scroll-mt-12 py-8 md:py-8 lg:py-8 2xl:py-4"
@@ -199,16 +210,21 @@ export const Portfolio = () => {
 			</div>
 
 			{/* Industry Filter */}
-			<div className="mt-6 flex justify-center">
-				<div className="flex flex-wrap gap-2 justify-center">
+			<div className="mt-8 flex justify-center">
+				<div
+					role="tablist"
+					className="tabs bg-gray-200/50 tabs-boxed inline-flex flex-wrap gap-1.5 rounded-full p-1.5"
+				>
 					{industries.map((industry) => (
 						<button
 							key={industry}
+							role="tab"
+							aria-selected={selectedIndustry === industry}
 							onClick={() => setSelectedIndustry(industry)}
-							className={`btn btn-sm rounded-full transition-all ${
+							className={`tab rounded-full px-4 py-2 text-sm font-medium transition-all ${
 								selectedIndustry === industry
-									? "btn-primary"
-									: "btn-ghost border border-base-200/60"
+									? "tab-active bg-primary text-primary-content shadow-sm"
+									: "hover:bg-base-300/50"
 							}`}
 						>
 							{industry}
