@@ -1,5 +1,9 @@
-# Dependencies
-/node_modules
+node_modules
+.turbo
+.env*
+README.md
+.DS_Store
+.vscode
 /.pnp
 .pnp.*
 .yarn/*
@@ -7,6 +11,35 @@
 !.yarn/plugins
 !.yarn/releases
 !.yarn/versions
+*.pem
+*.local
+
+
+# PWA files
+**/public/sw.js
+**/public/sw.js.map
+**/public/workbox-*.js
+**/public/workbox-*.js.map
+**/public/worker-*.js
+**/public/worker-*.js.map
+**/public/fallback-*.js
+
+# Expo / React Native
+.expo/
+.expo-shared/
+dist/
+*.jks
+*.p8
+*.p12
+*.key
+*.mobileprovision
+*.orig.*
+web-build/
+expo-env.d.ts
+
+# Metro
+.cache/
+
 
 # Testing
 /coverage
@@ -27,12 +60,6 @@
 .netlify
 .wrangler
 
-# Environment & local files
-.env*
-!.env.example
-.DS_Store
-*.pem
-*.local
 
 # Logs
 npm-debug.log*
