@@ -1,0 +1,4 @@
+{
+	"buildCommand": "pnpm dlx convex deploy --prod --cmd \"pnpm build\""
+}
+
