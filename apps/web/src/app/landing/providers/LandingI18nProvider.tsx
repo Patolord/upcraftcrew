@@ -34,6 +34,7 @@ const DEFAULT_LOCALE: LandingLocale = "pt-BR";
 
 export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 	const [locale, setLocale] = useState<LandingLocale>(DEFAULT_LOCALE);
+	const [isHydrated, setIsHydrated] = useState(false);
 
 	useEffect(() => {
 		if (typeof window === "undefined") return;
@@ -41,6 +42,7 @@ export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 		if (storedLocale && storedLocale in messagesMap) {
 			setLocale(storedLocale as LandingLocale);
 		}
+		setIsHydrated(true);
 	}, []);
 
 	const switchLocale = useCallback((nextLocale: LandingLocale) => {
@@ -58,6 +60,10 @@ export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 		}),
 		[locale, switchLocale],
 	);
+
+	if (!isHydrated) {
+		return null;
+	}
 
 	return (
 		<LandingI18nContext.Provider value={value}>

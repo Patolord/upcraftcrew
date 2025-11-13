@@ -14,7 +14,6 @@ import { useQueryState, parseAsString } from "nuqs";
 
 const AUTO_PLAY_INTERVAL = 2300;
 const TRANSITION_MS = 320;
-
 const accentBadgeClasses = [
 	"bg-primary/10 text-primary",
 	"bg-secondary/10 text-secondary",
@@ -32,22 +31,22 @@ export const Portfolio = () => {
 	const { portfolio } = messages;
 	const allProjects = portfolio.projects;
 
-	// Get unique industries
-	const industries = useMemo(() => {
-		const uniqueIndustries = Array.from(new Set(allProjects.map(p => p.industry)));
-		return ["All", ...uniqueIndustries];
+	// Get unique categories
+	const categories = useMemo(() => {
+		const uniqueCategories = Array.from(new Set(allProjects.map(p => p.category).filter(Boolean)));
+		return ["All", ...uniqueCategories];
 	}, [allProjects]);
 
-	const [selectedIndustry, setSelectedIndustry] = useQueryState(
-		"sector",
+	const [selectedCategory, setSelectedCategory] = useQueryState(
+		"category",
 		parseAsString.withDefault("All")
 	);
 
-	// Filter projects by industry
+	// Filter projects by category
 	const projects = useMemo(() => {
-		if (selectedIndustry === "All") return allProjects;
-		return allProjects.filter(p => p.industry === selectedIndustry);
-	}, [allProjects, selectedIndustry]);
+		if (selectedCategory === "All") return allProjects;
+		return allProjects.filter(p => p.category === selectedCategory);
+	}, [allProjects, selectedCategory]);
 
 	const totalProjects = projects.length;
 
@@ -178,7 +177,7 @@ export const Portfolio = () => {
 
 	return (
 		<section
-			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
+			className="group/section container scroll-mt-12 py-8 md:py-8 lg:py-8 2xl:py-4"
 			id={SECTION_IDS.portfolio}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
@@ -199,20 +198,20 @@ export const Portfolio = () => {
 				</p>
 			</div>
 
-			{/* Industry Filter */}
+			{/* Category Filter */}
 			<div className="mt-6 flex justify-center">
 				<div className="flex flex-wrap gap-2 justify-center">
-					{industries.map((industry) => (
+					{categories.map((category) => (
 						<button
-							key={industry}
-							onClick={() => setSelectedIndustry(industry)}
+							key={category}
+							onClick={() => setSelectedCategory(category)}
 							className={`btn btn-sm rounded-full transition-all ${
-								selectedIndustry === industry
+								selectedCategory === category
 									? "btn-primary"
 									: "btn-ghost border border-base-200/60"
 							}`}
 						>
-							{industry}
+							{category}
 						</button>
 					))}
 				</div>
@@ -329,7 +328,7 @@ export const Portfolio = () => {
 			</div>
 
 				{totalProjects > 1 && (
-					<div className="mt-5 flex justify-center gap-2">
+					<div className="mt-5 flex rounded-full p-2 justify-center gap-2">
 						{projects.map((project, index) => {
 							const isActive = index === activeDotIndex;
 							return (
@@ -337,11 +336,11 @@ export const Portfolio = () => {
 									type="button"
 									onClick={() => handleDotSelect(index)}
 									key={project.name}
-									className="transition-all"
+									className="transition-all bg-white"
 									aria-label={`${project.name} - ${index + 1}`}
 								>
 									<span
-										className={`block h-1.5 rounded-full ${
+										className={`block h-1.5 rounded-full bg-orange-500 ${
 											isActive ? "w-8 bg-base-content" : "w-4 bg-base-200"
 										}`}
 									></span>

@@ -19,6 +19,9 @@
       "custom": "Sob medida",
       "new": "Novo",
       "bestValue": "Melhor custo-benefício"
+    },
+    "pricing": {
+      "whatsIncluded": "O que está incluso:"
     }
   },
   "topbar": {
@@ -78,6 +81,9 @@
         "supportCard": {
           "title": "Suporte contínuo",
           "growth": "+78%"
+        },
+        "resources": {
+          "usage": "3.4vGPU de 5vGPU"
         }
       },
       "top": {
@@ -97,6 +103,7 @@
       {
         "name": "Luis Fernando Aviation Consulting",
         "industry": "Consultoria Aeroespacial",
+        "category": "Websites",
         "year": "2025",
         "image": "/lsf.png",
         "alt": "Página de portfolio destacando consultoria aeronáutica",
@@ -112,6 +119,7 @@
       {
         "name": "OrtoQBank",
         "industry": "Educação Médica",
+        "category": "Aplicativos Web",
         "year": "2025",
         "image": "/pagini.png",
         "alt": "Prévia da plataforma de banco de questões em múltiplos dispositivos",
@@ -127,6 +135,7 @@
       {
         "name": "Starbem",
         "industry": "Saúde e Bem-estar Mental",
+        "category": "Aplicativos Web",
         "year": "2025",
         "image": "/starbem.png",
         "alt": "Plataforma de terapia com interface de agendamento",
@@ -142,6 +151,7 @@
       {
         "name": "Chat Do",
         "industry": "Colaboração em Equipe",
+        "category": "Aplicativos Web",
         "year": "2025",
         "image": "/chatdo.png",
         "alt": "Plataforma de produtividade com widgets de chat e tarefas",
@@ -157,6 +167,7 @@
       {
         "name": "Paloma S. Queiroz Portfolio",
         "industry": "Engenharia Industrial",
+        "category": "Websites",
         "year": "2025",
         "image": "/paloma.png",
         "alt": "Site portfolio da engenheira Paloma S. Queiroz",
@@ -172,6 +183,7 @@
       {
         "name": "Vibra 50 Anos Challenge",
         "industry": "Gamificação Corporativa",
+        "category": "Aplicativos Web",
         "year": "2024",
         "image": "/vibra.webp",
         "alt": "Plataforma comemorativa da Vibra com ranking de colaboradores",
@@ -187,6 +199,7 @@
       {
         "name": "Warehouse Watcher",
         "industry": "Logística e Inventário",
+        "category": "Aplicativos Web",
         "year": "2024",
         "image": "/warehouse.webp",
         "alt": "Plataforma de gestão de armazéns com dashboards em tempo real",
@@ -267,11 +280,11 @@
   "process": {
     "eyebrow": "Nosso processo",
     "title": "Como conduzimos o desenvolvimento",
-    "description": "Da primeira conversa à publicação, seguimos um processo comprovado que garante qualidade e transparência.",
     "steps": [
       {
         "title": "Descoberta e planejamento",
         "subtitle": "Começamos entendendo sua visão e requisitos.",
+        "stepLabel": "Primeiro passo",
         "items": [
           "Levantamento de requisitos",
           "Wireframes",
@@ -281,11 +294,13 @@
       },
       {
         "title": "Design e desenvolvimento",
-        "subtitle": "Nossa equipe dá vida à sua ideia com código limpo"
+        "subtitle": "Nossa equipe dá vida à sua ideia com código limpo",
+        "stepLabel": "Segundo passo"
       },
       {
         "title": "Testes e implantação",
         "subtitle": "Testes rigorosos e deploy sem atritos para produção",
+        "stepLabel": "Terceiro passo",
         "items": [
           "Garantia de qualidade",
           "Deploy em nuvem",
@@ -296,6 +311,7 @@
       {
         "title": "Suporte contínuo",
         "subtitle": "Manutenção e suporte permanentes para sua aplicação.",
+        "stepLabel": "Quarto passo",
         "items": [
           "Monitoramento de performance",
           "Atualizações e correções",
@@ -398,8 +414,7 @@
   },
   "pricing": {
     "eyebrow": "Preços transparentes",
-    "title": "Planos de desenvolvimento sem surpresa",
-    "description": "Escolha o modelo de contratação que melhor se adapta ao seu projeto. Transparência total e zero custos ocultos.",
+    "title": "Planos de desenvolvimento",
     "sectionsLabel": "O que está incluso",
     "tabs": {
       "websites": "Websites",
@@ -418,8 +433,8 @@
     "plans": {
       "websites": [
         {
-          "title": "Landing / Portfólio Básica",
-          "price": "R$ 1.200,00",
+          "title": "Landing Básica",
+          "price": "R$ 1.200",
           "includes": [
             { "text": "1 página responsiva (landing ou portfólio)", "included": true },
             { "text": "Design clean e SEO básico", "included": true },
@@ -432,8 +447,8 @@
           "customCta": "Compre agora"
         },
         {
-          "title": "Landing / Portfólio Artística",
-          "price": "a partir de R$ 2.500,00",
+          "title": "Landing Artística",
+          "price": "a partir de R$ 2.500",
           "includes": [
             { "text": "Design artístico com microinterações", "included": true },
             { "text": "Animações e storytelling visual", "included": true },
@@ -447,7 +462,7 @@
         },
         {
           "title": "Site Institucional",
-          "price": "a partir de R$ 2.500,00",
+          "price": "a partir de R$ 2.500",
           "includes": [
             { "text": "Até 5 páginas (Home, Sobre, Serviços, Contato...)", "included": true },
             { "text": "Formulários, SEO básico e analytics", "included": true },
@@ -459,7 +474,7 @@
         },
         {
           "title": "Loja Virtual (E-commerce)",
-          "price": "a partir de R$ 3.000,00",
+          "price": "a partir de R$ 3.000",
           "includes": [
             { "text": "Catálogo de produtos e categorias", "included": true },
             { "text": "Carrinho e checkout", "included": true },
@@ -474,7 +489,7 @@
       "webApps": [
         {
           "title": "Web App Start",
-          "price": "a partir de R$ 4.000,00",
+          "price": "a partir de R$ 4.000",
           "includes": [
             { "text": "Login/autenticação", "included": true },
             { "text": "Banco de dados sincronizado (Convex)", "included": true },
@@ -489,7 +504,7 @@
         },
         {
           "title": "Web App Pro",
-          "price": "a partir de R$ 8.000,00",
+          "price": "a partir de R$ 8.000",
           "includes": [
             { "text": "APIs, CRUD completo e notificações", "included": true },
             { "text": "Planos e cobrança", "included": true },
@@ -505,7 +520,7 @@
         },
         {
           "title": "Web App SaaS Premium",
-          "price": "a partir de R$ 15.000,00",
+          "price": "a partir de R$ 15.000",
           "includes": [
             { "text": "Multiusuário e permissões", "included": true },
             { "text": "Integrações externas avançadas", "included": true },
@@ -522,7 +537,7 @@
       "mobileApps": [
         {
           "title": "App MVP",
-          "price": "a partir de R$ 7.000,00",
+          "price": "a partir de R$ 7.000",
           "includes": [
             { "text": "Login e autenticação", "included": true },
             { "text": "Até 3 telas principais", "included": true },
@@ -537,7 +552,7 @@
         },
         {
           "title": "App Avançado",
-          "price": "a partir de R$ 12.000,00",
+          "price": "a partir de R$ 12.000",
           "includes": [
             { "text": "Animações e navegação refinada", "included": true },
             { "text": "Sincronização em tempo real", "included": true },
@@ -553,7 +568,7 @@
         },
         {
           "title": "App Full Custom",
-          "price": "a partir de R$ 18.000,00",
+          "price": "a partir de R$ 18.000",
           "includes": [
             { "text": "Design exclusivo e CI/CD configurado", "included": true },
             { "text": "iOS e Android + painel web admin", "included": true },
@@ -570,7 +585,7 @@
       "maintenance": [
         {
           "title": "Manutenção Essencial",
-          "price": "R$ 300,00/mês",
+          "price": "R$ 300/mês",
           "includes": [
             { "text": "Atualizações básicas e correções", "included": true },
             { "text": "Backups automáticos semanais", "included": true },
@@ -585,7 +600,7 @@
         },
         {
           "title": "Manutenção Pro",
-          "price": "R$ 600,00/mês",
+          "price": "R$ 600/mês",
           "includes": [
             { "text": "Monitoramento 24/7 de uptime/performance", "included": true },
             { "text": "Correções e pequenas melhorias", "included": true },
@@ -601,7 +616,7 @@
         },
         {
           "title": "Suporte Premium",
-          "price": "a partir de R$ 1.200,00/mês",
+          "price": "a partir de R$ 1.200/mês",
           "includes": [
             { "text": "Desenvolvimento de novas features", "included": true },
             { "text": "Hospedagem gerenciada enterprise", "included": true },
@@ -632,7 +647,7 @@
         },
         {
           "title": "Consultoria para Negócios",
-          "price": "R$ 1.500,00",
+          "price": "R$ 1.500",
           "includes": [
             { "text": "3 horas de consultoria técnica", "included": true },
             { "text": "Análise completa do negócio digital", "included": true },
@@ -648,7 +663,7 @@
         },
         {
           "title": "Mentoria Personalizada",
-          "price": "R$ 3.000,00",
+          "price": "R$ 3.000",
           "includes": [
             { "text": "4 sessões de 1h por mês durante 4 meses", "included": true },
             { "text": "Acompanhamento de projetos pessoais", "included": true },

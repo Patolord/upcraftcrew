@@ -128,7 +128,7 @@ export const Hero = () => {
 								</div>
 								<div className="rounded-box card bg-base-100 absolute start-20 top-70 p-3 shadow max-2xl:hidden">
 									<p className="text-base-content/80 text-sm">
-										3.4vGPU of 5vGPU
+										{hero.cards.right.resources.usage}
 									</p>
 									<div className="mt-0.5 flex gap-1">
 										<progress
