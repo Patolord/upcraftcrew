@@ -336,11 +336,11 @@ export const Portfolio = () => {
 									type="button"
 									onClick={() => handleDotSelect(index)}
 									key={project.name}
-									className="transition-all bg-white"
+									className="transition-all"
 									aria-label={`${project.name} - ${index + 1}`}
 								>
 									<span
-										className={`block h-1.5 rounded-full bg-orange-500 ${
+										className={`block h-1.5 rounded-full ${
 											isActive ? "w-8 bg-base-content" : "w-4 bg-base-200"
 										}`}
 									></span>

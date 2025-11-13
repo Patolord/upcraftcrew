@@ -65,13 +65,6 @@ export const Footer = () => {
 										alt="Google Play"
 									/>
 								</Link>
-								<Link href="https://apps.apple.com/br/app/upcraftcrew/id6734444444444444" target="_blank">
-									<img
-										src="/images/brand-logo/apple.svg"
-										className="size-7 dark:invert"
-										alt="Apple Store"
-									/>
-								</Link>
 								<Link
 									href="https://github.com/upcraftcrew"
 									target="_blank"
