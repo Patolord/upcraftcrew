@@ -2,7 +2,7 @@
 
 import { SECTION_IDS } from "@/app/landing/constants";
 import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
-import { useState } from "react";
+import { useQueryState, parseAsStringEnum } from "nuqs";
 
 interface PricingCardProps {
 	title: string;
@@ -84,7 +84,10 @@ export const Pricing = () => {
 	] as const;
 	type TabKey = (typeof tabKeys)[number];
 
-	const [activeTab, setActiveTab] = useState<TabKey>(tabKeys[0]);
+	const [activeTab, setActiveTab] = useQueryState(
+		"tab",
+		parseAsStringEnum<TabKey>(tabKeys).withDefault("websites")
+	);
 
 	const currentPlans = pricing.plans[activeTab] || [];
 	const currentCta = pricing.cta[activeTab];

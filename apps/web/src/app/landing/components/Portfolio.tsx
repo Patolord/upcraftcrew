@@ -10,6 +10,7 @@ import {
 
 import { SECTION_IDS } from "@/app/landing/constants";
 import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { useQueryState, parseAsString } from "nuqs";
 
 const AUTO_PLAY_INTERVAL = 2300;
 const TRANSITION_MS = 320;
@@ -29,7 +30,25 @@ const accentIconClasses = [
 export const Portfolio = () => {
 	const { messages } = useLandingI18n();
 	const { portfolio } = messages;
-	const projects = portfolio.projects;
+	const allProjects = portfolio.projects;
+
+	// Get unique industries
+	const industries = useMemo(() => {
+		const uniqueIndustries = Array.from(new Set(allProjects.map(p => p.industry)));
+		return ["All", ...uniqueIndustries];
+	}, [allProjects]);
+
+	const [selectedIndustry, setSelectedIndustry] = useQueryState(
+		"sector",
+		parseAsString.withDefault("All")
+	);
+
+	// Filter projects by industry
+	const projects = useMemo(() => {
+		if (selectedIndustry === "All") return allProjects;
+		return allProjects.filter(p => p.industry === selectedIndustry);
+	}, [allProjects, selectedIndustry]);
+
 	const totalProjects = projects.length;
 
 	const [visibleCount, setVisibleCount] = useState(3);
@@ -178,6 +197,25 @@ export const Portfolio = () => {
 				<p className="text-base-content/80 max-w-2xl text-sm sm:text-base">
 					{portfolio.description}
 				</p>
+			</div>
+
+			{/* Industry Filter */}
+			<div className="mt-6 flex justify-center">
+				<div className="flex flex-wrap gap-2 justify-center">
+					{industries.map((industry) => (
+						<button
+							key={industry}
+							onClick={() => setSelectedIndustry(industry)}
+							className={`btn btn-sm rounded-full transition-all ${
+								selectedIndustry === industry
+									? "btn-primary"
+									: "btn-ghost border border-base-200/60"
+							}`}
+						>
+							{industry}
+						</button>
+					))}
+				</div>
 			</div>
 
 			<div className="mt-10 flex items-center justify-between gap-4">
