@@ -15,12 +15,12 @@ export const Footer = () => {
 
 	return (
 		<div
-			className="group/section border-base-200 bg-neutral/1 scroll-mt-12 rounded-t-xl border-t pt-8 md:pt-12 lg:pt-16 2xl:pt-28"
+			className="group/section border-base-200 bg-neutral/1 scroll-mt-12 rounded-t-xl border-t pt-2 md:pt-12 lg:pt-8 2xl:pt-14"
 			id={SECTION_IDS.contact}
 		>
 			<div className="container">
 				<div className="flex items-center justify-center gap-1.5">
-					<div className="bg-primary/80 h-4 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
+					<div className="bg-primary/80 h-2 w-0.5 translate-x-1.5 rounded-full opacity-0 transition-all group-hover/section:translate-x-0 group-hover/section:opacity-100" />
 					<p className="text-base-content/60 group-hover/section:text-primary font-mono text-sm font-medium transition-all">
 						{footer.eyebrow}
 					</p>
@@ -58,46 +58,35 @@ export const Footer = () => {
 								{footer.summary}
 							</p>
 							<div className="mt-6 flex items-center gap-3">
-								<Button
-									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
-									aria-label={footer.social.google}
-								>
+								<Link href="https://play.google.com/store/apps/details?id=com.upcraftcrew.app" target="_blank">
 									<img
 										src="/images/brand-logo/google.svg"
 										className="size-5 dark:invert"
-										alt={footer.social.google}
+										alt="Google Play"
 									/>
-								</Button>
-								<Button
-									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
-									aria-label={footer.social.apple}
-								>
-									<img
-										src="/images/brand-logo/apple.svg"
-										className="size-5 dark:invert"
-										alt={footer.social.apple}
-									/>
-								</Button>
-								<Button
-									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
-									aria-label={footer.social.github}
+								</Link>
+								<Link
+									href="https://github.com/upcraftcrew"
+									target="_blank"
+									className="flex items-center gap-3"
 								>
 									<img
 										src="/images/brand-logo/github.svg"
-										className="size-5 dark:invert"
-										alt={footer.social.github}
+										className="size-6 dark:invert"
+										alt="GitHub"
 									/>
-								</Button>
-								<Button
-									className="btn btn-ghost btn-square border-base-300 btn-sm max-w-full gap-3"
-									aria-label={footer.social.x}
-								>
+								</Link>
+								<Link
+									href="https://x.com/upcraftcrew"
+									target="_blank"
+									className="flex items-center gap-3"
+									>
 									<img
 										src="/images/brand-logo/x.svg"
-										className="size-4 dark:invert"
-										alt={footer.social.x}
-									/>
-								</Button>
+										className="size-5 dark:invert"
+										alt="X"
+										/>
+									</Link>
 							</div>
 						</div>
 					</div>

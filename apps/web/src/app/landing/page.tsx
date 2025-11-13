@@ -13,7 +13,9 @@ import { Topbar } from "./components/Topbar";
 const LandingPage = () => {
 	return (
 		<>
-			<Topbar />
+			<Suspense fallback={<div className="h-20" />}>
+				<Topbar />
+			</Suspense>
 			<Hero />
 			<Suspense fallback={<div />}>
 				<Portfolio />
@@ -21,7 +23,7 @@ const LandingPage = () => {
 			<Features />
 			<Process />
 			<Benefits />
-			<Integrations />
+			{/* <Integrations /> */}
 			<Testimonials />
 			<Suspense fallback={<div />}>
 				<Pricing />

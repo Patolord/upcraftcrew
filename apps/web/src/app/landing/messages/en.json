@@ -19,6 +19,9 @@
       "custom": "Custom",
       "new": "New",
       "bestValue": "Best Value"
+    },
+    "pricing": {
+      "whatsIncluded": "What's Included:"
     }
   },
   "topbar": {
@@ -78,6 +81,9 @@
         "supportCard": {
           "title": "Ongoing Support",
           "growth": "+78%"
+        },
+        "resources": {
+          "usage": "3.4vGPU of 5vGPU"
         }
       },
       "top": {
@@ -97,8 +103,9 @@
       {
         "name": "Luis Fernando Aviation Consulting",
         "industry": "Aerospace Consultancy",
+        "category": "Websites",
         "year": "2025",
-        "image": "/ ",
+        "image": "/lsf.png",
         "alt": "Portfolio page highlighting aviation consulting services",
         "tagline": "Compliance-driven support for global aviation operators.",
         "stack": ["responsive", "seo", "authentication"],
@@ -112,6 +119,7 @@
       {
         "name": "OrtoQBank",
         "industry": "Medical Education",
+        "category": "Web Apps",
         "year": "2025",
         "image": "/pagini.png",
         "alt": "Question bank platform preview across devices",
@@ -127,6 +135,7 @@
       {
         "name": "Starbem",
         "industry": "Mental Health & Wellness",
+        "category": "Web Apps",
         "year": "2025",
         "image": "/starbem.png",
         "alt": "Therapy platform with scheduling interface",
@@ -142,6 +151,7 @@
       {
         "name": "Chat Do",
         "industry": "Team Collaboration",
+        "category": "Web Apps",
         "year": "2025",
         "image": "/chatdo.png",
         "alt": "Team productivity platform with chat and task widgets",
@@ -157,12 +167,13 @@
       {
         "name": "Paloma S. Queiroz Portfolio",
         "industry": "Industrial Engineering",
+        "category": "Websites",
         "year": "2025",
         "image": "/paloma.png",
         "alt": "Portfolio website for mechanical engineer Paloma S. Queiroz",
         "tagline": "Showcasing engineering leadership and ISO 9001 initiatives.",
         "stack": ["timeline", "carousel", "downloadable"],
-        "description": "Personal site presenting Paloma’s mechanical engineering career, ISO 9001 committee leadership, MBA pursuits, and highlighted projects spanning quality management and digital solutions.",
+        "description": "Personal site presenting Paloma's mechanical engineering career, ISO 9001 committee leadership, MBA pursuits, and highlighted projects spanning quality management and digital solutions.",
         "highlights": [
           "Experience timeline covering service consulting and technical assistance roles",
           "Project spotlight carousel featuring ISO 9001 rollout, OrtoQBank coordination, and RLP site build",
@@ -172,10 +183,11 @@
       {
         "name": "Vibra 50 Years Challenge",
         "industry": "Corporate Gamification",
+        "category": "Web Apps",
         "year": "2024",
         "image": "/vibra.webp",
         "alt": "Vibra celebratory gaming platform with leaderboard",
-        "tagline": "Employee gaming hub celebrating Vibra’s 50-year legacy.",
+        "tagline": "Employee gaming hub celebrating Vibra's 50-year legacy.",
         "stack": ["gamification", "leaderboard", "quizzes"],
         "description": "Interactive platform built for Vibra employees featuring themed quizzes about company history, brand, and business units, with live rankings and award distribution to commemorate five decades of operations.",
         "highlights": [
@@ -187,6 +199,7 @@
       {
         "name": "Warehouse Watcher",
         "industry": "Logistics & Inventory",
+        "category": "Web Apps",
         "year": "2024",
         "image": "/warehouse.webp",
         "alt": "Warehouse management platform with real-time dashboards",
@@ -272,6 +285,7 @@
       {
         "title": "Discovery & Planning",
         "subtitle": "We start by understanding your vision and requirements.",
+        "stepLabel": "First step",
         "items": [
           "Requirements gathering",
           "Wireframing",
@@ -281,11 +295,13 @@
       },
       {
         "title": "Development & Design",
-        "subtitle": "Our team brings your vision to life with clean code"
+        "subtitle": "Our team brings your vision to life with clean code",
+        "stepLabel": "Second step"
       },
       {
         "title": "Testing & Deployment",
         "subtitle": "Rigorous testing and seamless deployment to production",
+        "stepLabel": "Third step",
         "items": [
           "Quality assurance",
           "Cloud deployment",
@@ -296,6 +312,7 @@
       {
         "title": "Ongoing Support",
         "subtitle": "Continuous maintenance and support for your application.",
+        "stepLabel": "Fourth step",
         "items": [
           "Performance Monitoring",
           "Updates & Patches",
@@ -398,8 +415,7 @@
   },
   "pricing": {
     "eyebrow": "Transparent Pricing",
-    "title": "Transparent Development Pricing",
-    "description": "Choose the engagement model that works best for your project. Transparent pricing with no hidden costs.",
+    "title": "Development Pricing",
     "sectionsLabel": "What's Included",
     "tabs": {
       "websites": "Websites",
@@ -418,8 +434,8 @@
     "plans": {
       "websites": [
         {
-          "title": "Basic Landing / Portfolio",
-          "price": "from $140 — $240",
+          "title": "Basic Landing",
+          "price": "$240",
           "includes": [
             { "text": "1 responsive page (landing or portfolio)", "included": true },
             { "text": "Clean design and basic SEO", "included": true },
@@ -432,7 +448,7 @@
           "customCta": "Buy now"
         },
         {
-          "title": "Artistic Landing / Portfolio",
+          "title": "Artistic Landing",
           "price": "from $500",
           "includes": [
             { "text": "Artistic design with micro-interactions", "included": true },
