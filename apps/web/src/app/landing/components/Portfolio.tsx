@@ -31,22 +31,22 @@ export const Portfolio = () => {
 	const { portfolio } = messages;
 	const allProjects = portfolio.projects;
 
-	// Get unique categories
-	const categories = useMemo(() => {
-		const uniqueCategories = Array.from(new Set(allProjects.map(p => p.category).filter(Boolean)));
-		return ["All", ...uniqueCategories];
+	// Get unique industries
+	const industries = useMemo(() => {
+		const uniqueIndustries = Array.from(new Set(allProjects.map(p => p.industry)));
+		return ["All", ...uniqueIndustries];
 	}, [allProjects]);
 
-	const [selectedCategory, setSelectedCategory] = useQueryState(
-		"category",
+	const [selectedIndustry, setSelectedIndustry] = useQueryState(
+		"sector",
 		parseAsString.withDefault("All")
 	);
 
-	// Filter projects by category
+	// Filter projects by industry
 	const projects = useMemo(() => {
-		if (selectedCategory === "All") return allProjects;
-		return allProjects.filter(p => p.category === selectedCategory);
-	}, [allProjects, selectedCategory]);
+		if (selectedIndustry === "All") return allProjects;
+		return allProjects.filter(p => p.industry === selectedIndustry);
+	}, [allProjects, selectedIndustry]);
 
 	const totalProjects = projects.length;
 
@@ -198,20 +198,20 @@ export const Portfolio = () => {
 				</p>
 			</div>
 
-			{/* Category Filter */}
+			{/* Industry Filter */}
 			<div className="mt-6 flex justify-center">
 				<div className="flex flex-wrap gap-2 justify-center">
-					{categories.map((category) => (
+					{industries.map((industry) => (
 						<button
-							key={category}
-							onClick={() => setSelectedCategory(category)}
+							key={industry}
+							onClick={() => setSelectedIndustry(industry)}
 							className={`btn btn-sm rounded-full transition-all ${
-								selectedCategory === category
+								selectedIndustry === industry
 									? "btn-primary"
 									: "btn-ghost border border-base-200/60"
 							}`}
 						>
-							{category}
+							{industry}
 						</button>
 					))}
 				</div>

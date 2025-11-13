@@ -18,9 +18,7 @@ const LandingPage = () => {
 			</Suspense>
 			<Hero />
 			<Suspense fallback={<div />}>
-				<Suspense fallback={<div />}>
-					<Portfolio />
-				</Suspense>
+				<Portfolio />
 			</Suspense>
 			<Features />
 			<Process />
