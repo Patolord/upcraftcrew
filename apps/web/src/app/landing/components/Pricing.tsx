@@ -12,6 +12,7 @@ interface PricingCardProps {
 	popular?: boolean;
 	cta: string;
 	customCta?: string;
+	common: any;
 }
 
 const PricingCard = ({
@@ -22,6 +23,7 @@ const PricingCard = ({
 	popular,
 	cta,
 	customCta,
+	common,
 }: PricingCardProps) => {
 	return (
 		<div className="card bg-base-100 flex flex-col rounded-2xl border border-base-300 p-6 shadow-sm transition-shadow hover:shadow-md">
@@ -29,7 +31,7 @@ const PricingCard = ({
 				<h3 className="text-2xl font-bold">{title}</h3>
 				{popular && (
 					<div className="badge badge-primary badge-sm shadow-primary/10 whitespace-nowrap shadow-lg">
-						Mais popular
+						{common.badges.mostPopular}
 					</div>
 				)}
 			</div>
@@ -37,13 +39,13 @@ const PricingCard = ({
 
 			<div className="mt-6">
 				<p className="text-base-content/80 text-sm font-medium">
-					O que está incluso:
+					{common.pricing.whatsIncluded}
 				</p>
 				<div className="mt-3 space-y-2">
 					{includes.map((item, index) => (
 						<div className="flex items-start gap-2" key={index}>
 							<span
-								className={`iconify mt-0.5 size-4.5 flex-shrink-0 ${
+								className={`iconify mt-0.5 size-4.5 shrink-0 ${
 									item.included
 										? "lucide--check text-success"
 										: "lucide--x text-base-content/40"
@@ -73,7 +75,7 @@ const PricingCard = ({
 
 export const Pricing = () => {
 	const { messages } = useLandingI18n();
-	const { pricing } = messages;
+	const { pricing, common } = messages;
 
 	const tabKeys = [
 		"websites",
@@ -107,9 +109,7 @@ export const Pricing = () => {
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
 				{pricing.title}
 			</p>
-			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">{pricing.description}</p>
-			</div>
+			
 
 			{/* Tabs */}
 			<div className="mt-8 flex justify-center">
@@ -145,6 +145,7 @@ export const Pricing = () => {
 			>
 				{currentPlans.map((plan, index) => (
 					<PricingCard
+						common={common}
 						key={index}
 						title={plan.title}
 						price={plan.price}

@@ -27,7 +27,7 @@ export const Testimonials = () => {
 
 	return (
 		<div
-			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
+			className="group/section container scroll-mt-12 py-8 md:py-8 lg:py-8 2xl:py-8"
 			id={SECTION_IDS.testimonials}
 		>
 			<div className="flex items-center justify-center gap-1.5">

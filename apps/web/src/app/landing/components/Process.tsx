@@ -31,7 +31,7 @@ export const Process = () => {
 
 	return (
 		<div
-			className="group container py-8 md:py-12 lg:py-16 2xl:py-28"
+			className="group container py-8 md:py-12 lg:py-12 2xl:py-2"
 			id={SECTION_IDS.process}
 		>
 			<div className="flex items-center justify-center gap-1.5">
@@ -44,17 +44,15 @@ export const Process = () => {
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
 				{process.title}
 			</p>
-			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">{process.description}</p>
-			</div>
-			<div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-12 lg:mt-16 xl:grid-cols-4 2xl:mt-24">
-				<div>
+
+			<div className="mt-8 grid grid-cols-1 gap-6 sm:grid-cols-2 md:mt-12 lg:mt-16 xl:grid-cols-4 2xl:mt-16">
+				<div className="flex flex-col">
 					<div className="flex items-center justify-center">
 						<div className="bg-base-200/60 border-base-200 rounded-full border p-3">
 							<span className="iconify lucide--zap block size-6"></span>
 						</div>
 					</div>
-					<div className="card bg-base-200/60 border-base-200 mt-4 min-h-76 border p-5">
+					<div className="card bg-base-200/60 border-base-200 mt-4 flex-1 border p-5">
 						<p className="text-center text-lg font-medium">{discovery.title}</p>
 						<p className="text-base-content/60 mt-1 text-center text-sm italic">
 							{discovery.subtitle}
@@ -71,14 +69,21 @@ export const Process = () => {
 							))}
 						</div>
 					</div>
+					<div className="mt-3 flex items-center justify-center gap-2">
+						<p className="text-primary text-center text-xs font-semibold uppercase tracking-wider">
+							{discovery.stepLabel}
+						</p>
+						<span className="iconify lucide--arrow-right text-primary hidden size-5 xl:block"></span>
+					</div>
 				</div>
-				<div>
+
+				<div className="flex flex-col">
 					<div className="flex items-center justify-center">
 						<div className="from-primary to-secondary text-primary-content rounded-full border border-transparent bg-linear-to-br p-3">
 							<span className="iconify lucide--settings block size-6"></span>
 						</div>
 					</div>
-					<div className="card from-primary to-secondary text-primary-content mt-4 min-h-76 bg-linear-to-br p-5">
+					<div className="card from-primary to-secondary text-primary-content mt-4 flex-1 bg-linear-to-br p-5">
 						<p className="text-center text-lg font-medium">{development.title}</p>
 						<p className="text-primary-content/60 mt-1 text-center text-sm italic">
 							{development.subtitle}
@@ -100,8 +105,15 @@ export const Process = () => {
 							</div>
 						</div>
 					</div>
+					<div className="mt-3 flex items-center justify-center gap-2">
+						<p className="text-primary text-center text-xs font-semibold uppercase tracking-wider">
+							{development.stepLabel}
+						</p>
+						<span className="iconify lucide--arrow-right text-primary hidden size-5 xl:block"></span>
+					</div>
 				</div>
-				<div>
+
+				<div className="flex flex-col">
 					<div className="flex items-center justify-center">
 						<div className="from-primary to-secondary rounded-full border border-transparent bg-linear-to-br p-0.5">
 							<div className="bg-base-100 rounded-full p-2.5">
@@ -109,8 +121,8 @@ export const Process = () => {
 							</div>
 						</div>
 					</div>
-					<div className="from-primary to-secondary card mt-4 bg-linear-to-br p-1">
-						<div className="bg-base-100 rounded-box min-h-74 p-5">
+					<div className="from-primary to-secondary card mt-4 flex-1 bg-linear-to-br p-1">
+						<div className="bg-base-100 rounded-box flex h-full flex-col p-5">
 							<p className="text-center text-lg font-medium">{testing.title}</p>
 							<p className="text-base-content/60 mt-1 text-center text-sm italic">
 								{testing.subtitle}
@@ -130,14 +142,21 @@ export const Process = () => {
 							</div>
 						</div>
 					</div>
+					<div className="mt-3 flex items-center justify-center gap-2">
+						<p className="text-primary text-center text-xs font-semibold uppercase tracking-wider">
+							{testing.stepLabel}
+						</p>
+						<span className="iconify lucide--arrow-right text-primary hidden size-5 xl:block"></span>
+					</div>
 				</div>
-				<div>
+
+				<div className="flex flex-col">
 					<div className="flex items-center justify-center">
 						<div className="border-base-300 bg-base-100 rounded-full border border-dashed p-3">
 							<span className="iconify lucide--user-cog block size-6"></span>
 						</div>
 					</div>
-					<div className="card border-base-300 mt-4 min-h-76 border border-dashed p-5">
+					<div className="card border-base-300 mt-4 flex-1 border border-dashed p-5">
 						<p className="text-center text-lg font-medium">{support.title}</p>
 						<p className="text-base-content/60 mt-1 text-center text-sm italic">
 							{support.subtitle}
@@ -163,6 +182,9 @@ export const Process = () => {
 							))}
 						</div>
 					</div>
+					<p className="text-primary mt-3 text-center text-xs font-semibold uppercase tracking-wider">
+						{support.stepLabel}
+					</p>
 				</div>
 			</div>
 		</div>

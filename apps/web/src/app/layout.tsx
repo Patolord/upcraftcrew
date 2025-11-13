@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 			},
 		],
 		apple: [
-			{ url: "/icons/icon-192x192.png", sizes: "192x192", type: "image/png" },
+			{ url: "/images/logo/logo-light-mini.png", sizes: "192x192", type: "image/png" },
 		],
 	},
 };

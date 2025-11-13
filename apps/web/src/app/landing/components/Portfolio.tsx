@@ -14,7 +14,6 @@ import { useQueryState, parseAsString } from "nuqs";
 
 const AUTO_PLAY_INTERVAL = 2300;
 const TRANSITION_MS = 320;
-
 const accentBadgeClasses = [
 	"bg-primary/10 text-primary",
 	"bg-secondary/10 text-secondary",
@@ -178,7 +177,7 @@ export const Portfolio = () => {
 
 	return (
 		<section
-			className="group/section container scroll-mt-12 py-8 md:py-12 lg:py-16 2xl:py-28"
+			className="group/section container scroll-mt-12 py-8 md:py-8 lg:py-8 2xl:py-4"
 			id={SECTION_IDS.portfolio}
 			onMouseEnter={handleMouseEnter}
 			onMouseLeave={handleMouseLeave}
@@ -329,7 +328,7 @@ export const Portfolio = () => {
 			</div>
 
 				{totalProjects > 1 && (
-					<div className="mt-5 flex justify-center gap-2">
+					<div className="mt-5 flex rounded-full p-2 justify-center gap-2">
 						{projects.map((project, index) => {
 							const isActive = index === activeDotIndex;
 							return (
