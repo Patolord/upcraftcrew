@@ -619,7 +619,7 @@
       "consulting": [
         {
           "title": "Quick Consultation",
-          "price": "$80",
+          "price": "$0",
           "includes": [
             { "text": "1 hour individual call", "included": true },
             { "text": "Analysis of your project or idea", "included": true },

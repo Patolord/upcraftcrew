@@ -2,6 +2,7 @@ import type { Metadata, Viewport } from "next";
 import type React from "react";
 import { Providers } from "@/components/providers";
 import { ConfigProvider } from "@/contexts/config";
+import { NuqsAdapter } from "nuqs/adapters/next/app";
 import "@/styles/app.css";
 
 export const metadata: Metadata = {
@@ -58,7 +59,9 @@ export default function RootLayout({
 			</head>
 			<body>
 				<Providers>
-					<ConfigProvider>{children}</ConfigProvider>
+					<NuqsAdapter>
+						<ConfigProvider>{children}</ConfigProvider>
+					</NuqsAdapter>
 				</Providers>
 			</body>
 		</html>
