@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import { Benefits } from "./components/Benefits";
 import { Features } from "./components/Features";
 import { Footer } from "./components/Footer";
@@ -14,13 +15,17 @@ const LandingPage = () => {
 		<>
 			<Topbar />
 			<Hero />
-			<Portfolio />
+			<Suspense fallback={<div />}>
+				<Portfolio />
+			</Suspense>
 			<Features />
 			<Process />
 			<Benefits />
 			<Integrations />
 			<Testimonials />
-			<Pricing />
+			<Suspense fallback={<div />}>
+				<Pricing />
+			</Suspense>
 			<Footer />
 		</>
 	);
