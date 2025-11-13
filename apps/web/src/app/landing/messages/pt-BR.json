@@ -402,80 +402,267 @@
     "description": "Escolha o modelo de contratação que melhor se adapta ao seu projeto. Transparência total e zero custos ocultos.",
     "sectionsLabel": "O que está incluso",
     "tabs": {
-      "projectBased": "Por projeto",
-      "retainer": "Assinatura",
-      "bestValue": "Melhor custo-benefício"
+      "websites": "Websites",
+      "webApps": "Aplicativos Web",
+      "mobileApps": "Aplicativos Mobile",
+      "maintenance": "Manutenção",
+      "consulting": "Consultoria"
     },
-    "plans": [
-      {
-        "title": "Essenciais Web",
-        "subtitle": "Perfeito para pequenas empresas",
-        "prices": {
-          "project": "1.000",
-          "retainer": "30"
+    "cta": {
+      "websites": "Solicitar orçamento",
+      "webApps": "Iniciar projeto",
+      "mobileApps": "Iniciar projeto",
+      "maintenance": "Assinar",
+      "consulting": "Agendar"
+    },
+    "plans": {
+      "websites": [
+        {
+          "title": "Landing / Portfólio Básica",
+          "price": "R$ 1.200,00",
+          "includes": [
+            { "text": "1 página responsiva (landing ou portfólio)", "included": true },
+            { "text": "Design clean e SEO básico", "included": true },
+            { "text": "Formulário de contato funcional", "included": true },
+            { "text": "Deploy e hospedagem", "included": true },
+            { "text": "Animações avançadas", "included": false },
+            { "text": "Integração com CMS", "included": false }
+          ],
+          "tagline": "Perfeito para quem precisa publicar rápido com investimento enxuto.",
+          "customCta": "Compre agora"
         },
-        "priceLabel": {
-          "project": "a partir de",
-          "retainer": "/mês"
+        {
+          "title": "Landing / Portfólio Artística",
+          "price": "a partir de R$ 2.500,00",
+          "includes": [
+            { "text": "Design artístico com microinterações", "included": true },
+            { "text": "Animações e storytelling visual", "included": true },
+            { "text": "SEO e performance otimizados", "included": true },
+            { "text": "Hospedagem e deploy incluídos", "included": true },
+            { "text": "Até 5 páginas (Home, Sobre, Serviços, Contato...)", "included": true },
+            { "text": "CMS dinâmico", "included": false }
+          ],
+          "tagline": "Para criadores e marcas que querem encantar no primeiro olhar.",
+          "popular": true
         },
-        "features": [
-          { "label": "Site responsivo de até 5 páginas", "included": true },
-          { "label": "Design mobile-first", "included": true },
-          { "label": "Formulários de contato e SEO básico", "included": true },
-          { "label": "Integração com CMS", "included": true },
-          { "label": "Funcionalidade de e-commerce", "included": false },
-          { "label": "Integrações personalizadas", "included": false }
-        ],
-        "quote": "\"Perfeito para startups e pequenos negócios entrando no digital\"",
-        "cta": "Solicitar orçamento"
-      },
-      {
-        "title": "Business Pro",
-        "badge": "Mais popular",
-        "subtitle": "Aplicações web avançadas",
-        "prices": {
-          "project": "2.900",
-          "retainer": "250"
+        {
+          "title": "Site Institucional",
+          "price": "a partir de R$ 2.500,00",
+          "includes": [
+            { "text": "Até 5 páginas (Home, Sobre, Serviços, Contato...)", "included": true },
+            { "text": "Formulários, SEO básico e analytics", "included": true },
+            { "text": "Layout mobile-first e acessível", "included": true },
+            { "text": "Integrações personalizadas", "included": false },
+            { "text": "Funcionalidade de e-commerce", "included": false }
+          ],
+          "tagline": "Para empresas que precisam de presença digital completa e confiável."
         },
-        "priceLabel": {
-          "project": "a partir de",
-          "retainer": "/mês"
+        {
+          "title": "Loja Virtual (E-commerce)",
+          "price": "a partir de R$ 3.000,00",
+          "includes": [
+            { "text": "Catálogo de produtos e categorias", "included": true },
+            { "text": "Carrinho e checkout", "included": true },
+            { "text": "Gestão de pedidos e estoque", "included": true },
+            { "text": "Descontos/cupom e cálculo de frete*", "included": true },
+            { "text": "Integração com CMS para vitrines", "included": true },
+            { "text": "Automação fiscal/logística (sob escopo)", "included": false }
+          ],
+          "tagline": "Para quem quer vender online com performance e experiência profissional."
+        }
+      ],
+      "webApps": [
+        {
+          "title": "Web App Start",
+          "price": "a partir de R$ 4.000,00",
+          "includes": [
+            { "text": "Login/autenticação", "included": true },
+            { "text": "Banco de dados sincronizado (Convex)", "included": true },
+            { "text": "Painel básico e CRUD inicial", "included": true },
+            { "text": "Deploy na Vercel", "included": true },
+            { "text": "Design responsivo e mobile-first", "included": true },
+            { "text": "Integrações externas", "included": false },
+            { "text": "Sistema de pagamentos", "included": false },
+            { "text": "Painel administrativo", "included": false }
+          ],
+          "tagline": "Para validar um MVP com velocidade e base sólida."
         },
-        "features": [
-          { "label": "Aplicação web personalizada", "included": true },
-          { "label": "Sistema de autenticação", "included": true },
-          { "label": "Modelagem de dados e API", "included": true },
-          { "label": "Integração de pagamentos", "included": true },
-          { "label": "Deploy e hospedagem em nuvem", "included": true },
-          { "label": "3 meses de suporte incluso", "included": true }
-        ],
-        "quote": "\"Ideal para negócios em crescimento que precisam de funcionalidades sob medida\"",
-        "cta": "Iniciar projeto"
-      },
-      {
-        "title": "Enterprise",
-        "badge": "Sob medida",
-        "subtitle": "Soluções de grande escala",
-        "prices": {
-          "project": "25k+",
-          "retainer": "2.900"
+        {
+          "title": "Web App Pro",
+          "price": "a partir de R$ 8.000,00",
+          "includes": [
+            { "text": "APIs, CRUD completo e notificações", "included": true },
+            { "text": "Planos e cobrança", "included": true },
+            { "text": "Área do usuário + painel admin", "included": true },
+            { "text": "Observabilidade", "included": true },
+            { "text": "Upload e gestão de arquivos", "included": true },
+            { "text": "E-mails transacionais", "included": true },
+            { "text": "Integrações com APIs externas", "included": false },
+            { "text": "Recursos de IA/ML", "included": false }
+          ],
+          "tagline": "Para negócios em crescimento com automações.",
+          "popular": true
         },
-        "priceLabel": {
-          "project": "orçamento personalizado",
-          "retainer": "/mês"
+        {
+          "title": "Web App SaaS Premium",
+          "price": "a partir de R$ 15.000,00",
+          "includes": [
+            { "text": "Multiusuário e permissões", "included": true },
+            { "text": "Integrações externas avançadas", "included": true },
+            { "text": "Automação com IA", "included": true },
+            { "text": "Backend proprietário", "included": true },
+            { "text": "Analytics e métricas avançadas", "included": true },
+            { "text": "Webhooks e event-driven", "included": true },
+            { "text": "White-label e customização total", "included": true },
+            { "text": "SLA e suporte prioritário", "included": true }
+          ],
+          "tagline": "Para produtos SaaS que exigem escala e robustez."
+        }
+      ],
+      "mobileApps": [
+        {
+          "title": "App MVP",
+          "price": "a partir de R$ 7.000,00",
+          "includes": [
+            { "text": "Login e autenticação", "included": true },
+            { "text": "Até 3 telas principais", "included": true },
+            { "text": "Backend integrado", "included": true },
+            { "text": "Publicação no Google Play", "included": true },
+            { "text": "Design UI/UX básico", "included": true },
+            { "text": "Push notifications", "included": false },
+            { "text": "Publicação na App Store e Google Play", "included": false },
+            { "text": "Integração com APIs externas", "included": false }
+          ],
+          "tagline": "Perfeito para testar uma ideia no mercado real."
         },
-        "features": [
-          { "label": "Plataformas SaaS complexas", "included": true },
-          { "label": "Arquitetura multi-tenant", "included": true },
-          { "label": "APIs e integrações customizadas", "included": true },
-          { "label": "Segurança enterprise", "included": true },
-          { "label": "Gerente de projeto dedicado", "included": true },
-          { "label": "Manutenção e suporte contínuos", "included": true }
-        ],
-        "quote": "\"Para empresas que precisam de soluções escaláveis e sob medida\"",
-        "cta": "Fale conosco"
-      }
-    ]
+        {
+          "title": "App Avançado",
+          "price": "a partir de R$ 12.000,00",
+          "includes": [
+            { "text": "Animações e navegação refinada", "included": true },
+            { "text": "Sincronização em tempo real", "included": true },
+            { "text": "Pagamentos", "included": true },
+            { "text": "Push Notifications", "included": true },
+            { "text": "Câmera e galeria de fotos", "included": true },
+            { "text": "Geolocalização e mapas", "included": true },
+            { "text": "Modo offline", "included": true },
+            { "text": "Analytics e tracking de eventos", "included": false }
+          ],
+          "tagline": "Para apps com engajamento e integrações importantes.",
+          "popular": true
+        },
+        {
+          "title": "App Full Custom",
+          "price": "a partir de R$ 18.000,00",
+          "includes": [
+            { "text": "Design exclusivo e CI/CD configurado", "included": true },
+            { "text": "iOS e Android + painel web admin", "included": true },
+            { "text": "Backend proprietário", "included": true },
+            { "text": "Publicação nas lojas (iOS + Android)", "included": true },
+            { "text": "Deep linking e compartilhamento", "included": true },
+            { "text": "Biometria (Face ID/Touch ID)", "included": true },
+            { "text": "Chat em tempo real", "included": true },
+            { "text": "Vídeo chamadas ou streaming", "included": false }
+          ],
+          "tagline": "Para startups e empresas que precisam de um app completo."
+        }
+      ],
+      "maintenance": [
+        {
+          "title": "Manutenção Essencial",
+          "price": "R$ 300,00/mês",
+          "includes": [
+            { "text": "Atualizações básicas e correções", "included": true },
+            { "text": "Backups automáticos semanais", "included": true },
+            { "text": "Verificação de segurança mensal", "included": true },
+            { "text": "1h de suporte mensal", "included": true },
+            { "text": "Atualização de dependências", "included": true },
+            { "text": "Monitoramento de uptime", "included": false },
+            { "text": "Suporte prioritário", "included": false },
+            { "text": "Desenvolvimento de novas features", "included": false }
+          ],
+          "tagline": "Para sites e portfólios em produção estável."
+        },
+        {
+          "title": "Manutenção Pro",
+          "price": "R$ 600,00/mês",
+          "includes": [
+            { "text": "Monitoramento 24/7 de uptime/performance", "included": true },
+            { "text": "Correções e pequenas melhorias", "included": true },
+            { "text": "3h de suporte mensais", "included": true },
+            { "text": "Backups diários com retenção 30 dias", "included": true },
+            { "text": "Otimização de performance", "included": true },
+            { "text": "Relatórios mensais de analytics", "included": true },
+            { "text": "Suporte prioritário (resposta em 24h)", "included": true },
+            { "text": "Desenvolvimento de features complexas", "included": false }
+          ],
+          "tagline": "Para e-commerces e web apps ativos.",
+          "popular": true
+        },
+        {
+          "title": "Suporte Premium",
+          "price": "a partir de R$ 1.200,00/mês",
+          "includes": [
+            { "text": "Desenvolvimento de novas features", "included": true },
+            { "text": "Hospedagem gerenciada enterprise", "included": true },
+            { "text": "Revisão de SEO e métricas mensais", "included": true },
+            { "text": "8h+ de desenvolvimento mensal", "included": true },
+            { "text": "Reuniões de roadmap e planejamento", "included": true },
+            { "text": "Suporte urgente (resposta em 4h)", "included": true },
+            { "text": "CDN e otimização global", "included": true },
+            { "text": "Auditoria de segurança trimestral", "included": true }
+          ],
+          "tagline": "Para produtos em evolução constante com roadmap."
+        }
+      ],
+      "consulting": [
+        {
+          "title": "Consultoria ",
+          "price": "R$ 0",
+          "includes": [
+            { "text": "1 hora de call individual", "included": true },
+            { "text": "Análise do seu projeto ou ideia", "included": true },
+            { "text": "Direcionamento técnico personalizado", "included": true },
+            { "text": "Recomendações de stack e arquitetura", "included": true },
+            { "text": "Gravação da sessão", "included": true },
+            { "text": "Material de apoio pós-call", "included": false },
+            { "text": "Suporte por 7 dias após a call", "included": false }
+          ],
+          "tagline": "Ideal para tirar dúvidas e validar sua ideia com um especialista."
+        },
+        {
+          "title": "Consultoria para Negócios",
+          "price": "R$ 1.500,00",
+          "includes": [
+            { "text": "3 horas de consultoria técnica", "included": true },
+            { "text": "Análise completa do negócio digital", "included": true },
+            { "text": "Roadmap de implementação", "included": true },
+            { "text": "Estimativas de custo e tempo", "included": true },
+            { "text": "Recomendações de ferramentas e stack", "included": true },
+            { "text": "Documento detalhado pós-consultoria", "included": true },
+            { "text": "2 semanas de suporte por e-mail", "included": true },
+            { "text": "Revisão de código existente", "included": false }
+          ],
+          "tagline": "Perfeito para empresas que precisam planejar sua transformação digital.",
+          "popular": true
+        },
+        {
+          "title": "Mentoria Personalizada",
+          "price": "R$ 3.000,00",
+          "includes": [
+            { "text": "4 sessões de 1h por mês durante 4 meses", "included": true },
+            { "text": "Acompanhamento de projetos pessoais", "included": true },
+            { "text": "Code review ilimitado", "included": true },
+            { "text": "Suporte via Discord dedicado", "included": true },
+            { "text": "Planejamento de carreira dev", "included": true },
+            { "text": "Material exclusivo e recursos", "included": true },
+            { "text": "Acesso ao curso da stack", "included": true },
+            { "text": "Networking com a comunidade", "included": true }
+          ],
+          "tagline": "Para devs que querem acelerar o aprendizado com acompanhamento próximo."
+        }
+      ]
+    }
   },
   "footer": {
     "eyebrow": "Fique conectado",
