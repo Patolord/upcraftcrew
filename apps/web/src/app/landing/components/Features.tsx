@@ -30,10 +30,7 @@ export const Features = () => {
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
 				{features.title}
 			</p>
-			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-lg">{features.description}</p>
-			</div>
-			<div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-2 lg:mt-16 xl:grid-cols-3 2xl:mt-24">
+			<div className="mt-8 grid gap-6 md:mt-12 md:grid-cols-2 lg:mt-16 xl:grid-cols-3 2xl:mt-16">
 				<div className="bg-base-100 card group relative cursor-pointer overflow-hidden shadow transition-all hover:shadow-lg">
 					<div className="p-5">
 						<div className="bg-base-200 inline-flex rounded-full p-2.5">

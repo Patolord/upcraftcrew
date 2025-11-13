@@ -94,7 +94,6 @@
   "portfolio": {
     "eyebrow": "Nossos projetos",
     "title": "Portfólio em destaque",
-    "description": "Aplicações reais que combinam design envolvente com performance e resultados de negócio.",
     "controls": {
       "previous": "Projetos anteriores",
       "next": "Próximos projetos"
@@ -217,7 +216,6 @@
   "features": {
     "eyebrow": "Nossos serviços",
     "title": "Criado para o seu sucesso",
-    "description": "Do conceito à implantação, entregamos soluções web modernas que impulsionam o seu negócio com tecnologia de ponta.",
     "items": [
       {
         "title": "Aplicações web personalizadas",

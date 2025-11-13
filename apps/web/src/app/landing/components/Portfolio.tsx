@@ -204,11 +204,7 @@ export const Portfolio = () => {
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
 				{portfolio.title}
 			</p>
-			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-2xl text-sm sm:text-base">
-					{portfolio.description}
-				</p>
-			</div>
+		
 
 			{/* Industry Filter */}
 			<div className="mt-8 flex justify-center">
