@@ -102,7 +102,7 @@
     "projects": [
       {
         "name": "Luis Fernando Aviation Consulting",
-        "industry": "Consultoria Aeroespacial",
+        "industry": "Site Institucional",
         "category": "Websites",
         "year": "2025",
         "image": "/lsf.png",
@@ -118,7 +118,7 @@
       },
       {
         "name": "OrtoQBank",
-        "industry": "Educação Médica",
+        "industry": "Web App",
         "category": "Aplicativos Web",
         "year": "2025",
         "image": "/pagini.png",
@@ -134,7 +134,7 @@
       },
       {
         "name": "Starbem",
-        "industry": "Saúde e Bem-estar Mental",
+        "industry": "Landing Artística",
         "category": "Aplicativos Web",
         "year": "2025",
         "image": "/starbem.png",
@@ -150,7 +150,7 @@
       },
       {
         "name": "Chat Do",
-        "industry": "Colaboração em Equipe",
+        "industry": "Landing Artística",
         "category": "Aplicativos Web",
         "year": "2025",
         "image": "/chatdo.png",
@@ -166,7 +166,7 @@
       },
       {
         "name": "Paloma S. Queiroz Portfolio",
-        "industry": "Engenharia Industrial",
+        "industry": "Landing Básica",
         "category": "Websites",
         "year": "2025",
         "image": "/paloma.png",
@@ -182,7 +182,7 @@
       },
       {
         "name": "Vibra 50 Anos Challenge",
-        "industry": "Gamificação Corporativa",
+        "industry": "Web App",
         "category": "Aplicativos Web",
         "year": "2024",
         "image": "/vibra.webp",
@@ -198,7 +198,7 @@
       },
       {
         "name": "Warehouse Watcher",
-        "industry": "Logística e Inventário",
+        "industry": "Web App",
         "category": "Aplicativos Web",
         "year": "2024",
         "image": "/warehouse.webp",
