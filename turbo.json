@@ -8,7 +8,8 @@
 		"GOOGLE_CLIENT_ID",
 		"GOOGLE_CLIENT_SECRET",
 		"RESEND_API_KEY",
-		"SITE_URL"
+		"SITE_URL",
+		"NEXT_PUBLIC_SITE_URL"
 	],
 	"tasks": {
 		"build": {
