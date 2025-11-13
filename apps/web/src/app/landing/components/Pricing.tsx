@@ -86,7 +86,7 @@ export const Pricing = () => {
 
 	const [activeTab, setActiveTab] = useQueryState(
 		"tab",
-		parseAsStringEnum<TabKey>(tabKeys).withDefault("websites")
+		parseAsStringEnum<TabKey>([...tabKeys]).withDefault("websites")
 	);
 
 	const currentPlans = pricing.plans[activeTab] || [];
