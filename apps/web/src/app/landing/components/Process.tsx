@@ -59,17 +59,17 @@ export const Process = () => {
 						<p className="text-base-content/60 mt-1 text-center text-sm italic">
 							{discovery.subtitle}
 						</p>
-					<div className="mt-6 space-y-1.5 space-x-1.5">
-						{discovery.items?.map((item, index) => (
-							<div
-								key={item}
-								className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5"
-							>
-								<span className={`iconify ${discoveryIcons[index]} size-4`}></span>
-								{item}
-							</div>
-						))}
-					</div>
+						<div className="mt-6 space-y-1.5 space-x-1.5">
+							{discovery.items.map((item, index) => (
+								<div
+									key={item}
+									className="bg-base-100 rounded-box border-base-200 inline-flex items-center gap-2 border px-3 py-1.5"
+								>
+									<span className={`iconify ${discoveryIcons[index]} size-4`}></span>
+									{item}
+								</div>
+							))}
+						</div>
 					</div>
 				</div>
 				<div>
@@ -115,19 +115,19 @@ export const Process = () => {
 							<p className="text-base-content/60 mt-1 text-center text-sm italic">
 								{testing.subtitle}
 							</p>
-						<div className="mt-5 space-y-2 space-x-2">
-							{testing.items?.map((item, index) => (
-								<div
-									key={item}
-									className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1"
-								>
-									<span
-										className={`iconify ${testingIcons[index]} size-4`}
-									></span>
-									{item}
-								</div>
-							))}
-						</div>
+							<div className="mt-5 space-y-2 space-x-2">
+								{testing.items.map((item, index) => (
+									<div
+										key={item}
+										className="border-base-200 rounded-box inline-flex items-center gap-2 border px-2.5 py-1"
+									>
+										<span
+											className={`iconify ${testingIcons[index]} size-4`}
+										></span>
+										{item}
+									</div>
+								))}
+							</div>
 						</div>
 					</div>
 				</div>
@@ -143,25 +143,25 @@ export const Process = () => {
 							{support.subtitle}
 						</p>
 
-					<div className="mt-6 flex flex-wrap gap-2.5">
-						{support.items?.map((item, index) => (
-							<button
-								key={item}
-								className={`btn btn-sm gap-2 ${
-									index < supportIcons.length
-										? "btn-soft btn-primary"
-										: "btn-ghost btn-primary"
-								}`}
-							>
-								{index < supportIcons.length ? (
-									<span
-										className={`iconify ${supportIcons[index]} size-4`}
-									></span>
-								) : null}
-								{item}
-							</button>
-						))}
-					</div>
+						<div className="mt-6 flex flex-wrap gap-2.5">
+							{support.items.map((item, index) => (
+								<button
+									key={item}
+									className={`btn btn-sm gap-2 ${
+										index < supportIcons.length
+											? "btn-soft btn-primary"
+											: "btn-ghost btn-primary"
+									}`}
+								>
+									{index < supportIcons.length ? (
+										<span
+											className={`iconify ${supportIcons[index]} size-4`}
+										></span>
+									) : null}
+									{item}
+								</button>
+							))}
+						</div>
 					</div>
 				</div>
 			</div>
