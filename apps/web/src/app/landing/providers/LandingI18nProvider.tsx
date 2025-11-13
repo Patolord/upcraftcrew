@@ -63,7 +63,7 @@ export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<LandingI18nContext.Provider value={value}>
-			{children}
+			{isHydrated ? children : null}
 		</LandingI18nContext.Provider>
 	);
 };

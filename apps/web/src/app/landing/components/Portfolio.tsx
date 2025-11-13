@@ -11,6 +11,7 @@ import {
 import { SECTION_IDS } from "@/app/landing/constants";
 import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
 import { useQueryState, parseAsString } from "nuqs";
+import Link from "next/link";
 
 const AUTO_PLAY_INTERVAL = 2300;
 const TRANSITION_MS = 320;
@@ -203,11 +204,7 @@ export const Portfolio = () => {
 			<p className="mt-2 text-center text-2xl font-semibold sm:text-3xl">
 				{portfolio.title}
 			</p>
-			<div className="mt-2 flex justify-center text-center">
-				<p className="text-base-content/80 max-w-2xl text-sm sm:text-base">
-					{portfolio.description}
-				</p>
-			</div>
+		
 
 			{/* Industry Filter */}
 			<div className="mt-8 flex justify-center">
@@ -336,6 +333,15 @@ export const Portfolio = () => {
 													</li>
 												))}
 											</ul>
+											<div className="mt-auto pt-4">
+												<Link
+													href={`/portfolio/${encodeURIComponent(project.name.toLowerCase().replace(/\s+/g, '-'))}`}
+													className="btn btn-primary btn-block group/btn"
+												>
+													<span>Ver mais</span>
+													<span className="iconify lucide--arrow-right size-4 transition-transform group-hover/btn:translate-x-1"></span>
+												</Link>
+											</div>
 										</div>
 									</div>
 								</article>
