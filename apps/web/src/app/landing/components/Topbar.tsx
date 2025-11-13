@@ -90,7 +90,7 @@ export const Topbar = () => {
 									className="drawer-overlay"
 								></label>
 								<div className="bg-base-100 flex h-screen w-60 flex-col px-3 py-4">
-									<div className="flex justify-center">
+									<div className="flex justify-start">
 										<Link href="/">
 											<Logo />
 										</Link>
