@@ -1,47 +1,45 @@
 {
-  "expo": {
-    "name": "UpCraft Crew",
-    "slug": "upcraft-crew",
-    "version": "1.0.0",
-    "scheme": "upcraft-crew",
-    "web": {
-      "bundler": "metro",
-      "output": "static",
-      "favicon": "./assets/favicon.png"
-    },
-    "plugins": [
-      "expo-router",
-      "expo-secure-store",
-      "expo-web-browser",
-      "expo-font"
-    ],
-    "experiments": {
-      "typedRoutes": false,
-      "tsconfigPaths": true
-    },
-    "newArchEnabled": true,
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.amanvarshney01.mybettertapp"
-    },
-    "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#ffffff"
-      },
-      "package": "com.amanvarshney01.mybettertapp",
-      "edgeToEdgeEnabled": true
-    }
-  }
+	"expo": {
+		"name": "UpCraft Crew",
+		"slug": "upcraft-crew",
+		"version": "1.0.0",
+		"scheme": "upcraft-crew",
+		"web": {
+			"bundler": "metro",
+			"output": "static",
+			"favicon": "./assets/favicon.png"
+		},
+		"plugins": [
+			"expo-router",
+			"expo-secure-store",
+			"expo-web-browser",
+			"expo-font"
+		],
+		"experiments": {
+			"typedRoutes": false,
+			"tsconfigPaths": true
+		},
+		"newArchEnabled": true,
+		"orientation": "portrait",
+		"icon": "./assets/icon.png",
+		"userInterfaceStyle": "light",
+		"splash": {
+			"image": "./assets/splash.png",
+			"resizeMode": "contain",
+			"backgroundColor": "#ffffff"
+		},
+		"assetBundlePatterns": ["**/*"],
+		"ios": {
+			"supportsTablet": true,
+			"bundleIdentifier": "com.amanvarshney01.mybettertapp"
+		},
+		"android": {
+			"adaptiveIcon": {
+				"foregroundImage": "./assets/adaptive-icon.png",
+				"backgroundColor": "#ffffff"
+			},
+			"package": "com.amanvarshney01.mybettertapp",
+			"edgeToEdgeEnabled": true
+		}
+	}
 }
