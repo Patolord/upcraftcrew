@@ -61,10 +61,6 @@ export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 		[locale, switchLocale],
 	);
 
-	if (!isHydrated) {
-		return null;
-	}
-
 	return (
 		<LandingI18nContext.Provider value={value}>
 			{children}

@@ -87,8 +87,7 @@ export const Footer = () => {
 									href="https://x.com/upcraftcrew"
 									target="_blank"
 									className="flex items-center gap-3"
-									onClick={() => window.open("https://x.com/upcraftcrew", "_blank")}
-								>
+									>
 									<img
 										src="/images/brand-logo/x.svg"
 										className="size-5 dark:invert"
