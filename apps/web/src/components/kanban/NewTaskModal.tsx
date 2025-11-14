@@ -31,6 +31,7 @@ export function NewTaskModal({ isOpen, onClose }: NewTaskModalProps) {
 		projectId: "" as string,
 		dueDate: "",
 		tags: "",
+		isPrivate: false,
 	});
 
 	const handleSubmit = async (e: React.FormEvent) => {
@@ -50,6 +51,7 @@ export function NewTaskModal({ isOpen, onClose }: NewTaskModalProps) {
 					.split(",")
 					.map((tag) => tag.trim())
 					.filter((tag) => tag.length > 0),
+				isPrivate: formData.isPrivate,
 			});
 
 			toast.success("Task criada com sucesso!");
@@ -64,6 +66,7 @@ export function NewTaskModal({ isOpen, onClose }: NewTaskModalProps) {
 				projectId: "",
 				dueDate: "",
 				tags: "",
+				isPrivate: false,
 			});
 
 			onClose();
@@ -219,6 +222,25 @@ export function NewTaskModal({ isOpen, onClose }: NewTaskModalProps) {
 							value={formData.tags}
 							onChange={(e) => setFormData({ ...formData, tags: e.target.value })}
 						/>
+					</div>
+
+					{/* Private Toggle */}
+					<div className="form-control">
+						<label className="label cursor-pointer justify-start gap-3">
+							<input
+								type="checkbox"
+								className="toggle toggle-primary"
+								checked={formData.isPrivate}
+								onChange={(e) => setFormData({ ...formData, isPrivate: e.target.checked })}
+							/>
+							<div className="flex items-center gap-2">
+								<span className="iconify lucide--lock size-4" />
+								<span className="label-text">Task Privada</span>
+							</div>
+						</label>
+						<p className="text-xs text-base-content/60 ml-12">
+							Tasks privadas só são visíveis para você
+						</p>
 					</div>
 
 					{/* Actions */}

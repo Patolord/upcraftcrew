@@ -17,6 +17,7 @@ interface Task {
 	} | null;
 	dueDate?: number;
 	tags: string[];
+	isPrivate?: boolean;
 }
 
 const priorityConfig = {
@@ -55,8 +56,15 @@ export function TaskCard({ task }: TaskCardProps) {
 			<div className="card-body p-4">
 				{/* Header */}
 				<div className="flex items-start justify-between gap-2">
-					<h4 className="font-semibold text-sm line-clamp-2">{task.title}</h4>
-					<span className={`${priority.color}`}>
+					<div className="flex items-center gap-2 flex-1 min-w-0">
+						{task.isPrivate && (
+							<span className="text-warning flex-shrink-0" title="Task Privada">
+								<span className="iconify lucide--lock size-3.5" />
+							</span>
+						)}
+						<h4 className="font-semibold text-sm line-clamp-2 flex-1">{task.title}</h4>
+					</div>
+					<span className={`${priority.color} flex-shrink-0`}>
 						<span className={`iconify ${priority.icon} size-4`} />
 					</span>
 				</div>

@@ -1,15 +1,22 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAuth, requireWrite } from "./_lib/auth";
 
 // Query: Get all tasks
 export const getTasks = query({
 	args: {},
 	handler: async (ctx) => {
-		const tasks = await ctx.db
+		const user = await requireAuth(ctx);
+		const allTasks = await ctx.db
 			.query("tasks")
 			.withIndex("by_created_at")
 			.order("desc")
 			.collect();
+
+		// Filter tasks: show all public tasks + user's private tasks
+		const tasks = allTasks.filter(
+			(task) => !task.isPrivate || task.ownerId === user.userId,
+		);
 
 		// Populate assigned user and project
 		const tasksWithDetails = await Promise.all(
@@ -37,10 +44,18 @@ export const getTasks = query({
 export const getTaskById = query({
 	args: { id: v.id("tasks") },
 	handler: async (ctx, args) => {
+		const user = await requireAuth(ctx);
 		const task = await ctx.db.get(args.id);
 
 		if (!task) {
 			return null;
+		}
+
+		// Check if user has permission to view this task
+		if (task.isPrivate && task.ownerId !== user.userId) {
+			throw new Error(
+				"Unauthorized: You don't have permission to view this private task",
+			);
 		}
 
 		const assignedUser = task.assignedTo
@@ -68,6 +83,7 @@ export const getTasksByStatus = query({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const tasks = await ctx.db
 			.query("tasks")
 			.withIndex("by_status", (q) => q.eq("status", args.status))
@@ -81,6 +97,7 @@ export const getTasksByStatus = query({
 export const getTasksByProject = query({
 	args: { projectId: v.id("projects") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const tasks = await ctx.db
 			.query("tasks")
 			.withIndex("by_project", (q) => q.eq("projectId", args.projectId))
@@ -108,6 +125,7 @@ export const getTasksByProject = query({
 export const getTasksByUser = query({
 	args: { userId: v.id("users") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const tasks = await ctx.db
 			.query("tasks")
 			.withIndex("by_assigned", (q) => q.eq("assignedTo", args.userId))
@@ -139,12 +157,15 @@ export const createTask = mutation({
 		projectId: v.optional(v.id("projects")),
 		dueDate: v.optional(v.number()),
 		tags: v.array(v.string()),
+		isPrivate: v.optional(v.boolean()),
 	},
 	handler: async (ctx, args) => {
+		const user = await requireWrite(ctx);
 		const now = Date.now();
 
 		const taskId = await ctx.db.insert("tasks", {
 			...args,
+			ownerId: user.userId,
 			createdAt: now,
 			updatedAt: now,
 		});
@@ -180,13 +201,22 @@ export const updateTask = mutation({
 		projectId: v.optional(v.id("projects")),
 		dueDate: v.optional(v.number()),
 		tags: v.optional(v.array(v.string())),
+		isPrivate: v.optional(v.boolean()),
 	},
 	handler: async (ctx, args) => {
+		const user = await requireWrite(ctx);
 		const { id, ...updates } = args;
 
 		const existingTask = await ctx.db.get(id);
 		if (!existingTask) {
 			throw new Error("Task not found");
+		}
+
+		// Only owner can update private tasks
+		if (existingTask.isPrivate && existingTask.ownerId !== user.userId) {
+			throw new Error(
+				"Unauthorized: Only the owner can update this private task",
+			);
 		}
 
 		await ctx.db.patch(id, {
@@ -202,10 +232,18 @@ export const updateTask = mutation({
 export const deleteTask = mutation({
 	args: { id: v.id("tasks") },
 	handler: async (ctx, args) => {
+		const user = await requireWrite(ctx);
 		const task = await ctx.db.get(args.id);
 
 		if (!task) {
 			throw new Error("Task not found");
+		}
+
+		// Only owner can delete private tasks
+		if (task.isPrivate && task.ownerId !== user.userId) {
+			throw new Error(
+				"Unauthorized: Only the owner can delete this private task",
+			);
 		}
 
 		await ctx.db.delete(args.id);
@@ -227,6 +265,7 @@ export const updateTaskStatus = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		await ctx.db.patch(args.id, {
 			status: args.status,
 			updatedAt: Date.now(),

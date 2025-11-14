@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireMember } from "./_lib/auth";
 
 // Query: Get all transactions
 export const getTransactions = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db
 			.query("transactions")
 			.withIndex("by_date")
@@ -35,6 +37,7 @@ export const getTransactionsByType = query({
 		type: v.union(v.literal("income"), v.literal("expense")),
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db
 			.query("transactions")
 			.filter((q) => q.eq(q.field("type"), args.type))
@@ -54,6 +57,7 @@ export const getTransactionsByStatus = query({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db
 			.query("transactions")
 			.filter((q) => q.eq(q.field("status"), args.status))
@@ -67,6 +71,7 @@ export const getTransactionsByStatus = query({
 export const getTransactionsByProject = query({
 	args: { projectId: v.id("projects") },
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db
 			.query("transactions")
 			.withIndex("by_project", (q) => q.eq("projectId", args.projectId))
@@ -83,6 +88,7 @@ export const getTransactionsByDateRange = query({
 		endDate: v.number(),
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db
 			.query("transactions")
 			.withIndex("by_date")
@@ -102,6 +108,7 @@ export const getTransactionsByDateRange = query({
 export const getFinancialSummary = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireMember(ctx);
 		const transactions = await ctx.db.query("transactions").collect();
 
 		// Calculate totals
@@ -158,6 +165,7 @@ export const getMonthlyFinancialSummary = query({
 		month: v.number(), // 1-12
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		// Calculate start and end of month
 		const startDate = new Date(args.year, args.month - 1, 1).getTime();
 		const endDate = new Date(args.year, args.month, 0, 23, 59, 59).getTime();
@@ -209,6 +217,7 @@ export const createTransaction = mutation({
 		projectId: v.optional(v.id("projects")),
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transactionId = await ctx.db.insert("transactions", args);
 
 		// If transaction is linked to a project and is completed, update project budget
@@ -257,6 +266,7 @@ export const updateTransaction = mutation({
 		projectId: v.optional(v.id("projects")),
 	},
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const { id, ...updates } = args;
 
 		const existingTransaction = await ctx.db.get(id);
@@ -303,6 +313,7 @@ export const updateTransaction = mutation({
 export const deleteTransaction = mutation({
 	args: { id: v.id("transactions") },
 	handler: async (ctx, args) => {
+		await requireMember(ctx);
 		const transaction = await ctx.db.get(args.id);
 
 		if (!transaction) {

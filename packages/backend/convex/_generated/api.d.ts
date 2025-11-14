@@ -8,12 +8,17 @@
  * @module
  */
 
+import type * as _lib_auth from "../_lib/auth.js";
+import type * as _lib_env from "../_lib/env.js";
 import type * as auth from "../auth.js";
 import type * as budgets from "../budgets.js";
+import type * as createAdminUser from "../createAdminUser.js";
 import type * as finance from "../finance.js";
 import type * as healthCheck from "../healthCheck.js";
 import type * as http from "../http.js";
+import type * as invitations from "../invitations.js";
 import type * as projects from "../projects.js";
+import type * as registerAdmin from "../registerAdmin.js";
 import type * as schedule from "../schedule.js";
 import type * as seed from "../seed.js";
 import type * as tasks from "../tasks.js";
@@ -34,12 +39,17 @@ import type {
  * ```
  */
 declare const fullApi: ApiFromModules<{
+  "_lib/auth": typeof _lib_auth;
+  "_lib/env": typeof _lib_env;
   auth: typeof auth;
   budgets: typeof budgets;
+  createAdminUser: typeof createAdminUser;
   finance: typeof finance;
   healthCheck: typeof healthCheck;
   http: typeof http;
+  invitations: typeof invitations;
   projects: typeof projects;
+  registerAdmin: typeof registerAdmin;
   schedule: typeof schedule;
   seed: typeof seed;
   tasks: typeof tasks;
