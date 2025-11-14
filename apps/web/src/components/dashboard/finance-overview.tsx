@@ -106,13 +106,13 @@ export function FinanceOverview({
 				{/* Quick Stats */}
 				<div className="grid grid-cols-2 gap-3 mt-4 pt-4 border-t border-base-300">
 					<div className="text-center p-2 bg-base-200 rounded-lg">
-						<p className="text-xs text-base-content/60">Balance</p>
+						<p className="text-xs text-base-content/60">Net {isProfit ? "Profit" : "Loss"}</p>
 						<p className={`text-lg font-bold ${isProfit ? "text-success" : "text-error"}`}>
 							{formatAmount(Math.abs(netProfit))}
 						</p>
 					</div>
 					<div className="text-center p-2 bg-base-200 rounded-lg">
-						<p className="text-xs text-base-content/60">Margin</p>
+						<p className="text-xs text-base-content/60">Profit Margin</p>
 						<p className={`text-lg font-bold ${isProfit ? "text-success" : "text-error"}`}>
 							{profitMargin.toFixed(1)}%
 						</p>

@@ -14,8 +14,9 @@ export const getTasks = query({
 			.collect();
 
 		// Filter tasks: show all public tasks + user's private tasks
+		// Tasks without isPrivate field are treated as public (false)
 		const tasks = allTasks.filter(
-			(task) => !task.isPrivate || task.ownerId === user.userId,
+			(task) => !(task.isPrivate ?? false) || task.ownerId === user.userId,
 		);
 
 		// Populate assigned user and project
@@ -52,7 +53,8 @@ export const getTaskById = query({
 		}
 
 		// Check if user has permission to view this task
-		if (task.isPrivate && task.ownerId !== user.userId) {
+		// Tasks without isPrivate field are treated as public (false)
+		if ((task.isPrivate ?? false) && task.ownerId !== user.userId) {
 			throw new Error(
 				"Unauthorized: You don't have permission to view this private task",
 			);
@@ -165,6 +167,8 @@ export const createTask = mutation({
 
 		const taskId = await ctx.db.insert("tasks", {
 			...args,
+			// Default isPrivate to false if not specified
+			isPrivate: args.isPrivate ?? false,
 			ownerId: user.userId,
 			createdAt: now,
 			updatedAt: now,
@@ -213,7 +217,8 @@ export const updateTask = mutation({
 		}
 
 		// Only owner can update private tasks
-		if (existingTask.isPrivate && existingTask.ownerId !== user.userId) {
+		// Tasks without isPrivate field are treated as public (false)
+		if ((existingTask.isPrivate ?? false) && existingTask.ownerId !== user.userId) {
 			throw new Error(
 				"Unauthorized: Only the owner can update this private task",
 			);
@@ -240,7 +245,8 @@ export const deleteTask = mutation({
 		}
 
 		// Only owner can delete private tasks
-		if (task.isPrivate && task.ownerId !== user.userId) {
+		// Tasks without isPrivate field are treated as public (false)
+		if ((task.isPrivate ?? false) && task.ownerId !== user.userId) {
 			throw new Error(
 				"Unauthorized: Only the owner can delete this private task",
 			);

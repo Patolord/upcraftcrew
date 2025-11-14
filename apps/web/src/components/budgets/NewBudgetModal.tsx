@@ -18,6 +18,7 @@ interface NewBudgetModalProps {
 		description: string;
 		status: "draft" | "sent" | "approved" | "rejected" | "expired";
 		totalAmount: number;
+		currency: string;
 		validUntil: number;
 		items: BudgetItem[];
 		projectId?: string;
@@ -52,7 +53,7 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 			: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString().split("T")[0],
 		projectId: (budgetToEdit?.projectId || "") as string,
 		notes: budgetToEdit?.notes || "",
-		currency: currency,
+		currency: budgetToEdit?.currency || currency,
 	});
 
 	const [items, setItems] = useState<BudgetItem[]>(
@@ -75,14 +76,24 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 		value: string | number
 	) => {
 		const newItems = [...items];
-		newItems[index] = {
-			...newItems[index],
-			[field]: value,
-		};
-
-		// Recalculate total for this item
+		
+		// For numeric fields, validate and convert
 		if (field === "quantity" || field === "unitPrice") {
-			newItems[index].total = newItems[index].quantity * newItems[index].unitPrice;
+			const numValue = typeof value === "string" ? Number.parseFloat(value) : value;
+			// Keep the original value if invalid, don't silently convert to 0
+			if (!Number.isNaN(numValue) && numValue >= 0) {
+				newItems[index] = {
+					...newItems[index],
+					[field]: numValue,
+				};
+				// Recalculate total
+				newItems[index].total = newItems[index].quantity * newItems[index].unitPrice;
+			}
+		} else {
+			newItems[index] = {
+				...newItems[index],
+				[field]: value,
+			};
 		}
 
 		setItems(newItems);
@@ -111,6 +122,7 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 					client: formData.client,
 					description: formData.description,
 					status: formData.status,
+					currency: formData.currency,
 					items: validItems,
 					validUntil: new Date(formData.validUntil).getTime(),
 					projectId: formData.projectId ? (formData.projectId as Id<"projects">) : undefined,
@@ -124,6 +136,7 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 					client: formData.client,
 					description: formData.description,
 					status: formData.status,
+					currency: formData.currency,
 					items: validItems,
 					validUntil: new Date(formData.validUntil).getTime(),
 					projectId: formData.projectId ? (formData.projectId as Id<"projects">) : undefined,
@@ -301,7 +314,7 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 										placeholder="Qtd"
 										value={item.quantity}
 										onChange={(e) =>
-											handleItemChange(index, "quantity", Number(e.target.value) || 0)
+											handleItemChange(index, "quantity", e.target.value)
 										}
 									/>
 									<input
@@ -311,7 +324,7 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 										placeholder="Preço"
 										value={item.unitPrice}
 										onChange={(e) =>
-											handleItemChange(index, "unitPrice", Number(e.target.value) || 0)
+											handleItemChange(index, "unitPrice", e.target.value)
 										}
 									/>
 									<span className="text-sm font-semibold w-28 text-right">
@@ -336,10 +349,16 @@ export function NewBudgetModal({ isOpen, onClose, budgetToEdit }: NewBudgetModal
 						<div className="text-right">
 							<div className="text-sm font-medium mb-1">Valor Total do Orçamento:</div>
 							<div className="text-3xl font-bold">
-								{new Intl.NumberFormat(CURRENCIES[formData.currency].locale, {
-									style: "currency",
-									currency: formData.currency,
-								}).format(totalAmount)}
+								{(() => {
+									const currencyData = CURRENCIES[formData.currency as keyof typeof CURRENCIES];
+									if (!currencyData) {
+										return `${formData.currency} ${totalAmount.toFixed(2)}`;
+									}
+									return new Intl.NumberFormat(currencyData.locale, {
+										style: "currency",
+										currency: formData.currency,
+									}).format(totalAmount);
+								})()}
 							</div>
 						</div>
 					</div>

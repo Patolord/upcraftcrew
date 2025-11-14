@@ -5,7 +5,7 @@ import { useMutation, useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
-import { useCurrency } from "@/contexts/CurrencyContext";
+import { useCurrency, type Currency } from "@/contexts/CurrencyContext";
 import type { Id } from "@workspace/backend/_generated/dataModel";
 import { useForm } from "@tanstack/react-form";
 import { z } from "zod";
@@ -42,6 +42,11 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 	const projects = useQuery(api.projects.getProjects);
 	const formId = useId();
 
+	// Validate currency exists in CURRENCIES
+	const validCurrency = currency && CURRENCIES[currency as keyof typeof CURRENCIES] 
+		? currency 
+		: "USD";
+
 	const categories = {
 		income: [
 			"Project Payment",
@@ -73,7 +78,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 			date: new Date().toISOString().split("T")[0],
 			clientId: "",
 			projectId: "",
-			currency: currency as string,
+			currency: validCurrency,
 		},
 		onSubmit: async ({ value }) => {
 			try {
@@ -172,7 +177,7 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 									</label>
 									<div className="input-group">
 										<span className="bg-base-200 px-4 flex items-center border border-base-300 border-r-0 rounded-l-lg">
-											{CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES].symbol}
+											{CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES]?.symbol || "$"}
 										</span>
 										<input
 											id={`${formId}-amount`}
@@ -204,8 +209,8 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 									<select
 										id={`${formId}-currency`}
 										className="select select-bordered"
-										value={field.state.value as string}
-										onChange={(e) => field.handleChange(e.target.value as any)}
+										value={field.state.value}
+										onChange={(e) => field.handleChange(e.target.value as Currency)}
 										onBlur={field.handleBlur}
 									>
 										{Object.values(CURRENCIES).map((curr) => (
@@ -359,13 +364,19 @@ export function NewTransactionModal({ isOpen, onClose }: NewTransactionModalProp
 							/>
 							<div className="flex-1">
 								<p className="font-semibold">
-									{form.state.values.type === "income" ? "Income" : "Expense"}: {new Intl.NumberFormat(CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES].locale, {
-										style: "currency",
-										currency: form.state.values.currency,
-									}).format(form.state.values.amount)}
+									{form.state.values.type === "income" ? "Income" : "Expense"}: {(() => {
+										const currencyData = CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES];
+										if (!currencyData) {
+											return `${form.state.values.currency} ${form.state.values.amount.toFixed(2)}`;
+										}
+										return new Intl.NumberFormat(currencyData.locale, {
+											style: "currency",
+											currency: form.state.values.currency,
+										}).format(form.state.values.amount);
+									})()}
 								</p>
 								<p className="text-xs opacity-80">
-									{form.state.values.category || "No category selected"} • {CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES].name}
+									{form.state.values.category || "No category selected"} • {CURRENCIES[form.state.values.currency as keyof typeof CURRENCIES]?.name || form.state.values.currency}
 								</p>
 							</div>
 						</div>

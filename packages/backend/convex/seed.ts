@@ -12,45 +12,47 @@ export const seedDatabase = mutation({
 
 		console.log("Starting database seed...");
 
-	// Seed Users
-	const users = [
-		{
-			name: "Paloma",
-			email: "paloma.sq@hotmail.com",
-			avatar: "/images/avatars/1.png",
-			role: "admin" as const,
-			department: "Leadership",
-			status: "online" as const,
-			joinedAt: new Date("2024-01-15").getTime(),
-			lastActive: Date.now(),
-			skills: ["Leadership", "Strategy", "Business Development"],
-			projectIds: [],
-		},
-		{
-			name: "Mike Chen",
-			email: "mike.chen@upcraftcrew.com",
-			avatar: "/images/avatars/2.png",
-			role: "admin" as const,
-			department: "Engineering",
-			status: "online" as const,
-			joinedAt: new Date("2024-02-01").getTime(),
-			lastActive: Date.now(),
-			skills: ["Full-Stack", "Architecture", "DevOps", "React", "Node.js"],
-			projectIds: [],
-		},
-		{
-			name: "Emma Wilson",
-			email: "emma.wilson@upcraftcrew.com",
-			avatar: "/images/avatars/3.png",
-			role: "member" as const,
-			department: "Product",
-			status: "busy" as const,
-			joinedAt: new Date("2024-03-10").getTime(),
-			lastActive: Date.now(),
-			skills: ["Product Strategy", "Agile", "User Research", "Analytics"],
-			projectIds: [],
-		},
-	];
+		// Seed Users
+		// NOTE: These are demo users for development/testing only
+		// DO NOT use real email addresses or PII in seed data
+		const users = [
+			{
+				name: "Alice Admin",
+				email: "alice.admin@example.com",
+				avatar: "/images/avatars/1.png",
+				role: "admin" as const,
+				department: "Leadership",
+				status: "online" as const,
+				joinedAt: new Date("2024-01-15").getTime(),
+				lastActive: Date.now(),
+				skills: ["Leadership", "Strategy", "Business Development"],
+				projectIds: [],
+			},
+			{
+				name: "Mike Chen",
+				email: "mike.chen@example.com",
+				avatar: "/images/avatars/2.png",
+				role: "admin" as const,
+				department: "Engineering",
+				status: "online" as const,
+				joinedAt: new Date("2024-02-01").getTime(),
+				lastActive: Date.now(),
+				skills: ["Full-Stack", "Architecture", "DevOps", "React", "Node.js"],
+				projectIds: [],
+			},
+			{
+				name: "Emma Wilson",
+				email: "emma.wilson@example.com",
+				avatar: "/images/avatars/3.png",
+				role: "member" as const,
+				department: "Product",
+				status: "busy" as const,
+				joinedAt: new Date("2024-03-10").getTime(),
+				lastActive: Date.now(),
+				skills: ["Product Strategy", "Agile", "User Research", "Analytics"],
+				projectIds: [],
+			},
+		];
 
 		const userIds = await Promise.all(
 			users.map((user) => ctx.db.insert("users", user)),

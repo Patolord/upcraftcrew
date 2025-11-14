@@ -22,6 +22,9 @@ function createAuth(
 	ctx: GenericCtx<DataModel>,
 	{ optionsOnly }: { optionsOnly?: boolean } = { optionsOnly: false },
 ) {
+	// Determine if we're in production environment
+	const isProduction = process.env.NODE_ENV === "production";
+
 	return betterAuth({
 		logger: {
 			disabled: optionsOnly,
@@ -31,7 +34,8 @@ function createAuth(
 		database: authComponent.adapter(ctx),
 		emailAndPassword: {
 			enabled: true,
-			requireEmailVerification: false, // Disabled for development
+			// Require email verification in production, disable in development
+			requireEmailVerification: isProduction,
 		},
 		plugins: [expo(), convex()],
 	});

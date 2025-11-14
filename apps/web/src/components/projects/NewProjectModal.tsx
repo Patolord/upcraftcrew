@@ -207,13 +207,15 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 							</label>
 							<input
 								id={`${formId}-budget-total`}
-								type="text"
-								inputMode="decimal"
-								className="input input-bordered w-full border-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+								type="number"
+								min="0"
+								step="0.01"
+								className="input input-bordered w-full border-2"
 								value={formData.budgetTotal}
-								onChange={(e) =>
-									setFormData({ ...formData, budgetTotal: Number(e.target.value) || 0 })
-								}
+								onChange={(e) => {
+									const value = parseFloat(e.target.value) || 0;
+									setFormData({ ...formData, budgetTotal: value >= 0 ? value : 0 });
+								}}
 							/>
 						</div>
 						<div className="form-control">
@@ -222,14 +224,25 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 							</label>
 							<input
 								id={`${formId}-budget-spent`}
-								type="text"
-								inputMode="decimal"
-								className="input input-bordered w-full border-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+								type="number"
+								min="0"
+								max={formData.budgetTotal}
+								step="0.01"
+								className={`input input-bordered w-full border-2 ${
+									formData.budgetSpent > formData.budgetTotal ? "input-error" : ""
+								}`}
 								value={formData.budgetSpent}
-								onChange={(e) =>
-									setFormData({ ...formData, budgetSpent: Number(e.target.value) || 0 })
-								}
+								onChange={(e) => {
+									const value = parseFloat(e.target.value) || 0;
+									setFormData({
+										...formData,
+										budgetSpent: value >= 0 ? value : 0
+									});
+								}}
 							/>
+							{formData.budgetSpent > formData.budgetTotal && (
+								<p className="text-error text-xs mt-1">Spent cannot exceed total budget</p>
+							)}
 						</div>
 					</div>
 

@@ -6,11 +6,7 @@ export default defineSchema({
 		name: v.string(),
 		email: v.string(),
 		avatar: v.optional(v.string()),
-		role: v.union(
-			v.literal("admin"),
-			v.literal("member"),
-			v.literal("viewer"),
-		),
+		role: v.union(v.literal("admin"), v.literal("member"), v.literal("viewer")),
 		department: v.string(),
 		status: v.union(
 			v.literal("online"),
@@ -109,6 +105,7 @@ export default defineSchema({
 			v.literal("expired"),
 		),
 		totalAmount: v.number(),
+		currency: v.string(),
 		items: v.array(
 			v.object({
 				description: v.string(),

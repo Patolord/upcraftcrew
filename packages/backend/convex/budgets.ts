@@ -136,6 +136,7 @@ export const createBudget = mutation({
 			v.literal("rejected"),
 			v.literal("expired"),
 		),
+		currency: v.string(),
 		items: v.array(
 			v.object({
 				description: v.string(),
@@ -182,6 +183,7 @@ export const updateBudget = mutation({
 				v.literal("expired"),
 			),
 		),
+		currency: v.optional(v.string()),
 		items: v.optional(
 			v.array(
 				v.object({

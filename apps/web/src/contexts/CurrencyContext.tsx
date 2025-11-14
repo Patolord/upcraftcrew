@@ -32,11 +32,21 @@ export const CURRENCIES: Record<Currency, CurrencyConfig> = {
 	},
 };
 
-// Taxas de conversão base (USD como base = 1)
+/**
+ * Static exchange rates (USD as base = 1)
+ *
+ * WARNING: These are hardcoded exchange rates and do NOT reflect real-time market rates.
+ * For production use, consider:
+ * - Integrating with a currency exchange API (e.g., exchangerate-api.com, fixer.io)
+ * - Updating rates periodically via a scheduled job
+ * - Storing rates in a database with timestamps
+ *
+ * Current static rates (for demonstration only):
+ */
 const EXCHANGE_RATES: Record<Currency, number> = {
 	USD: 1,
-	BRL: 5.0, // 1 USD = 5 BRL (exemplo)
-	EUR: 0.92, // 1 USD = 0.92 EUR (exemplo)
+	BRL: 5.0, // 1 USD = 5 BRL (static example rate)
+	EUR: 0.92, // 1 USD = 0.92 EUR (static example rate)
 };
 
 interface CurrencyContextType {
@@ -72,7 +82,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 	const config = CURRENCIES[currency];
 
 	const formatAmount = (amount: number, options?: Intl.NumberFormatOptions) => {
-		const defaultOptions = {
+		const defaultOptions: Intl.NumberFormatOptions = {
 			style: "currency",
 			currency: config.code,
 			minimumFractionDigits: 2,
@@ -80,7 +90,7 @@ export function CurrencyProvider({ children }: { children: ReactNode }) {
 		};
 
 		// Se options tiver maximumFractionDigits, ajustar minimumFractionDigits também
-		const mergedOptions = {
+		const mergedOptions: Intl.NumberFormatOptions = {
 			...defaultOptions,
 			...options,
 		};

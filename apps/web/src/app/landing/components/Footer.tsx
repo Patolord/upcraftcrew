@@ -109,7 +109,11 @@ export const Footer = () => {
 								{footer.summary}
 							</p>
 							<div className="mt-6 flex items-center gap-3">
-								<Link href="https://play.google.com/store/apps/details?id=com.upcraftcrew.app" target="_blank">
+								<Link
+									href="https://play.google.com/store/apps/details?id=com.upcraftcrew.app"
+									target="_blank"
+									rel="noopener noreferrer"
+								>
 									<img
 										src="/images/brand-logo/google.svg"
 										className="size-5 dark:invert"
@@ -119,6 +123,7 @@ export const Footer = () => {
 								<Link
 									href="https://github.com/upcraftcrew"
 									target="_blank"
+									rel="noopener noreferrer"
 									className="flex items-center gap-3"
 								>
 									<img
@@ -130,6 +135,7 @@ export const Footer = () => {
 								<Link
 									href="https://x.com/upcraftcrew"
 									target="_blank"
+									rel="noopener noreferrer"
 									className="flex items-center gap-3"
 								>
 									<img
@@ -141,6 +147,7 @@ export const Footer = () => {
 								<Link
 									href="https://instagram.com/upcraftcrew"
 									target="_blank"
+									rel="noopener noreferrer"
 									className="flex items-center gap-3"
 								>
 									<span className="iconify ri--instagram-fill size-6" />
@@ -148,6 +155,7 @@ export const Footer = () => {
 								<Link
 									href="https://api.whatsapp.com/send/?phone=11914246379&text&type=phone_number&app_absent=0"
 									target="_blank"
+									rel="noopener noreferrer"
 									className="flex items-center gap-3"
 								>
 									<span className="iconify ri--whatsapp-fill size-6" />
@@ -202,6 +210,7 @@ export const Footer = () => {
 						href="https://x.com/upcraftcrew"
 						className="text-blue-500 transition-all hover:text-blue-600"
 						target="_blank"
+						rel="noopener noreferrer"
 					>
 						{footer.legal.credit.linkLabel}
 					</Link>
@@ -251,4 +260,3 @@ export const Footer = () => {
 		</div>
 	);
 };
-

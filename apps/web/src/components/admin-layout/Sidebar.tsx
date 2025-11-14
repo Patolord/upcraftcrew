@@ -8,11 +8,18 @@ import { useRouter } from "next/navigation";
 
 export const Sidebar = () => {
 	const [isCollapsed, setIsCollapsed] = useState(true);
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
 	const router = useRouter();
 
 	const handleLogout = async () => {
-		await authClient.signOut();
-		router.push("/auth/login");
+		setIsLoggingOut(true);
+		try {
+			await authClient.signOut();
+			router.push("/auth/login");
+		} catch (error) {
+			console.error("Logout failed:", error);
+			setIsLoggingOut(false);
+		}
 	};
 
 	return (
@@ -26,14 +33,19 @@ export const Sidebar = () => {
 						<div className="avatar placeholder">
 							<div className="bg-primary text-primary-content rounded-full w-8"></div>
 						</div>
-						<span className="text-sm font-medium">Usuário</span>
+						<span className="text-sm font-medium">User</span>
 					</div>
 				)}
-				<Link href="#" onClick={() => setIsCollapsed(!isCollapsed)} className="btn btn-ghost btn-sm btn-square hover:bg-transparent hover:text-orange-500" aria-label="Toggle sidebar">
+				<Button
+					onClick={() => setIsCollapsed(!isCollapsed)}
+					className="btn btn-ghost btn-sm btn-square hover:bg-transparent hover:text-orange-500"
+					aria-label="Toggle sidebar"
+					type="button"
+				>
 					<Menu
 						className={`size-5 ${isCollapsed ? "text-orange-500" : "text-orange-500"}`}
 					/>
-				</Link>
+				</Button>
 			</div>
 
 			<div className="custom-scrollbar p-2 grow overflow-auto">
@@ -157,10 +169,21 @@ export const Sidebar = () => {
 
 			{/* Logout button at the bottom */}
 			<div className="mt-auto px-2.5">
-				<Link href="#" onClick={handleLogout} className="menu-item group w-full justify-center hover:bg-orange-500/10 hover:text-orange-500" title={isCollapsed ? "Logout" : ""} aria-label="Logout">
-					<LogOut className="size-4 " />
-					{!isCollapsed && <span className="grow text-right">Logout</span>}
-				</Link>
+				<Button
+					onClick={handleLogout}
+					className="menu-item group w-full justify-center hover:bg-orange-500/10 hover:text-orange-500"
+					title={isCollapsed ? "Logout" : ""}
+					aria-label="Logout"
+					disabled={isLoggingOut}
+					type="button"
+				>
+					<LogOut className="size-4" />
+					{!isCollapsed && (
+						<span className="grow text-right">
+							{isLoggingOut ? "Logging out..." : "Logout"}
+						</span>
+					)}
+				</Button>
 			</div>
 		</div>
 		</Authenticated>

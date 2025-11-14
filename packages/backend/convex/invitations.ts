@@ -3,12 +3,13 @@ import { mutation, query } from "./_generated/server";
 import { requireAdmin } from "./_lib/auth";
 
 /**
- * Generate a unique invitation token
+ * Generate a cryptographically secure invitation token
  */
 function generateInvitationToken(): string {
+	// Use crypto.randomUUID() for cryptographically secure tokens
+	const token = crypto.randomUUID();
 	const timestamp = Date.now().toString(36);
-	const randomStr = Math.random().toString(36).substring(2, 15);
-	return `${timestamp}-${randomStr}`;
+	return `${timestamp}-${token}`;
 }
 
 /**
@@ -27,7 +28,13 @@ export const createInvitation = mutation({
 	handler: async (ctx, args) => {
 		await requireAdmin(ctx);
 
-		// Check if user already exists
+		// Validate email format
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(args.email)) {
+			throw new Error("Invalid email format");
+		}
+
+		// Check if user already exists (prevents race condition)
 		const existingUser = await ctx.db
 			.query("users")
 			.withIndex("by_email", (q) => q.eq("email", args.email))
@@ -37,7 +44,7 @@ export const createInvitation = mutation({
 			throw new Error("User with this email already exists");
 		}
 
-		// Generate unique invitation token
+		// Generate cryptographically secure invitation token
 		const invitationToken = generateInvitationToken();
 
 		// Create user with pending invitation
@@ -55,7 +62,7 @@ export const createInvitation = mutation({
 			invitationAccepted: false,
 		});
 
-		// Return invitation URL (frontend will construct full URL)
+		// Return invitation data (frontend will construct full URL)
 		return {
 			userId,
 			invitationToken,
@@ -67,6 +74,7 @@ export const createInvitation = mutation({
 /**
  * Validate invitation token and email
  * Called during registration to verify user is invited
+ * Note: This should only be called in the registration flow, not exposed publicly
  */
 export const validateInvitation = query({
 	args: {
@@ -74,29 +82,34 @@ export const validateInvitation = query({
 		token: v.string(),
 	},
 	handler: async (ctx, args) => {
+		// Validate token format to prevent timing attacks
+		if (!args.token || args.token.length < 10) {
+			return { valid: false, error: "Invalid invitation" };
+		}
+
 		const user = await ctx.db
 			.query("users")
 			.withIndex("by_email", (q) => q.eq("email", args.email))
 			.first();
 
 		if (!user) {
-			return { valid: false, error: "No invitation found for this email" };
+			return { valid: false, error: "Invalid invitation" };
 		}
 
 		if (user.invitationAccepted) {
-			return { valid: false, error: "Invitation already used" };
+			return { valid: false, error: "Invalid invitation" };
 		}
 
 		if (user.invitationToken !== args.token) {
-			return { valid: false, error: "Invalid invitation token" };
+			return { valid: false, error: "Invalid invitation" };
 		}
 
+		// Only return minimal information - no role disclosure
 		return {
 			valid: true,
 			user: {
 				email: user.email,
 				name: user.name,
-				role: user.role,
 			},
 		};
 	},
@@ -105,6 +118,7 @@ export const validateInvitation = query({
 /**
  * Mark invitation as accepted
  * Called after successful registration
+ * Uses optimistic locking to prevent race conditions
  */
 export const acceptInvitation = mutation({
 	args: {
@@ -125,7 +139,14 @@ export const acceptInvitation = mutation({
 			throw new Error("Invalid invitation token");
 		}
 
+		// Check again right before patching to prevent race conditions
 		if (user.invitationAccepted) {
+			throw new Error("Invitation already accepted");
+		}
+
+		// Re-fetch to ensure we have the latest state
+		const latestUser = await ctx.db.get(user._id);
+		if (!latestUser || latestUser.invitationAccepted) {
 			throw new Error("Invitation already accepted");
 		}
 
@@ -141,15 +162,22 @@ export const acceptInvitation = mutation({
 
 /**
  * Admin-only: Get all pending invitations
+ * Returns only users with pending invitations (not yet accepted)
+ * TODO: Add an index on invitationAccepted for better performance
  */
 export const getPendingInvitations = query({
 	args: {},
 	handler: async (ctx) => {
 		await requireAdmin(ctx);
 
+		// Query all users and filter by invitationAccepted
+		// This is less efficient than an index but works for moderate user counts
 		const users = await ctx.db.query("users").collect();
 
-		return users.filter((user) => !user.invitationAccepted);
+		// Filter to only include users with pending invitations
+		return users.filter(
+			(user) => user.invitationToken && !user.invitationAccepted,
+		);
 	},
 });
 

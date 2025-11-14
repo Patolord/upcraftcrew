@@ -58,14 +58,14 @@ export function TaskCard({ task }: TaskCardProps) {
 				<div className="flex items-start justify-between gap-2">
 					<div className="flex items-center gap-2 flex-1 min-w-0">
 						{task.isPrivate && (
-							<span className="text-warning flex-shrink-0" title="Task Privada">
-								<span className="iconify lucide--lock size-3.5" />
+							<span className="text-warning flex-shrink-0" title="Private Task" aria-label="Private Task">
+								<span className="iconify lucide--lock size-3.5" aria-hidden="true" />
 							</span>
 						)}
 						<h4 className="font-semibold text-sm line-clamp-2 flex-1">{task.title}</h4>
 					</div>
-					<span className={`${priority.color} flex-shrink-0`}>
-						<span className={`iconify ${priority.icon} size-4`} />
+					<span className={`${priority.color} flex-shrink-0`} title={`Priority: ${priority.label}`}>
+						<span className={`iconify ${priority.icon} size-4`} aria-hidden="true" />
 					</span>
 				</div>
 
@@ -78,7 +78,7 @@ export function TaskCard({ task }: TaskCardProps) {
 				{task.project && (
 					<div className="mt-2">
 						<span className="badge badge-sm badge-ghost">
-							<span className="iconify lucide--folder size-3 mr-1" />
+							<span className="iconify lucide--folder size-3 mr-1" aria-hidden="true" />
 							{task.project.name}
 						</span>
 					</div>
@@ -104,7 +104,7 @@ export function TaskCard({ task }: TaskCardProps) {
 				<div className="flex items-center justify-between mt-3 pt-3 border-t border-base-300">
 					{/* Assigned User */}
 					{task.assignedUser ? (
-						<div className="avatar">
+						<div className="avatar" title={`Assigned to ${task.assignedUser.name}`}>
 							<div className="w-6 rounded-full">
 								<Image
 									src={task.assignedUser.avatar || "/default-avatar.png"}
@@ -115,9 +115,9 @@ export function TaskCard({ task }: TaskCardProps) {
 							</div>
 						</div>
 					) : (
-						<div className="avatar placeholder">
+						<div className="avatar placeholder" title="Unassigned">
 							<div className="w-6 rounded-full bg-base-300">
-								<span className="iconify lucide--user size-3" />
+								<span className="iconify lucide--user size-3" aria-hidden="true" />
 							</div>
 						</div>
 					)}
@@ -128,14 +128,16 @@ export function TaskCard({ task }: TaskCardProps) {
 							className={`flex items-center gap-1 text-xs ${
 								isOverdue ? "text-error font-medium" : "text-base-content/60"
 							}`}
+							aria-label={`Due date: ${new Date(task.dueDate).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" })}`}
 						>
 							<span
 								className={`iconify ${
 									isOverdue ? "lucide--alert-circle" : "lucide--calendar"
 								} size-3`}
+								aria-hidden="true"
 							/>
 							<span>
-								{new Date(task.dueDate).toLocaleDateString("pt-BR", {
+								{new Date(task.dueDate).toLocaleDateString("en-US", {
 									month: "short",
 									day: "numeric",
 								})}

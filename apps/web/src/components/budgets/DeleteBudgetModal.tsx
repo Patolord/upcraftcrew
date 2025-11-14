@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { useEffect, useRef } from "react";
 
 interface DeleteBudgetModalProps {
 	isOpen: boolean;
@@ -17,30 +18,59 @@ export function DeleteBudgetModal({
 	budgetTitle,
 	isDeleting = false,
 }: DeleteBudgetModalProps) {
+	const confirmButtonRef = useRef<HTMLButtonElement>(null);
+
+	useEffect(() => {
+		if (isOpen && confirmButtonRef.current) {
+			confirmButtonRef.current.focus();
+		}
+	}, [isOpen]);
+
+	useEffect(() => {
+		const handleEscape = (e: KeyboardEvent) => {
+			if (e.key === "Escape" && isOpen && !isDeleting) {
+				onClose();
+			}
+		};
+
+		document.addEventListener("keydown", handleEscape);
+		return () => document.removeEventListener("keydown", handleEscape);
+	}, [isOpen, isDeleting, onClose]);
+
 	if (!isOpen) return null;
 
 	return (
-		<div className="modal modal-open">
+		<div
+			className="modal modal-open"
+			role="dialog"
+			aria-labelledby="delete-modal-title"
+			aria-describedby="delete-modal-description"
+			aria-modal="true"
+		>
 			<div className="modal-box">
 				<div className="flex flex-col items-center text-center">
 					{/* Icon */}
-					<div className="bg-error/10 rounded-full p-4 mb-4">
+					<div className="bg-error/10 rounded-full p-4 mb-4" aria-hidden="true">
 						<span className="iconify lucide--trash-2 size-12 text-error" />
 					</div>
 
 					{/* Title */}
-					<h3 className="font-bold text-xl mb-2">Excluir Orçamento?</h3>
+					<h3 id="delete-modal-title" className="font-bold text-xl mb-2">
+						Delete Budget?
+					</h3>
 
 					{/* Description */}
-					<p className="text-base-content/70 mb-2">
-						Tem certeza que deseja excluir o orçamento:
-					</p>
-					<p className="font-semibold text-lg mb-4">"{budgetTitle}"</p>
+					<div id="delete-modal-description">
+						<p className="text-base-content/70 mb-2">
+							Are you sure you want to delete the budget:
+						</p>
+						<p className="font-semibold text-lg mb-4">"{budgetTitle}"</p>
+					</div>
 
 					{/* Warning */}
-					<div className="alert alert-warning mb-6">
-						<span className="iconify lucide--alert-triangle size-5" />
-						<span className="text-sm">Esta ação não pode ser desfeita!</span>
+					<div className="alert alert-warning mb-6" role="alert">
+						<span className="iconify lucide--alert-triangle size-5" aria-hidden="true" />
+						<span className="text-sm">This action cannot be undone!</span>
 					</div>
 
 					{/* Actions */}
@@ -51,23 +81,25 @@ export function DeleteBudgetModal({
 							onClick={onClose}
 							disabled={isDeleting}
 						>
-							Cancelar
+							Cancel
 						</Button>
 						<Button
+							ref={confirmButtonRef}
 							type="button"
 							className="btn btn-error flex-1 text-white"
 							onClick={onConfirm}
 							disabled={isDeleting}
+							aria-describedby="delete-modal-description"
 						>
 							{isDeleting ? (
 								<>
 									<span className="loading loading-spinner loading-sm" />
-									Excluindo...
+									Deleting...
 								</>
 							) : (
 								<>
-									<span className="iconify lucide--trash-2 size-4" />
-									Excluir
+									<span className="iconify lucide--trash-2 size-4" aria-hidden="true" />
+									Delete
 								</>
 							)}
 						</Button>
@@ -80,6 +112,7 @@ export function DeleteBudgetModal({
 				onClick={onClose}
 				disabled={isDeleting}
 				aria-label="Close modal"
+				tabIndex={-1}
 			/>
 		</div>
 	);

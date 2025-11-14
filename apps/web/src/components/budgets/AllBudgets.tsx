@@ -16,6 +16,7 @@ interface Budget {
 	description: string;
 	status: "draft" | "sent" | "approved" | "rejected" | "expired";
 	totalAmount: number;
+	currency: string;
 	validUntil: number;
 	createdAt: number;
 	items: Array<{
@@ -39,10 +40,12 @@ const statusConfig = {
 	expired: { label: "Expirado", color: "badge-warning", icon: "lucide--clock" },
 };
 
+type StatusFilter = "all" | Budget["status"];
+
 export function AllBudgets({ budgets }: AllBudgetsProps) {
 	const { formatAmount, config } = useCurrency();
 	const [searchQuery, setSearchQuery] = useState("");
-	const [statusFilter, setStatusFilter] = useState<"all" | Budget["status"]>("all");
+	const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
 	const [viewMode, setViewMode] = useState<"grid" | "table">("table");
 	const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
 	const [budgetToEdit, setBudgetToEdit] = useState<Budget | null>(null);
@@ -406,7 +409,13 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 				<select
 					className="select select-bordered w-full sm:w-48"
 					value={statusFilter}
-					onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+					onChange={(e) => {
+						const value = e.target.value;
+						if (value === "all" || value === "draft" || value === "sent" || 
+						    value === "approved" || value === "rejected" || value === "expired") {
+							setStatusFilter(value);
+						}
+					}}
 				>
 					<option value="all">Todos os Status</option>
 					<option value="draft">Rascunho</option>
@@ -420,13 +429,13 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 						className={`btn join-item ${viewMode === "table" ? "btn-active" : ""}`}
 						onClick={() => setViewMode("table")}
 					>
-						<span className="iconify text-white lucide--table size-4" />
+						<span className="iconify lucide--table size-4" />
 					</Button>
 					<Button
 						className={`btn join-item ${viewMode === "grid" ? "btn-active" : ""}`}
 						onClick={() => setViewMode("grid")}
 					>
-						<span className="iconify text-white lucide--layout-grid size-4" />
+						<span className="iconify lucide--layout-grid size-4" />
 					</Button>
 				</div>
 			</div>
@@ -506,25 +515,25 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 													className="btn btn-ghost btn-sm"
 													onClick={() => handleView(budget)}
 												>
-													<span className="iconify text-white lucide--eye size-4" />
+													<span className="iconify lucide--eye size-4" />
 												</Button>
 												<Button
 													className="btn btn-ghost btn-sm"
 													onClick={() => handleDownloadPDF(budget)}
 												>
-													<span className="iconify text-white lucide--file-down size-4" />
+													<span className="iconify lucide--file-down size-4" />
 												</Button>
 												<Button
 													className="btn btn-ghost btn-sm"
 													onClick={() => handleEdit(budget)}
 												>
-													<span className="iconify text-white lucide--edit size-4" />
+													<span className="iconify lucide--edit size-4" />
 												</Button>
 												<Button
 													className="btn btn-ghost btn-sm text-error"
 													onClick={() => handleDeleteClick(budget._id, budget.title)}
 												>
-													<span className="iconify text-white lucide--trash-2 size-4" />
+													<span className="iconify lucide--trash-2 size-4" />
 												</Button>
 											</div>
 										</td>
@@ -586,31 +595,31 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 
 									<div className="card-actions justify-between mt-4">
 										<Button
-											className="btn btn-sm btn-ghost text-white text-error"
+											className="btn btn-sm btn-ghost text-error"
 											onClick={() => handleDeleteClick(budget._id, budget.title)}
 										>
-											<span className="iconify text-white lucide--trash-2 size-4" />
+											<span className="iconify lucide--trash-2 size-4" />
 										</Button>
 										<div className="flex gap-2">
 											<Button
-												className="btn btn-sm btn-ghost text-white"
+												className="btn btn-sm btn-ghost"
 												onClick={() => handleView(budget)}
 											>
-												<span className="iconify text-white lucide--eye size-4" />
+												<span className="iconify lucide--eye size-4" />
 												Ver
 											</Button>
 											<Button
-												className="btn btn-sm btn-ghost text-white"
+												className="btn btn-sm btn-ghost"
 												onClick={() => handleDownloadPDF(budget)}
 											>
-												<span className="iconify text-white lucide--file-down size-4" />
+												<span className="iconify lucide--file-down size-4" />
 												PDF
 											</Button>
 											<Button
-												className="btn btn-sm btn-ghost text-white"
+												className="btn btn-sm btn-ghost"
 												onClick={() => handleEdit(budget)}
 											>
-												<span className="iconify text-white lucide--edit size-4" />
+												<span className="iconify lucide--edit size-4" />
 												Editar
 											</Button>
 										</div>

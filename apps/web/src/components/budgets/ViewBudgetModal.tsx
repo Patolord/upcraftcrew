@@ -17,6 +17,7 @@ interface Budget {
 	description: string;
 	status: "draft" | "sent" | "approved" | "rejected" | "expired";
 	totalAmount: number;
+	currency: string;
 	validUntil: number;
 	createdAt: number;
 	items: BudgetItem[];
@@ -43,6 +44,18 @@ export function ViewBudgetModal({ isOpen, onClose, budget }: ViewBudgetModalProp
 	
 	if (!isOpen || !budget) return null;
 
+	// Validate budget status to prevent runtime errors
+	const statusInfo = statusConfig[budget.status];
+	if (!statusInfo) {
+		console.error(`Invalid budget status: ${budget.status}`);
+		return null;
+	}
+
+	// TODO: Implement proper print functionality with custom print layout
+	const handlePrint = () => {
+		window.print();
+	};
+
 	return (
 		<div className="modal modal-open">
 			<div className="modal-box max-w-4xl max-h-[90vh] overflow-y-auto">
@@ -52,9 +65,9 @@ export function ViewBudgetModal({ isOpen, onClose, budget }: ViewBudgetModalProp
 						<h3 className="font-bold text-2xl mb-2">{budget.title}</h3>
 						<p className="text-base-content/60">Cliente: {budget.client}</p>
 					</div>
-					<span className={`badge ${statusConfig[budget.status].color} badge-lg`}>
-						<span className={`iconify ${statusConfig[budget.status].icon} size-4 mr-2`} />
-						{statusConfig[budget.status].label}
+					<span className={`badge ${statusInfo.color} badge-lg`}>
+						<span className={`iconify ${statusInfo.icon} size-4 mr-2`} />
+						{statusInfo.label}
 					</span>
 				</div>
 
@@ -103,7 +116,7 @@ export function ViewBudgetModal({ isOpen, onClose, budget }: ViewBudgetModalProp
 							</thead>
 							<tbody>
 								{budget.items.map((item, index) => (
-									<tr key={index}>
+									<tr key={`${budget._id}-item-${index}-${item.description.substring(0, 10)}`}>
 										<td>{item.description}</td>
 										<td className="text-center">{item.quantity}</td>
 										<td className="text-right">{formatAmount(item.unitPrice)}</td>
@@ -139,11 +152,11 @@ export function ViewBudgetModal({ isOpen, onClose, budget }: ViewBudgetModalProp
 
 				{/* Actions */}
 				<div className="modal-action">
-					<Button type="button" className="btn text-white btn-ghost" onClick={onClose}>
+					<Button type="button" className="btn btn-ghost" onClick={onClose}>
 						Fechar
 					</Button>
-					<Button type="button" className="btn text-white btn-primary">
-						<span className="iconify text-white lucide--printer size-4" />
+					<Button type="button" className="btn btn-primary" onClick={handlePrint}>
+						<span className="iconify lucide--printer size-4" />
 						Imprimir
 					</Button>
 				</div>

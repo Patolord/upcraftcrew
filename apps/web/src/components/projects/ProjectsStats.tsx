@@ -31,8 +31,8 @@ export function ProjectsStats({ projects }: ProjectsStatsProps) {
 			</div>
 			<div className="stats shadow border border-base-300">
 				<div className="stat py-4">
-					<div className="stat-title text-xs">Cancelled</div>
-					<div className="stat-value text-2xl text-success">
+					<div className="stat-title text-xs">Planning</div>
+					<div className="stat-value text-2xl text-info">
 						{projects.filter((p) => p.status === "planning").length}
 					</div>
 				</div>
