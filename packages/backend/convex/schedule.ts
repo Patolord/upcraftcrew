@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAuth, requireWrite } from "./_lib/auth";
 
 // Query: Get all events
 export const getEvents = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx);
 		const events = await ctx.db
 			.query("events")
 			.withIndex("by_start_time")
@@ -38,6 +40,7 @@ export const getEvents = query({
 export const getEventById = query({
 	args: { id: v.id("events") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const event = await ctx.db.get(args.id);
 
 		if (!event) {
@@ -65,6 +68,7 @@ export const getEventsByMonth = query({
 		month: v.number(), // 1-12
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		// Calculate start and end of month
 		const startDate = new Date(args.year, args.month - 1, 1).getTime();
 		const endDate = new Date(args.year, args.month, 0, 23, 59, 59).getTime();
@@ -110,6 +114,7 @@ export const getEventsByDateRange = query({
 		endDate: v.number(),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const events = await ctx.db
 			.query("events")
 			.withIndex("by_start_time")
@@ -148,6 +153,7 @@ export const getEventsByDateRange = query({
 export const getEventsByProject = query({
 	args: { projectId: v.id("projects") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const events = await ctx.db
 			.query("events")
 			.withIndex("by_project", (q) => q.eq("projectId", args.projectId))
@@ -175,6 +181,7 @@ export const getEventsByProject = query({
 export const getEventsByType = query({
 	args: { type: v.string() },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const events = await ctx.db
 			.query("events")
 			.filter((q) => q.eq(q.field("type"), args.type))
@@ -188,6 +195,7 @@ export const getEventsByType = query({
 export const getEventsByUser = query({
 	args: { userId: v.id("users") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const events = await ctx.db.query("events").collect();
 
 		const userEvents = events.filter((event) =>
@@ -218,6 +226,7 @@ export const getUpcomingEvents = query({
 		limit: v.optional(v.number()),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const now = Date.now();
 		const limit = args.limit ?? 10;
 
@@ -265,6 +274,7 @@ export const createEvent = mutation({
 		priority: v.union(v.literal("low"), v.literal("medium"), v.literal("high")),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const eventId = await ctx.db.insert("events", args);
 
 		return eventId;
@@ -288,6 +298,7 @@ export const updateEvent = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const { id, ...updates } = args;
 
 		const existingEvent = await ctx.db.get(id);
@@ -305,6 +316,7 @@ export const updateEvent = mutation({
 export const deleteEvent = mutation({
 	args: { id: v.id("events") },
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const event = await ctx.db.get(args.id);
 
 		if (!event) {
@@ -324,6 +336,7 @@ export const addAttendeeToEvent = mutation({
 		userId: v.id("users"),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const event = await ctx.db.get(args.eventId);
 
 		if (!event) {
@@ -350,6 +363,7 @@ export const removeAttendeeFromEvent = mutation({
 		userId: v.id("users"),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const event = await ctx.db.get(args.eventId);
 
 		if (!event) {

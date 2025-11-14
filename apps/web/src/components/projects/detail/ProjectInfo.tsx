@@ -219,18 +219,18 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 			{/* Actions */}
 			<div className="flex justify-between items-center">
 				<Button
-					className="btn btn-error"
+					className="btn text-white btn-error"
 					onClick={handleDelete}
 					disabled={isDeleting || isSubmitting}
 				>
 					{isDeleting ? (
 						<>
-							<span className="loading loading-spinner loading-sm" />
+							<span className="loading text-white loading-spinner loading-sm" />
 							Excluindo...
 						</>
 					) : (
 						<>
-							<span className="iconify lucide--trash-2 size-4" />
+							<span className="iconify text-white lucide--trash-2 size-4" />
 							Excluir
 						</>
 					)}
@@ -248,14 +248,14 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 					) : (
 						<>
 							<Button
-								className="btn btn-ghost"
+								className="btn text-white btn-ghost"
 								onClick={handleCancel}
 								disabled={isSubmitting}
 							>
 								Cancelar
 							</Button>
 							<Button
-								className="btn btn-primary"
+								className="btn text-white btn-primary"
 								onClick={handleSave}
 								disabled={isSubmitting}
 							>
@@ -281,11 +281,11 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 				<div className="card-body">
 					<h2 className="card-title text-lg mb-4">Informações do Projeto</h2>
 
-					<div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+					<div className="grid grid-cols-1 md:grid-cols-3 gap-6">
 						{/* Name */}
 						<div className="form-control">
-							<label className="label" htmlFor={nameId}>
-								<span className="label-text font-semibold">
+							<label className="block mb-2" htmlFor={nameId}>
+								<span className="text-sm font-medium">
 									Nome do Projeto
 								</span>
 							</label>
@@ -293,7 +293,7 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 								<input
 									type="text"
 									id={nameId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2"
 									value={formData.name}
 									onChange={(e) =>
 										setFormData({ ...formData, name: e.target.value })
@@ -306,14 +306,14 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Client */}
 						<div className="form-control">
-							<label className="label" htmlFor={clientId}>
-								<span className="label-text font-semibold">Cliente</span>
+							<label className="block mb-2" htmlFor={clientId}>
+								<span className="text-sm font-medium">Cliente</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="text"
 									id={clientId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2"
 									value={formData.client}
 									onChange={(e) =>
 										setFormData({ ...formData, client: e.target.value })
@@ -324,15 +324,18 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 							)}
 						</div>
 
+						{/* Empty cell */}
+						<div></div>
+
 						{/* Description - Full width */}
-						<div className="form-control md:col-span-2">
-							<label className="label" htmlFor={descriptionId}>
-								<span className="label-text font-semibold">Descrição</span>
+						<div className="form-control md:col-span-3">
+							<label className="block mb-2" htmlFor={descriptionId}>
+								<span className="text-sm font-medium">Descrição</span>
 							</label>
 							{isEditing ? (
 								<textarea
 									id={descriptionId}
-									className="textarea textarea-bordered h-24"
+									className="textarea textarea-bordered h-24 w-full border-2"
 									value={formData.description}
 									onChange={(e) =>
 										setFormData({ ...formData, description: e.target.value })
@@ -345,13 +348,13 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Status */}
 						<div className="form-control">
-							<label className="label" htmlFor={statusId}>
-								<span className="label-text font-semibold">Status</span>
+							<label className="block mb-2" htmlFor={statusId}>
+								<span className="text-sm font-medium">Status</span>
 							</label>
 							{isEditing ? (
 								<select
 									id={statusId}
-									className="select select-bordered"
+									className="select select-bordered w-full border-2"
 									value={formData.status}
 									onChange={(e) =>
 										setFormData({
@@ -363,7 +366,7 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 									<option value="planning">Planning</option>
 									<option value="in-progress">In Progress</option>
 									<option value="completed">Completed</option>
-							
+
 								</select>
 							) : (
 								<span
@@ -379,13 +382,13 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Priority */}
 						<div className="form-control">
-							<label className="label" htmlFor={priorityId}>
-								<span className="label-text font-semibold">Prioridade</span>
+							<label className="block mb-2" htmlFor={priorityId}>
+								<span className="text-sm font-medium">Prioridade</span>
 							</label>
 							{isEditing ? (
 								<select
 									id={priorityId}
-									className="select select-bordered"
+									className="select select-bordered w-full border-2"
 									value={formData.priority}
 									onChange={(e) =>
 										setFormData({
@@ -408,16 +411,45 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 							)}
 						</div>
 
+						{/* Tags */}
+						<div className="form-control">
+							<label className="block mb-2" htmlFor={tagsId}>
+								<span className="text-sm font-medium">Tags</span>
+							</label>
+							{isEditing ? (
+								<input
+									type="text"
+									id={tagsId}
+									className="input input-bordered w-full border-2"
+									placeholder="design, development, urgent (separadas por vírgula)"
+									value={formData.tags}
+									onChange={(e) =>
+										setFormData({ ...formData, tags: e.target.value })
+									}
+								/>
+							) : project.tags && project.tags.length > 0 ? (
+								<div className="flex flex-wrap gap-2">
+									{project.tags.map((tag: string) => (
+										<span key={tag} className="badge badge-ghost">
+											{tag}
+										</span>
+									))}
+								</div>
+							) : (
+								<p className="text-base-content/60">Nenhuma tag</p>
+							)}
+						</div>
+
 						{/* Start Date */}
 						<div className="form-control">
-							<label className="label" htmlFor={startDateId}>
-								<span className="label-text font-semibold">Data de Início</span>
+							<label className="block mb-2" htmlFor={startDateId}>
+								<span className="text-sm font-medium">Data de Início</span>
 							</label>
 							{isEditing ? (
 								<input
 									type="date"
 									id={startDateId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2"
 									value={formData.startDate}
 									onChange={(e) =>
 										setFormData({ ...formData, startDate: e.target.value })
@@ -431,9 +463,9 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 						</div>
 
 						{/* End Date */}
-						<div className="form-control">
-							<label className="label" htmlFor={endDateId}>
-								<span className="label-text font-semibold">
+						<div className="form-control md:col-span-2">
+							<label className="block mb-2" htmlFor={endDateId}>
+								<span className="text-sm font-medium">
 									Data de Término
 								</span>
 							</label>
@@ -441,7 +473,7 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 								<input
 									type="date"
 									id={endDateId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2"
 									value={formData.endDate}
 									onChange={(e) =>
 										setFormData({ ...formData, endDate: e.target.value })
@@ -457,9 +489,9 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 						</div>
 
 						{/* Progress */}
-						<div className="form-control md:col-span-2">
-							<label className="label" htmlFor={progressId}>
-								<span className="label-text font-semibold">
+						<div className="form-control">
+							<label className="block mb-2" htmlFor={progressId}>
+								<span className="text-sm font-medium">
 									Progresso: {isEditing ? formData.progress : project.progress}%
 								</span>
 							</label>
@@ -490,24 +522,24 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Budget Total */}
 						<div className="form-control">
-							<label className="label" htmlFor={budgetTotalId}>
-								<span className="label-text font-semibold">
+							<label className="block mb-2" htmlFor={budgetTotalId}>
+								<span className="text-sm font-medium">
 									Orçamento Total
 								</span>
 							</label>
 							{isEditing ? (
 								<input
-									type="number"
+									type="text"
+									inputMode="decimal"
 									id={budgetTotalId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 									value={formData.budgetTotal}
 									onChange={(e) =>
 										setFormData({
 											...formData,
-											budgetTotal: Number(e.target.value),
+											budgetTotal: Number(e.target.value) || 0,
 										})
 									}
-									min="0"
 								/>
 							) : project.budget ? (
 								<p className="text-base-content">
@@ -520,24 +552,24 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 
 						{/* Budget Spent */}
 						<div className="form-control">
-							<label className="label" htmlFor={budgetSpentId}>
-								<span className="label-text font-semibold">
+							<label className="block mb-2" htmlFor={budgetSpentId}>
+								<span className="text-sm font-medium">
 									Orçamento Gasto
 								</span>
 							</label>
 							{isEditing ? (
 								<input
-									type="number"
+									type="text"
+									inputMode="decimal"
 									id={budgetSpentId}
-									className="input input-bordered"
+									className="input input-bordered w-full border-2 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
 									value={formData.budgetSpent}
 									onChange={(e) =>
 										setFormData({
 											...formData,
-											budgetSpent: Number(e.target.value),
+											budgetSpent: Number(e.target.value) || 0,
 										})
 									}
-									min="0"
 								/>
 							) : project.budget ? (
 								<p className="text-base-content">
@@ -545,35 +577,6 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 								</p>
 							) : (
 								<p className="text-base-content/60">Não definido</p>
-							)}
-						</div>
-
-						{/* Tags */}
-						<div className="form-control md:col-span-2">
-							<label className="label" htmlFor={tagsId}>
-								<span className="label-text font-semibold">Tags</span>
-							</label>
-							{isEditing ? (
-								<input
-									type="text"
-									id={tagsId}
-									className="input input-bordered"
-									placeholder="design, development, urgent (separadas por vírgula)"
-									value={formData.tags}
-									onChange={(e) =>
-										setFormData({ ...formData, tags: e.target.value })
-									}
-								/>
-							) : project.tags && project.tags.length > 0 ? (
-								<div className="flex flex-wrap gap-2">
-									{project.tags.map((tag: string) => (
-										<span key={tag} className="badge badge-ghost">
-											{tag}
-										</span>
-									))}
-								</div>
-							) : (
-								<p className="text-base-content/60">Nenhuma tag</p>
 							)}
 						</div>
 					</div>
@@ -621,15 +624,20 @@ export function ProjectInfo({ project }: ProjectInfoProps) {
 				<div className="card-body">
 					<h2 className="card-title text-lg mb-4">Notas</h2>
 					{isEditing ? (
-						<textarea
-							id={notesId}
-							className="textarea textarea-bordered h-32"
-							placeholder="Adicione notas sobre o projeto..."
-							value={formData.notes}
-							onChange={(e) =>
-								setFormData({ ...formData, notes: e.target.value })
-							}
-						/>
+						<div className="form-control">
+							<label className="block mb-2" htmlFor={notesId}>
+								<span className="text-sm font-medium">Observações (opcional)</span>
+							</label>
+							<textarea
+								id={notesId}
+								className="textarea textarea-bordered h-32 w-full border-2"
+								placeholder="Adicione notas sobre o projeto..."
+								value={formData.notes}
+								onChange={(e) =>
+									setFormData({ ...formData, notes: e.target.value })
+								}
+							/>
+						</div>
 					) : (
 						<div className="text-base-content">
 							{project.notes ? (

@@ -1,11 +1,26 @@
-import { Menu } from "lucide-react";
+import { Menu, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 import { Authenticated } from "convex/react";
 import { Button } from "../ui/button";
+import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export const Sidebar = () => {
-	const [isCollapsed, setIsCollapsed] = useState(false);
+	const [isCollapsed, setIsCollapsed] = useState(true);
+	const [isLoggingOut, setIsLoggingOut] = useState(false);
+	const router = useRouter();
+
+	const handleLogout = async () => {
+		setIsLoggingOut(true);
+		try {
+			await authClient.signOut();
+			router.push("/auth/login");
+		} catch (error) {
+			console.error("Logout failed:", error);
+			setIsLoggingOut(false);
+		}
+	};
 
 	return (
 		<Authenticated>
@@ -18,16 +33,17 @@ export const Sidebar = () => {
 						<div className="avatar placeholder">
 							<div className="bg-primary text-primary-content rounded-full w-8"></div>
 						</div>
-						<span className="text-sm font-medium">Usuário</span>
+						<span className="text-sm font-medium">User</span>
 					</div>
 				)}
 				<Button
 					onClick={() => setIsCollapsed(!isCollapsed)}
 					className="btn btn-ghost btn-sm btn-square hover:bg-transparent hover:text-orange-500"
 					aria-label="Toggle sidebar"
+					type="button"
 				>
 					<Menu
-						className={`size-5 ${isCollapsed ? "text-white" : "text-white"}`}
+						className={`size-5 ${isCollapsed ? "text-orange-500" : "text-orange-500"}`}
 					/>
 				</Button>
 			</div>
@@ -149,6 +165,25 @@ export const Sidebar = () => {
 						</>
 					)}
 				</div>
+			</div>
+
+			{/* Logout button at the bottom */}
+			<div className="mt-auto px-2.5">
+				<Button
+					onClick={handleLogout}
+					className="menu-item group w-full justify-center hover:bg-orange-500/10 hover:text-orange-500"
+					title={isCollapsed ? "Logout" : ""}
+					aria-label="Logout"
+					disabled={isLoggingOut}
+					type="button"
+				>
+					<LogOut className="size-4" />
+					{!isCollapsed && (
+						<span className="grow text-right">
+							{isLoggingOut ? "Logging out..." : "Logout"}
+						</span>
+					)}
+				</Button>
 			</div>
 		</div>
 		</Authenticated>

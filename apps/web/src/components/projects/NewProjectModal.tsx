@@ -85,45 +85,45 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 		<div className="modal modal-open">
 			<div className="modal-box max-w-2xl">
 				<h3 className="font-bold text-lg mb-4">Create New Project</h3>
-				<form onSubmit={handleSubmit} className="space-y-4">
-					{/* Name */}
-					<div className="form-control">
-						<label htmlFor={`${formId}-name`} className="label">
-							<span className="label-text">Project Name *</span>
-						</label>
-						<input
-							id={`${formId}-name`}
-							type="text"
-							className="input input-bordered"
-							value={formData.name}
-							onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-							required
-						/>
-					</div>
-
-					{/* Client */}
-					<div className="form-control">
-						<label htmlFor={`${formId}-client`} className="label">
-							<span className="label-text">Client *</span>
-						</label>
-						<input
-							id={`${formId}-client`}
-							type="text"
-							className="input input-bordered"
-							value={formData.client}
-							onChange={(e) => setFormData({ ...formData, client: e.target.value })}
-							required
-						/>
+				<form onSubmit={handleSubmit} className="space-y-6">
+					{/* Name and Client */}
+					<div className="grid grid-cols-2 gap-6">
+						<div className="form-control">
+							<label htmlFor={`${formId}-name`} className="block mb-2">
+								<span className="text-sm font-medium">Project Name *</span>
+							</label>
+							<input
+								id={`${formId}-name`}
+								type="text"
+								className="input input-bordered w-full border-2"
+								value={formData.name}
+								onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+								required
+							/>
+						</div>
+						<div className="form-control">
+							<label htmlFor={`${formId}-client`} className="block mb-2">
+								<span className="text-sm font-medium">Client *</span>
+							</label>
+							<input
+								id={`${formId}-client`}
+								type="text"
+								className="input input-bordered w-full border-2"
+								value={formData.client}
+								onChange={(e) => setFormData({ ...formData, client: e.target.value })}
+								required
+							/>
+						</div>
 					</div>
 
 					{/* Description */}
 					<div className="form-control">
-						<label htmlFor={`${formId}-description`} className="label">
-							<span className="label-text">Description *</span>
+						<label htmlFor={`${formId}-description`} className="block mb-2">
+							<span className="text-sm font-medium">Description *</span>
 						</label>
 						<textarea
 							id={`${formId}-description`}
-							className="textarea textarea-bordered h-24"
+							className="textarea textarea-bordered h-24 w-full border-2"
 							value={formData.description}
 							onChange={(e) => setFormData({ ...formData, description: e.target.value })}
 							required
@@ -131,14 +131,14 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 					</div>
 
 					{/* Status and Priority */}
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-2 gap-6">
 						<div className="form-control">
-							<label htmlFor={`${formId}-status`} className="label">
-								<span className="label-text">Status</span>
+							<label htmlFor={`${formId}-status`} className="block mb-2">
+								<span className="text-sm font-medium">Status</span>
 							</label>
 							<select
 								id={`${formId}-status`}
-								className="select select-bordered"
+								className="select select-bordered w-full border-2"
 								value={formData.status}
 								onChange={(e) =>
 									setFormData({ ...formData, status: e.target.value as ProjectStatus })
@@ -147,16 +147,16 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 								<option value="planning">Planning</option>
 								<option value="in-progress">In Progress</option>
 								<option value="completed">Completed</option>
-							
+
 							</select>
 						</div>
 						<div className="form-control">
-							<label htmlFor={`${formId}-priority`} className="label">
-								<span className="label-text">Priority</span>
+							<label htmlFor={`${formId}-priority`} className="block mb-2">
+								<span className="text-sm font-medium">Priority</span>
 							</label>
 							<select
 								id={`${formId}-priority`}
-								className="select select-bordered"
+								className="select select-bordered w-full border-2"
 								value={formData.priority}
 								onChange={(e) =>
 									setFormData({ ...formData, priority: e.target.value as ProjectPriority })
@@ -171,28 +171,28 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 					</div>
 
 					{/* Dates */}
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-2 gap-6">
 						<div className="form-control">
-							<label htmlFor={`${formId}-start-date`} className="label">
-								<span className="label-text">Start Date *</span>
+							<label htmlFor={`${formId}-start-date`} className="block mb-2">
+								<span className="text-sm font-medium">Start Date *</span>
 							</label>
 							<input
 								id={`${formId}-start-date`}
 								type="date"
-								className="input input-bordered"
+								className="input input-bordered w-full border-2"
 								value={formData.startDate}
 								onChange={(e) => setFormData({ ...formData, startDate: e.target.value })}
 								required
 							/>
 						</div>
 						<div className="form-control">
-							<label htmlFor={`${formId}-end-date`} className="label">
-								<span className="label-text">End Date</span>
+							<label htmlFor={`${formId}-end-date`} className="block mb-2">
+								<span className="text-sm font-medium">End Date</span>
 							</label>
 							<input
 								id={`${formId}-end-date`}
 								type="date"
-								className="input input-bordered"
+								className="input input-bordered w-full border-2"
 								value={formData.endDate}
 								onChange={(e) => setFormData({ ...formData, endDate: e.target.value })}
 							/>
@@ -200,43 +200,56 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 					</div>
 
 					{/* Budget */}
-					<div className="grid grid-cols-2 gap-4">
+					<div className="grid grid-cols-2 gap-6">
 						<div className="form-control">
-							<label htmlFor={`${formId}-budget-total`} className="label">
-								<span className="label-text">Total Budget</span>
+							<label htmlFor={`${formId}-budget-total`} className="block mb-2">
+								<span className="text-sm font-medium">Total Budget</span>
 							</label>
 							<input
 								id={`${formId}-budget-total`}
 								type="number"
-								className="input input-bordered"
-								value={formData.budgetTotal}
-								onChange={(e) =>
-									setFormData({ ...formData, budgetTotal: Number(e.target.value) })
-								}
 								min="0"
+								step="0.01"
+								className="input input-bordered w-full border-2"
+								value={formData.budgetTotal}
+								onChange={(e) => {
+									const value = parseFloat(e.target.value) || 0;
+									setFormData({ ...formData, budgetTotal: value >= 0 ? value : 0 });
+								}}
 							/>
 						</div>
 						<div className="form-control">
-							<label htmlFor={`${formId}-budget-spent`} className="label">
-								<span className="label-text">Spent</span>
+							<label htmlFor={`${formId}-budget-spent`} className="block mb-2">
+								<span className="text-sm font-medium">Spent</span>
 							</label>
 							<input
 								id={`${formId}-budget-spent`}
 								type="number"
-								className="input input-bordered"
-								value={formData.budgetSpent}
-								onChange={(e) =>
-									setFormData({ ...formData, budgetSpent: Number(e.target.value) })
-								}
 								min="0"
+								max={formData.budgetTotal}
+								step="0.01"
+								className={`input input-bordered w-full border-2 ${
+									formData.budgetSpent > formData.budgetTotal ? "input-error" : ""
+								}`}
+								value={formData.budgetSpent}
+								onChange={(e) => {
+									const value = parseFloat(e.target.value) || 0;
+									setFormData({
+										...formData,
+										budgetSpent: value >= 0 ? value : 0
+									});
+								}}
 							/>
+							{formData.budgetSpent > formData.budgetTotal && (
+								<p className="text-error text-xs mt-1">Spent cannot exceed total budget</p>
+							)}
 						</div>
 					</div>
 
 					{/* Progress */}
 					<div className="form-control">
-						<label htmlFor={`${formId}-progress`} className="label">
-							<span className="label-text">Progress: {formData.progress}%</span>
+						<label htmlFor={`${formId}-progress`} className="block mb-2">
+							<span className="text-sm font-medium">Progress: {formData.progress}%</span>
 						</label>
 						<input
 							id={`${formId}-progress`}
@@ -254,13 +267,13 @@ export function NewProjectModal({ isOpen, onClose }: NewProjectModalProps) {
 
 					{/* Tags */}
 					<div className="form-control">
-						<label htmlFor={`${formId}-tags`} className="label">
-							<span className="label-text">Tags (comma separated)</span>
+						<label htmlFor={`${formId}-tags`} className="block mb-2">
+							<span className="text-sm font-medium">Tags (comma separated)</span>
 						</label>
 						<input
 							id={`${formId}-tags`}
 							type="text"
-							className="input input-bordered"
+							className="input input-bordered w-full border-2"
 							placeholder="design, development, urgent"
 							value={formData.tags}
 							onChange={(e) => setFormData({ ...formData, tags: e.target.value })}

@@ -7,10 +7,12 @@ import {
 	Platform,
 	ScrollView,
 	Image,
+	Alert,
 } from "react-native";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
 	const router = useRouter();
@@ -20,13 +22,28 @@ export default function LoginPage() {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleLogin = async () => {
+		if (!email || !password) {
+			Alert.alert("Erro", "Por favor, preencha todos os campos");
+			return;
+		}
+
 		setIsLoading(true);
-		// TODO: Implementar lógica de autenticação
-		// Por enquanto, apenas navega para a app
-		setTimeout(() => {
+
+		try {
+			await authClient.signIn.email({
+				email,
+				password,
+			});
+
+			// Router will automatically redirect via AuthWrapper
+		} catch (error: any) {
+			Alert.alert(
+				"Erro no Login",
+				error?.message || "Credenciais inválidas. Tente novamente."
+			);
+		} finally {
 			setIsLoading(false);
-			router.replace("/(app)/dashboard");
-		}, 1000);
+		}
 	};
 
 	return (
@@ -142,15 +159,6 @@ export default function LoginPage() {
 							</TouchableOpacity>
 						</View>
 
-						{/* Sign Up Link */}
-						<View className="flex-row justify-center mt-6">
-							<Text className="text-gray-600">Não tem uma conta? </Text>
-							<TouchableOpacity onPress={() => router.push("/(auth)/register")}>
-								<Text className="text-orange-500 font-semibold">
-									Cadastre-se
-								</Text>
-							</TouchableOpacity>
-						</View>
 					</View>
 				</View>
 			</ScrollView>
