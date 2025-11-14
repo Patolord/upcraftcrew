@@ -5,7 +5,8 @@ import Landing from "./landing/page";
 import { LandingI18nProvider } from "./landing/providers/LandingI18nProvider";
 
 export const metadata: Metadata = {
-	title: "Landing - Product Preview",
+	title: "UpCraftCrew",
+	description: "UpCraftCrew - Desenvolvimento de Websites e Aplicativos",
 };
 const LandingPage = () => {
 	return (
