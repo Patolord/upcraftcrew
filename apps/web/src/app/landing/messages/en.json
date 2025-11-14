@@ -112,19 +112,19 @@
     },
     "projects": [
       {
-        "name": "Luis Fernando Aviation Consulting",
-        "industry": "Basic Landing",
+        "name": "RLP Engenharia",
+        "industry": "Business Website",
         "category": "Websites",
-        "year": "2025",
-        "image": "/lsf.png",
-        "alt": "Portfolio page highlighting aviation consulting services",
-        "tagline": "Compliance-driven support for global aviation operators.",
-        "stack": ["responsive", "seo", "authentication"],
-        "description": "Responsive portfolio showcasing 20+ years de-risking aircraft deliveries and lease returns for airlines, lessors, and MRO partners.",
+        "year": "2024",
+        "image": "/rlpeng.png",
+        "alt": "RLP Engenharia institutional website",
+        "tagline": "Excellence in mechanical engineering and industrial solutions.",
+        "stack": ["responsive", "seo", "cms"],
+        "description": "Corporate website showcasing mechanical engineering services, technical consulting, and industrial solutions offered by RLP Engenharia.",
         "highlights": [
-          "Mission, experience, and expertise modules surfaced above the fold",
-          "Carousel featuring 50+ projects and 8 supported aircraft families",
-          "Call-to-action flows driving consultation requests across locales"
+          "Complete presentation of services and technical expertise",
+          "Portfolio of industrial projects and specialized consulting",
+          "Integrated contact form for quote requests"
         ]
       },
       {
@@ -176,22 +176,6 @@
         ]
       },
       {
-        "name": "Paloma S. Queiroz Portfolio",
-        "industry": "Landing Básica",
-        "category": "Websites",
-        "year": "2025",
-        "image": "/paloma.png",
-        "alt": "Portfolio website for mechanical engineer Paloma S. Queiroz",
-        "tagline": "Showcasing engineering leadership and ISO 9001 initiatives.",
-        "stack": ["timeline", "carousel", "downloadable"],
-        "description": "Personal site presenting Paloma's mechanical engineering career, ISO 9001 committee leadership, MBA pursuits, and highlighted projects spanning quality management and digital solutions.",
-        "highlights": [
-          "Experience timeline covering service consulting and technical assistance roles",
-          "Project spotlight carousel featuring ISO 9001 rollout, OrtoQBank coordination, and RLP site build",
-          "Downloadable résumé and multilingual skills section for quick recruiter access"
-        ]
-      },
-      {
         "name": "Vibra 50 Years Challenge",
         "industry": "Web App",
         "category": "Web Apps",
@@ -208,6 +192,38 @@
         ]
       },
       {
+        "name": "Paloma S. Queiroz Portfolio",
+        "industry": "Landing Básica",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/paloma.png",
+        "alt": "Portfolio website for mechanical engineer Paloma S. Queiroz",
+        "tagline": "Showcasing engineering leadership and ISO 9001 initiatives.",
+        "stack": ["timeline", "carousel", "downloadable"],
+        "description": "Personal site presenting Paloma's mechanical engineering career, ISO 9001 committee leadership, MBA pursuits, and highlighted projects spanning quality management and digital solutions.",
+        "highlights": [
+          "Experience timeline covering service consulting and technical assistance roles",
+          "Project spotlight carousel featuring ISO 9001 rollout, OrtoQBank coordination, and RLP site build",
+          "Downloadable résumé and multilingual skills section for quick recruiter access"
+        ]
+      },
+      {
+        "name": "Luis Fernando Aviation Consulting",
+        "industry": "Basic Landing",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/lsf.png",
+        "alt": "Portfolio page highlighting aviation consulting services",
+        "tagline": "Compliance-driven support for global aviation operators.",
+        "stack": ["responsive", "seo", "authentication"],
+        "description": "Responsive portfolio showcasing 20+ years de-risking aircraft deliveries and lease returns for airlines, lessors, and MRO partners.",
+        "highlights": [
+          "Mission, experience, and expertise modules surfaced above the fold",
+          "Carousel featuring 50+ projects and 8 supported aircraft families",
+          "Call-to-action flows driving consultation requests across locales"
+        ]
+      },
+      {
         "name": "Warehouse Watcher",
         "industry": "Web App",
         "category": "Web Apps",
@@ -221,6 +237,22 @@
           "Real-time telemetry syncing inbound and outbound stock movements",
           "Advanced reporting center with drill-down KPIs and exportable audits",
           "Customer-ready portal separating business and client experiences in one solution"
+        ]
+      },
+      {
+        "name": "Upcraft Crew",
+        "industry": "Landing Artística",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/upcraft.png",
+        "alt": "Upcraft Crew landing page",
+        "tagline": "Boutique web development studio with modern solutions.",
+        "stack": ["Next.js", "Animations", "Artistic Design"],
+        "description": "Artistic and interactive landing page showcasing Upcraft Crew's web development services, featuring sophisticated animations and immersive visual experience.",
+        "highlights": [
+          "Modern design with smooth micro-interactions and fluid animations",
+          "Complete portfolio of featured projects with category filters",
+          "Transparent pricing section with detailed plans for each service type"
         ]
       }
     ]

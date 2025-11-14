@@ -111,19 +111,19 @@
     },
     "projects": [
       {
-        "name": "Luis Fernando Aviation Consulting",
-        "industry": "Landing Básica",
+        "name": "RLP Engenharia",
+        "industry": "Site Institucional",
         "category": "Websites",
-        "year": "2025",
-        "image": "/lsf.png",
-        "alt": "Página de portfolio destacando consultoria aeronáutica",
-        "tagline": "Suporte regulatório para companhias aéreas e lessores globais.",
-        "stack": ["Design Responsivo", "SEO", "Autenticação"],
-        "description": "Site responsivo apresentando mais de 20 anos reduzindo riscos em entregas e devoluções de aeronaves para companhias, arrendadoras e MROs.",
+        "year": "2024",
+        "image": "/rlpeng.png",
+        "alt": "Site institucional da RLP Engenharia",
+        "tagline": "Excelência em engenharia mecânica e soluções industriais.",
+        "stack": ["Design Responsivo", "SEO", "CMS"],
+        "description": "Site institucional apresentando os serviços de engenharia mecânica, consultoria técnica e soluções industriais da RLP Engenharia.",
         "highlights": [
-          "Sessões de missão, experiência e expertise logo na dobra",
-          "Carrossel exibindo 50+ projetos e 8 famílias de aeronaves suportadas",
-          "Fluxos de CTA guiando pedidos de consultoria em múltiplos idiomas"
+          "Apresentação completa de serviços e expertise técnica",
+          "Portfólio de projetos industriais e consultoria especializada",
+          "Formulário de contato integrado para solicitações de orçamento"
         ]
       },
       {
@@ -175,22 +175,6 @@
         ]
       },
       {
-        "name": "Paloma S. Queiroz Portfolio",
-        "industry": "Landing Básica",
-        "category": "Websites",
-        "year": "2025",
-        "image": "/paloma.png",
-        "alt": "Site portfolio da engenheira Paloma S. Queiroz",
-        "tagline": "Liderança em engenharia mecânica e implantação ISO 9001.",
-        "stack": ["timeline", "carousel", "downloadable"],
-        "description": "Site pessoal apresentando a carreira de Paloma em engenharia mecânica, atuação no comitê ISO 9001, MBA em andamento e projetos de qualidade e soluções digitais.",
-        "highlights": [
-          "Linha do tempo profissional com cargos em consultoria de serviços e assistência técnica",
-          "Carrossel de projetos com ISO 9001, coordenação do OrtoQBank e site da RLP",
-          "Currículo para download e seção de idiomas para recrutadores"
-        ]
-      },
-      {
         "name": "Vibra 50 Anos Challenge",
         "industry": "Web App",
         "category": "Aplicativos Web",
@@ -207,6 +191,38 @@
         ]
       },
       {
+        "name": "Paloma S. Queiroz Portfolio",
+        "industry": "Landing Básica",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/paloma.png",
+        "alt": "Site portfolio da engenheira Paloma S. Queiroz",
+        "tagline": "Liderança em engenharia mecânica e implantação ISO 9001.",
+        "stack": ["timeline", "carousel", "downloadable"],
+        "description": "Site pessoal apresentando a carreira de Paloma em engenharia mecânica, atuação no comitê ISO 9001, MBA em andamento e projetos de qualidade e soluções digitais.",
+        "highlights": [
+          "Linha do tempo profissional com cargos em consultoria de serviços e assistência técnica",
+          "Carrossel de projetos com ISO 9001, coordenação do OrtoQBank e site da RLP",
+          "Currículo para download e seção de idiomas para recrutadores"
+        ]
+      },
+      {
+        "name": "Luis Fernando Aviation Consulting",
+        "industry": "Landing Básica",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/lsf.png",
+        "alt": "Página de portfolio destacando consultoria aeronáutica",
+        "tagline": "Suporte regulatório para companhias aéreas e lessores globais.",
+        "stack": ["Design Responsivo", "SEO", "Autenticação"],
+        "description": "Site responsivo apresentando mais de 20 anos reduzindo riscos em entregas e devoluções de aeronaves para companhias, arrendadoras e MROs.",
+        "highlights": [
+          "Sessões de missão, experiência e expertise logo na dobra",
+          "Carrossel exibindo 50+ projetos e 8 famílias de aeronaves suportadas",
+          "Fluxos de CTA guiando pedidos de consultoria em múltiplos idiomas"
+        ]
+      },
+      {
         "name": "Warehouse Watcher",
         "industry": "Web App",
         "category": "Aplicativos Web",
@@ -220,6 +236,22 @@
           "Telemetria em tempo real sincronizando entradas e saídas de mercadorias",
           "Centro de relatórios avançados com KPIs detalhados e exportação auditável",
           "Portal para empresas e clientes em uma única solução independente"
+        ]
+      },
+      {
+        "name": "Upcraft Crew",
+        "industry": "Landing Artística",
+        "category": "Websites",
+        "year": "2025",
+        "image": "/upcraft.png",
+        "alt": "Landing page da Upcraft Crew",
+        "tagline": "Estúdio boutique de desenvolvimento web com soluções modernas.",
+        "stack": ["Next.js", "Animações", "Design Artístico"],
+        "description": "Landing page artística e interativa apresentando os serviços de desenvolvimento web da Upcraft Crew, com animações sofisticadas e experiência visual imersiva.",
+        "highlights": [
+          "Design moderno com microinterações e animações fluidas",
+          "Portfólio completo de projetos em destaque com filtros por categoria",
+          "Seção de preços transparente com planos detalhados para cada tipo de serviço"
         ]
       }
     ]
