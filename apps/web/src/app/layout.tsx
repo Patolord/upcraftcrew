@@ -7,7 +7,7 @@ import "@/styles/app.css";
 
 export const metadata: Metadata = {
 	title: "UpCraftCrew",
-	description: "UpCraftCrew - Gestão de Projetos e Equipes",
+	description: "UpCraftCrew - Desenvolvimento de Websites e Aplicativos Web",
 	manifest: "/manifest.json",
 	appleWebApp: {
 		capable: true,
