@@ -3,6 +3,7 @@
 	"short_name": "UpCraftCrew",
 	"description": "UpCraftCrew - Desenvolvimento de Websites e Aplicativos Web",
 	"start_url": "/",
+	"favicon": "/favicon.ico",
 	"display": "standalone",
 	"background_color": "#ffffff",
 	"theme_color": "#000000",
