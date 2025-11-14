@@ -12,7 +12,18 @@
     },
     "form": {
       "emailPlaceholder": "Endereço de e-mail",
-      "emailHelper": "Sem spam, prometemos!"
+      "emailHelper": "Sem spam, prometemos!",
+      "emailInvalid": "Por favor, insira um e-mail válido",
+      "emailSent": "E-mail enviado com sucesso!",
+      "emailError": "Erro ao enviar e-mail"
+    },
+    "dialog": {
+      "confirmEmail": "Confirmar e-mail",
+      "confirmEmailDescription": "Você deseja enviar este e-mail para receber consultoria gratuita?",
+      "emailLabel": "E-mail:",
+      "editButton": "Editar",
+      "confirmButton": "Confirmar",
+      "sendingButton": "Enviando..."
     },
     "badges": {
       "mostPopular": "Mais popular",
@@ -101,7 +112,7 @@
     "projects": [
       {
         "name": "Luis Fernando Aviation Consulting",
-        "industry": "Site Institucional",
+        "industry": "Landing Básica",
         "category": "Websites",
         "year": "2025",
         "image": "/lsf.png",
@@ -149,7 +160,7 @@
       },
       {
         "name": "Chat Do",
-        "industry": "Landing Artística",
+        "industry": "Web App",
         "category": "Aplicativos Web",
         "year": "2025",
         "image": "/chatdo.png",
