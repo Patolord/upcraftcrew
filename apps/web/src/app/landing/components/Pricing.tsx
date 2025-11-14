@@ -65,10 +65,15 @@ const PricingCard = ({
 				{tagline}
 			</p>
 
-			<button className="btn btn-primary mt-4 gap-2.5 rounded-full">
+			<a
+				href="https://api.whatsapp.com/send/?phone=11914246379&text&type=phone_number&app_absent=0"
+				target="_blank"
+				rel="noopener noreferrer"
+				className="btn btn-primary mt-4 gap-2.5 rounded-full"
+			>
 				<span className="iconify lucide--arrow-right size-4"></span>
 				{customCta || cta}
-			</button>
+			</a>
 		</div>
 	);
 };
@@ -81,7 +86,6 @@ export const Pricing = () => {
 		"websites",
 		"webApps",
 		"mobileApps",
-		"maintenance",
 		"consulting",
 	] as const;
 	type TabKey = (typeof tabKeys)[number];
