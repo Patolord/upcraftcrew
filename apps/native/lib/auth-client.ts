@@ -1,12 +1,20 @@
+import { expoClient } from "@better-auth/expo/client";
 import { createAuthClient } from "better-auth/react";
-import { convexClient } from "@convex-dev/better-auth/client/plugins";
+import * as SecureStore from "expo-secure-store";
 
 // Get base URL and enforce HTTPS in production
 function getBaseURL() {
-	const url = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001";
+	const url = process.env.EXPO_PUBLIC_SITE_URL || "http://localhost:3001";
+
+	// In Expo, use __DEV__ for reliable production detection
+	// process.env.NODE_ENV is unreliable in React Native/Expo
+	const isProduction =
+		typeof __DEV__ !== "undefined"
+			? !__DEV__
+			: process.env.NODE_ENV === "production";
 
 	// In production, ensure HTTPS (allow localhost/127.0.0.1 for development)
-	if (process.env.NODE_ENV === "production") {
+	if (isProduction) {
 		try {
 			const parsedUrl = new URL(url);
 			const isLocalhost =
@@ -16,10 +24,9 @@ function getBaseURL() {
 
 			if (parsedUrl.protocol === "http:" && !isLocalhost) {
 				const error = new Error(
-					"Production environment must use HTTPS. Update NEXT_PUBLIC_SITE_URL to use https://",
+					"Production environment must use HTTPS. Update EXPO_PUBLIC_SITE_URL to use https://",
 				);
 				console.error("❌ SECURITY ERROR: Production must use HTTPS");
-				// Throw on both client and server to catch misconfigurations early
 				throw error;
 			}
 		} catch (error) {
@@ -37,5 +44,12 @@ function getBaseURL() {
 
 export const authClient = createAuthClient({
 	baseURL: getBaseURL(),
-	plugins: [convexClient()],
+	plugins: [
+		expoClient({
+			scheme: "upcraft-crew",
+			storage: SecureStore,
+		}),
+	],
 });
+
+export const { useSession } = authClient;

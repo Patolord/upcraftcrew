@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAuth, requireWrite } from "./_lib/auth";
 
 // Query: Get all budgets
 export const getBudgets = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx);
 		const budgets = await ctx.db
 			.query("budgets")
 			.withIndex("by_created_at")
@@ -33,6 +35,7 @@ export const getBudgets = query({
 export const getBudgetById = query({
 	args: { id: v.id("budgets") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const budget = await ctx.db.get(args.id);
 
 		if (!budget) {
@@ -63,6 +66,7 @@ export const getBudgetsByStatus = query({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const budgets = await ctx.db
 			.query("budgets")
 			.withIndex("by_status", (q) => q.eq("status", args.status))
@@ -76,6 +80,7 @@ export const getBudgetsByStatus = query({
 export const getBudgetsByClient = query({
 	args: { client: v.string() },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const budgets = await ctx.db
 			.query("budgets")
 			.withIndex("by_client", (q) => q.eq("client", args.client))
@@ -89,6 +94,7 @@ export const getBudgetsByClient = query({
 export const getBudgetStats = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx);
 		const budgets = await ctx.db.query("budgets").collect();
 
 		const total = budgets.length;
@@ -130,6 +136,7 @@ export const createBudget = mutation({
 			v.literal("rejected"),
 			v.literal("expired"),
 		),
+		currency: v.string(),
 		items: v.array(
 			v.object({
 				description: v.string(),
@@ -143,6 +150,7 @@ export const createBudget = mutation({
 		notes: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		// Calculate total amount
 		const totalAmount = args.items.reduce((sum, item) => sum + item.total, 0);
 
@@ -175,6 +183,7 @@ export const updateBudget = mutation({
 				v.literal("expired"),
 			),
 		),
+		currency: v.optional(v.string()),
 		items: v.optional(
 			v.array(
 				v.object({
@@ -190,6 +199,7 @@ export const updateBudget = mutation({
 		notes: v.optional(v.string()),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const { id, ...updates } = args;
 
 		const existingBudget = await ctx.db.get(id);
@@ -216,6 +226,7 @@ export const updateBudget = mutation({
 export const deleteBudget = mutation({
 	args: { id: v.id("budgets") },
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const budget = await ctx.db.get(args.id);
 
 		if (!budget) {
@@ -241,6 +252,7 @@ export const updateBudgetStatus = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		await ctx.db.patch(args.id, {
 			status: args.status,
 			updatedAt: Date.now(),

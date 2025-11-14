@@ -5,6 +5,7 @@ import {
 	ThemeProvider,
 } from "@react-navigation/native";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
+import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -14,6 +15,8 @@ import { Platform } from "react-native";
 import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
 import { NAV_THEME } from "@/lib/constants";
 import { useColorScheme } from "@/lib/use-color-scheme";
+import { authClient } from "@/lib/auth-client";
+import { AuthWrapper } from "@/components/auth/AuthWrapper";
 
 const LIGHT_THEME: Theme = {
 	...DefaultTheme,
@@ -55,18 +58,20 @@ export default function RootLayout() {
 		return null;
 	}
 	return (
-		<ConvexProvider client={convex}>
+		<ConvexBetterAuthProvider client={convex} authClient={authClient}>
 			<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
 				<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
 				<GestureHandlerRootView style={{ flex: 1 }}>
-					<Stack>
-						<Stack.Screen name="index" options={{ headerShown: false }} />
-						<Stack.Screen name="(auth)" options={{ headerShown: false }} />
-						<Stack.Screen name="(app)" options={{ headerShown: false }} />
-					</Stack>
+					<AuthWrapper>
+						<Stack>
+							<Stack.Screen name="index" options={{ headerShown: false }} />
+							<Stack.Screen name="(auth)" options={{ headerShown: false }} />
+							<Stack.Screen name="(app)" options={{ headerShown: false }} />
+						</Stack>
+					</AuthWrapper>
 				</GestureHandlerRootView>
 			</ThemeProvider>
-		</ConvexProvider>
+		</ConvexBetterAuthProvider>
 	);
 }
 

@@ -3,12 +3,14 @@
 import { useMemo } from "react";
 import { useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
+import { useCurrency } from "@/contexts/CurrencyContext";
 
 interface ProjectDashboardProps {
 	project: any;
 }
 
 export function ProjectDashboard({ project }: ProjectDashboardProps) {
+	const { formatAmount } = useCurrency();
 	// Fetch transactions related to this project
 	const transactions = useQuery(api.finance.getTransactionsByProject, {
 		projectId: project._id,
@@ -102,7 +104,7 @@ export function ProjectDashboard({ project }: ProjectDashboardProps) {
 							{budgetUsage.percentage.toFixed(0)}%
 						</div>
 						<div className="stat-desc">
-							${budgetUsage.remaining.toLocaleString()} restante
+							{formatAmount(budgetUsage.remaining)} restante
 						</div>
 					</div>
 				</div>
@@ -170,19 +172,19 @@ export function ProjectDashboard({ project }: ProjectDashboardProps) {
 							<div className="flex items-center justify-between">
 								<span className="text-sm text-base-content/60">Total</span>
 								<span className="text-sm font-bold">
-									${project.budget.total.toLocaleString()}
+									{formatAmount(project.budget.total)}
 								</span>
 							</div>
 							<div className="flex items-center justify-between">
 								<span className="text-sm text-base-content/60">Gasto</span>
 								<span className="text-sm font-bold text-error">
-									${project.budget.spent.toLocaleString()}
+									{formatAmount(project.budget.spent)}
 								</span>
 							</div>
 							<div className="flex items-center justify-between">
 								<span className="text-sm text-base-content/60">Restante</span>
 								<span className="text-sm font-bold text-success">
-									${project.budget.remaining.toLocaleString()}
+									{formatAmount(project.budget.remaining)}
 								</span>
 							</div>
 							<progress
@@ -203,7 +205,7 @@ export function ProjectDashboard({ project }: ProjectDashboardProps) {
 						<div className="p-4 bg-success/10 border border-success rounded-lg">
 							<p className="text-xs text-base-content/60 mb-1">Receita</p>
 							<p className="text-2xl font-bold text-success">
-								${financialData.income.toLocaleString()}
+								{formatAmount(financialData.income)}
 							</p>
 							<p className="text-xs text-base-content/60 mt-1">
 								{transactions?.filter((t) => t.type === "income" && t.status === "completed")
@@ -214,7 +216,7 @@ export function ProjectDashboard({ project }: ProjectDashboardProps) {
 						<div className="p-4 bg-error/10 border border-error rounded-lg">
 							<p className="text-xs text-base-content/60 mb-1">Despesas</p>
 							<p className="text-2xl font-bold text-error">
-								${financialData.expenses.toLocaleString()}
+								{formatAmount(financialData.expenses)}
 							</p>
 							<p className="text-xs text-base-content/60 mt-1">
 								{transactions?.filter((t) => t.type === "expense" && t.status === "completed")
@@ -229,7 +231,7 @@ export function ProjectDashboard({ project }: ProjectDashboardProps) {
 							<p
 								className={`text-2xl font-bold ${financialData.balance >= 0 ? "text-primary" : "text-warning"}`}
 							>
-								${Math.abs(financialData.balance).toLocaleString()}
+								{formatAmount(Math.abs(financialData.balance))}
 							</p>
 							<p className="text-xs text-base-content/60 mt-1">
 								{financialData.balance >= 0 ? "Lucro" : "Déficit"}

@@ -2,6 +2,12 @@
 
 import { useState, useMemo } from "react";
 import { Button } from "@/components/ui/button";
+import { ViewBudgetModal } from "./ViewBudgetModal";
+import { NewBudgetModal } from "./NewBudgetModal";
+import { DeleteBudgetModal } from "./DeleteBudgetModal";
+import { useCurrency } from "@/contexts/CurrencyContext";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 interface Budget {
 	_id: string;
@@ -10,6 +16,7 @@ interface Budget {
 	description: string;
 	status: "draft" | "sent" | "approved" | "rejected" | "expired";
 	totalAmount: number;
+	currency: string;
 	validUntil: number;
 	createdAt: number;
 	items: Array<{
@@ -18,6 +25,7 @@ interface Budget {
 		unitPrice: number;
 		total: number;
 	}>;
+	notes?: string;
 }
 
 interface AllBudgetsProps {
@@ -32,10 +40,341 @@ const statusConfig = {
 	expired: { label: "Expirado", color: "badge-warning", icon: "lucide--clock" },
 };
 
+type StatusFilter = "all" | Budget["status"];
+
 export function AllBudgets({ budgets }: AllBudgetsProps) {
+	const { formatAmount, config } = useCurrency();
 	const [searchQuery, setSearchQuery] = useState("");
-	const [statusFilter, setStatusFilter] = useState<"all" | Budget["status"]>("all");
+	const [statusFilter, setStatusFilter] = useState<StatusFilter>("all");
 	const [viewMode, setViewMode] = useState<"grid" | "table">("table");
+	const [selectedBudget, setSelectedBudget] = useState<Budget | null>(null);
+	const [budgetToEdit, setBudgetToEdit] = useState<Budget | null>(null);
+	const [budgetToDelete, setBudgetToDelete] = useState<{ id: string; title: string } | null>(null);
+	const [isDeleting, setIsDeleting] = useState(false);
+
+	const handleView = (budget: Budget) => {
+		setSelectedBudget(budget);
+	};
+
+	const handleEdit = (budget: Budget) => {
+		setBudgetToEdit(budget);
+	};
+
+	const handleDeleteClick = (budgetId: string, budgetTitle: string) => {
+		setBudgetToDelete({ id: budgetId, title: budgetTitle });
+	};
+
+	const handleDeleteConfirm = async () => {
+		if (!budgetToDelete) return;
+
+		setIsDeleting(true);
+		try {
+			// TODO: Implementar a chamada da API para deletar o orçamento
+			console.log("Deletando orçamento:", budgetToDelete.id);
+
+			// Simulate API call
+			await new Promise((resolve) => setTimeout(resolve, 1000));
+
+			setBudgetToDelete(null);
+		} catch (error) {
+			console.error("Erro ao deletar orçamento:", error);
+		} finally {
+			setIsDeleting(false);
+		}
+	};
+
+	const handleDownloadPDF = (budget: Budget) => {
+		const doc = new jsPDF();
+		const pageWidth = doc.internal.pageSize.getWidth();
+		const pageHeight = doc.internal.pageSize.getHeight();
+
+		// PÁGINA 1 - CAPA
+		// Fundo cinza claro
+		doc.setFillColor(240, 240, 240);
+		doc.rect(0, 0, pageWidth, pageHeight, "F");
+
+		// Logo (simulado com texto)
+		doc.setTextColor(242, 153, 74); // Laranja
+		doc.setFontSize(16);
+		doc.setFont("helvetica", "bold");
+		doc.text("UPCRAFT", 105, 40, { align: "center" });
+		doc.setTextColor(74, 85, 104);
+		doc.text("CREW", 105, 48, { align: "center" });
+
+		// Linha horizontal
+		doc.setDrawColor(150, 150, 150);
+		doc.setLineWidth(0.5);
+		doc.line(20, 55, 190, 55);
+
+		// Título principal
+		doc.setTextColor(50, 50, 50);
+		doc.setFontSize(32);
+		doc.setFont("helvetica", "bold");
+		doc.text("proposta", 105, 90, { align: "center" });
+		doc.text("comercial", 105, 105, { align: "center" });
+
+		// Subtítulo
+		doc.setFontSize(14);
+		doc.setFont("helvetica", "normal");
+		const titleLines = doc.splitTextToSize(budget.title.toUpperCase(), 170);
+		let subtitleY = 130;
+		titleLines.forEach((line: string) => {
+			doc.text(line, 105, subtitleY, { align: "center" });
+			subtitleY += 8;
+		});
+
+		// Data
+		doc.setDrawColor(100, 100, 100);
+		doc.setLineWidth(0.3);
+		doc.rect(145, 255, 45, 10);
+		doc.setFontSize(10);
+		doc.text(new Date().toLocaleDateString("pt-BR"), 167.5, 261, { align: "center" });
+
+		// PÁGINA 2 - QUEM SOMOS
+		doc.addPage();
+		doc.setFillColor(240, 240, 240);
+		doc.rect(0, 0, pageWidth, pageHeight, "F");
+
+		// Logo no topo
+		doc.setTextColor(242, 153, 74);
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "bold");
+		doc.text("UPCRAFT", 175, 15);
+		doc.setTextColor(74, 85, 104);
+		doc.text("CREW", 175, 20);
+		doc.setDrawColor(200, 200, 200);
+		doc.line(165, 22, 195, 22);
+
+		// Logo e título lateral
+		doc.setTextColor(242, 153, 74);
+		doc.setFontSize(16);
+		doc.text("▲", 20, 45);
+		doc.text("▲", 20, 50);
+		doc.setTextColor(50, 50, 50);
+		doc.setFontSize(22);
+		doc.setFont("helvetica", "bold");
+		doc.text("Quem somos", 35, 50);
+
+		// Linha divisória
+		doc.setDrawColor(150, 150, 150);
+		doc.setLineWidth(0.5);
+		doc.line(20, 55, 190, 55);
+
+		// Textos "Quem Somos"
+		doc.setFontSize(10);
+		doc.setFont("helvetica", "bold");
+		doc.setTextColor(50, 50, 50);
+
+		const paragraph1 = doc.splitTextToSize(
+			"A UPCRAFT CREW É UMA AGÊNCIA DE DESENVOLVIMENTO DE SOFTWARE QUE ENTREGA SOLUÇÕES DIGITAIS PERSONALIZADAS, COMBINANDO DESIGN, TECNOLOGIA E ESTRATÉGIA.",
+			170
+		);
+		let yPos = 75;
+		paragraph1.forEach((line: string) => {
+			doc.text(line, 20, yPos);
+			yPos += 6;
+		});
+
+		yPos += 8;
+		const paragraph2 = doc.splitTextToSize(
+			"NOSSA EQUIPE É FORMADA POR PROFISSIONAIS EXPERIENTES E COMPROMETIDOS COM A QUALIDADE, OFERECENDO PROJETOS SOB MEDIDA QUE UNEM ESTÉTICA, FUNCIONALIDADE E DESEMPENHO.",
+			170
+		);
+		paragraph2.forEach((line: string) => {
+			doc.text(line, 20, yPos);
+			yPos += 6;
+		});
+
+		yPos += 8;
+		const paragraph3 = doc.splitTextToSize(
+			"DESENVOLVEMOS DESDE SITES INSTITUCIONAIS E LANDING PAGES ATÉ APLICAÇÕES WEB COMPLEXAS, SEMPRE COM FOCO EM GERAR VALOR REAL PARA O CLIENTE E MAXIMIZAR O RETORNO SOBRE O INVESTIMENTO.",
+			170
+		);
+		paragraph3.forEach((line: string) => {
+			doc.text(line, 20, yPos);
+			yPos += 6;
+		});
+
+		// Número da página
+		doc.setFontSize(9);
+		doc.setFont("helvetica", "normal");
+		doc.setTextColor(100, 100, 100);
+		doc.text("3", pageWidth - 20, pageHeight - 15);
+
+		// PÁGINA 3 - INFORMAÇÕES DO PROJETO
+		doc.addPage();
+		doc.setFillColor(255, 255, 255);
+		doc.rect(0, 0, pageWidth, pageHeight, "F");
+
+		// Logo no topo
+		doc.setTextColor(242, 153, 74);
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "bold");
+		doc.text("UPCRAFT", 175, 15);
+		doc.setTextColor(74, 85, 104);
+		doc.text("CREW", 175, 20);
+		doc.setDrawColor(200, 200, 200);
+		doc.line(165, 22, 195, 22);
+
+		// Título da seção
+		doc.setTextColor(50, 50, 50);
+		doc.setFontSize(18);
+		doc.setFont("helvetica", "bold");
+		doc.text("Proposta Comercial - " + budget.client, 20, 40);
+		doc.setFontSize(12);
+		doc.setFont("helvetica", "normal");
+		doc.text("Cliente: " + budget.client, 20, 50);
+		doc.text("Proponente: Upcraft Crew - Soluções Web", 20, 57);
+
+		// Linha divisória
+		doc.setDrawColor(150, 150, 150);
+		doc.line(20, 62, 190, 62);
+
+		// Descrição
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "bold");
+		doc.text("DESCRIÇÃO DO PROJETO", 20, 75);
+		doc.setFont("helvetica", "normal");
+		doc.setFontSize(10);
+		const descLines = doc.splitTextToSize(budget.description, 170);
+		let descY = 83;
+		descLines.forEach((line: string) => {
+			doc.text(line, 20, descY);
+			descY += 5;
+		});
+
+		// Informações de datas
+		descY += 10;
+		doc.setFont("helvetica", "bold");
+		doc.text("INFORMAÇÕES", 20, descY);
+		doc.setFont("helvetica", "normal");
+		descY += 8;
+		doc.text(`Criado em: ${new Date(budget.createdAt).toLocaleDateString("pt-BR")}`, 25, descY);
+		descY += 6;
+		doc.text(`Válido até: ${new Date(budget.validUntil).toLocaleDateString("pt-BR")}`, 25, descY);
+		descY += 6;
+		doc.text(`Status: ${statusConfig[budget.status].label}`, 25, descY);
+
+		// PÁGINA 3 - INVESTIMENTO
+		doc.addPage();
+		doc.setFillColor(60, 60, 60);
+		doc.rect(0, 0, pageWidth, pageHeight, "F");
+
+		// Logo
+		doc.setTextColor(242, 153, 74);
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "bold");
+		doc.text("UPCRAFT", 175, 15);
+		doc.setTextColor(200, 200, 200);
+		doc.text("CREW", 175, 20);
+		doc.setDrawColor(150, 150, 150);
+		doc.line(165, 22, 195, 22);
+
+		// Cabeçalho
+		doc.setTextColor(255, 255, 255);
+		doc.setFontSize(16);
+		doc.setFont("helvetica", "bold");
+		doc.text("Proposta Comercial", 20, 40);
+		doc.setFontSize(12);
+		doc.setFont("helvetica", "normal");
+		doc.text("Cliente: " + budget.client, 20, 48);
+		doc.text("Proponente: Upcraft Crew - Soluções Web", 20, 55);
+		doc.setDrawColor(150, 150, 150);
+		doc.line(20, 60, 190, 60);
+
+		// Tabela de investimento
+		doc.setFontSize(13);
+		doc.setFont("helvetica", "bold");
+		doc.text("INVESTIMENTO", 20, 75);
+
+		const tableData = budget.items.map((item) => [
+			item.description,
+			item.quantity.toString(),
+			formatAmount(item.unitPrice),
+			formatAmount(item.total),
+		]);
+
+		autoTable(doc, {
+			startY: 85,
+			head: [["ITEM", "QTD", "VALOR UNIT.", `VALOR (${config.code})`]],
+			body: tableData,
+			foot: [
+				["", "", "TOTAL", formatAmount(budget.totalAmount)],
+			],
+			theme: "plain",
+			styles: {
+				textColor: [255, 255, 255],
+				fontSize: 10,
+				cellPadding: 5,
+			},
+			headStyles: {
+				fillColor: [60, 60, 60],
+				textColor: [200, 200, 200],
+				fontStyle: "bold",
+				lineWidth: 0.1,
+				lineColor: [100, 100, 100],
+			},
+			bodyStyles: {
+				fillColor: [60, 60, 60],
+				lineWidth: 0.1,
+				lineColor: [100, 100, 100],
+			},
+			footStyles: {
+				fillColor: [60, 60, 60],
+				textColor: [255, 255, 255],
+				fontStyle: "bold",
+				lineWidth: 0.1,
+				lineColor: [100, 100, 100],
+			},
+			columnStyles: {
+				1: { halign: "center" },
+				2: { halign: "right" },
+				3: { halign: "right" },
+			},
+		});
+
+		// Informações adicionais
+		const finalY = (doc as any).lastAutoTable.finalY + 20;
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "bold");
+		doc.text("FORMA DE PAGAMENTO", 20, finalY);
+		doc.setFont("helvetica", "normal");
+		doc.setFontSize(10);
+		doc.text("• A VISTA", 25, finalY + 10);
+
+		doc.setFont("helvetica", "bold");
+		doc.text("Validade da Proposta", 20, finalY + 25);
+		doc.setFont("helvetica", "normal");
+		doc.text(
+			`Esta proposta é válida por 15 dias a partir da data de envio.`,
+			20,
+			finalY + 33
+		);
+
+		// Observações
+		if (budget.notes) {
+			const notesY = finalY + 50;
+			doc.setFont("helvetica", "bold");
+			doc.text("OBSERVAÇÕES", 20, notesY);
+			doc.setFont("helvetica", "normal");
+			const notesLines = doc.splitTextToSize(budget.notes, 170);
+			let currentY = notesY + 8;
+			notesLines.forEach((line: string) => {
+				doc.text(line, 20, currentY);
+				currentY += 5;
+			});
+		}
+
+		// Rodapé
+		doc.setFontSize(11);
+		doc.setFont("helvetica", "normal");
+		doc.text("ATENCIOSAMENTE,", 105, pageHeight - 20, { align: "center" });
+		doc.setFont("helvetica", "bold");
+		doc.text("UPCRAFT CREW - SOLUÇÕES WEB", 105, pageHeight - 13, { align: "center" });
+
+		// Salvar PDF
+		doc.save(`proposta-${budget.title.toLowerCase().replace(/\s+/g, "-")}.pdf`);
+	};
 
 	// Filter budgets
 	const filteredBudgets = useMemo(() => {
@@ -70,7 +409,13 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 				<select
 					className="select select-bordered w-full sm:w-48"
 					value={statusFilter}
-					onChange={(e) => setStatusFilter(e.target.value as typeof statusFilter)}
+					onChange={(e) => {
+						const value = e.target.value;
+						if (value === "all" || value === "draft" || value === "sent" || 
+						    value === "approved" || value === "rejected" || value === "expired") {
+							setStatusFilter(value);
+						}
+					}}
 				>
 					<option value="all">Todos os Status</option>
 					<option value="draft">Rascunho</option>
@@ -144,7 +489,7 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 										</td>
 										<td>{budget.client}</td>
 										<td className="font-semibold">
-											${budget.totalAmount.toLocaleString()}
+											{formatAmount(budget.totalAmount)}
 										</td>
 										<td>
 											<span className={`badge ${statusConfig[budget.status].color}`}>
@@ -166,13 +511,28 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 										<td>{new Date(budget.createdAt).toLocaleDateString("pt-BR")}</td>
 										<td>
 											<div className="flex items-center gap-2">
-												<Button className="btn btn-ghost btn-sm">
+												<Button
+													className="btn btn-ghost btn-sm"
+													onClick={() => handleView(budget)}
+												>
 													<span className="iconify lucide--eye size-4" />
 												</Button>
-												<Button className="btn btn-ghost btn-sm">
+												<Button
+													className="btn btn-ghost btn-sm"
+													onClick={() => handleDownloadPDF(budget)}
+												>
+													<span className="iconify lucide--file-down size-4" />
+												</Button>
+												<Button
+													className="btn btn-ghost btn-sm"
+													onClick={() => handleEdit(budget)}
+												>
 													<span className="iconify lucide--edit size-4" />
 												</Button>
-												<Button className="btn btn-ghost btn-sm text-error">
+												<Button
+													className="btn btn-ghost btn-sm text-error"
+													onClick={() => handleDeleteClick(budget._id, budget.title)}
+												>
 													<span className="iconify lucide--trash-2 size-4" />
 												</Button>
 											</div>
@@ -217,7 +577,7 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 										<div>
 											<p className="text-xs text-base-content/60">Valor Total</p>
 											<p className="text-lg font-bold">
-												${budget.totalAmount.toLocaleString()}
+												{formatAmount(budget.totalAmount)}
 											</p>
 										</div>
 										<div className="text-right">
@@ -233,15 +593,36 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 										</div>
 									</div>
 
-									<div className="card-actions justify-end mt-4">
-										<Button className="btn btn-sm btn-ghost">
-											<span className="iconify lucide--eye size-4" />
-											Ver
+									<div className="card-actions justify-between mt-4">
+										<Button
+											className="btn btn-sm btn-ghost text-error"
+											onClick={() => handleDeleteClick(budget._id, budget.title)}
+										>
+											<span className="iconify lucide--trash-2 size-4" />
 										</Button>
-										<Button className="btn btn-sm btn-ghost">
-											<span className="iconify lucide--edit size-4" />
-											Editar
-										</Button>
+										<div className="flex gap-2">
+											<Button
+												className="btn btn-sm btn-ghost"
+												onClick={() => handleView(budget)}
+											>
+												<span className="iconify lucide--eye size-4" />
+												Ver
+											</Button>
+											<Button
+												className="btn btn-sm btn-ghost"
+												onClick={() => handleDownloadPDF(budget)}
+											>
+												<span className="iconify lucide--file-down size-4" />
+												PDF
+											</Button>
+											<Button
+												className="btn btn-sm btn-ghost"
+												onClick={() => handleEdit(budget)}
+											>
+												<span className="iconify lucide--edit size-4" />
+												Editar
+											</Button>
+										</div>
 									</div>
 								</div>
 							</div>
@@ -256,6 +637,25 @@ export function AllBudgets({ budgets }: AllBudgetsProps) {
 					Mostrando {filteredBudgets.length} de {budgets.length} orçamentos
 				</div>
 			)}
+
+			{/* Modals */}
+			<ViewBudgetModal
+				isOpen={!!selectedBudget}
+				onClose={() => setSelectedBudget(null)}
+				budget={selectedBudget}
+			/>
+			<NewBudgetModal
+				isOpen={!!budgetToEdit}
+				onClose={() => setBudgetToEdit(null)}
+				budgetToEdit={budgetToEdit || undefined}
+			/>
+			<DeleteBudgetModal
+				isOpen={!!budgetToDelete}
+				onClose={() => setBudgetToDelete(null)}
+				onConfirm={handleDeleteConfirm}
+				budgetTitle={budgetToDelete?.title || ""}
+				isDeleting={isDeleting}
+			/>
 		</div>
 	);
 }

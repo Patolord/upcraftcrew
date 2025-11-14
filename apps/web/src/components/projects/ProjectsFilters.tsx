@@ -47,13 +47,13 @@ export function ProjectsFilters({
 			</select>
 			<div className="join">
 				<Button
-					className={`btn join-item ${viewMode === "grid" ? "btn-active" : ""}`}
+					className={`btn text-white join-item ${viewMode === "grid" ? "btn-active" : ""}`}
 					onClick={() => setViewMode("grid")}
 				>
 					<span className="iconify lucide--layout-grid size-4" />
 				</Button>
 				<Button
-					className={`btn join-item ${viewMode === "list" ? "btn-active" : ""}`}
+					className={`btn text-white join-item ${viewMode === "list" ? "btn-active" : ""}`}
 					onClick={() => setViewMode("list")}
 				>
 					<span className="iconify lucide--list size-4" />

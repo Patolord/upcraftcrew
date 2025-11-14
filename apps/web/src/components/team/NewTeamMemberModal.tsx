@@ -19,7 +19,7 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 	const [formData, setFormData] = useState({
 		name: "",
 		email: "",
-		role: "",
+		role: "member" as "admin" | "member" | "viewer",
 		department: "",
 		status: "online" as "online" | "offline" | "away" | "busy",
 		skills: "",
@@ -50,7 +50,7 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 			setFormData({
 				name: "",
 				email: "",
-				role: "",
+				role: "member",
 				department: "",
 				status: "online",
 				skills: "",
@@ -107,17 +107,19 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 					<div className="grid grid-cols-2 gap-4">
 						<div className="form-control">
 							<label htmlFor={`${formId}-role`} className="label">
-								<span className="label-text">Role *</span>
+								<span className="label-text">Permission Level *</span>
 							</label>
-							<input
+							<select
 								id={`${formId}-role`}
-								type="text"
-								className="input input-bordered"
-								placeholder="e.g., Senior Developer"
+								className="select select-bordered"
 								value={formData.role}
-								onChange={(e) => setFormData({ ...formData, role: e.target.value })}
+								onChange={(e) => setFormData({ ...formData, role: e.target.value as typeof formData.role })}
 								required
-							/>
+							>
+								<option value="viewer">Viewer</option>
+								<option value="member">Member</option>
+								<option value="admin">Admin</option>
+							</select>
 						</div>
 						<div className="form-control">
 							<label htmlFor={`${formId}-department`} className="label">

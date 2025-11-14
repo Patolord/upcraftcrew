@@ -13,12 +13,14 @@ export const seedDatabase = mutation({
 		console.log("Starting database seed...");
 
 		// Seed Users
+		// NOTE: These are demo users for development/testing only
+		// DO NOT use real email addresses or PII in seed data
 		const users = [
 			{
-				name: "Sarah Johnson",
-				email: "sarah.johnson@upcraftcrew.com",
+				name: "Alice Admin",
+				email: "alice.admin@example.com",
 				avatar: "/images/avatars/1.png",
-				role: "owner",
+				role: "admin" as const,
 				department: "Leadership",
 				status: "online" as const,
 				joinedAt: new Date("2024-01-15").getTime(),
@@ -28,9 +30,9 @@ export const seedDatabase = mutation({
 			},
 			{
 				name: "Mike Chen",
-				email: "mike.chen@upcraftcrew.com",
+				email: "mike.chen@example.com",
 				avatar: "/images/avatars/2.png",
-				role: "admin",
+				role: "admin" as const,
 				department: "Engineering",
 				status: "online" as const,
 				joinedAt: new Date("2024-02-01").getTime(),
@@ -40,9 +42,9 @@ export const seedDatabase = mutation({
 			},
 			{
 				name: "Emma Wilson",
-				email: "emma.wilson@upcraftcrew.com",
+				email: "emma.wilson@example.com",
 				avatar: "/images/avatars/3.png",
-				role: "manager",
+				role: "member" as const,
 				department: "Product",
 				status: "busy" as const,
 				joinedAt: new Date("2024-03-10").getTime(),

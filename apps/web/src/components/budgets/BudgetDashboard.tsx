@@ -1,3 +1,7 @@
+"use client";
+
+import { useCurrency } from "@/contexts/CurrencyContext";
+
 interface BudgetStats {
 	total: number;
 	draft: number;
@@ -33,6 +37,8 @@ const statusConfig = {
 };
 
 export function BudgetDashboard({ budgets, stats }: BudgetDashboardProps) {
+	const { formatAmount } = useCurrency();
+	
 	// Get recent budgets
 	const recentBudgets = budgets.slice(0, 5);
 
@@ -67,7 +73,7 @@ export function BudgetDashboard({ budgets, stats }: BudgetDashboardProps) {
 					<div className="stat">
 						<div className="stat-title text-xs">Valor Total</div>
 						<div className="stat-value text-2xl">
-							${(stats?.totalValue || 0).toLocaleString()}
+							{formatAmount(stats?.totalValue || 0)}
 						</div>
 						<div className="stat-desc">Todos os orçamentos</div>
 					</div>
@@ -76,7 +82,7 @@ export function BudgetDashboard({ budgets, stats }: BudgetDashboardProps) {
 					<div className="stat">
 						<div className="stat-title text-xs">Valor Aprovado</div>
 						<div className="stat-value text-2xl text-success">
-							${(stats?.approvedValue || 0).toLocaleString()}
+							{formatAmount(stats?.approvedValue || 0)}
 						</div>
 						<div className="stat-desc">Receita confirmada</div>
 					</div>
@@ -148,7 +154,7 @@ export function BudgetDashboard({ budgets, stats }: BudgetDashboardProps) {
 										<div className="flex items-center gap-3">
 											<div className="text-right">
 												<p className="font-semibold">
-													${budget.totalAmount.toLocaleString()}
+													{formatAmount(budget.totalAmount)}
 												</p>
 												<p className="text-xs text-base-content/60">
 													{new Date(budget.createdAt).toLocaleDateString()}

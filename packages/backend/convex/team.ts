@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAuth, requireWrite } from "./_lib/auth";
 
 // Query: Get all team members
 export const getTeamMembers = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx);
 		const members = await ctx.db.query("users").collect();
 
 		// Populate projects for each member
@@ -29,6 +31,7 @@ export const getTeamMembers = query({
 export const getTeamMemberById = query({
 	args: { id: v.id("users") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const member = await ctx.db.get(args.id);
 
 		if (!member) {
@@ -58,6 +61,7 @@ export const getTeamMembersByStatus = query({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const members = await ctx.db
 			.query("users")
 			.filter((q) => q.eq(q.field("status"), args.status))
@@ -71,6 +75,7 @@ export const getTeamMembersByStatus = query({
 export const getTeamMembersByDepartment = query({
 	args: { department: v.string() },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const members = await ctx.db
 			.query("users")
 			.filter((q) => q.eq(q.field("department"), args.department))
@@ -86,7 +91,7 @@ export const createTeamMember = mutation({
 		name: v.string(),
 		email: v.string(),
 		avatar: v.optional(v.string()),
-		role: v.string(),
+		role: v.union(v.literal("admin"), v.literal("member"), v.literal("viewer")),
 		department: v.string(),
 		status: v.union(
 			v.literal("online"),
@@ -97,6 +102,7 @@ export const createTeamMember = mutation({
 		skills: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		// Check if email already exists
 		const existingUser = await ctx.db
 			.query("users")
@@ -125,7 +131,9 @@ export const updateTeamMember = mutation({
 		name: v.optional(v.string()),
 		email: v.optional(v.string()),
 		avatar: v.optional(v.string()),
-		role: v.optional(v.string()),
+		role: v.optional(
+			v.union(v.literal("admin"), v.literal("member"), v.literal("viewer")),
+		),
 		department: v.optional(v.string()),
 		status: v.optional(
 			v.union(
@@ -138,6 +146,7 @@ export const updateTeamMember = mutation({
 		skills: v.optional(v.array(v.string())),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const { id, ...updates } = args;
 
 		const existingMember = await ctx.db.get(id);
@@ -176,6 +185,7 @@ export const updateTeamMember = mutation({
 export const deleteTeamMember = mutation({
 	args: { id: v.id("users") },
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const member = await ctx.db.get(args.id);
 
 		if (!member) {
@@ -212,6 +222,7 @@ export const deleteTeamMember = mutation({
 export const updateLastActive = mutation({
 	args: { id: v.id("users") },
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		await ctx.db.patch(args.id, {
 			lastActive: Date.now(),
 		});

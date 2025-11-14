@@ -1,10 +1,12 @@
 import { v } from "convex/values";
 import { mutation, query } from "./_generated/server";
+import { requireAuth, requireWrite } from "./_lib/auth";
 
 // Query: Get all projects
 export const getProjects = query({
 	args: {},
 	handler: async (ctx) => {
+		await requireAuth(ctx);
 		const projects = await ctx.db.query("projects").collect();
 
 		// Populate team members for each project
@@ -29,6 +31,7 @@ export const getProjects = query({
 export const getProjectById = query({
 	args: { id: v.id("projects") },
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const project = await ctx.db.get(args.id);
 
 		if (!project) {
@@ -58,6 +61,7 @@ export const getProjectsByStatus = query({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireAuth(ctx);
 		const projects = await ctx.db
 			.query("projects")
 			.filter((q) => q.eq(q.field("status"), args.status))
@@ -111,6 +115,7 @@ export const createProject = mutation({
 		tags: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const projectId = await ctx.db.insert("projects", args);
 
 		// Update team members' projectIds
@@ -174,6 +179,7 @@ export const updateProject = mutation({
 		),
 	},
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const { id, ...updates } = args;
 
 		const existingProject = await ctx.db.get(id);
@@ -214,6 +220,7 @@ export const updateProject = mutation({
 export const deleteProject = mutation({
 	args: { id: v.id("projects") },
 	handler: async (ctx, args) => {
+		await requireWrite(ctx);
 		const project = await ctx.db.get(args.id);
 
 		if (!project) {
