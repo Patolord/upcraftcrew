@@ -24,7 +24,7 @@ const LandingPage = () => {
 			<Process />
 			<Benefits />
 			{/* <Integrations /> */}
-			<Testimonials />
+			{/* <Testimonials /> */}
 			<Suspense fallback={<div />}>
 				<Pricing />
 			</Suspense>
