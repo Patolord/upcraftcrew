@@ -71,6 +71,7 @@ export const Portfolio = () => {
 	const [currentIndex, setCurrentIndex] = useState(initialIndex);
 	const [isTransitionEnabled, setIsTransitionEnabled] = useState(true);
 	const [isPaused, setIsPaused] = useState(false);
+	const [isPageVisible, setIsPageVisible] = useState(true);
 
 	const projectsLoop = useMemo(() => {
 		if (!canNavigate) {
@@ -83,6 +84,16 @@ export const Portfolio = () => {
 			...projects.slice(0, visibleCount),
 		];
 	}, [projects, canNavigate, visibleCount]);
+
+	// Track page visibility to pause autoplay when tab is not visible
+	useEffect(() => {
+		const handleVisibilityChange = () => {
+			setIsPageVisible(!document.hidden);
+		};
+
+		document.addEventListener("visibilitychange", handleVisibilityChange);
+		return () => document.removeEventListener("visibilitychange", handleVisibilityChange);
+	}, []);
 
 	useEffect(() => {
 		const updateVisibleCount = () => {
@@ -100,10 +111,15 @@ export const Portfolio = () => {
 		return () => window.removeEventListener("resize", updateVisibleCount);
 	}, []);
 
+	// Reset carousel when projects change or visibility changes
 	useEffect(() => {
+		setIsTransitionEnabled(false);
 		setCurrentIndex(initialIndex);
-		setIsTransitionEnabled(true);
-	}, [initialIndex, totalProjects]);
+		// Re-enable transition after a frame
+		requestAnimationFrame(() => {
+			setIsTransitionEnabled(true);
+		});
+	}, [initialIndex, projects.length, selectedIndustry]);
 
 	const slideWidth = 100 / visibleCount;
 	const translatePercentage = currentIndex * slideWidth;
@@ -133,15 +149,18 @@ export const Portfolio = () => {
 		[initialIndex, canNavigate],
 	);
 
+	// Autoplay - only when page is visible, not paused, and can navigate
 	useEffect(() => {
-		if (!canNavigate || isPaused) return;
+		const shouldAutoPlay = totalProjects > visibleCount && !isPaused && isPageVisible;
+
+		if (!shouldAutoPlay) return;
 
 		const intervalId = window.setInterval(() => {
 			setCurrentIndex((previous) => previous + 1);
 		}, AUTO_PLAY_INTERVAL);
 
 		return () => window.clearInterval(intervalId);
-	}, [canNavigate, isPaused]);
+	}, [totalProjects, visibleCount, isPaused, isPageVisible]);
 
 	useEffect(() => {
 		if (!isTransitionEnabled) {
@@ -276,7 +295,7 @@ export const Portfolio = () => {
 
 					return (
 						<article
-							key={`${project.name}-${index}`}
+							key={`${project.name}-${project.year}-${index}`}
 							className="flex px-4"
 							style={{ flex: `0 0 ${slideWidth}%` }}
 						>
@@ -357,13 +376,13 @@ export const Portfolio = () => {
 								<button
 									type="button"
 									onClick={() => handleDotSelect(index)}
-									key={project.name}
+									key={`${project.name}-${project.year}-dot-${index}`}
 									className="transition-all"
 									aria-label={`${project.name} - ${index + 1}`}
 								>
 									<span
-										className={`block h-1.5 rounded-full ${
-											isActive ? "w-8 bg-base-content" : "w-4 bg-base-200"
+										className={`block h-1.5 rounded-full bg-orange-400 ${
+											isActive ? "w-8 bg-orange-600" : "w-4 bg-base-200"
 										}`}
 									></span>
 								</button>
