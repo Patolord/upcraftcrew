@@ -1,3 +1,7 @@
+"use client";
+
+import { useCurrency } from "@/contexts/CurrencyContext";
+
 interface FinancialSummary {
 	totalIncome: number;
 	totalExpenses: number;
@@ -17,16 +21,17 @@ export function FinancialSummaryCards({
 	totalTransactions,
 	pendingTransactions
 }: FinancialSummaryCardsProps) {
+	const { formatAmount, config } = useCurrency();
 	return (
 		<div className="grid grid-cols-1 md:grid-cols-5 gap-4">
 			<div className="stats shadow border border-base-300">
 				<div className="stat py-4">
 					<div className="stat-title text-xs">Total Income</div>
 					<div className="stat-value text-2xl text-success">
-						${(summary.totalIncome / 1000).toFixed(0)}k
+						{formatAmount(summary.totalIncome / 1000, { maximumFractionDigits: 0 })}k
 					</div>
 					<div className="stat-desc text-xs">
-						+${summary.pendingIncome.toFixed(0)} pending
+						+{formatAmount(summary.pendingIncome, { maximumFractionDigits: 0 })} pending
 					</div>
 				</div>
 			</div>
@@ -35,10 +40,10 @@ export function FinancialSummaryCards({
 				<div className="stat py-4">
 					<div className="stat-title text-xs">Total Expenses</div>
 					<div className="stat-value text-2xl text-error">
-						${(summary.totalExpenses / 1000).toFixed(0)}k
+						{formatAmount(summary.totalExpenses / 1000, { maximumFractionDigits: 0 })}k
 					</div>
 					<div className="stat-desc text-xs">
-						-${summary.pendingExpenses.toFixed(0)} pending
+						-{formatAmount(summary.pendingExpenses, { maximumFractionDigits: 0 })} pending
 					</div>
 				</div>
 			</div>
@@ -51,7 +56,7 @@ export function FinancialSummaryCards({
 							summary.netProfit >= 0 ? "text-success" : "text-error"
 						}`}
 					>
-						${(summary.netProfit / 1000).toFixed(0)}k
+						{formatAmount(summary.netProfit / 1000, { maximumFractionDigits: 0 })}k
 					</div>
 					<div className="stat-desc text-xs">
 						{summary.netProfit >= 0 ? "Profit" : "Loss"} this period

@@ -19,14 +19,7 @@ export function UserMenu() {
 	};
 
 	return (
-		<div className="flex items-center gap-2">
-			<Button
-				onClick={handleLogout}
-				className="btn btn-ghost btn-sm gap-2"
-			>
-				<span className="iconify lucide--log-out size-4" />
-				Logout
-			</Button>
+		<div className="dropdown dropdown-bottom sm:dropdown-end max-sm:dropdown-center">
 		</div>
 	);
 }

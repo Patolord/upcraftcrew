@@ -1,6 +1,9 @@
+"use client";
+
 import Link from "next/link";
 import { Image } from "../ui/image";
 import { ProfileMenu } from "./profile-menu";
+import { CurrencySelector } from "@/components/CurrencySelector";
 
 export const NavBar = () => {
 	return (
@@ -29,60 +32,8 @@ export const NavBar = () => {
 					</p>
 				</div>
 			</div>
-			<div className="flex items-center gap-4">
-				<div className="dropdown dropdown-bottom dropdown-end">
-					<div className="flex cursor-pointer items-center gap-2">
-						<div className="avatar bg-base-200 rounded-box size-7 overflow-hidden">
-							<Image src="/images/avatars/1.png" alt="Avatar" width={28} height={28} />
-							<ProfileMenu />
-						</div>
-						<div>
-							<p className="leading-none font-medium">User</p>
-							<p className="text-base-content/60 mt-0 text-xs/none">@user</p>
-						</div>
-					</div>
-					<div
-						
-						className="dropdown-content bg-base-100 rounded-box mt-2 w-44 shadow"
-					>
-						<ul className="menu w-full p-2">
-							<li>
-								<a href="/profile-menu">
-									<span className="iconify lucide--user size-4" />
-									<span>My Profile</span>
-
-								</a>
-							</li>
-							<li>
-								<Link href="#">
-									<span className="iconify lucide--settings size-4" />
-									<span>Settings</span>
-								</Link>
-							</li>
-							<li>
-								<Link href="#">
-									<span className="iconify lucide--help-circle size-4" />
-									<span>Help</span>
-								</Link>
-							</li>
-						</ul>
-						<hr className="border-base-300" />
-						<ul className="menu w-full p-2">
-							<li>
-								<div>
-									<span className="iconify lucide--arrow-left-right size-4" />
-									<span>Switch Account</span>
-								</div>
-							</li>
-							<li>
-								<Link className="text-error hover:bg-error/10" href="#">
-									<span className="iconify lucide--log-out size-4" />
-									<span>Logout</span>
-								</Link>
-							</li>
-						</ul>
-					</div>
-				</div>
+			<div className="flex items-center gap-2">
+				<CurrencySelector />
 			</div>
 		</div>
 	);

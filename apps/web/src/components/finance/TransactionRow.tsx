@@ -1,4 +1,7 @@
+"use client";
+
 import { Button } from "@/components/ui/button";
+import { useCurrency } from "@/contexts/CurrencyContext";
 import type { Transaction } from "@/types/finance";
 import { categoryConfig, statusConfig } from "@/app/(admin)/finance/config";
 
@@ -9,6 +12,7 @@ export function TransactionRow({
 	transaction: Transaction;
 	onEdit?: (transaction: Transaction) => void;
 }) {
+	const { formatAmount } = useCurrency();
 	const category = categoryConfig[transaction.category] || {
 		label: transaction.category,
 		icon: "lucide--circle",
@@ -80,7 +84,7 @@ export function TransactionRow({
 						isIncome ? "text-success" : "text-error"
 					}`}
 				>
-					{isIncome ? "+" : "-"}${transaction.amount.toFixed(0)}
+					{isIncome ? "+" : "-"}{formatAmount(transaction.amount, { maximumFractionDigits: 0 })}
 				</div>
 			</td>
 			<td>
