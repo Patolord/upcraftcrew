@@ -1,17 +1,27 @@
 {
-	"expo": {
-		"scheme": "upcraftcrew-os",
-		"userInterfaceStyle": "automatic",
-		"orientation": "default",
-		"web": {
-			"bundler": "metro"
-		},
-		"name": "upcraftcrew-os",
-		"slug": "upcraftcrew-os",
-		"plugins": ["expo-font"],
-		"experiments": {
-			"typedRoutes": true,
-			"reactCompiler": true
-		}
-	}
+  "expo": {
+    "scheme": "upcraftcrew-os",
+    "userInterfaceStyle": "automatic",
+    "orientation": "default",
+    "web": {
+      "bundler": "metro"
+    },
+    "name": "upcraftcrew-os",
+    "slug": "upcraftcrew-os",
+    "plugins": [
+      "expo-font"
+    ],
+    "experiments": {
+      "typedRoutes": true,
+      "reactCompiler": true
+    },
+    "extra": {
+      "eas": {
+        "projectId": "5bf98483-3e32-44f5-9c8d-8e4d96b76475"
+      }
+    },
+    "android": {
+      "package": "com.sqpaloma.upcraftcrewos"
+    }
+  }
 }
