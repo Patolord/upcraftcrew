@@ -1,45 +1,17 @@
 {
 	"expo": {
-		"name": "UpCraft Crew",
-		"slug": "upcraft-crew",
-		"version": "1.0.0",
-		"scheme": "upcraft-crew",
+		"scheme": "upcraftcrew-os",
+		"userInterfaceStyle": "automatic",
+		"orientation": "default",
 		"web": {
-			"bundler": "metro",
-			"output": "static",
-			"favicon": "./assets/favicon.png"
+			"bundler": "metro"
 		},
-		"plugins": [
-			"expo-router",
-			"expo-secure-store",
-			"expo-web-browser",
-			"expo-font"
-		],
+		"name": "upcraftcrew-os",
+		"slug": "upcraftcrew-os",
+		"plugins": ["expo-font"],
 		"experiments": {
-			"typedRoutes": false,
-			"tsconfigPaths": true
-		},
-		"newArchEnabled": true,
-		"orientation": "portrait",
-		"icon": "./assets/icon.png",
-		"userInterfaceStyle": "light",
-		"splash": {
-			"image": "./assets/splash.png",
-			"resizeMode": "contain",
-			"backgroundColor": "#ffffff"
-		},
-		"assetBundlePatterns": ["**/*"],
-		"ios": {
-			"supportsTablet": true,
-			"bundleIdentifier": "com.amanvarshney01.mybettertapp"
-		},
-		"android": {
-			"adaptiveIcon": {
-				"foregroundImage": "./assets/adaptive-icon.png",
-				"backgroundColor": "#ffffff"
-			},
-			"package": "com.amanvarshney01.mybettertapp",
-			"edgeToEdgeEnabled": true
+			"typedRoutes": true,
+			"reactCompiler": true
 		}
 	}
 }
