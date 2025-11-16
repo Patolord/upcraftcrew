@@ -1,7 +1,7 @@
 import { Ionicons } from "@expo/vector-icons";
 import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
 import type { Id } from "@upcraftcrew-os/backend/convex/_generated/dataModel";
-import { useMutation, useQuery } from "convex/react";
+import { useConvexAuth, useMutation, useQuery } from "convex/react";
 import { Card, Checkbox, Chip, useThemeColor } from "heroui-native";
 import { useState } from "react";
 import {
@@ -14,13 +14,15 @@ import {
 	View,
 } from "react-native";
 import { Container } from "@/components/container";
+import { SignIn } from "@/components/sign-in";
 
 export default function TodosScreen() {
 	const [newTodoText, setNewTodoText] = useState("");
-	const todos = useQuery(api.todos.getAll);
-	const createTodoMutation = useMutation(api.todos.create);
-	const toggleTodoMutation = useMutation(api.todos.toggle);
-	const deleteTodoMutation = useMutation(api.todos.deleteTodo);
+	const { isAuthenticated } = useConvexAuth();
+	const tasks = useQuery(api.tasks.getTasks, isAuthenticated ? {} : "skip");
+	const createTaskMutation = useMutation(api.tasks.createTask);
+	const updateTaskStatusMutation = useMutation(api.tasks.updateTaskStatus);
+	const deleteTaskMutation = useMutation(api.tasks.deleteTask);
 
 	const mutedColor = useThemeColor("muted");
 	const accentColor = useThemeColor("accent");
@@ -30,36 +32,52 @@ export default function TodosScreen() {
 	const handleAddTodo = async () => {
 		const text = newTodoText.trim();
 		if (!text) return;
-		await createTodoMutation({ text });
+		await createTaskMutation({
+			title: text,
+			description: "",
+			status: "todo",
+			priority: "medium",
+			tags: [],
+		});
 		setNewTodoText("");
 	};
 
-	const handleToggleTodo = (id: Id<"todos">, currentCompleted: boolean) => {
-		toggleTodoMutation({ id, completed: !currentCompleted });
+	const handleToggleTodo = (id: Id<"tasks">, isDone: boolean) => {
+		updateTaskStatusMutation({ id, status: isDone ? "todo" : "done" });
 	};
 
-	const handleDeleteTodo = (id: Id<"todos">) => {
+	const handleDeleteTodo = (id: Id<"tasks">) => {
 		Alert.alert("Delete Todo", "Are you sure you want to delete this todo?", [
 			{ text: "Cancel", style: "cancel" },
 			{
 				text: "Delete",
 				style: "destructive",
-				onPress: () => deleteTodoMutation({ id }),
+				onPress: () => deleteTaskMutation({ id }),
 			},
 		]);
 	};
 
-	const isLoading = !todos;
-	const completedCount = todos?.filter((t) => t.completed).length || 0;
-	const totalCount = todos?.length || 0;
+	const isLoading = isAuthenticated && !tasks;
+	const completedCount =
+		tasks?.filter((t) => t.status === "done").length || 0;
+	const totalCount = tasks?.length || 0;
 
 	return (
 		<Container>
 			<ScrollView className="flex-1" contentContainerClassName="p-6">
+				{!isAuthenticated && (
+					<Card variant="secondary" className="mb-6 p-4">
+						<Text className="text-foreground text-lg font-semibold mb-2">
+							Sign in to manage tasks
+						</Text>
+						<SignIn />
+					</Card>
+				)}
+
 				<View className="mb-6">
 					<View className="flex-row items-center justify-between mb-2">
 						<Text className="text-3xl font-bold text-foreground">
-							Todo List
+							Tasks
 						</Text>
 						{totalCount > 0 && (
 							<Chip variant="secondary" color="accent" size="sm">
@@ -86,7 +104,7 @@ export default function TodosScreen() {
 						</View>
 						<Pressable
 							onPress={handleAddTodo}
-							disabled={!newTodoText.trim()}
+							disabled={!isAuthenticated || !newTodoText.trim()}
 							className={`p-3 rounded-lg active:opacity-70 ${newTodoText.trim() ? "bg-accent" : "bg-surface"}`}
 						>
 							<Ionicons
@@ -101,11 +119,11 @@ export default function TodosScreen() {
 				{isLoading && (
 					<View className="items-center justify-center py-12">
 						<ActivityIndicator size="large" color={accentColor} />
-						<Text className="text-muted mt-4">Loading todos...</Text>
+						<Text className="text-muted mt-4">Loading tasks...</Text>
 					</View>
 				)}
 
-				{todos && todos.length === 0 && !isLoading && (
+				{isAuthenticated && tasks && tasks.length === 0 && !isLoading && (
 					<Card className="items-center justify-center py-12">
 						<Ionicons
 							name="checkbox-outline"
@@ -114,7 +132,7 @@ export default function TodosScreen() {
 							style={{ marginBottom: 16 }}
 						/>
 						<Text className="text-foreground text-lg font-semibold mb-2">
-							No todos yet
+							No tasks yet
 						</Text>
 						<Text className="text-muted text-center">
 							Add your first task to get started!
@@ -122,26 +140,26 @@ export default function TodosScreen() {
 					</Card>
 				)}
 
-				{todos && todos.length > 0 && (
+				{isAuthenticated && tasks && tasks.length > 0 && (
 					<View className="gap-3">
-						{todos.map((todo) => (
-							<Card key={todo._id} variant="secondary" className="p-4">
+						{tasks.map((task) => (
+							<Card key={task._id} variant="secondary" className="p-4">
 								<View className="flex-row items-center gap-3">
 									<Checkbox
-										isSelected={todo.completed}
+										isSelected={task.status === "done"}
 										onSelectedChange={() =>
-											handleToggleTodo(todo._id, todo.completed)
+											handleToggleTodo(task._id, task.status === "done")
 										}
 									/>
 									<View className="flex-1">
 										<Text
-											className={`text-base ${todo.completed ? "text-muted line-through" : "text-foreground"}`}
+											className={`text-base ${task.status === "done" ? "text-muted line-through" : "text-foreground"}`}
 										>
-											{todo.text}
+											{task.title}
 										</Text>
 									</View>
 									<Pressable
-										onPress={() => handleDeleteTodo(todo._id)}
+										onPress={() => handleDeleteTodo(task._id)}
 										className="p-2 rounded-lg active:opacity-70"
 									>
 										<Ionicons
