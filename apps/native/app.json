@@ -20,10 +20,18 @@
         "projectId": "5bf98483-3e32-44f5-9c8d-8e4d96b76475"
       }
     },
+    "icon": "./assets/ios/Icon-Store-1024.png",
+    "ios": {
+      "icon": "./assets/ios/Icon-Store-1024.png",
+      "bundleIdentifier": "com.sqpaloma.upcraftcrewos"
+    },
     "android": {
       "package": "com.sqpaloma.upcraftcrewos",
-      "versionCode": 4
-      
+      "versionCode": 4,
+      "adaptiveIcon": {
+        "foregroundImage": "./assets/android/mipmap-xxxhdpi/ic_launcher_foreground.png",
+        "backgroundColor": "#ffffff"
+      }
     }
   }
 }
