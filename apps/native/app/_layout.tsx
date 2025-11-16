@@ -1,20 +1,19 @@
 import "@/global.css";
 
-import { ConvexReactClient } from "convex/react";
 import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
-import { authClient } from "@/lib/auth-client";
-
+import { ConvexReactClient } from "convex/react";
 import { Stack } from "expo-router";
 import { HeroUINativeProvider } from "heroui-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { KeyboardProvider } from "react-native-keyboard-controller";
 import { AppThemeProvider } from "@/contexts/app-theme-context";
+import { authClient } from "@/lib/auth-client";
 
 export const unstable_settings = {
 	initialRouteName: "(drawer)",
 };
-
-const convexUrl = process.env.EXPO_PUBLIC_CONVEX_URL || "";
+// TODO: change to process.env.EXPO_PUBLIC_CONVEX_URL
+const convexUrl = "https://curious-rhinoceros-373.convex.cloud";
 const convex = new ConvexReactClient(convexUrl, {
 	unsavedChangesWarning: false,
 });
