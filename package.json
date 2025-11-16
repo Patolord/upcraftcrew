@@ -25,7 +25,13 @@
 		"overrides": {
 			"@types/react": "19.0.10",
 			"@types/react-dom": "19.0.3"
-		}
+		},
+		"onlyBuiltDependencies": [
+			"@tailwindcss/oxide",
+			"core-js",
+			"esbuild",
+			"sharp"
+		]
 	},
 	"packageManager": "pnpm@10.15.0",
 	"version": "1.0.0",
