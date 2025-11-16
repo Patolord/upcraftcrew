@@ -21,7 +21,9 @@
       }
     },
     "android": {
-      "package": "com.sqpaloma.upcraftcrewos"
+      "package": "com.sqpaloma.upcraftcrewos",
+      "versionCode": 4
+      
     }
   }
 }
