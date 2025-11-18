@@ -1,14 +1,14 @@
-import {
-	View,
-	Text,
-	ScrollView,
-	ActivityIndicator,
-	TouchableOpacity,
-} from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useState } from "react";
+import {
+	ActivityIndicator,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 export default function BudgetsPage() {
 	const budgets = useQuery(api.budgets.getBudgets);
@@ -27,12 +27,12 @@ export default function BudgetsPage() {
 	return (
 		<View className="flex-1 bg-gray-50">
 			{/* Header */}
-			<View className="bg-white p-4 border-b border-gray-200">
-				<View className="flex-row justify-between items-center mb-3">
-					<Text className="text-2xl font-bold text-orange-500">Orçamentos</Text>
+			<View className="border-gray-200 border-b bg-white p-4">
+				<View className="mb-3 flex-row items-center justify-between">
+					<Text className="font-bold text-2xl text-orange-500">Orçamentos</Text>
 					{activeTab === "all" && (
-						<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-							<Text className="text-white font-semibold">+ Novo Orçamento</Text>
+						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+							<Text className="font-semibold text-white">+ Novo Orçamento</Text>
 						</TouchableOpacity>
 					)}
 				</View>
@@ -41,7 +41,7 @@ export default function BudgetsPage() {
 				<View className="flex-row gap-2">
 					<TouchableOpacity
 						onPress={() => setActiveTab("dashboard")}
-						className={`flex-1 py-2 rounded-lg ${
+						className={`flex-1 rounded-lg py-2 ${
 							activeTab === "dashboard" ? "bg-orange-500" : "bg-gray-100"
 						}`}
 					>
@@ -55,7 +55,7 @@ export default function BudgetsPage() {
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => setActiveTab("all")}
-						className={`flex-1 py-2 rounded-lg ${
+						className={`flex-1 rounded-lg py-2 ${
 							activeTab === "all" ? "bg-orange-500" : "bg-gray-100"
 						}`}
 					>
@@ -71,34 +71,34 @@ export default function BudgetsPage() {
 			</View>
 
 			<ScrollView className="flex-1">
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{activeTab === "dashboard" ? (
 						/* Dashboard View */
 						<>
 							{/* Stats Cards */}
 							{budgetStats && (
 								<View className="flex-row flex-wrap gap-3">
-									<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-										<Text className="text-sm text-gray-500">Total Budgets</Text>
-										<Text className="text-3xl font-bold text-orange-500 mt-1">
+									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+										<Text className="text-gray-500 text-sm">Total Budgets</Text>
+										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.total || 0}
 										</Text>
 									</View>
-									<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-										<Text className="text-sm text-gray-500">Approved</Text>
-										<Text className="text-3xl font-bold text-orange-500 mt-1">
+									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+										<Text className="text-gray-500 text-sm">Approved</Text>
+										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.approved || 0}
 										</Text>
 									</View>
-									<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-										<Text className="text-sm text-gray-500">Pending</Text>
-										<Text className="text-3xl font-bold text-orange-500 mt-1">
+									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+										<Text className="text-gray-500 text-sm">Pending</Text>
+										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.sent || 0}
 										</Text>
 									</View>
-									<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-										<Text className="text-sm text-gray-500">Total Value</Text>
-										<Text className="text-3xl font-bold text-orange-500 mt-1">
+									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+										<Text className="text-gray-500 text-sm">Total Value</Text>
+										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											${(budgetStats.totalValue || 0).toLocaleString()}
 										</Text>
 									</View>
@@ -106,30 +106,30 @@ export default function BudgetsPage() {
 							)}
 
 							{/* Recent Budgets */}
-							<View className="bg-white p-4 rounded-lg shadow">
-								<Text className="text-lg font-semibold text-orange-500 mb-3">
+							<View className="rounded-lg bg-white p-4 shadow">
+								<Text className="mb-3 font-semibold text-lg text-orange-500">
 									Recent Budgets
 								</Text>
 								{budgets?.slice(0, 5).map((budget, index) => (
 									<View
 										key={budget._id}
-										className={`py-3 ${index !== 0 ? "border-t border-gray-100" : ""}`}
+										className={`py-3 ${index !== 0 ? "border-gray-100 border-t" : ""}`}
 									>
-										<View className="flex-row justify-between items-start">
+										<View className="flex-row items-start justify-between">
 											<View className="flex-1">
 												<Text className="font-semibold text-gray-800">
 													{budget.client}
 												</Text>
-												<Text className="text-xs text-gray-500 mt-1">
+												<Text className="mt-1 text-gray-500 text-xs">
 													{budget.title}
 												</Text>
 											</View>
 											<View className="items-end">
-												<Text className="text-sm font-bold text-orange-500">
+												<Text className="font-bold text-orange-500 text-sm">
 													${budget.totalAmount?.toLocaleString()}
 												</Text>
 												<View
-													className={`px-2 py-1 rounded mt-1 ${
+													className={`mt-1 rounded px-2 py-1 ${
 														budget.status === "approved"
 															? "bg-green-100"
 															: budget.status === "sent"
@@ -165,20 +165,20 @@ export default function BudgetsPage() {
 							{budgets?.map((budget) => (
 								<View
 									key={budget._id}
-									className="bg-white p-4 rounded-lg shadow"
+									className="rounded-lg bg-white p-4 shadow"
 								>
 									{/* Header */}
-									<View className="flex-row justify-between items-start mb-3">
+									<View className="mb-3 flex-row items-start justify-between">
 										<View className="flex-1">
-											<Text className="text-lg font-semibold text-gray-800">
+											<Text className="font-semibold text-gray-800 text-lg">
 												{budget.title}
 											</Text>
-											<Text className="text-sm text-gray-500 mt-1">
+											<Text className="mt-1 text-gray-500 text-sm">
 												{budget.client}
 											</Text>
 										</View>
 										<View
-											className={`px-3 py-1 rounded-full ${
+											className={`rounded-full px-3 py-1 ${
 												budget.status === "approved"
 													? "bg-green-100"
 													: budget.status === "sent"
@@ -191,7 +191,7 @@ export default function BudgetsPage() {
 											}`}
 										>
 											<Text
-												className={`text-xs font-medium ${
+												className={`font-medium text-xs ${
 													budget.status === "approved"
 														? "text-green-700"
 														: budget.status === "sent"
@@ -212,7 +212,7 @@ export default function BudgetsPage() {
 									{/* Description */}
 									{budget.description && (
 										<Text
-											className="text-sm text-gray-600 mb-3"
+											className="mb-3 text-gray-600 text-sm"
 											numberOfLines={2}
 										>
 											{budget.description}
@@ -222,11 +222,11 @@ export default function BudgetsPage() {
 									{/* Budget Details */}
 									<View className="space-y-2">
 										{/* Amount */}
-										<View className="flex-row justify-between items-center py-2 border-t border-gray-100">
-											<Text className="text-sm text-gray-600">
+										<View className="flex-row items-center justify-between border-gray-100 border-t py-2">
+											<Text className="text-gray-600 text-sm">
 												Total Amount
 											</Text>
-											<Text className="text-lg font-bold text-orange-500">
+											<Text className="font-bold text-lg text-orange-500">
 												${budget.totalAmount?.toLocaleString()}
 											</Text>
 										</View>
@@ -239,7 +239,7 @@ export default function BudgetsPage() {
 													size={16}
 													color="#9ca3af"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													{budget.items.length} item
 													{budget.items.length > 1 ? "s" : ""}
 												</Text>
@@ -254,7 +254,7 @@ export default function BudgetsPage() {
 													size={16}
 													color="#9ca3af"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Created:{" "}
 													{new Date(budget.createdAt).toLocaleDateString()}
 												</Text>
@@ -269,7 +269,7 @@ export default function BudgetsPage() {
 													size={16}
 													color="#9ca3af"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Valid until:{" "}
 													{new Date(budget.validUntil).toLocaleDateString()}
 												</Text>
@@ -278,8 +278,8 @@ export default function BudgetsPage() {
 									</View>
 
 									{/* Action Button */}
-									<TouchableOpacity className="mt-3 bg-blue-50 py-2 rounded-lg">
-										<Text className="text-blue-600 text-center font-medium">
+									<TouchableOpacity className="mt-3 rounded-lg bg-blue-50 py-2">
+										<Text className="text-center font-medium text-blue-600">
 											View Details
 										</Text>
 									</TouchableOpacity>
@@ -287,14 +287,14 @@ export default function BudgetsPage() {
 							))}
 
 							{(!budgets || budgets.length === 0) && (
-								<View className="bg-white p-8 rounded-lg shadow items-center">
+								<View className="items-center rounded-lg bg-white p-8 shadow">
 									<Ionicons
 										name="document-text-outline"
 										size={48}
 										color="#d1d5db"
 									/>
-									<Text className="text-gray-500 mt-4">No budgets found</Text>
-									<Text className="text-gray-400 text-sm mt-2">
+									<Text className="mt-4 text-gray-500">No budgets found</Text>
+									<Text className="mt-2 text-gray-400 text-sm">
 										Create your first budget to get started
 									</Text>
 								</View>

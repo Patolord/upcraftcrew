@@ -1,15 +1,15 @@
+import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
 import {
-	View,
-	Text,
-	ScrollView,
 	ActivityIndicator,
+	ScrollView,
+	Text,
 	TextInput,
 	TouchableOpacity,
+	View,
 } from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState, useMemo } from "react";
-import { Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 
 export default function TeamPage() {
 	const teamMembers = useQuery(api.team.getTeamMembers);
@@ -57,7 +57,7 @@ export default function TeamPage() {
 
 	if (teamMembers === undefined) {
 		return (
-			<View className="flex-1 pt-10 items-center justify-center bg-white">
+			<View className="flex-1 items-center justify-center bg-white pt-10">
 				<ActivityIndicator size="large" color="#FF5722" />
 				<Text className="mt-4 text-gray-600">Loading team...</Text>
 			</View>
@@ -75,41 +75,41 @@ export default function TeamPage() {
 	];
 
 	return (
-		<View className="flex-1 pt-16 bg-gray-50">
+		<View className="flex-1 bg-gray-50 pt-16">
 			<ScrollView className="flex-1">
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{/* Header */}
-					<View className="flex-row justify-between items-center">
-						<Text className="text-3xl pb-4 font-bold text-orange-500">
+					<View className="flex-row items-center justify-between">
+						<Text className="pb-4 font-bold text-3xl text-orange-500">
 							Team
 						</Text>
-						<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-							<Text className="text-white font-semibold">+ Add Member</Text>
+						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+							<Text className="font-semibold text-white">+ Add Member</Text>
 						</TouchableOpacity>
 					</View>
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg border border-orange-500">
-							<Text className="text-xs text-gray-500">Total Members</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Total Members</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.total}
 							</Text>
 						</View>
 
-						<View className="flex-1 min-w-[45%] bg-white p-3 border border-orange-500 rounded-lg ">
-							<Text className="text-xs text-gray-500">Avg Projects</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Avg Projects</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.avgProjects}
 							</Text>
 						</View>
 					</View>
 
 					{/* Search */}
-					<View className="bg-white p-3 mb-4 mt-4 rounded-lg border border-orange-500 flex-row items-center">
+					<View className="mt-4 mb-4 flex-row items-center rounded-lg border border-orange-500 bg-white p-3">
 						<Ionicons name="search-outline" size={20} color="#9ca3af" />
 						<TextInput
-							className="flex-1 ml-2 text-gray-800"
+							className="ml-2 flex-1 text-gray-800"
 							placeholder="Search members..."
 							value={searchQuery}
 							onChangeText={setSearchQuery}
@@ -126,10 +126,10 @@ export default function TeamPage() {
 							<TouchableOpacity
 								key={option.value}
 								onPress={() => setRoleFilter(option.value)}
-								className={`px-4 py-2 rounded-full ${
+								className={`rounded-full px-4 py-2 ${
 									roleFilter === option.value
 										? "bg-orange-500"
-										: "bg-white border border-gray-300"
+										: "border border-gray-300 bg-white"
 								}`}
 							>
 								<Text
@@ -144,14 +144,14 @@ export default function TeamPage() {
 					</ScrollView>
 
 					{/* Team Members List */}
-					<View className="space-y-3 mt-4">
+					<View className="mt-4 space-y-3">
 						{filteredMembers.map((member) => (
-							<View key={member._id} className="bg-white p-4 rounded-lg shadow">
+							<View key={member._id} className="rounded-lg bg-white p-4 shadow">
 								<View className="flex-row items-start">
 									{/* Avatar */}
 									<View className="relative">
-										<View className="w-14 h-14 rounded-full bg-orange-100 items-center justify-center">
-											<Text className="text-orange-500 font-bold text-lg">
+										<View className="h-14 w-14 items-center justify-center rounded-full bg-orange-100">
+											<Text className="font-bold text-lg text-orange-500">
 												{member.name
 													.split(" ")
 													.map((n) => n[0])
@@ -161,7 +161,7 @@ export default function TeamPage() {
 										</View>
 										{/* Status Indicator */}
 										<View
-											className={`absolute bottom-0 right-0 w-4 h-4 rounded-full border-2 border-white ${
+											className={`absolute right-0 bottom-0 h-4 w-4 rounded-full border-2 border-white ${
 												member.status === "online"
 													? "bg-green-500"
 													: member.status === "away"
@@ -174,44 +174,36 @@ export default function TeamPage() {
 									</View>
 
 									{/* Member Info */}
-									<View className="flex-1 ml-3">
-										<View className="flex-row justify-between items-start">
+									<View className="ml-3 flex-1">
+										<View className="flex-row items-start justify-between">
 											<View className="flex-1">
-												<Text className="text-lg font-semibold text-gray-800">
+												<Text className="font-semibold text-gray-800 text-lg">
 													{member.name}
 												</Text>
-												<Text className="text-sm text-gray-500 mt-0.5">
+												<Text className="mt-0.5 text-gray-500 text-sm">
 													{member.email}
 												</Text>
 											</View>
 											<View
-												className={`px-2 py-1 rounded ${
-													member.role === "owner"
+												className={`rounded px-2 py-1 ${
+													member.role === "admin"
 														? "bg-purple-100"
-														: member.role === "admin"
+														: member.role === "member"
 															? "bg-red-100"
-															: member.role === "manager"
-																? "bg-orange-100"
-																: member.role === "developer"
-																	? "bg-green-100"
-																	: member.role === "designer"
-																		? "bg-pink-100"
-																		: "bg-gray-100"
+															: member.role === "viewer"
+																? "bg-gray-100"
+																: "bg-gray-100"
 												}`}
 											>
 												<Text
-													className={`text-xs font-medium ${
-														member.role === "owner"
+													className={`font-medium text-xs ${
+														member.role === "admin"	
 															? "text-orange-700"
-															: member.role === "admin"
-																? "text-orange-700"
-																: member.role === "manager"
-																	? "text-orange-700"
-																	: member.role === "developer"
-																		? "text-orange-700"
-																		: member.role === "designer"
-																			? "text-orange-700"
-																			: "text-gray-700"
+															: member.role === "member"
+																? "text-gray-700"
+																: member.role === "viewer"
+																	? "text-gray-700"
+																	: "text-gray-700"
 													}`}
 												>
 													{member.role}
@@ -220,7 +212,7 @@ export default function TeamPage() {
 										</View>
 
 										{/* Department */}
-										<View className="flex-row items-center mt-2">
+										<View className="mt-2 flex-row items-center">
 											{member.department && (
 												<>
 													<MaterialCommunityIcons
@@ -228,7 +220,7 @@ export default function TeamPage() {
 														size={14}
 														color="#9ca3af"
 													/>
-													<Text className="text-xs text-gray-600 ml-1">
+													<Text className="ml-1 text-gray-600 text-xs">
 														{member.department}
 													</Text>
 												</>
@@ -236,14 +228,14 @@ export default function TeamPage() {
 										</View>
 
 										{/* Stats */}
-										<View className="flex-row items-center mt-3 gap-4">
+										<View className="mt-3 flex-row items-center gap-4">
 											<View className="flex-row items-center">
 												<Ionicons
 													name="briefcase-outline"
 													size={14}
 													color="#9ca3af"
 												/>
-												<Text className="text-xs text-gray-600 ml-1">
+												<Text className="ml-1 text-gray-600 text-xs">
 													{member.projects.length || 0} projects
 												</Text>
 											</View>
@@ -253,7 +245,7 @@ export default function TeamPage() {
 													size={14}
 													color="#9ca3af"
 												/>
-												<Text className="text-xs text-gray-600 ml-1">
+												<Text className="ml-1 text-gray-600 text-xs">
 													{0 || 0} tasks
 												</Text>
 											</View>
@@ -261,20 +253,20 @@ export default function TeamPage() {
 
 										{/* Skills */}
 										{member.skills && member.skills.length > 0 && (
-											<View className="flex-row flex-wrap gap-1 mt-3">
-												{member.skills.slice(0, 3).map((skill, idx) => (
+											<View className="mt-3 flex-row flex-wrap gap-1">
+												{member.skills.slice(0, 3).map((skill) => (
 													<View
-														key={idx}
-														className="bg-gray-100 px-2 py-1 rounded"
+														key={skill}
+														className="rounded bg-gray-100 px-2 py-1"
 													>
-														<Text className="text-xs text-gray-600">
+														<Text className="text-gray-600 text-xs">
 															{skill}
 														</Text>
 													</View>
 												))}
 												{member.skills.length > 3 && (
-													<View className="bg-gray-100 px-2 py-1 rounded">
-														<Text className="text-xs text-gray-600">
+													<View className="rounded bg-gray-100 px-2 py-1">
+														<Text className="text-gray-600 text-xs">
 															+{member.skills.length - 3}
 														</Text>
 													</View>
@@ -288,9 +280,9 @@ export default function TeamPage() {
 					</View>
 
 					{filteredMembers.length === 0 && (
-						<View className="bg-white p-8 rounded-lg shadow items-center">
+						<View className="items-center rounded-lg bg-white p-8 shadow">
 							<Ionicons name="people-outline" size={48} color="#d1d5db" />
-							<Text className="text-gray-500 mt-4">No team members found</Text>
+							<Text className="mt-4 text-gray-500">No team members found</Text>
 						</View>
 					)}
 				</View>

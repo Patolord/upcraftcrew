@@ -218,7 +218,10 @@ export const updateTask = mutation({
 
 		// Only owner can update private tasks
 		// Tasks without isPrivate field are treated as public (false)
-		if ((existingTask.isPrivate ?? false) && existingTask.ownerId !== user.userId) {
+		if (
+			(existingTask.isPrivate ?? false) &&
+			existingTask.ownerId !== user.userId
+		) {
 			throw new Error(
 				"Unauthorized: Only the owner can update this private task",
 			);

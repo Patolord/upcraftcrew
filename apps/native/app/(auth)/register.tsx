@@ -1,16 +1,18 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
-	View,
-	Text,
-	TextInput,
-	TouchableOpacity,
+	Alert,
+	Image,
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
-	Image,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
+import { authClient } from "@/lib/auth-client";
 
 export default function RegisterPage() {
 	const router = useRouter();
@@ -23,12 +25,47 @@ export default function RegisterPage() {
 	const [isLoading, setIsLoading] = useState(false);
 
 	const handleRegister = async () => {
+		// Validações
+		if (!name || !email || !password) {
+			Alert.alert("Erro", "Por favor, preencha todos os campos");
+			return;
+		}
+
+		if (password.length < 8) {
+			Alert.alert("Erro", "A senha deve ter no mínimo 8 caracteres");
+			return;
+		}
+
+		if (password !== confirmPassword) {
+			Alert.alert("Erro", "As senhas não coincidem");
+			return;
+		}
+
 		setIsLoading(true);
-		// TODO: Implementar lógica de registro
-		setTimeout(() => {
+
+		try {
+			await authClient.signUp.email({
+				email,
+				password,
+				name,
+			});
+
+			Alert.alert(
+				"Sucesso",
+				"Conta criada com sucesso! Você já pode fazer login.",
+				[
+					{
+						text: "OK",
+						onPress: () => router.replace("/(auth)/login"),
+					},
+				],
+			);
+		} catch (error: unknown) {
+			const errorMessage = error instanceof Error ? error.message : "Não foi possível criar a conta. Tente novamente.";
+			Alert.alert("Erro no Registro", errorMessage);
+		} finally {
 			setIsLoading(false);
-			router.replace("/(app)/dashboard");
-		}, 1000);
+		}
 	};
 
 	return (

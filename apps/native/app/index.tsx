@@ -1,12 +1,12 @@
-import { View, Text, TouchableOpacity, Image } from "react-native";
-import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
 export default function WelcomePage() {
 	const router = useRouter();
 
 	return (
-		<View className="flex-1 bg-gradient-to-br from-orange-500 to-orange-600 items-center justify-center p-8">
+		<View className="flex-1 bg-gradient-to-br items-center justify-center p-8">
 			{/* Logo Area */}
 			<View className="items-center mb-12">
 				{/* Placeholder para logo - substituir com imagem real */}
@@ -16,7 +16,8 @@ export default function WelcomePage() {
 				>
 					<Image
 						source={require("@/assets/logo/logo-light.png")}
-						className="w-full h-full"
+						width={256}
+						height={256}
 					/>
 				</View>
 			</View>

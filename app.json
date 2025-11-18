@@ -1,5 +1,8 @@
 {
-	"ios": {
-		"bundleIdentifier": "com.anonymous.upcraftcrew-os"
-	}
+  "android": {
+    "package": "com.sqpaloma.upcraftcrewos"
+  },
+  "ios": {
+    "bundleIdentifier": "com.sqpaloma.upcraftcrewos"
+  }
 }

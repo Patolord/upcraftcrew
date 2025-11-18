@@ -254,6 +254,70 @@
           "Complete portfolio of featured projects with category filters",
           "Transparent pricing section with detailed plans for each service type"
         ]
+      },
+      {
+        "name": "Unstack",
+        "industry": "Web App",
+        "category": "Web Applications",
+        "year": "2025",
+        "image": "/unstack.png",
+        "alt": "Personalized learning platform for developers",
+        "tagline": "Learn your stack intelligently and focused.",
+        "stack": ["GitHub API", "AI", "Analytics"],
+        "description": "Web platform that analyzes GitHub repositories to create personalized learning paths, detecting technologies and identifying knowledge gaps.",
+        "highlights": [
+          "Automatic technology analysis in GitHub repositories",
+          "Personalized study plan generation based on real gaps",
+          "Dashboard tracking learning progress and technical evolution"
+        ]
+      },
+      {
+        "name": "Operational Management",
+        "industry": "Web App",
+        "category": "Web Applications",
+        "year": "2024",
+        "image": "/gestao-operacional.png",
+        "alt": "Operational management platform for engineering consultancy",
+        "tagline": "Centralized operational management with real-time indicators.",
+        "stack": ["Dashboard", "Kanban", "Chat", "Reports"],
+        "description": "Complete web application for process management, indicators and internal communication, developed to centralize engineering consultancy operations with dashboards, weekly agenda, kanban and financial analysis.",
+        "highlights": [
+          "Operational dashboard with real-time KPIs and distribution charts by status",
+          "Integrated internal communication system with chat, notes and automatic notifications",
+          "Financial and production analysis modules with rankings and conversion rates"
+        ]
+      },
+      {
+        "name": "Technical Assistance",
+        "industry": "Web App",
+        "category": "Web Applications",
+        "year": "2024",
+        "image": "/assistencia-tecnica.png",
+        "alt": "Technical assistance management system",
+        "tagline": "Complete management of technical service scheduling.",
+        "stack": ["Scheduling", "Dashboard", "Chat", "Calendar"],
+        "description": "Web system for technical assistance management with service scheduling, weekly programming by technician, status tracking and internal chat for field teams.",
+        "highlights": [
+          "Centralized dashboard for viewing all scheduled services",
+          "Weekly calendar with service distribution by technician",
+          "Real-time status tracking (Scheduled, Budgeting, Completed)"
+        ]
+      },
+      {
+        "name": "Connected Spine Clinic",
+        "industry": "Web App",
+        "category": "Web Applications",
+        "year": "2024",
+        "image": "/clinica-coluna.png",
+        "alt": "Patient onboarding system for clinics",
+        "tagline": "Patient onboarding with integrated scheduling and reports.",
+        "stack": ["Forms", "Scheduling", "Database", "Healthcare"],
+        "description": "Patient onboarding form for clinics with appointment scheduling system, medical data collection and structured report generation.",
+        "highlights": [
+          "Complete registration form with patient medical history",
+          "Appointment scheduling system integrated with registration",
+          "Automatic report generation and clinical data organization"
+        ]
       }
     ]
   },

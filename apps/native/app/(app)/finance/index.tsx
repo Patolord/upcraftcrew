@@ -1,14 +1,14 @@
-import {
-	View,
-	Text,
-	ScrollView,
-	ActivityIndicator,
-	TouchableOpacity,
-} from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
+import {
+	ActivityIndicator,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 export default function FinancePage() {
 	const transactions = useQuery(api.finance.getTransactions);
@@ -73,12 +73,12 @@ export default function FinancePage() {
 	return (
 		<View className="flex-1 bg-gray-50">
 			<ScrollView className="flex-1">
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{/* Header */}
-					<View className="flex-row justify-between items-center">
-						<Text className="text-2xl font-bold text-orange-500">Finance</Text>
-						<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-							<Text className="text-white font-semibold">
+					<View className="flex-row items-center justify-between">
+						<Text className="font-bold text-2xl text-orange-500">Finance</Text>
+						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+							<Text className="font-semibold text-white">
 								+ New Transaction
 							</Text>
 						</TouchableOpacity>
@@ -86,52 +86,52 @@ export default function FinancePage() {
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Total Income</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Total Income</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.income.toLocaleString()}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Total Expenses</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Total Expenses</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.expenses.toLocaleString()}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Net Profit</Text>
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Net Profit</Text>
 							<Text
-								className={`text-2xl font-bold mt-1 ${stats.profit >= 0 ? "text-orange-500" : "text-orange-500"}`}
+								className={`mt-1 font-bold text-2xl ${stats.profit >= 0 ? "text-orange-500" : "text-orange-500"}`}
 							>
 								${stats.profit.toLocaleString()}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Pending</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Pending</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.pending.toLocaleString()}
 							</Text>
 						</View>
 					</View>
 
 					{/* Filters */}
-					<View className="bg-white p-4 rounded-lg shadow">
-						<Text className="text-sm font-semibold text-gray-700 mb-3">
+					<View className="rounded-lg bg-white p-4 shadow">
+						<Text className="mb-3 font-semibold text-gray-700 text-sm">
 							Filters
 						</Text>
 
 						{/* Type Filter */}
-						<Text className="text-xs text-gray-500 mb-2">Type</Text>
+						<Text className="mb-2 text-gray-500 text-xs">Type</Text>
 						<ScrollView
 							horizontal
 							showsHorizontalScrollIndicator={false}
-							className="flex-row gap-2 mb-3"
+							className="mb-3 flex-row gap-2"
 						>
 							{typeOptions.map((option) => (
 								<TouchableOpacity
 									key={option.value}
 									onPress={() => setTypeFilter(option.value)}
-									className={`px-4 py-2 rounded-full ${
+									className={`rounded-full px-4 py-2 ${
 										typeFilter === option.value
 											? "bg-orange-500"
 											: "bg-gray-100"
@@ -151,7 +151,7 @@ export default function FinancePage() {
 						</ScrollView>
 
 						{/* Status Filter */}
-						<Text className="text-xs text-gray-500 mb-2">Status</Text>
+						<Text className="mb-2 text-gray-500 text-xs">Status</Text>
 						<ScrollView
 							horizontal
 							showsHorizontalScrollIndicator={false}
@@ -161,7 +161,7 @@ export default function FinancePage() {
 								<TouchableOpacity
 									key={option.value}
 									onPress={() => setStatusFilter(option.value)}
-									className={`px-4 py-2 rounded-full ${
+									className={`rounded-full px-4 py-2 ${
 										statusFilter === option.value
 											? "bg-orange-500"
 											: "bg-gray-100"
@@ -183,31 +183,31 @@ export default function FinancePage() {
 
 					{/* Transactions List */}
 					<View>
-						<Text className="text-lg font-semibold text-orange-500 mb-3">
+						<Text className="mb-3 font-semibold text-lg text-orange-500">
 							Transactions
 						</Text>
 						<View className="space-y-3">
 							{filteredTransactions.map((transaction) => (
 								<View
 									key={transaction._id}
-									className="bg-white p-4 rounded-lg shadow"
+									className="rounded-lg bg-white p-4 shadow"
 								>
 									{/* Header */}
-									<View className="flex-row justify-between items-start mb-2">
+									<View className="mb-2 flex-row items-start justify-between">
 										<View className="flex-1">
-											<Text className="text-lg font-semibold text-gray-800">
+											<Text className="font-semibold text-gray-800 text-lg">
 												{transaction.description}
 											</Text>
 											{transaction.projectId &&
 												"project" in transaction &&
 												transaction.project && (
-													<Text className="text-sm text-gray-500 mt-1">
+													<Text className="mt-1 text-gray-500 text-sm">
 														{transaction.project.name}
 													</Text>
 												)}
 										</View>
 										<Text
-											className={`text-lg font-bold ${
+											className={`font-bold text-lg ${
 												transaction.type === "income"
 													? "text-orange-500"
 													: "text-orange-500"
@@ -221,7 +221,7 @@ export default function FinancePage() {
 									{/* Description */}
 									{transaction.description && (
 										<Text
-											className="text-sm text-gray-600 mb-3"
+											className="mb-3 text-gray-600 text-sm"
 											numberOfLines={2}
 										>
 											{transaction.description}
@@ -237,7 +237,7 @@ export default function FinancePage() {
 												size={14}
 												color="#9ca3af"
 											/>
-											<Text className="text-xs text-gray-600 ml-1 capitalize">
+											<Text className="ml-1 text-gray-600 text-xs capitalize">
 												{transaction.category?.replace("-", " ")}
 											</Text>
 										</View>
@@ -249,7 +249,7 @@ export default function FinancePage() {
 												size={14}
 												color="#9ca3af"
 											/>
-											<Text className="text-xs text-gray-600 ml-1">
+											<Text className="ml-1 text-gray-600 text-xs">
 												{new Date(transaction.date).toLocaleDateString()}
 											</Text>
 										</View>
@@ -262,7 +262,7 @@ export default function FinancePage() {
 													size={14}
 													color="#9ca3af"
 												/>
-												<Text className="text-xs text-gray-600 ml-1">
+												<Text className="ml-1 text-gray-600 text-xs">
 													{transaction.clientId}
 												</Text>
 											</View>
@@ -275,7 +275,7 @@ export default function FinancePage() {
 												size={14}
 												color="#9ca3af"
 											/>
-											<Text className="text-xs text-gray-600 ml-1">
+											<Text className="ml-1 text-gray-600 text-xs">
 												ID: {transaction._id}
 											</Text>
 										</View>
@@ -284,7 +284,7 @@ export default function FinancePage() {
 									{/* Status Badge */}
 									<View className="mt-3">
 										<View
-											className={`self-start px-3 py-1 rounded-full ${
+											className={`self-start rounded-full px-3 py-1 ${
 												transaction.status === "completed"
 													? "bg-green-100"
 													: transaction.status === "pending"
@@ -293,7 +293,7 @@ export default function FinancePage() {
 											}`}
 										>
 											<Text
-												className={`text-xs font-medium ${
+												className={`font-medium text-xs ${
 													transaction.status === "completed"
 														? "text-green-700"
 														: transaction.status === "pending"
@@ -311,9 +311,9 @@ export default function FinancePage() {
 						</View>
 
 						{filteredTransactions.length === 0 && (
-							<View className="bg-white p-8 rounded-lg shadow items-center">
+							<View className="items-center rounded-lg bg-white p-8 shadow">
 								<Ionicons name="cash-outline" size={48} color="#d1d5db" />
-								<Text className="text-gray-500 mt-4">
+								<Text className="mt-4 text-gray-500">
 									No transactions found
 								</Text>
 							</View>

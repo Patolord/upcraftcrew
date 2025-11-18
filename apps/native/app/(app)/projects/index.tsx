@@ -1,16 +1,16 @@
+import { Ionicons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
 import {
-	View,
-	Text,
-	ScrollView,
 	ActivityIndicator,
+	FlatList,
+	ScrollView,
+	Text,
 	TextInput,
 	TouchableOpacity,
-	FlatList,
+	View,
 } from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState, useMemo } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function ProjectsPage() {
 	const projects = useQuery(api.projects.getProjects);
@@ -65,52 +65,52 @@ export default function ProjectsPage() {
 	];
 
 	return (
-		<View className="flex-1 pt-16 bg-gray-50">
+		<View className="flex-1 bg-gray-50 pt-16">
 			<ScrollView className="flex-1">
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{/* Header */}
-					<View className="flex-row justify-between items-center">
-						<Text className="text-3xl font-bold text-orange-500 pb-4">
+					<View className="flex-row items-center justify-between">
+						<Text className="pb-4 font-bold text-3xl text-orange-500">
 							Projects
 						</Text>
-						<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-							<Text className="text-white font-semibold">+ New</Text>
+						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+							<Text className="font-semibold text-white">+ New</Text>
 						</TouchableOpacity>
 					</View>
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
-							<Text className="text-xs text-gray-500">Total</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Total</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.total}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
-							<Text className="text-xs text-gray-500">Active</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Active</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.active}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
-							<Text className="text-xs text-gray-500">Completed</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Completed</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.completed}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white border border-orange-500 p-3 rounded-lg">
-							<Text className="text-xs text-gray-500">Planning</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
+							<Text className="text-gray-500 text-xs">Planning</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.planning}
 							</Text>
 						</View>
 					</View>
 
 					{/* Search */}
-					<View className="bg-white p-3 mb-4 mt-4 rounded-lg border border-orange-500 flex-row items-center">
+					<View className="mt-4 mb-4 flex-row items-center rounded-lg border border-orange-500 bg-white p-3">
 						<Ionicons name="search-outline" size={20} color="#9ca3af" />
 						<TextInput
-							className="flex-1 ml-2 text-gray-800"
+							className="ml-2 flex-1 text-gray-800"
 							placeholder="Search projects..."
 							value={searchQuery}
 							onChangeText={setSearchQuery}
@@ -121,20 +121,20 @@ export default function ProjectsPage() {
 					<ScrollView
 						horizontal
 						showsHorizontalScrollIndicator={false}
-						className="flex-row justify gap-6 mb-4"
+						className="justify mb-4 flex-row gap-6"
 					>
 						{statusOptions.map((option) => (
 							<TouchableOpacity
 								key={option.value}
 								onPress={() => setStatusFilter(option.value)}
-								className={`px-4 py-2 text-gray-300 rounded-full ${
+								className={`rounded-full px-4 py-2 text-gray-300 ${
 									statusFilter === option.value
 										? "bg-orange-500"
-										: "bg-white border border-orange-500"
+										: "border border-orange-500 bg-white"
 								}`}
 							>
 								<Text
-									className={`font-medium  ${
+									className={`font-medium ${
 										statusFilter === option.value
 											? "text-white"
 											: "text-gray-400"
@@ -151,19 +151,19 @@ export default function ProjectsPage() {
 						{filteredProjects.map((project) => (
 							<View
 								key={project._id}
-								className="bg-white p-4 rounded-lg border border-orange-500"
+								className="rounded-lg border border-orange-500 bg-white p-4"
 							>
-								<View className="flex-row justify-between items-start mb-2">
+								<View className="mb-2 flex-row items-start justify-between">
 									<View className="flex-1">
-										<Text className="text-lg font-semibold text-gray-800">
+										<Text className="font-semibold text-gray-800 text-lg">
 											{project.name}
 										</Text>
-										<Text className="text-sm text-gray-500 mt-1">
+										<Text className="mt-1 text-gray-500 text-sm">
 											{project.client}
 										</Text>
 									</View>
 									<View
-										className={`px-3 py-1 rounded-full ${
+										className={`rounded-full px-3 py-1 ${
 											project.status === "completed"
 												? "bg-orange-100"
 												: project.status === "in-progress"
@@ -174,7 +174,7 @@ export default function ProjectsPage() {
 										}`}
 									>
 										<Text
-											className={`text-xs font-medium ${
+											className={`font-medium text-xs ${
 												project.status === "completed"
 													? "text-orange-700"
 													: project.status === "in-progress"
@@ -191,7 +191,7 @@ export default function ProjectsPage() {
 
 								{project.description && (
 									<Text
-										className="text-sm text-gray-600 mb-3"
+										className="mb-3 text-gray-600 text-sm"
 										numberOfLines={2}
 									>
 										{project.description}
@@ -200,34 +200,34 @@ export default function ProjectsPage() {
 
 								{/* Progress Bar */}
 								<View className="mb-3">
-									<View className="flex-row justify-between mb-1">
-										<Text className="text-xs text-gray-500">Progress</Text>
-										<Text className="text-xs font-semibold text-orange-500">
+									<View className="mb-1 flex-row justify-between">
+										<Text className="text-gray-500 text-xs">Progress</Text>
+										<Text className="font-semibold text-orange-500 text-xs">
 											{project.progress}%
 										</Text>
 									</View>
-									<View className="h-2 bg-gray-200 rounded-full overflow-hidden">
+									<View className="h-2 overflow-hidden rounded-full bg-gray-200">
 										<View
-											className="h-full bg-orange-500 rounded-full"
+											className="h-full rounded-full bg-orange-500"
 											style={{ width: `${project.progress}%` }}
 										/>
 									</View>
 								</View>
 
 								{/* Footer */}
-								<View className="flex-row justify-between items-center">
+								<View className="flex-row items-center justify-between">
 									<View className="flex-row items-center">
 										<Ionicons
 											name="calendar-outline"
 											size={14}
 											color="#9ca3af"
 										/>
-										<Text className="text-xs text-gray-500 ml-1">
+										<Text className="ml-1 text-gray-500 text-xs">
 											{new Date(project.startDate).toLocaleDateString()}
 										</Text>
 									</View>
 									{project.budget && (
-										<Text className="text-sm font-semibold text-gray-700">
+										<Text className="font-semibold text-gray-700 text-sm">
 											${project.budget.spent.toLocaleString()} / $
 											{project.budget.total.toLocaleString()}
 										</Text>
@@ -238,9 +238,9 @@ export default function ProjectsPage() {
 					</View>
 
 					{filteredProjects.length === 0 && (
-						<View className="bg-white p-8 rounded-lg shadow items-center">
+						<View className="items-center rounded-lg bg-white p-8 shadow">
 							<Ionicons name="briefcase-outline" size={48} color="#d1d5db" />
-							<Text className="text-gray-500 mt-4">No projects found</Text>
+							<Text className="mt-4 text-gray-500">No projects found</Text>
 						</View>
 					)}
 				</View>

@@ -1,14 +1,14 @@
-import {
-	View,
-	Text,
-	ScrollView,
-	ActivityIndicator,
-	TouchableOpacity,
-} from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState, useMemo } from "react";
 import { Ionicons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useMemo, useState } from "react";
+import {
+	ActivityIndicator,
+	ScrollView,
+	Text,
+	TouchableOpacity,
+	View,
+} from "react-native";
 
 export default function SchedulePage() {
 	const [selectedDate, setSelectedDate] = useState(new Date());
@@ -109,46 +109,46 @@ export default function SchedulePage() {
 	return (
 		<View className="flex-1 bg-gray-50">
 			<ScrollView className="flex-1">
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{/* Header */}
-					<View className="flex-row justify-between items-center">
-						<Text className="text-2xl font-bold text-orange-500">Schedule</Text>
-						<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-							<Text className="text-white font-semibold">+ New Event</Text>
+					<View className="flex-row items-center justify-between">
+						<Text className="font-bold text-2xl text-orange-500">Schedule</Text>
+						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+							<Text className="font-semibold text-white">+ New Event</Text>
 						</TouchableOpacity>
 					</View>
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Total Events</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Total Events</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.total}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Meetings</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Meetings</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.meetings}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Deadlines</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Deadlines</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.deadlines}
 							</Text>
 						</View>
-						<View className="flex-1 min-w-[45%] bg-white p-3 rounded-lg shadow">
-							<Text className="text-xs text-gray-500">Tasks</Text>
-							<Text className="text-2xl font-bold text-orange-500 mt-1">
+						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+							<Text className="text-gray-500 text-xs">Tasks</Text>
+							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.tasks}
 							</Text>
 						</View>
 					</View>
 
 					{/* Month Navigation */}
-					<View className="bg-white p-4 rounded-lg shadow">
-						<View className="flex-row justify-between items-center">
+					<View className="rounded-lg bg-white p-4 shadow">
+						<View className="flex-row items-center justify-between">
 							<TouchableOpacity
 								onPress={() => {
 									const newDate = new Date(selectedDate);
@@ -160,7 +160,7 @@ export default function SchedulePage() {
 								<Ionicons name="chevron-back" size={24} color="#FF5722" />
 							</TouchableOpacity>
 
-							<Text className="text-lg font-semibold text-gray-800">
+							<Text className="font-semibold text-gray-800 text-lg">
 								{monthName}
 							</Text>
 
@@ -178,15 +178,15 @@ export default function SchedulePage() {
 
 						<TouchableOpacity
 							onPress={() => setSelectedDate(new Date())}
-							className="mt-3 bg-orange-500 py-2 rounded-lg"
+							className="mt-3 rounded-lg bg-orange-500 py-2"
 						>
-							<Text className="text-white text-center font-medium">Today</Text>
+							<Text className="text-center font-medium text-white">Today</Text>
 						</TouchableOpacity>
 					</View>
 
 					{/* Events List */}
 					<View>
-						<Text className="text-lg font-semibold text-orange-500 mb-3">
+						<Text className="mb-3 font-semibold text-lg text-orange-500">
 							Upcoming Events
 						</Text>
 						<View className="space-y-3">
@@ -195,25 +195,25 @@ export default function SchedulePage() {
 								return (
 									<View
 										key={event._id}
-										className="bg-white p-4 rounded-lg shadow"
+										className="rounded-lg bg-white p-4 shadow"
 									>
 										{/* Header */}
-										<View className="flex-row justify-between items-start mb-2">
+										<View className="mb-2 flex-row items-start justify-between">
 											<View className="flex-1">
-												<Text className="text-lg font-semibold text-orange-500">
+												<Text className="font-semibold text-lg text-orange-500">
 													{event.title}
 												</Text>
 												{event.project && (
-													<Text className="text-sm text-gray-500 mt-1">
+													<Text className="mt-1 text-gray-500 text-sm">
 														{event.project.name}
 													</Text>
 												)}
 											</View>
 											<View
-												className={`px-3 py-1 rounded-full ${typeColor.bg}`}
+												className={`rounded-full px-3 py-1 ${typeColor.bg}`}
 											>
 												<Text
-													className={`text-xs font-medium ${typeColor.text}`}
+													className={`font-medium text-xs ${typeColor.text}`}
 												>
 													{event.type}
 												</Text>
@@ -223,7 +223,7 @@ export default function SchedulePage() {
 										{/* Description */}
 										{event.description && (
 											<Text
-												className="text-sm text-gray-600 mb-3"
+												className="mb-3 text-gray-600 text-sm"
 												numberOfLines={2}
 											>
 												{event.description}
@@ -239,7 +239,7 @@ export default function SchedulePage() {
 													size={16}
 													color="#9ca3af"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													{formatDate(event.startTime)} at{" "}
 													{formatTime(event.startTime)}
 												</Text>
@@ -253,7 +253,7 @@ export default function SchedulePage() {
 														size={16}
 														color="#9ca3af"
 													/>
-													<Text className="text-sm text-gray-600 ml-2">
+													<Text className="ml-2 text-gray-600 text-sm">
 														{event.location}
 													</Text>
 												</View>
@@ -267,7 +267,7 @@ export default function SchedulePage() {
 														size={16}
 														color="#9ca3af"
 													/>
-													<Text className="text-sm text-gray-600 ml-2">
+													<Text className="ml-2 text-gray-600 text-sm">
 														{event.attendees.length} attendee
 														{event.attendees.length > 1 ? "s" : ""}
 													</Text>
@@ -283,7 +283,7 @@ export default function SchedulePage() {
 														color="#9ca3af"
 													/>
 													<Text
-														className={`text-sm ml-2 font-medium ${getPriorityColor(event.priority)}`}
+														className={`ml-2 font-medium text-sm ${getPriorityColor(event.priority)}`}
 													>
 														{event.priority.charAt(0).toUpperCase() +
 															event.priority.slice(1)}{" "}
@@ -295,13 +295,13 @@ export default function SchedulePage() {
 
 										{/* Status */}
 										{event.endTime < Date.now() && (
-											<View className="mt-3 bg-green-50 px-3 py-2 rounded-lg flex-row items-center">
+											<View className="mt-3 flex-row items-center rounded-lg bg-green-50 px-3 py-2">
 												<Ionicons
 													name="checkmark-circle"
 													size={16}
 													color="#22c55e"
 												/>
-												<Text className="text-green-700 text-sm ml-2 font-medium">
+												<Text className="ml-2 font-medium text-green-700 text-sm">
 													Past Event
 												</Text>
 											</View>
@@ -312,9 +312,9 @@ export default function SchedulePage() {
 						</View>
 
 						{upcomingEvents.length === 0 && (
-							<View className="bg-white p-8 rounded-lg shadow items-center">
+							<View className="items-center rounded-lg bg-white p-8 shadow">
 								<Ionicons name="calendar-outline" size={48} color="#d1d5db" />
-								<Text className="text-gray-500 mt-4">No upcoming events</Text>
+								<Text className="mt-4 text-gray-500">No upcoming events</Text>
 							</View>
 						)}
 					</View>

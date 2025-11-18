@@ -1,15 +1,15 @@
+import { Ionicons } from "@expo/vector-icons";
+import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
+import { useQuery } from "convex/react";
+import { useState } from "react";
 import {
-	View,
-	Text,
-	ScrollView,
 	ActivityIndicator,
 	RefreshControl,
+	ScrollView,
+	Text,
 	TouchableOpacity,
+	View,
 } from "react-native";
-import { useQuery } from "convex/react";
-import { api } from "@upcraftcrew-os/backend/convex/_generated/api";
-import { useState } from "react";
-import { Ionicons } from "@expo/vector-icons";
 
 export default function DashboardPage() {
 	const [refreshing, setRefreshing] = useState(false);
@@ -33,7 +33,7 @@ export default function DashboardPage() {
 		transactions === undefined
 	) {
 		return (
-			<View className="flex-1 pt-10 items-center justify-center bg-white">
+			<View className="flex-1 items-center justify-center bg-white pt-10">
 				<ActivityIndicator size="large" color="#FF5722" />
 				<Text className="mt-4 text-gray-600">Loading dashboard...</Text>
 			</View>
@@ -65,10 +65,10 @@ export default function DashboardPage() {
 		: 0;
 
 	return (
-		<View className="flex-1 pt-16 bg-gray-50">
+		<View className="flex-1 bg-gray-50 pt-16">
 			{/* Header */}
-			<View className="bg-white p-4 border-b border-gray-200">
-				<Text className="text-3xl font-bold text-orange-500 mb-3">
+			<View className="border-gray-200 border-b bg-white p-4">
+				<Text className="mb-3 font-bold text-3xl text-orange-500">
 					Dashboard
 				</Text>
 
@@ -76,7 +76,7 @@ export default function DashboardPage() {
 				<View className="flex-row gap-2">
 					<TouchableOpacity
 						onPress={() => setActiveTab("dashboard")}
-						className={`flex-1 py-2 rounded-lg ${
+						className={`flex-1 rounded-lg py-2 ${
 							activeTab === "dashboard" ? "bg-orange-500" : "bg-gray-100"
 						}`}
 					>
@@ -90,7 +90,7 @@ export default function DashboardPage() {
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => setActiveTab("goals")}
-						className={`flex-1 py-2 rounded-lg ${
+						className={`flex-1 rounded-lg py-2 ${
 							activeTab === "goals" ? "bg-orange-500" : "bg-gray-100"
 						}`}
 					>
@@ -104,7 +104,7 @@ export default function DashboardPage() {
 					</TouchableOpacity>
 					<TouchableOpacity
 						onPress={() => setActiveTab("map")}
-						className={`flex-1 py-2 rounded-lg ${
+						className={`flex-1 rounded-lg py-2 ${
 							activeTab === "map" ? "bg-orange-500" : "bg-gray-100"
 						}`}
 					>
@@ -125,57 +125,57 @@ export default function DashboardPage() {
 					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
 				}
 			>
-				<View className="p-4 space-y-4">
+				<View className="space-y-4 p-4">
 					{activeTab === "dashboard" ? (
 						/* Dashboard View */
 						<>
 							<View className="flex-row flex-wrap gap-3">
-								<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-									<Text className="text-sm text-gray-500">Active Projects</Text>
-									<Text className="text-3xl font-bold text-orange-500 mt-1">
+								<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<Text className="text-gray-500 text-sm">Active Projects</Text>
+									<Text className="mt-1 font-bold text-3xl text-orange-500">
 										{activeProjects}
 									</Text>
-									<Text className="text-xs text-gray-400 mt-1">
+									<Text className="mt-1 text-gray-400 text-xs">
 										of {projects?.length || 0} total
 									</Text>
 								</View>
 
-								<View className="flex-1 min-w-[45%] bg-white p-4 rounded-lg shadow">
-									<Text className="text-sm text-gray-500">Total Revenue</Text>
-									<Text className="text-3xl font-bold text-orange-500 mt-1">
+								<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<Text className="text-gray-500 text-sm">Total Revenue</Text>
+									<Text className="mt-1 font-bold text-3xl text-orange-500">
 										${totalIncome.toLocaleString()}
 									</Text>
-									<Text className="text-xs text-gray-400 mt-1">
+									<Text className="mt-1 text-gray-400 text-xs">
 										completed transactions
 									</Text>
 								</View>
 							</View>
 
 							{/* Recent Projects */}
-							<View className="bg-white p-4 rounded-lg shadow mt-4">
-								<Text className="text-lg font-semibold text-orange-500 mb-3">
+							<View className="mt-4 rounded-lg bg-white p-4 shadow">
+								<Text className="mb-3 font-semibold text-lg text-orange-500">
 									Recent Projects
 								</Text>
 								{projects?.slice(0, 5).map((project, index) => (
 									<View
 										key={project._id}
-										className={`py-3 ${index !== 0 ? "border-t border-gray-100" : ""}`}
+										className={`py-3 ${index !== 0 ? "border-gray-100 border-t" : ""}`}
 									>
-										<View className="flex-row justify-between items-start">
+										<View className="flex-row items-start justify-between">
 											<View className="flex-1">
 												<Text className="font-semibold text-gray-800">
 													{project.name}
 												</Text>
-												<Text className="text-xs text-gray-500 mt-1">
+												<Text className="mt-1 text-gray-500 text-xs">
 													{project.client}
 												</Text>
 											</View>
 											<View className="items-end">
-												<Text className="text-sm font-medium text-orange-500">
+												<Text className="font-medium text-orange-500 text-sm">
 													{project.progress}%
 												</Text>
 												<View
-													className={`px-2 py-1 rounded mt-1 ${
+													className={`mt-1 rounded px-2 py-1 ${
 														project.status === "completed"
 															? "bg-green-100"
 															: project.status === "in-progress"
@@ -206,17 +206,17 @@ export default function DashboardPage() {
 							</View>
 
 							{/* Team Overview */}
-							<View className="bg-white p-4 rounded-lg shadow mt-4">
-								<Text className="text-lg font-semibold text-orange-500 mb-3">
+							<View className="mt-4 rounded-lg bg-white p-4 shadow">
+								<Text className="mb-3 font-semibold text-lg text-orange-500">
 									Team Overview
 								</Text>
 								{teamMembers?.slice(0, 5).map((member, index) => (
 									<View
 										key={member._id}
-										className={`flex-row items-center py-3 ${index !== 0 ? "border-t border-gray-100" : ""}`}
+										className={`flex-row items-center py-3 ${index !== 0 ? "border-gray-100 border-t" : ""}`}
 									>
-										<View className="w-10 h-10 rounded-full bg-orange-100 items-center justify-center">
-											<Text className="text-orange-500 font-semibold">
+										<View className="h-10 w-10 items-center justify-center rounded-full bg-orange-100">
+											<Text className="font-semibold text-orange-500">
 												{member.name
 													.split(" ")
 													.map((n) => n[0])
@@ -224,16 +224,16 @@ export default function DashboardPage() {
 													.slice(0, 2)}
 											</Text>
 										</View>
-										<View className="flex-1 ml-3">
+										<View className="ml-3 flex-1">
 											<Text className="font-semibold text-gray-800">
 												{member.name}
 											</Text>
-											<Text className="text-xs text-gray-500">
+											<Text className="text-gray-500 text-xs">
 												{member.role}
 											</Text>
 										</View>
 										<View
-											className={`w-3 h-3 rounded-full ${
+											className={`h-3 w-3 rounded-full ${
 												member.status === "online"
 													? "bg-green-500"
 													: member.status === "away"
@@ -250,14 +250,14 @@ export default function DashboardPage() {
 					) : activeTab === "goals" ? (
 						/* Goals View */
 						<View className="space-y-4">
-							<View className="bg-white p-4 rounded-lg shadow">
-								<Text className="text-lg font-semibold text-orange-500 mb-3">
+							<View className="rounded-lg bg-white p-4 shadow">
+								<Text className="mb-3 font-semibold text-lg text-orange-500">
 									Metas da Empresa
 								</Text>
 
 								<View className="space-y-4">
-									<View className="p-4 bg-blue-50 rounded-lg">
-										<View className="flex-row justify-between items-center mb-2">
+									<View className="rounded-lg bg-blue-50 p-4">
+										<View className="mb-2 flex-row items-center justify-between">
 											<Text className="font-semibold text-gray-800">
 												Receita Anual
 											</Text>
@@ -267,10 +267,10 @@ export default function DashboardPage() {
 												color="#FF5722"
 											/>
 										</View>
-										<Text className="text-2xl font-bold text-orange-500 mb-1">
+										<Text className="mb-1 font-bold text-2xl text-orange-500">
 											${totalIncome.toLocaleString()} / $500,000
 										</Text>
-										<View className="h-2 bg-gray-200 rounded-full overflow-hidden">
+										<View className="h-2 overflow-hidden rounded-full bg-gray-200">
 											<View
 												className="h-full bg-orange-500"
 												style={{
@@ -278,13 +278,13 @@ export default function DashboardPage() {
 												}}
 											/>
 										</View>
-										<Text className="text-xs text-gray-500 mt-2">
+										<Text className="mt-2 text-gray-500 text-xs">
 											{Math.round((totalIncome / 500000) * 100)}% concluído
 										</Text>
 									</View>
 
-									<View className="p-4 bg-green-50 rounded-lg">
-										<View className="flex-row justify-between items-center mb-2">
+									<View className="rounded-lg bg-green-50 p-4">
+										<View className="mb-2 flex-row items-center justify-between">
 											<Text className="font-semibold text-gray-800">
 												Projetos Completados
 											</Text>
@@ -294,10 +294,10 @@ export default function DashboardPage() {
 												color="#10B981"
 											/>
 										</View>
-										<Text className="text-2xl font-bold text-green-600 mb-1">
+										<Text className="mb-1 font-bold text-2xl text-green-600">
 											{completedProjects} / 50
 										</Text>
-										<View className="h-2 bg-gray-200 rounded-full overflow-hidden">
+										<View className="h-2 overflow-hidden rounded-full bg-gray-200">
 											<View
 												className="h-full bg-green-500"
 												style={{
@@ -305,13 +305,13 @@ export default function DashboardPage() {
 												}}
 											/>
 										</View>
-										<Text className="text-xs text-gray-500 mt-2">
+										<Text className="mt-2 text-gray-500 text-xs">
 											{Math.round((completedProjects / 50) * 100)}% concluído
 										</Text>
 									</View>
 
-									<View className="p-4 bg-purple-50 rounded-lg">
-										<View className="flex-row justify-between items-center mb-2">
+									<View className="rounded-lg bg-purple-50 p-4">
+										<View className="mb-2 flex-row items-center justify-between">
 											<Text className="font-semibold text-gray-800">
 												Crescimento do Time
 											</Text>
@@ -321,10 +321,10 @@ export default function DashboardPage() {
 												color="#8B5CF6"
 											/>
 										</View>
-										<Text className="text-2xl font-bold text-purple-600 mb-1">
+										<Text className="mb-1 font-bold text-2xl text-purple-600">
 											{teamMembers?.length || 0} / 20
 										</Text>
-										<View className="h-2 bg-gray-200 rounded-full overflow-hidden">
+										<View className="h-2 overflow-hidden rounded-full bg-gray-200">
 											<View
 												className="h-full bg-purple-500"
 												style={{
@@ -332,7 +332,7 @@ export default function DashboardPage() {
 												}}
 											/>
 										</View>
-										<Text className="text-xs text-gray-500 mt-2">
+										<Text className="mt-2 text-gray-500 text-xs">
 											{Math.round(((teamMembers?.length || 0) / 20) * 100)}%
 											concluído
 										</Text>
@@ -343,44 +343,44 @@ export default function DashboardPage() {
 					) : (
 						/* Map View */
 						<View className="space-y-4">
-							<View className="bg-white p-4 rounded-lg shadow">
-								<Text className="text-lg font-semibold text-orange-500 mb-4">
+							<View className="rounded-lg bg-white p-4 shadow">
+								<Text className="mb-4 font-semibold text-lg text-orange-500">
 									Mapa da Empresa
 								</Text>
 
 								<View className="space-y-3">
-									<View className="border-l-4 border-orange-500 pl-4 py-2">
-										<Text className="font-semibold text-gray-800 mb-1">
+									<View className="border-orange-500 border-l-4 py-2 pl-4">
+										<Text className="mb-1 font-semibold text-gray-800">
 											Missão
 										</Text>
-										<Text className="text-sm text-gray-600">
+										<Text className="text-gray-600 text-sm">
 											Fornecer soluções inovadoras e de alta qualidade que
 											transformam ideias em realidade digital.
 										</Text>
 									</View>
 
-									<View className="border-l-4 border-blue-500 pl-4 py-2">
-										<Text className="font-semibold text-gray-800 mb-1">
+									<View className="border-blue-500 border-l-4 py-2 pl-4">
+										<Text className="mb-1 font-semibold text-gray-800">
 											Visão
 										</Text>
-										<Text className="text-sm text-gray-600">
+										<Text className="text-gray-600 text-sm">
 											Ser reconhecida como referência em desenvolvimento de
 											software, destacando-se pela excelência e inovação.
 										</Text>
 									</View>
 
-									<View className="border-l-4 border-green-500 pl-4 py-2">
-										<Text className="font-semibold text-gray-800 mb-1">
+									<View className="border-green-500 border-l-4 py-2 pl-4">
+										<Text className="mb-1 font-semibold text-gray-800">
 											Valores
 										</Text>
-										<View className="space-y-1 mt-2">
+										<View className="mt-2 space-y-1">
 											<View className="flex-row items-center">
 												<Ionicons
 													name="checkmark-circle"
 													size={16}
 													color="#10B981"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Inovação contínua
 												</Text>
 											</View>
@@ -390,7 +390,7 @@ export default function DashboardPage() {
 													size={16}
 													color="#10B981"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Qualidade sem compromissos
 												</Text>
 											</View>
@@ -400,7 +400,7 @@ export default function DashboardPage() {
 													size={16}
 													color="#10B981"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Trabalho em equipe
 												</Text>
 											</View>
@@ -410,34 +410,34 @@ export default function DashboardPage() {
 													size={16}
 													color="#10B981"
 												/>
-												<Text className="text-sm text-gray-600 ml-2">
+												<Text className="ml-2 text-gray-600 text-sm">
 													Transparência e ética
 												</Text>
 											</View>
 										</View>
 									</View>
 
-									<View className="mt-4 bg-gray-50 p-4 rounded-lg">
-										<Text className="font-semibold text-gray-800 mb-3">
+									<View className="mt-4 rounded-lg bg-gray-50 p-4">
+										<Text className="mb-3 font-semibold text-gray-800">
 											Estrutura Organizacional
 										</Text>
 
 										<View className="space-y-3">
-											<View className="bg-white p-3 rounded-lg border border-orange-200">
-												<Text className="font-semibold text-orange-500 mb-1">
+											<View className="rounded-lg border border-orange-200 bg-white p-3">
+												<Text className="mb-1 font-semibold text-orange-500">
 													Diretoria
 												</Text>
-												<Text className="text-xs text-gray-600">
+												<Text className="text-gray-600 text-xs">
 													Liderança estratégica e visão de negócio
 												</Text>
 											</View>
 
 											<View className="ml-4 space-y-2">
-												<View className="bg-white p-3 rounded-lg border border-blue-200">
-													<Text className="font-semibold text-blue-500 mb-1">
+												<View className="rounded-lg border border-blue-200 bg-white p-3">
+													<Text className="mb-1 font-semibold text-blue-500">
 														Desenvolvimento
 													</Text>
-													<Text className="text-xs text-gray-600">
+													<Text className="text-gray-600 text-xs">
 														{teamMembers?.filter((m) =>
 															m.role.toLowerCase().includes("dev"),
 														).length || 0}{" "}
@@ -445,20 +445,20 @@ export default function DashboardPage() {
 													</Text>
 												</View>
 
-												<View className="bg-white p-3 rounded-lg border border-green-200">
-													<Text className="font-semibold text-green-500 mb-1">
+												<View className="rounded-lg border border-green-200 bg-white p-3">
+													<Text className="mb-1 font-semibold text-green-500">
 														Projetos
 													</Text>
-													<Text className="text-xs text-gray-600">
+													<Text className="text-gray-600 text-xs">
 														{projects?.length || 0} projetos ativos
 													</Text>
 												</View>
 
-												<View className="bg-white p-3 rounded-lg border border-purple-200">
-													<Text className="font-semibold text-purple-500 mb-1">
+												<View className="rounded-lg border border-purple-200 bg-white p-3">
+													<Text className="mb-1 font-semibold text-purple-500">
 														Administrativo
 													</Text>
-													<Text className="text-xs text-gray-600">
+													<Text className="text-gray-600 text-xs">
 														{teamMembers?.filter((m) =>
 															m.role.toLowerCase().includes("admin"),
 														).length || 0}{" "}

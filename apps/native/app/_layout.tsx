@@ -1,3 +1,4 @@
+import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
 import {
 	DarkTheme,
 	DefaultTheme,
@@ -5,7 +6,7 @@ import {
 	ThemeProvider,
 } from "@react-navigation/native";
 import { ConvexProvider, ConvexReactClient } from "convex/react";
-import { ConvexBetterAuthProvider } from "@convex-dev/better-auth/react";
+import Constants from "expo-constants";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
@@ -13,10 +14,8 @@ import "../global.css";
 import React, { useRef } from "react";
 import { Platform } from "react-native";
 import { setAndroidNavigationBar } from "@/lib/android-navigation-bar";
-import { NAV_THEME } from "@/lib/constants";
-import { useColorScheme } from "@/lib/use-color-scheme";
 import { authClient } from "@/lib/auth-client";
-import { AuthWrapper } from "@/components/auth/AuthWrapper";
+import { NAV_THEME } from "@/lib/constants";
 
 const LIGHT_THEME: Theme = {
 	...DefaultTheme,
@@ -27,7 +26,9 @@ const DARK_THEME: Theme = {
 	colors: NAV_THEME.dark,
 };
 
-const convexUrl = process.env.EXPO_PUBLIC_CONVEX_URL;
+const convexUrl =
+	process.env.EXPO_PUBLIC_CONVEX_URL ||
+	Constants.expoConfig?.extra?.EXPO_PUBLIC_CONVEX_URL;
 if (!convexUrl) {
 	throw new Error("EXPO_PUBLIC_CONVEX_URL environment variable is required");
 }
@@ -38,7 +39,7 @@ const convex = new ConvexReactClient(convexUrl, {
 
 export default function RootLayout() {
 	const hasMounted = useRef(false);
-	const { colorScheme, isDarkColorScheme } = useColorScheme();
+
 	const [isColorSchemeLoaded, setIsColorSchemeLoaded] = React.useState(false);
 
 	useIsomorphicLayoutEffect(() => {
@@ -49,7 +50,7 @@ export default function RootLayout() {
 		if (Platform.OS === "web") {
 			document.documentElement.classList.add("bg-background");
 		}
-		setAndroidNavigationBar(colorScheme);
+		setAndroidNavigationBar("light");
 		setIsColorSchemeLoaded(true);
 		hasMounted.current = true;
 	}, []);
@@ -58,20 +59,20 @@ export default function RootLayout() {
 		return null;
 	}
 	return (
-		<ConvexBetterAuthProvider client={convex} authClient={authClient}>
-			<ThemeProvider value={isDarkColorScheme ? DARK_THEME : LIGHT_THEME}>
-				<StatusBar style={isDarkColorScheme ? "light" : "dark"} />
-				<GestureHandlerRootView style={{ flex: 1 }}>
-					<AuthWrapper>
+		<ConvexProvider client={convex}>
+			<ConvexBetterAuthProvider client={convex} authClient={authClient}>
+				<ThemeProvider value={LIGHT_THEME}>
+					<StatusBar style="light" />
+					<GestureHandlerRootView style={{ flex: 1 }}>
 						<Stack>
 							<Stack.Screen name="index" options={{ headerShown: false }} />
 							<Stack.Screen name="(auth)" options={{ headerShown: false }} />
 							<Stack.Screen name="(app)" options={{ headerShown: false }} />
 						</Stack>
-					</AuthWrapper>
-				</GestureHandlerRootView>
-			</ThemeProvider>
-		</ConvexBetterAuthProvider>
+					</GestureHandlerRootView>
+				</ThemeProvider>
+			</ConvexBetterAuthProvider>
+		</ConvexProvider>
 	);
 }
 

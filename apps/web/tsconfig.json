@@ -30,7 +30,8 @@
 		"./.next/types/**/*.ts",
 		"./next-env.d.ts",
 		".next/types/**/*.ts",
-		".next/dev/types/**/*.ts"
+		".next/dev/types/**/*.ts",
+		"../native/lib/use-color-scheme.ts"
 	],
 	"exclude": ["./node_modules"]
 }

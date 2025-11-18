@@ -1,17 +1,17 @@
+import { Ionicons } from "@expo/vector-icons";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import {
-	View,
-	Text,
-	TextInput,
-	TouchableOpacity,
+	Alert,
+	Image,
 	KeyboardAvoidingView,
 	Platform,
 	ScrollView,
-	Image,
-	Alert,
+	Text,
+	TextInput,
+	TouchableOpacity,
+	View,
 } from "react-native";
-import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { useState } from "react";
 import { authClient } from "@/lib/auth-client";
 
 export default function LoginPage() {
@@ -30,19 +30,37 @@ export default function LoginPage() {
 		setIsLoading(true);
 
 		try {
-			await authClient.signIn.email({
-				email,
-				password,
-			});
-
-			// Router will automatically redirect via AuthWrapper
-		} catch (error: any) {
-			Alert.alert(
-				"Erro no Login",
-				error?.message || "Credenciais inválidas. Tente novamente."
+			await authClient.signIn.email(
+				{
+					email,
+					password,
+				},
+				{
+					onSuccess: () => {
+						setIsLoading(false);
+						// Small delay to ensure Convex auth state is updated
+						setTimeout(() => {
+							router.replace("/(app)/dashboard");
+						}, 500);
+					},
+					onError: (error) => {
+						setIsLoading(false);
+						const errorMessage = 
+							error?.error?.message || 
+							error?.error?.statusText ||
+							"Credenciais inválidas. Tente novamente.";
+						Alert.alert("Erro no Login", errorMessage);
+					},
+					onFinished: () => {
+						// Fallback: ensure loading is set to false
+						setIsLoading(false);
+					},
+				},
 			);
-		} finally {
+		} catch (error: unknown) {
 			setIsLoading(false);
+			const errorMessage = error instanceof Error ? error.message : "Erro inesperado. Tente novamente.";
+			Alert.alert("Erro no Login", errorMessage);
 		}
 	};
 
@@ -159,6 +177,15 @@ export default function LoginPage() {
 							</TouchableOpacity>
 						</View>
 
+						{/* Register Link */}
+						<View className="flex-row justify-center mt-6 mb-8">
+							<Text className="text-gray-600">Não tem uma conta? </Text>
+							<TouchableOpacity onPress={() => router.push("/(auth)/register")}>
+								<Text className="text-orange-500 font-semibold">
+									Criar conta
+								</Text>
+							</TouchableOpacity>
+						</View>
 					</View>
 				</View>
 			</ScrollView>

@@ -71,19 +71,19 @@ export default function KanbanPage() {
 	return (
 		<View className="flex-1 bg-gray-50">
 			{/* Header */}
-			<View className="bg-white p-4 border-b border-gray-200">
-				<View className="flex-row justify-between items-center mb-3">
-					<Text className="text-2xl font-bold text-orange-500">Kanban</Text>
-					<TouchableOpacity className="bg-orange-500 px-4 py-2 rounded-lg">
-						<Text className="text-white font-semibold">+ New Task</Text>
+			<View className="border-gray-200 border-b bg-white p-4">
+				<View className="mb-3 flex-row items-center justify-between">
+					<Text className="font-bold text-2xl text-orange-500">Kanban</Text>
+					<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<Text className="font-semibold text-white">+ New Task</Text>
 					</TouchableOpacity>
 				</View>
 
 				{/* Search */}
-				<View className="bg-gray-50 p-3 rounded-lg flex-row items-center">
+				<View className="flex-row items-center rounded-lg bg-gray-50 p-3">
 					<Ionicons name="search-outline" size={20} color="#9ca3af" />
 					<TextInput
-						className="flex-1 ml-2 text-gray-800"
+						className="ml-2 flex-1 text-gray-800"
 						placeholder="Search tasks..."
 						value={searchQuery}
 						onChangeText={setSearchQuery}
@@ -97,19 +97,19 @@ export default function KanbanPage() {
 				showsHorizontalScrollIndicator={false}
 				className="flex-1"
 			>
-				<View className="flex-row p-4 gap-4">
+				<View className="flex-row gap-4 p-4">
 					{columns.map((column) => {
 						const columnTasks = groupedTasks[column.id] || [];
 						return (
 							<View key={column.id} className="w-80">
 								{/* Column Header */}
-								<View className={`${column.color} p-3 rounded-t-lg`}>
-									<View className="flex-row justify-between items-center">
+								<View className={`${column.color} rounded-t-lg p-3`}>
+									<View className="flex-row items-center justify-between">
 										<Text className="font-semibold text-gray-800">
 											{column.title}
 										</Text>
-										<View className="bg-white px-2 py-1 rounded">
-											<Text className="text-xs font-medium text-gray-700">
+										<View className="rounded bg-white px-2 py-1">
+											<Text className="font-medium text-gray-700 text-xs">
 												{columnTasks.length}
 											</Text>
 										</View>
@@ -118,24 +118,24 @@ export default function KanbanPage() {
 
 								{/* Column Content */}
 								<ScrollView
-									className="bg-white rounded-b-lg p-3 max-h-screen"
+									className="max-h-screen rounded-b-lg bg-white p-3"
 									showsVerticalScrollIndicator={false}
 								>
 									<View className="space-y-3">
 										{columnTasks.map((task) => (
 											<View
 												key={task._id}
-												className="bg-gray-50 p-4 rounded-lg border border-gray-200"
+												className="rounded-lg border border-gray-200 bg-gray-50 p-4"
 											>
 												{/* Task Title */}
-												<Text className="font-semibold text-gray-800 mb-2">
+												<Text className="mb-2 font-semibold text-gray-800">
 													{task.title}
 												</Text>
 
 												{/* Task Description */}
 												{task.description && (
 													<Text
-														className="text-sm text-gray-600 mb-3"
+														className="mb-3 text-gray-600 text-sm"
 														numberOfLines={3}
 													>
 														{task.description}
@@ -144,13 +144,13 @@ export default function KanbanPage() {
 
 												{/* Tags */}
 												{task.tags && task.tags.length > 0 && (
-													<View className="flex-row flex-wrap gap-2 mb-3">
+													<View className="mb-3 flex-row flex-wrap gap-2">
 														{task.tags.map((tag, idx) => (
 															<View
 																key={idx}
-																className="bg-orange-100 px-2 py-1 rounded"
+																className="rounded bg-orange-100 px-2 py-1"
 															>
-																<Text className="text-xs text-orange-700">
+																<Text className="text-orange-700 text-xs">
 																	{tag}
 																</Text>
 															</View>
@@ -160,9 +160,9 @@ export default function KanbanPage() {
 
 												{/* Task Meta */}
 												{task.assignedUser && (
-													<View className="flex-row items-center mt-2">
-														<View className="w-6 h-6 rounded-full bg-orange-100 items-center justify-center mr-2">
-															<Text className="text-orange-500 text-xs font-semibold">
+													<View className="mt-2 flex-row items-center">
+														<View className="mr-2 h-6 w-6 items-center justify-center rounded-full bg-orange-100">
+															<Text className="font-semibold text-orange-500 text-xs">
 																{task.assignedUser.name
 																	.split(" ")
 																	.map((n: string) => n[0])
@@ -170,20 +170,20 @@ export default function KanbanPage() {
 																	.slice(0, 2)}
 															</Text>
 														</View>
-														<Text className="text-xs text-gray-600">
+														<Text className="text-gray-600 text-xs">
 															{task.assignedUser.name}
 														</Text>
 													</View>
 												)}
 
 												{task.dueDate && (
-													<View className="flex-row items-center mt-2">
+													<View className="mt-2 flex-row items-center">
 														<Ionicons
 															name="calendar-outline"
 															size={14}
 															color="#9ca3af"
 														/>
-														<Text className="text-xs text-gray-600 ml-1">
+														<Text className="ml-1 text-gray-600 text-xs">
 															{new Date(task.dueDate).toLocaleDateString()}
 														</Text>
 													</View>
@@ -192,13 +192,13 @@ export default function KanbanPage() {
 										))}
 
 										{columnTasks.length === 0 && (
-											<View className="py-8 items-center">
+											<View className="items-center py-8">
 												<Ionicons
 													name="folder-open-outline"
 													size={32}
 													color="#d1d5db"
 												/>
-												<Text className="text-gray-400 text-sm mt-2">
+												<Text className="mt-2 text-gray-400 text-sm">
 													No tasks
 												</Text>
 											</View>
