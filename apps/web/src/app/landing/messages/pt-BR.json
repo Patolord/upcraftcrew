@@ -253,6 +253,70 @@
           "Portfólio completo de projetos em destaque com filtros por categoria",
           "Seção de preços transparente com planos detalhados para cada tipo de serviço"
         ]
+      },
+      {
+        "name": "Unstack",
+        "industry": "Web App",
+        "category": "Aplicativos Web",
+        "year": "2025",
+        "image": "/unstack.png",
+        "alt": "Plataforma de aprendizado personalizado para desenvolvedores",
+        "tagline": "Aprenda sua stack de forma inteligente e focada.",
+        "stack": ["GitHub API", "IA", "Analytics"],
+        "description": "Plataforma web que analisa repositórios GitHub para criar trilhas de aprendizado personalizadas, detectando tecnologias e identificando lacunas de conhecimento.",
+        "highlights": [
+          "Análise automática de tecnologias em repositórios GitHub",
+          "Geração de plano de estudos personalizado baseado em gaps reais",
+          "Dashboard acompanhando progresso de aprendizado e evolução técnica"
+        ]
+      },
+      {
+        "name": "Gestão Operacional",
+        "industry": "Web App",
+        "category": "Aplicativos Web",
+        "year": "2024",
+        "image": "/gestao-operacional.png",
+        "alt": "Plataforma de gestão operacional para consultoria em engenharia",
+        "tagline": "Gestão operacional centralizada com indicadores em tempo real.",
+        "stack": ["Dashboard", "Kanban", "Chat", "Relatórios"],
+        "description": "Aplicação web completa para gestão de processos, indicadores e comunicação interna, desenvolvida para centralizar operações de consultoria em engenharia com dashboards, agenda semanal, kanban e análises financeiras.",
+        "highlights": [
+          "Dashboard operacional com KPIs em tempo real e gráficos de distribuição por status",
+          "Sistema integrado de comunicação interna com chat, notas e notificações automáticas",
+          "Módulos de análise financeira e produtiva com rankings e taxa de conversão"
+        ]
+      },
+      {
+        "name": "Assistência Técnica",
+        "industry": "Web App",
+        "category": "Aplicativos Web",
+        "year": "2024",
+        "image": "/assistencia-tecnica.png",
+        "alt": "Sistema de gerenciamento de assistência técnica",
+        "tagline": "Gestão completa de agendamentos e serviços técnicos.",
+        "stack": ["Agendamento", "Dashboard", "Chat", "Calendário"],
+        "description": "Sistema web para gerenciamento de assistência técnica com agendamento de serviços, programação semanal por técnico, acompanhamento de status e chat interno para equipes de campo.",
+        "highlights": [
+          "Dashboard centralizado para visualização de todos os serviços agendados",
+          "Calendário semanal com distribuição de serviços por técnico",
+          "Rastreamento de status em tempo real (Agendado, Orçamento, Concluído)"
+        ]
+      },
+      {
+        "name": "Clínica Coluna Conectada",
+        "industry": "Web App",
+        "category": "Aplicativos Web",
+        "year": "2024",
+        "image": "/clinica-coluna.png",
+        "alt": "Sistema de onboarding de pacientes para clínicas",
+        "tagline": "Onboarding de pacientes com agendamento e relatórios integrados.",
+        "stack": ["Formulários", "Agendamento", "Database", "Healthcare"],
+        "description": "Formulário de onboarding de pacientes para clínicas com sistema de agendamento de consultas, coleta de dados médicos e geração de relatórios estruturados.",
+        "highlights": [
+          "Formulário completo de cadastro e histórico médico do paciente",
+          "Sistema de agendamento de consultas integrado ao cadastro",
+          "Geração automática de relatórios e organização de dados clínicos"
+        ]
       }
     ]
   },
