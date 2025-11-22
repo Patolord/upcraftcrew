@@ -9,10 +9,12 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewEventModal } from "@/components/modals/NewEventModal";
 
 export default function SchedulePage() {
 	const [selectedDate, setSelectedDate] = useState(new Date());
 	const [viewMode, setViewMode] = useState<"month" | "list">("list");
+	const [isNewEventModalOpen, setIsNewEventModalOpen] = useState(false);
 
 	const currentMonth = selectedDate.getMonth() + 1;
 	const currentYear = selectedDate.getFullYear();
@@ -107,13 +109,16 @@ export default function SchedulePage() {
 	});
 
 	return (
-		<View className="flex-1 bg-gray-50">
+		<View className="flex-1 pt-16 ">
 			<ScrollView className="flex-1">
 				<View className="space-y-4 p-4">
 					{/* Header */}
 					<View className="flex-row items-center justify-between">
-						<Text className="font-bold text-2xl text-orange-500">Schedule</Text>
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<Text className="font-bold text-3xl text-orange-500">Schedule</Text>
+						<TouchableOpacity
+							onPress={() => setIsNewEventModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
 							<Text className="font-semibold text-white">+ New Event</Text>
 						</TouchableOpacity>
 					</View>
@@ -320,6 +325,10 @@ export default function SchedulePage() {
 					</View>
 				</View>
 			</ScrollView>
+			<NewEventModal
+				isOpen={isNewEventModalOpen}
+				onClose={() => setIsNewEventModalOpen(false)}
+			/>
 		</View>
 	);
 }

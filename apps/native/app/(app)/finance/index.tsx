@@ -9,11 +9,14 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewTransactionModal } from "@/components/modals/NewTransactionModal";
 
 export default function FinancePage() {
 	const transactions = useQuery(api.finance.getTransactions);
 	const [typeFilter, setTypeFilter] = useState<string>("all");
 	const [statusFilter, setStatusFilter] = useState<string>("all");
+	const [isNewTransactionModalOpen, setIsNewTransactionModalOpen] =
+		useState(false);
 
 	const filteredTransactions = useMemo(() => {
 		if (!transactions) return [];
@@ -71,13 +74,16 @@ export default function FinancePage() {
 	];
 
 	return (
-		<View className="flex-1 bg-gray-50">
+		<View className="flex-1 pt-16 bg-gray-50">
 			<ScrollView className="flex-1">
 				<View className="space-y-4 p-4">
 					{/* Header */}
 					<View className="flex-row items-center justify-between">
-						<Text className="font-bold text-2xl text-orange-500">Finance</Text>
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<Text className="font-bold text-3xl text-orange-500">Finance</Text>
+						<TouchableOpacity
+							onPress={() => setIsNewTransactionModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
 							<Text className="font-semibold text-white">
 								+ New Transaction
 							</Text>
@@ -321,6 +327,10 @@ export default function FinancePage() {
 					</View>
 				</View>
 			</ScrollView>
+			<NewTransactionModal
+				isOpen={isNewTransactionModalOpen}
+				onClose={() => setIsNewTransactionModalOpen(false)}
+			/>
 		</View>
 	);
 }

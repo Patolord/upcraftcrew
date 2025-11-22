@@ -10,11 +10,13 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewTeamMemberModal } from "@/components/modals/NewTeamMemberModal";
 
 export default function TeamPage() {
 	const teamMembers = useQuery(api.team.getTeamMembers);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [roleFilter, setRoleFilter] = useState<string>("all");
+	const [isNewMemberModalOpen, setIsNewMemberModalOpen] = useState(false);
 
 	const filteredMembers = useMemo(() => {
 		if (!teamMembers) return [];
@@ -83,7 +85,10 @@ export default function TeamPage() {
 						<Text className="pb-4 font-bold text-3xl text-orange-500">
 							Team
 						</Text>
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<TouchableOpacity
+							onPress={() => setIsNewMemberModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
 							<Text className="font-semibold text-white">+ Add Member</Text>
 						</TouchableOpacity>
 					</View>
@@ -287,6 +292,10 @@ export default function TeamPage() {
 					)}
 				</View>
 			</ScrollView>
+			<NewTeamMemberModal
+				isOpen={isNewMemberModalOpen}
+				onClose={() => setIsNewMemberModalOpen(false)}
+			/>
 		</View>
 	);
 }

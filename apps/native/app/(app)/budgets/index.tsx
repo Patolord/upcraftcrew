@@ -9,11 +9,13 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewBudgetModal } from "@/components/modals/NewBudgetModal";
 
 export default function BudgetsPage() {
 	const budgets = useQuery(api.budgets.getBudgets);
 	const budgetStats = useQuery(api.budgets.getBudgetStats);
 	const [activeTab, setActiveTab] = useState<"dashboard" | "all">("dashboard");
+	const [isNewBudgetModalOpen, setIsNewBudgetModalOpen] = useState(false);
 
 	if (budgets === undefined || budgetStats === undefined) {
 		return (
@@ -25,14 +27,17 @@ export default function BudgetsPage() {
 	}
 
 	return (
-		<View className="flex-1 bg-gray-50">
+		<View className="flex-1 pt-16 ">
 			{/* Header */}
-			<View className="border-gray-200 border-b bg-white p-4">
+			<View className="border-gray-200 border-b p-4">
 				<View className="mb-3 flex-row items-center justify-between">
-					<Text className="font-bold text-2xl text-orange-500">Orçamentos</Text>
+					<Text className="font-bold text-3xl text-orange-500">Budgets</Text>
 					{activeTab === "all" && (
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
-							<Text className="font-semibold text-white">+ Novo Orçamento</Text>
+						<TouchableOpacity
+							onPress={() => setIsNewBudgetModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
+							<Text className="font-semibold text-white">+ New Budget</Text>
 						</TouchableOpacity>
 					)}
 				</View>
@@ -303,6 +308,10 @@ export default function BudgetsPage() {
 					)}
 				</View>
 			</ScrollView>
+			<NewBudgetModal
+				isOpen={isNewBudgetModalOpen}
+				onClose={() => setIsNewBudgetModalOpen(false)}
+			/>
 		</View>
 	);
 }

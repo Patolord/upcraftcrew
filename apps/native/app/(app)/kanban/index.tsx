@@ -10,12 +10,14 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewTaskModal } from "@/components/modals/NewTaskModal";
 
 type TaskStatus = "todo" | "in-progress" | "review" | "done" | "blocked";
 
 export default function KanbanPage() {
 	const tasks = useQuery(api.tasks.getTasks);
 	const [searchQuery, setSearchQuery] = useState("");
+	const [isNewTaskModalOpen, setIsNewTaskModalOpen] = useState(false);
 
 	const filteredTasks = useMemo(() => {
 		if (!tasks) return [];
@@ -69,12 +71,15 @@ export default function KanbanPage() {
 	];
 
 	return (
-		<View className="flex-1 bg-gray-50">
+		<View className="flex-1 pt-16 ">
 			{/* Header */}
 			<View className="border-gray-200 border-b bg-white p-4">
 				<View className="mb-3 flex-row items-center justify-between">
-					<Text className="font-bold text-2xl text-orange-500">Kanban</Text>
-					<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+					<Text className="font-bold text-3xl text-orange-500">Kanban</Text>
+					<TouchableOpacity
+						onPress={() => setIsNewTaskModalOpen(true)}
+						className="rounded-lg bg-orange-500 px-4 py-2"
+					>
 						<Text className="font-semibold text-white">+ New Task</Text>
 					</TouchableOpacity>
 				</View>
@@ -210,6 +215,10 @@ export default function KanbanPage() {
 					})}
 				</View>
 			</ScrollView>
+			<NewTaskModal
+				isOpen={isNewTaskModalOpen}
+				onClose={() => setIsNewTaskModalOpen(false)}
+			/>
 		</View>
 	);
 }
