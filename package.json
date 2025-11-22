@@ -33,7 +33,7 @@
 			"sharp"
 		]
 	},
-	"packageManager": "pnpm@10.15.0",
+	"packageManager": "pnpm@10.23.0",
 	"version": "1.0.0",
 	"dependencies": {
 		"expo": "~53.0.22",
