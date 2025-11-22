@@ -76,7 +76,7 @@ export default function FinancePage() {
 	return (
 		<View className="flex-1 pt-16 bg-gray-50">
 			<ScrollView className="flex-1">
-				<View className="space-y-4 p-4">
+				<View className="gap-4 p-4">
 					{/* Header */}
 					<View className="flex-row items-center justify-between">
 						<Text className="font-bold text-3xl text-orange-500">Finance</Text>
@@ -92,19 +92,19 @@ export default function FinancePage() {
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Total Income</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.income.toLocaleString()}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Total Expenses</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.expenses.toLocaleString()}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Net Profit</Text>
 							<Text
 								className={`mt-1 font-bold text-2xl ${stats.profit >= 0 ? "text-orange-500" : "text-orange-500"}`}
@@ -112,7 +112,7 @@ export default function FinancePage() {
 								${stats.profit.toLocaleString()}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Pending</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								${stats.pending.toLocaleString()}
@@ -121,7 +121,7 @@ export default function FinancePage() {
 					</View>
 
 					{/* Filters */}
-					<View className="rounded-lg bg-white p-4 shadow">
+					<View className="rounded-lg border border-orange-500 bg-white p-4">
 						<Text className="mb-3 font-semibold text-gray-700 text-sm">
 							Filters
 						</Text>
@@ -131,7 +131,8 @@ export default function FinancePage() {
 						<ScrollView
 							horizontal
 							showsHorizontalScrollIndicator={false}
-							className="mb-3 flex-row gap-2"
+							className="mb-4"
+							contentContainerClassName="gap-3"
 						>
 							{typeOptions.map((option) => (
 								<TouchableOpacity
@@ -161,7 +162,7 @@ export default function FinancePage() {
 						<ScrollView
 							horizontal
 							showsHorizontalScrollIndicator={false}
-							className="flex-row gap-2"
+							contentContainerClassName="gap-3"
 						>
 							{statusOptions.map((option) => (
 								<TouchableOpacity
@@ -192,11 +193,11 @@ export default function FinancePage() {
 						<Text className="mb-3 font-semibold text-lg text-orange-500">
 							Transactions
 						</Text>
-						<View className="space-y-3">
+						<View className="gap-4">
 							{filteredTransactions.map((transaction) => (
 								<View
 									key={transaction._id}
-									className="rounded-lg bg-white p-4 shadow"
+									className="rounded-lg border border-orange-500 bg-white p-4"
 								>
 									{/* Header */}
 									<View className="mb-2 flex-row items-start justify-between">
@@ -317,7 +318,7 @@ export default function FinancePage() {
 						</View>
 
 						{filteredTransactions.length === 0 && (
-							<View className="items-center rounded-lg bg-white p-8 shadow">
+							<View className="items-center rounded-lg border border-orange-500 bg-white p-8">
 								<Ionicons name="cash-outline" size={48} color="#d1d5db" />
 								<Text className="mt-4 text-gray-500">
 									No transactions found

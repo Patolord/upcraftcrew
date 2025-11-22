@@ -111,7 +111,7 @@ export default function SchedulePage() {
 	return (
 		<View className="flex-1 pt-16 ">
 			<ScrollView className="flex-1">
-				<View className="space-y-4 p-4">
+				<View className="gap-4 p-4">
 					{/* Header */}
 					<View className="flex-row items-center justify-between">
 						<Text className="font-bold text-3xl text-orange-500">Schedule</Text>
@@ -125,25 +125,25 @@ export default function SchedulePage() {
 
 					{/* Stats */}
 					<View className="flex-row flex-wrap gap-3">
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Total Events</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.total}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Meetings</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.meetings}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Deadlines</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.deadlines}
 							</Text>
 						</View>
-						<View className="min-w-[45%] flex-1 rounded-lg bg-white p-3 shadow">
+						<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-3">
 							<Text className="text-gray-500 text-xs">Tasks</Text>
 							<Text className="mt-1 font-bold text-2xl text-orange-500">
 								{stats.tasks}
@@ -152,7 +152,7 @@ export default function SchedulePage() {
 					</View>
 
 					{/* Month Navigation */}
-					<View className="rounded-lg bg-white p-4 shadow">
+					<View className="rounded-lg border border-orange-500 bg-white p-4">
 						<View className="flex-row items-center justify-between">
 							<TouchableOpacity
 								onPress={() => {
@@ -194,13 +194,13 @@ export default function SchedulePage() {
 						<Text className="mb-3 font-semibold text-lg text-orange-500">
 							Upcoming Events
 						</Text>
-						<View className="space-y-3">
+						<View className="gap-4">
 							{upcomingEvents.map((event) => {
 								const typeColor = getEventTypeColor(event.type);
 								return (
 									<View
 										key={event._id}
-										className="rounded-lg bg-white p-4 shadow"
+										className="rounded-lg border border-orange-500 bg-white p-4"
 									>
 										{/* Header */}
 										<View className="mb-2 flex-row items-start justify-between">
@@ -317,7 +317,7 @@ export default function SchedulePage() {
 						</View>
 
 						{upcomingEvents.length === 0 && (
-							<View className="items-center rounded-lg bg-white p-8 shadow">
+							<View className="items-center rounded-lg border border-orange-500 bg-white p-8">
 								<Ionicons name="calendar-outline" size={48} color="#d1d5db" />
 								<Text className="mt-4 text-gray-500">No upcoming events</Text>
 							</View>

@@ -76,32 +76,32 @@ export default function BudgetsPage() {
 			</View>
 
 			<ScrollView className="flex-1">
-				<View className="space-y-4 p-4">
+				<View className="gap-4 p-4">
 					{activeTab === "dashboard" ? (
 						/* Dashboard View */
 						<>
 							{/* Stats Cards */}
 							{budgetStats && (
 								<View className="flex-row flex-wrap gap-3">
-									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-4">
 										<Text className="text-gray-500 text-sm">Total Budgets</Text>
 										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.total || 0}
 										</Text>
 									</View>
-									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-4">
 										<Text className="text-gray-500 text-sm">Approved</Text>
 										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.approved || 0}
 										</Text>
 									</View>
-									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-4">
 										<Text className="text-gray-500 text-sm">Pending</Text>
 										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											{budgetStats.sent || 0}
 										</Text>
 									</View>
-									<View className="min-w-[45%] flex-1 rounded-lg bg-white p-4 shadow">
+									<View className="min-w-[45%] flex-1 rounded-lg border border-orange-500 bg-white p-4">
 										<Text className="text-gray-500 text-sm">Total Value</Text>
 										<Text className="mt-1 font-bold text-3xl text-orange-500">
 											${(budgetStats.totalValue || 0).toLocaleString()}
@@ -111,7 +111,7 @@ export default function BudgetsPage() {
 							)}
 
 							{/* Recent Budgets */}
-							<View className="rounded-lg bg-white p-4 shadow">
+							<View className="rounded-lg border border-orange-500 bg-white p-4">
 								<Text className="mb-3 font-semibold text-lg text-orange-500">
 									Recent Budgets
 								</Text>
@@ -166,11 +166,11 @@ export default function BudgetsPage() {
 						</>
 					) : (
 						/* All Budgets View */
-						<View className="space-y-3">
+						<View className="gap-4">
 							{budgets?.map((budget) => (
 								<View
 									key={budget._id}
-									className="rounded-lg bg-white p-4 shadow"
+									className="rounded-lg border border-orange-500 bg-white p-4"
 								>
 									{/* Header */}
 									<View className="mb-3 flex-row items-start justify-between">
@@ -292,7 +292,7 @@ export default function BudgetsPage() {
 							))}
 
 							{(!budgets || budgets.length === 0) && (
-								<View className="items-center rounded-lg bg-white p-8 shadow">
+								<View className="items-center rounded-lg border border-orange-500 bg-white p-8">
 									<Ionicons
 										name="document-text-outline"
 										size={48}
