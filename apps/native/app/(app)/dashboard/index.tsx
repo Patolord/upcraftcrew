@@ -10,6 +10,7 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import SalesFunnel from "./components/SalesFunnel";
 
 export default function DashboardPage() {
 	const [refreshing, setRefreshing] = useState(false);
@@ -20,6 +21,83 @@ export default function DashboardPage() {
 	const projects = useQuery(api.projects.getProjects);
 	const teamMembers = useQuery(api.team.getTeamMembers);
 	const transactions = useQuery(api.finance.getTransactions);
+
+	// Estado local para leads (você pode substituir por Convex depois)
+	const [leads, setLeads] = useState<
+		Array<{
+			_id: string;
+			name: string;
+			company?: string;
+			value: number;
+			stage: "awareness" | "interest" | "decision" | "action";
+			probability: number;
+			lastContact?: string;
+		}>
+	>([
+		{
+			_id: "1",
+			name: "Tech Solutions Corp",
+			company: "Tech Solutions",
+			value: 50000,
+			stage: "awareness",
+			probability: 20,
+			lastContact: "Há 2 dias",
+		},
+		{
+			_id: "2",
+			name: "Digital Innovations Ltd",
+			company: "Digital Innovations",
+			value: 75000,
+			stage: "awareness",
+			probability: 25,
+			lastContact: "Há 1 semana",
+		},
+		{
+			_id: "3",
+			name: "StartUp XYZ",
+			company: "StartUp XYZ",
+			value: 30000,
+			stage: "interest",
+			probability: 40,
+			lastContact: "Ontem",
+		},
+		{
+			_id: "4",
+			name: "Enterprise Global",
+			company: "Enterprise Global",
+			value: 120000,
+			stage: "interest",
+			probability: 50,
+			lastContact: "Há 3 dias",
+		},
+		{
+			_id: "5",
+			name: "Retail Chain Inc",
+			company: "Retail Chain",
+			value: 45000,
+			stage: "decision",
+			probability: 70,
+			lastContact: "Hoje",
+		},
+		{
+			_id: "6",
+			name: "Finance Partners",
+			company: "Finance Partners",
+			value: 90000,
+			stage: "decision",
+			probability: 65,
+			lastContact: "Há 1 dia",
+		},
+		{
+			_id: "7",
+			name: "Healthcare Systems",
+			company: "Healthcare Systems",
+			value: 60000,
+			stage: "action",
+			probability: 90,
+			lastContact: "Hoje",
+		},
+	]);
 
 	const onRefresh = async () => {
 		setRefreshing(true);
@@ -113,7 +191,7 @@ export default function DashboardPage() {
 								activeTab === "map" ? "text-white" : "text-gray-700"
 							}`}
 						>
-							Mapa
+							Sales Funnel
 						</Text>
 					</TouchableOpacity>
 				</View>
@@ -341,136 +419,27 @@ export default function DashboardPage() {
 							</View>
 						</View>
 					) : (
-						/* Map View */
-						<View className="space-y-4">
-							<View className="rounded-lg bg-white p-4 shadow">
-								<Text className="mb-4 font-semibold text-lg text-orange-500">
-									Mapa da Empresa
-								</Text>
-
-								<View className="space-y-3">
-									<View className="border-orange-500 border-l-4 py-2 pl-4">
-										<Text className="mb-1 font-semibold text-gray-800">
-											Missão
-										</Text>
-										<Text className="text-gray-600 text-sm">
-											Fornecer soluções inovadoras e de alta qualidade que
-											transformam ideias em realidade digital.
-										</Text>
-									</View>
-
-									<View className="border-blue-500 border-l-4 py-2 pl-4">
-										<Text className="mb-1 font-semibold text-gray-800">
-											Visão
-										</Text>
-										<Text className="text-gray-600 text-sm">
-											Ser reconhecida como referência em desenvolvimento de
-											software, destacando-se pela excelência e inovação.
-										</Text>
-									</View>
-
-									<View className="border-green-500 border-l-4 py-2 pl-4">
-										<Text className="mb-1 font-semibold text-gray-800">
-											Valores
-										</Text>
-										<View className="mt-2 space-y-1">
-											<View className="flex-row items-center">
-												<Ionicons
-													name="checkmark-circle"
-													size={16}
-													color="#10B981"
-												/>
-												<Text className="ml-2 text-gray-600 text-sm">
-													Inovação contínua
-												</Text>
-											</View>
-											<View className="flex-row items-center">
-												<Ionicons
-													name="checkmark-circle"
-													size={16}
-													color="#10B981"
-												/>
-												<Text className="ml-2 text-gray-600 text-sm">
-													Qualidade sem compromissos
-												</Text>
-											</View>
-											<View className="flex-row items-center">
-												<Ionicons
-													name="checkmark-circle"
-													size={16}
-													color="#10B981"
-												/>
-												<Text className="ml-2 text-gray-600 text-sm">
-													Trabalho em equipe
-												</Text>
-											</View>
-											<View className="flex-row items-center">
-												<Ionicons
-													name="checkmark-circle"
-													size={16}
-													color="#10B981"
-												/>
-												<Text className="ml-2 text-gray-600 text-sm">
-													Transparência e ética
-												</Text>
-											</View>
-										</View>
-									</View>
-
-									<View className="mt-4 rounded-lg bg-gray-50 p-4">
-										<Text className="mb-3 font-semibold text-gray-800">
-											Estrutura Organizacional
-										</Text>
-
-										<View className="space-y-3">
-											<View className="rounded-lg border border-orange-200 bg-white p-3">
-												<Text className="mb-1 font-semibold text-orange-500">
-													Diretoria
-												</Text>
-												<Text className="text-gray-600 text-xs">
-													Liderança estratégica e visão de negócio
-												</Text>
-											</View>
-
-											<View className="ml-4 space-y-2">
-												<View className="rounded-lg border border-blue-200 bg-white p-3">
-													<Text className="mb-1 font-semibold text-blue-500">
-														Desenvolvimento
-													</Text>
-													<Text className="text-gray-600 text-xs">
-														{teamMembers?.filter((m) =>
-															m.role.toLowerCase().includes("dev"),
-														).length || 0}{" "}
-														membros
-													</Text>
-												</View>
-
-												<View className="rounded-lg border border-green-200 bg-white p-3">
-													<Text className="mb-1 font-semibold text-green-500">
-														Projetos
-													</Text>
-													<Text className="text-gray-600 text-xs">
-														{projects?.length || 0} projetos ativos
-													</Text>
-												</View>
-
-												<View className="rounded-lg border border-purple-200 bg-white p-3">
-													<Text className="mb-1 font-semibold text-purple-500">
-														Administrativo
-													</Text>
-													<Text className="text-gray-600 text-xs">
-														{teamMembers?.filter((m) =>
-															m.role.toLowerCase().includes("admin"),
-														).length || 0}{" "}
-														membros
-													</Text>
-												</View>
-											</View>
-										</View>
-									</View>
-								</View>
-							</View>
-						</View>
+						/* Sales Funnel View */
+						<SalesFunnel
+							leads={leads}
+							onAddLead={(newLead) => {
+								const lead = {
+									...newLead,
+									_id: Date.now().toString(),
+								};
+								setLeads([...leads, lead]);
+							}}
+							onUpdateLead={(id, updates) => {
+								setLeads(
+									leads.map((lead) =>
+										lead._id === id ? { ...lead, ...updates } : lead,
+									),
+								);
+							}}
+							onDeleteLead={(id) => {
+								setLeads(leads.filter((lead) => lead._id !== id));
+							}}
+						/>
 					)}
 				</View>
 			</ScrollView>
