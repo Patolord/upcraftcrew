@@ -5,6 +5,7 @@ import {
 	Alert,
 	Image,
 	KeyboardAvoidingView,
+	Modal,
 	Platform,
 	ScrollView,
 	Text,
@@ -23,6 +24,8 @@ export default function RegisterPage() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
+	const [showTermsModal, setShowTermsModal] = useState(false);
+	const [showPrivacyModal, setShowPrivacyModal] = useState(false);
 
 	const handleRegister = async () => {
 		// Validações
@@ -201,13 +204,17 @@ export default function RegisterPage() {
 							<View className="w-5 h-5 border-2 border-gray-300 rounded mt-0.5 mr-3" />
 							<Text className="flex-1 text-sm text-gray-600">
 								Eu aceito os{" "}
-								<Text className="text-orange-500 font-medium">
-									Termos de Uso
-								</Text>{" "}
+								<TouchableOpacity onPress={() => setShowTermsModal(true)}>
+									<Text className="text-orange-500 font-medium">
+										Termos de Uso
+									</Text>
+								</TouchableOpacity>{" "}
 								e a{" "}
-								<Text className="text-orange-500 font-medium">
-									Política de Privacidade
-								</Text>
+								<TouchableOpacity onPress={() => setShowPrivacyModal(true)}>
+									<Text className="text-orange-500 font-medium">
+										Política de Privacidade
+									</Text>
+								</TouchableOpacity>
 							</Text>
 						</View>
 
@@ -251,6 +258,203 @@ export default function RegisterPage() {
 					</View>
 				</View>
 			</ScrollView>
+
+			{/* Terms of Service Modal */}
+			<Modal
+				visible={showTermsModal}
+				animationType="slide"
+				presentationStyle="pageSheet"
+				onRequestClose={() => setShowTermsModal(false)}
+			>
+				<View className="flex-1 bg-white">
+					<View className="flex-row items-center justify-between p-4 border-b border-gray-200">
+						<Text className="text-xl font-bold text-gray-800">
+							Terms of Service
+						</Text>
+						<TouchableOpacity onPress={() => setShowTermsModal(false)}>
+							<Ionicons name="close" size={24} color="#374151" />
+						</TouchableOpacity>
+					</View>
+					<ScrollView className="flex-1 p-6">
+						<Text className="text-sm text-gray-600 mb-4">
+							Last updated: {new Date().toLocaleDateString("en-US")}
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							1. Acceptance of Terms
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							By accessing and using Upcraft Crew, you accept and agree to be
+							bound by the terms and provision of this agreement.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							2. Use License
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							Permission is granted to temporarily use Upcraft Crew for personal
+							or commercial construction project management purposes. This is the
+							grant of a license, not a transfer of title.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							3. User Account
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							You are responsible for maintaining the confidentiality of your
+							account and password. You agree to accept responsibility for all
+							activities that occur under your account.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							4. Service Availability
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We strive to provide continuous service availability but do not
+							guarantee uninterrupted access. We reserve the right to modify or
+							discontinue the service at any time.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							5. Intellectual Property
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							All content, features, and functionality of Upcraft Crew are owned
+							by us and are protected by international copyright, trademark, and
+							other intellectual property laws.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							6. Limitation of Liability
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							Upcraft Crew shall not be liable for any indirect, incidental,
+							special, consequential, or punitive damages resulting from your use
+							or inability to use the service.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							7. Changes to Terms
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We reserve the right to modify these terms at any time. Continued
+							use of the service after changes constitutes acceptance of the new
+							terms.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							8. Contact Information
+						</Text>
+						<Text className="text-sm text-gray-600 mb-6">
+							For questions about these Terms of Service, please contact us
+							through the app support section.
+						</Text>
+					</ScrollView>
+				</View>
+			</Modal>
+
+			{/* Privacy Policy Modal */}
+			<Modal
+				visible={showPrivacyModal}
+				animationType="slide"
+				presentationStyle="pageSheet"
+				onRequestClose={() => setShowPrivacyModal(false)}
+			>
+				<View className="flex-1 bg-white">
+					<View className="flex-row items-center justify-between p-4 border-b border-gray-200">
+						<Text className="text-xl font-bold text-gray-800">
+							Privacy Policy
+						</Text>
+						<TouchableOpacity onPress={() => setShowPrivacyModal(false)}>
+							<Ionicons name="close" size={24} color="#374151" />
+						</TouchableOpacity>
+					</View>
+					<ScrollView className="flex-1 p-6">
+						<Text className="text-sm text-gray-600 mb-4">
+							Last updated: {new Date().toLocaleDateString("en-US")}
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							1. Information We Collect
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We collect information you provide directly to us, including name,
+							email address, and project-related data. We also collect usage
+							information and device data to improve our services.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							2. How We Use Your Information
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							Your information is used to provide and maintain our services,
+							improve user experience, communicate with you about updates, and
+							ensure platform security.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							3. Data Security
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We implement appropriate technical and organizational measures to
+							protect your personal information. However, no method of
+							transmission over the internet is 100% secure.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							4. Data Sharing
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We do not sell your personal information. We may share data with
+							service providers who assist in operating our platform, subject to
+							confidentiality agreements.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							5. Your Rights
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							You have the right to access, correct, or delete your personal
+							information. You may also request data portability or object to
+							certain data processing activities.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							6. Cookies and Tracking
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We use cookies and similar tracking technologies to track activity
+							and store certain information to improve your experience and
+							analyze usage patterns.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							7. Data Retention
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We retain your information for as long as necessary to provide our
+							services and comply with legal obligations. You may request
+							deletion of your account at any time.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							8. Changes to Privacy Policy
+						</Text>
+						<Text className="text-sm text-gray-600 mb-4">
+							We may update this Privacy Policy periodically. We will notify you
+							of any material changes through the app or via email.
+						</Text>
+
+						<Text className="text-base font-semibold text-gray-800 mb-2">
+							9. Contact Us
+						</Text>
+						<Text className="text-sm text-gray-600 mb-6">
+							If you have questions about this Privacy Policy, please contact us
+							through the app support section.
+						</Text>
+					</ScrollView>
+				</View>
+			</Modal>
 		</KeyboardAvoidingView>
 	);
 }
