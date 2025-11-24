@@ -10,11 +10,13 @@ import {
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewTeamMemberModal } from "@/components/modals/NewTeamMemberModal";
 
 export default function TeamPage() {
 	const teamMembers = useQuery(api.team.getTeamMembers);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [roleFilter, setRoleFilter] = useState<string>("all");
+	const [isNewMemberModalOpen, setIsNewMemberModalOpen] = useState(false);
 
 	const filteredMembers = useMemo(() => {
 		if (!teamMembers) return [];
@@ -65,7 +67,7 @@ export default function TeamPage() {
 	}
 
 	const roleOptions = [
-		{ label: "All", value: "all" },
+		{ label: "All", value: "all"  },
 		{ label: "Owner", value: "owner" },
 		{ label: "Admin", value: "admin" },
 		{ label: "Manager", value: "manager" },
@@ -83,7 +85,10 @@ export default function TeamPage() {
 						<Text className="pb-4 font-bold text-3xl text-orange-500">
 							Team
 						</Text>
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<TouchableOpacity
+							onPress={() => setIsNewMemberModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
 							<Text className="font-semibold text-white">+ Add Member</Text>
 						</TouchableOpacity>
 					</View>
@@ -120,7 +125,8 @@ export default function TeamPage() {
 					<ScrollView
 						horizontal
 						showsHorizontalScrollIndicator={false}
-						className="flex-row gap-2"
+						className="mb-6"
+						contentContainerClassName="gap-3"
 					>
 						{roleOptions.map((option) => (
 							<TouchableOpacity
@@ -129,7 +135,7 @@ export default function TeamPage() {
 								className={`rounded-full px-4 py-2 ${
 									roleFilter === option.value
 										? "bg-orange-500"
-										: "border border-gray-300 bg-white"
+										: "border border-orange-500 bg-white"
 								}`}
 							>
 								<Text
@@ -144,9 +150,9 @@ export default function TeamPage() {
 					</ScrollView>
 
 					{/* Team Members List */}
-					<View className="mt-4 space-y-3">
+					<View className="gap-4">
 						{filteredMembers.map((member) => (
-							<View key={member._id} className="rounded-lg bg-white p-4 shadow">
+							<View key={member._id} className="rounded-lg border border-orange-500 bg-white p-4 shadow">
 								<View className="flex-row items-start">
 									{/* Avatar */}
 									<View className="relative">
@@ -287,6 +293,10 @@ export default function TeamPage() {
 					)}
 				</View>
 			</ScrollView>
+			<NewTeamMemberModal
+				isOpen={isNewMemberModalOpen}
+				onClose={() => setIsNewMemberModalOpen(false)}
+			/>
 		</View>
 	);
 }

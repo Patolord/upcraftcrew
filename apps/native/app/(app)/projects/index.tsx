@@ -4,18 +4,19 @@ import { useQuery } from "convex/react";
 import { useMemo, useState } from "react";
 import {
 	ActivityIndicator,
-	FlatList,
 	ScrollView,
 	Text,
 	TextInput,
 	TouchableOpacity,
 	View,
 } from "react-native";
+import { NewProjectModal } from "@/components/modals/NewProjectModal";
 
 export default function ProjectsPage() {
 	const projects = useQuery(api.projects.getProjects);
 	const [searchQuery, setSearchQuery] = useState("");
 	const [statusFilter, setStatusFilter] = useState<string>("all");
+	const [isNewProjectModalOpen, setIsNewProjectModalOpen] = useState(false);
 
 	const filteredProjects = useMemo(() => {
 		if (!projects) return [];
@@ -73,7 +74,10 @@ export default function ProjectsPage() {
 						<Text className="pb-4 font-bold text-3xl text-orange-500">
 							Projects
 						</Text>
-						<TouchableOpacity className="rounded-lg bg-orange-500 px-4 py-2">
+						<TouchableOpacity
+							onPress={() => setIsNewProjectModalOpen(true)}
+							className="rounded-lg bg-orange-500 px-4 py-2"
+						>
 							<Text className="font-semibold text-white">+ New</Text>
 						</TouchableOpacity>
 					</View>
@@ -121,7 +125,8 @@ export default function ProjectsPage() {
 					<ScrollView
 						horizontal
 						showsHorizontalScrollIndicator={false}
-						className="justify mb-4 flex-row gap-6"
+						className="mb-6"
+						contentContainerClassName="gap-3"
 					>
 						{statusOptions.map((option) => (
 							<TouchableOpacity
@@ -147,7 +152,7 @@ export default function ProjectsPage() {
 					</ScrollView>
 
 					{/* Projects List */}
-					<View className="space-y-3">
+					<View className="gap-4">
 						{filteredProjects.map((project) => (
 							<View
 								key={project._id}
@@ -245,6 +250,10 @@ export default function ProjectsPage() {
 					)}
 				</View>
 			</ScrollView>
+			<NewProjectModal
+				isOpen={isNewProjectModalOpen}
+				onClose={() => setIsNewProjectModalOpen(false)}
+			/>
 		</View>
 	);
 }
