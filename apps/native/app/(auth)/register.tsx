@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useRouter } from "expo-router";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
 	Alert,
 	Image,
@@ -14,6 +14,7 @@ import {
 	View,
 } from "react-native";
 import { authClient } from "@/lib/auth-client";
+import { useQueryState } from "nuqs";
 
 export default function RegisterPage() {
 	const router = useRouter();
@@ -24,8 +25,11 @@ export default function RegisterPage() {
 	const [showPassword, setShowPassword] = useState(false);
 	const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 	const [isLoading, setIsLoading] = useState(false);
-	const [showTermsModal, setShowTermsModal] = useState(false);
-	const [showPrivacyModal, setShowPrivacyModal] = useState(false);
+
+	const [modal, setModal] = useQueryState("modal");
+
+	const showTermsModal = modal === "terms";
+	const showPrivacyModal = modal === "privacy";
 
 	const handleRegister = async () => {
 		// Validações
@@ -204,13 +208,13 @@ export default function RegisterPage() {
 							<View className="w-5 h-5 border-2 border-gray-300 rounded mt-0.5 mr-3" />
 							<Text className="flex-1 text-sm text-gray-600">
 								Eu aceito os{" "}
-								<TouchableOpacity onPress={() => setShowTermsModal(true)}>
+								<TouchableOpacity onPress={() => setModal("terms")}>
 									<Text className="text-orange-500 font-medium">
 										Termos de Uso
 									</Text>
 								</TouchableOpacity>{" "}
 								e a{" "}
-								<TouchableOpacity onPress={() => setShowPrivacyModal(true)}>
+								<TouchableOpacity onPress={() => setModal("privacy")}>
 									<Text className="text-orange-500 font-medium">
 										Política de Privacidade
 									</Text>
@@ -264,14 +268,14 @@ export default function RegisterPage() {
 				visible={showTermsModal}
 				animationType="slide"
 				presentationStyle="pageSheet"
-				onRequestClose={() => setShowTermsModal(false)}
+				onRequestClose={() => setModal(null)}
 			>
 				<View className="flex-1 bg-white">
 					<View className="flex-row items-center justify-between p-4 border-b border-gray-200">
 						<Text className="text-xl font-bold text-gray-800">
 							Terms of Service
 						</Text>
-						<TouchableOpacity onPress={() => setShowTermsModal(false)}>
+						<TouchableOpacity onPress={() => setModal(null)}>
 							<Ionicons name="close" size={24} color="#374151" />
 						</TouchableOpacity>
 					</View>
@@ -358,14 +362,14 @@ export default function RegisterPage() {
 				visible={showPrivacyModal}
 				animationType="slide"
 				presentationStyle="pageSheet"
-				onRequestClose={() => setShowPrivacyModal(false)}
+				onRequestClose={() => setModal(null)}
 			>
 				<View className="flex-1 bg-white">
 					<View className="flex-row items-center justify-between p-4 border-b border-gray-200">
 						<Text className="text-xl font-bold text-gray-800">
 							Privacy Policy
 						</Text>
-						<TouchableOpacity onPress={() => setShowPrivacyModal(false)}>
+						<TouchableOpacity onPress={() => setModal(null)}>
 							<Ionicons name="close" size={24} color="#374151" />
 						</TouchableOpacity>
 					</View>
