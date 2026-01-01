@@ -28,21 +28,55 @@ export const LoginAuth = () => {
 				return;
 			}
 
-			await authClient.signIn.email(
-				{
-					email: value.email,
-					password: value.password,
-				},
-				{
-					onSuccess: () => {
-						router.push("/dashboard");
-						toast.success("Login successful");
+			try {
+				await authClient.signIn.email(
+					{
+						email: value.email,
+						password: value.password,
 					},
-					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
+					{
+						onSuccess: () => {
+							router.push("/dashboard");
+							toast.success("Login successful");
+						},
+						onError: (error: unknown) => {
+							// Log the full error object to debug
+							console.error("Login error - full object:", error);
+							console.error("Login error - type:", typeof error);
+							console.error("Login error - JSON:", JSON.stringify(error, null, 2));
+							
+							// Try to extract error message from various possible structures
+							let errorMessage = "Failed to login. Please check your credentials and try again.";
+							
+							if (error && typeof error === "object") {
+								// Check for Better Auth error structure
+								const err = error as Record<string, unknown>;
+								if (err.error && typeof err.error === "object") {
+									const errorDetail = err.error as Record<string, unknown>;
+									errorMessage =
+										(String(errorDetail.message) ||
+											String(errorDetail.statusText) ||
+											errorMessage);
+								} else if (err.message && typeof err.message === "string") {
+									errorMessage = err.message;
+								} else if (typeof err === "string") {
+									errorMessage = err;
+								}
+							} else if (typeof error === "string") {
+								errorMessage = error;
+							}
+							
+							toast.error(errorMessage);
+						},
 					},
-				},
-			);
+				);
+			} catch (error) {
+				console.error("Login exception:", error);
+				console.error("Login exception - JSON:", JSON.stringify(error, null, 2));
+				const errorMessage =
+					error instanceof Error ? error.message : "An unexpected error occurred";
+				toast.error(errorMessage);
+			}
 		},
 		validators: {
 			onSubmit: z.object({
@@ -167,6 +201,17 @@ export const LoginAuth = () => {
 			<Button
 				type="button"
 				className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3"
+				onClick={async () => {
+					try {
+						await authClient.signIn.social({
+							provider: "google",
+							callbackURL: "/dashboard",
+						});
+					} catch (error) {
+						toast.error("Failed to login with Google");
+						console.error("Google login error:", error);
+					}
+				}}
 			>
 				<Image
 					src="/images/brand-logo/google-mini.svg"

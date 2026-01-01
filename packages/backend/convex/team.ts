@@ -85,7 +85,14 @@ export const getTeamMembersByDepartment = query({
 	},
 });
 
-// Mutation: Create team member
+// Helper function to generate invitation token
+function generateInvitationToken(): string {
+	const token = crypto.randomUUID();
+	const timestamp = Date.now().toString(36);
+	return `${timestamp}-${token}`;
+}
+
+// Mutation: Create team member (now creates an invitation)
 export const createTeamMember = mutation({
 	args: {
 		name: v.string(),
@@ -93,17 +100,26 @@ export const createTeamMember = mutation({
 		avatar: v.optional(v.string()),
 		role: v.union(v.literal("admin"), v.literal("member"), v.literal("viewer")),
 		department: v.string(),
-		status: v.union(
-			v.literal("online"),
-			v.literal("offline"),
-			v.literal("away"),
-			v.literal("busy"),
+		status: v.optional(
+			v.union(
+				v.literal("online"),
+				v.literal("offline"),
+				v.literal("away"),
+				v.literal("busy"),
+			),
 		),
 		skills: v.array(v.string()),
 	},
 	handler: async (ctx, args) => {
 		await requireWrite(ctx);
-		// Check if email already exists
+		
+		// Validate email format
+		const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(args.email)) {
+			throw new Error("Invalid email format");
+		}
+
+		// Check if user already exists (prevents race condition)
 		const existingUser = await ctx.db
 			.query("users")
 			.withIndex("by_email", (q) => q.eq("email", args.email))
@@ -113,14 +129,32 @@ export const createTeamMember = mutation({
 			throw new Error("User with this email already exists");
 		}
 
+		// Generate cryptographically secure invitation token
+		const invitationToken = generateInvitationToken();
+
+		// Create user with pending invitation
 		const userId = await ctx.db.insert("users", {
-			...args,
+			email: args.email,
+			name: args.name,
+			role: args.role,
+			department: args.department,
+			skills: args.skills || [],
+			status: args.status || "offline",
 			joinedAt: Date.now(),
 			lastActive: Date.now(),
 			projectIds: [],
+			invitationToken,
+			invitationAccepted: false,
+			avatar: args.avatar,
 		});
 
-		return userId;
+		// Return invitation data including token for email sending
+		return {
+			userId,
+			invitationToken,
+			email: args.email,
+			name: args.name,
+		};
 	},
 });
 

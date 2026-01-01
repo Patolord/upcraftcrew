@@ -11,6 +11,7 @@ type DbCtx = QueryCtx | MutationCtx;
 /**
  * Helper to require authentication in queries and mutations
  * Throws an error if user is not authenticated
+ * Auto-creates user in Convex database if authenticated but not found (mutations only)
  */
 export async function requireAuth(ctx: DbCtx) {
 	const authUser = await authComponent.getAuthUser(ctx);
@@ -19,13 +20,47 @@ export async function requireAuth(ctx: DbCtx) {
 	}
 
 	// Get full user data from database
-	const user = await ctx.db
+	let user = await ctx.db
 		.query("users")
 		.withIndex("by_email", (q) => q.eq("email", authUser.email))
 		.first();
 
+	// If user doesn't exist in Convex but is authenticated in Better Auth,
+	// auto-create them with sensible defaults (only in mutation context)
 	if (!user) {
-		throw new Error("User not found in database");
+		// Check if we're in a mutation context (has insert method)
+		const isMutation = "insert" in ctx.db && typeof (ctx.db as { insert?: unknown }).insert === "function";
+		
+		if (isMutation) {
+			// Extract name from authUser (fallback to email if not available)
+			const name = authUser.name || authUser.email.split("@")[0] || "User";
+			
+			// Extract department from email domain or use default
+			const emailDomain = authUser.email.split("@")[1] || "";
+			const department = emailDomain ? emailDomain.split(".")[0].charAt(0).toUpperCase() + emailDomain.split(".")[0].slice(1) : "General";
+
+			// Create user with default member role (not admin for security)
+			const userId = await (ctx.db as MutationCtx["db"]).insert("users", {
+				email: authUser.email,
+				name,
+				role: "member",
+				department,
+				status: "offline",
+				joinedAt: Date.now(),
+				lastActive: Date.now(),
+				skills: [],
+				projectIds: [],
+			});
+
+			// Fetch the newly created user
+			user = await ctx.db.get(userId);
+			if (!user) {
+				throw new Error("Failed to create user in database");
+			}
+		} else {
+			// In query context, throw a more helpful error
+			throw new Error("User not found in database. Please complete your registration or contact an administrator.");
+		}
 	}
 
 	return { ...authUser, role: user.role, userId: user._id };
@@ -34,17 +69,54 @@ export async function requireAuth(ctx: DbCtx) {
 /**
  * Helper to get authenticated user (optional)
  * Returns null if user is not authenticated
+ * Auto-creates user in Convex database if authenticated but not found (mutations only)
  */
 export async function getAuthUser(ctx: DbCtx) {
 	const authUser = await authComponent.getAuthUser(ctx);
 	if (!authUser) return null;
 
-	const user = await ctx.db
+	let user = await ctx.db
 		.query("users")
 		.withIndex("by_email", (q) => q.eq("email", authUser.email))
 		.first();
 
-	if (!user) return null;
+	// If user doesn't exist in Convex but is authenticated in Better Auth,
+	// auto-create them with sensible defaults (only in mutation context)
+	if (!user) {
+		// Check if we're in a mutation context (has insert method)
+		const isMutation = "insert" in ctx.db && typeof (ctx.db as { insert?: unknown }).insert === "function";
+		
+		if (isMutation) {
+			// Extract name from authUser (fallback to email if not available)
+			const name = authUser.name || authUser.email.split("@")[0] || "User";
+			
+			// Extract department from email domain or use default
+			const emailDomain = authUser.email.split("@")[1] || "";
+			const department = emailDomain ? emailDomain.split(".")[0].charAt(0).toUpperCase() + emailDomain.split(".")[0].slice(1) : "General";
+
+			// Create user with default member role (not admin for security)
+			const userId = await (ctx.db as MutationCtx["db"]).insert("users", {
+				email: authUser.email,
+				name,
+				role: "member",
+				department,
+				status: "offline",
+				joinedAt: Date.now(),
+				lastActive: Date.now(),
+				skills: [],
+				projectIds: [],
+			});
+
+			// Fetch the newly created user
+			user = await ctx.db.get(userId);
+			if (!user) {
+				return null;
+			}
+		} else {
+			// In query context, return null (user doesn't exist)
+			return null;
+		}
+	}
 
 	return { ...authUser, role: user.role, userId: user._id };
 }

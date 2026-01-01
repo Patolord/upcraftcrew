@@ -5,6 +5,7 @@ import { useMutation } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { Button } from "@/components/ui/button";
 import { toast } from "sonner";
+import { sendInvitationEmail } from "@/app/actions/invitations";
 
 interface NewTeamMemberModalProps {
 	isOpen: boolean;
@@ -31,7 +32,7 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 		setIsSubmitting(true);
 
 		try {
-			await createTeamMember({
+			const invitation = await createTeamMember({
 				name: formData.name,
 				email: formData.email,
 				role: formData.role,
@@ -44,7 +45,21 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 				avatar: formData.avatar || undefined,
 			});
 
-			toast.success("Team member added successfully!");
+			// Send invitation email
+			const emailResult = await sendInvitationEmail(
+				invitation.email,
+				invitation.name,
+				invitation.invitationToken,
+			);
+
+			if (emailResult.success) {
+				toast.success("Team member invited successfully! Invitation email sent.");
+			} else {
+				toast.warning(
+					"Team member created but failed to send invitation email. Please send the invitation manually.",
+				);
+				console.error("Email error:", emailResult.error);
+			}
 
 			// Reset form
 			setFormData({
@@ -60,7 +75,9 @@ export function NewTeamMemberModal({ isOpen, onClose }: NewTeamMemberModalProps)
 			onClose();
 		} catch (error) {
 			console.error("Failed to create team member:", error);
-			toast.error("Failed to add team member. Please try again.");
+			toast.error(
+				error instanceof Error ? error.message : "Failed to add team member. Please try again.",
+			);
 		} finally {
 			setIsSubmitting(false);
 		}

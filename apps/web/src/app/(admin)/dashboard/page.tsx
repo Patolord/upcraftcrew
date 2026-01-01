@@ -1,7 +1,7 @@
 "use client";
 
-import { useMemo, useState } from "react"; 
-import { useQuery } from "convex/react";
+import { useEffect, useMemo, useState } from "react"; 
+import { useMutation, useQuery } from "convex/react";
 import { api } from "@workspace/backend/_generated/api";
 import { DashboardHeader } from "../../../components/dashboard/dashboard-header";
 import { DashboardStats } from "../../../components/dashboard/dashboard-stats";
@@ -16,6 +16,17 @@ import { AuthWrapper } from "@/components/auth/auth-wrapper";
 
 export default function DashboardPage() {
 	const [retryCount, setRetryCount] = useState(0);
+	const ensureUserExists = useMutation(api.auth.ensureUserExists);
+
+	// Ensure user exists in Convex database on mount
+	// This handles cases where user was created in Better Auth but not in Convex
+	useEffect(() => {
+		ensureUserExists().catch((error) => {
+			// Silently fail - user might already exist or not be authenticated
+			// The queries will handle the error appropriately
+			console.debug("ensureUserExists:", error);
+		});
+	}, [ensureUserExists]);
 
 	// Fetch data from Convex
 	const projects = useQuery(api.projects.getProjects);

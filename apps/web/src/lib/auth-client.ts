@@ -1,8 +1,17 @@
+"use client";
+
 import { createAuthClient } from "better-auth/react";
 import { convexClient } from "@convex-dev/better-auth/client/plugins";
 
 // Get base URL and enforce HTTPS in production
+// For Better Auth with Convex, baseURL should point to the Next.js app, not Convex directly
 function getBaseURL() {
+	// On client side, use window.location.origin for relative URLs
+	if (typeof window !== "undefined") {
+		return window.location.origin;
+	}
+
+	// On server side, use the environment variable
 	const url = process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3001";
 
 	// In production, ensure HTTPS (allow localhost/127.0.0.1 for development)

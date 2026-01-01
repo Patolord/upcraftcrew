@@ -6,22 +6,40 @@ import { useId, useState } from "react";
 import { useForm } from "@tanstack/react-form";
 import { toast } from "sonner";
 import z from "zod";
+import { useMutation } from "convex/react";
+import { api } from "@workspace/backend/_generated/api";
 
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Image } from "@/components/ui/image";
 
-export const RegisterAuth = () => {
+interface RegisterAuthProps {
+	invitationToken: string;
+	invitationEmail: string;
+	invitationName: string;
+}
+
+export const RegisterAuth = ({
+	invitationToken,
+	invitationEmail,
+	invitationName,
+}: RegisterAuthProps) => {
 	const [showPassword, setShowPassword] = useState(false);
 	const router = useRouter();
 	const checkboxId = useId();
+	const acceptInvitation = useMutation(api.invitations.acceptInvitation);
+
+	// Parse name from invitation (first name and last name)
+	const nameParts = invitationName.trim().split(" ");
+	const defaultFirstName = nameParts[0] || "";
+	const defaultLastName = nameParts.slice(1).join(" ") || "";
 
 	const form = useForm({
 		defaultValues: {
-			firstName: "",
-			lastName: "",
+			firstName: defaultFirstName,
+			lastName: defaultLastName,
 			username: "",
-			email: "",
+			email: invitationEmail,
 			password: "",
 			agreement: false,
 		},
@@ -31,25 +49,49 @@ export const RegisterAuth = () => {
 				return;
 			}
 
+			// Validate that email matches invitation
+			if (value.email !== invitationEmail) {
+				toast.error("Email must match the invitation email");
+				return;
+			}
+
 			// Combine first and last name for the auth client
 			const fullName = `${value.firstName} ${value.lastName}`.trim();
 
-			await authClient.signUp.email(
-				{
-					email: value.email,
-					password: value.password,
-					name: fullName,
-				},
-				{
-					onSuccess: () => {
-						router.push("/dashboard");
-						toast.success("Registration successful");
+			try {
+				// Register the user
+				await authClient.signUp.email(
+					{
+						email: value.email,
+						password: value.password,
+						name: fullName,
 					},
-					onError: (error) => {
-						toast.error(error.error.message || error.error.statusText);
+					{
+						onSuccess: async () => {
+							// Mark invitation as accepted
+							try {
+								await acceptInvitation({
+									email: value.email,
+									token: invitationToken,
+								});
+								router.push("/dashboard");
+								toast.success("Registration successful");
+							} catch (error) {
+								console.error("Failed to accept invitation:", error);
+								// Still redirect, but show warning
+								toast.warning("Registration successful, but failed to mark invitation as accepted");
+								router.push("/dashboard");
+							}
+						},
+						onError: (error) => {
+							toast.error(error.error.message || error.error.statusText);
+						},
 					},
-				},
-			);
+				);
+			} catch (error) {
+				console.error("Registration error:", error);
+				toast.error("Failed to register. Please try again.");
+			}
 		},
 		validators: {
 			onSubmit: z.object({
@@ -155,8 +197,13 @@ export const RegisterAuth = () => {
 								value={field.state.value}
 								onBlur={field.handleBlur}
 								onChange={(e) => field.handleChange(e.target.value)}
+								readOnly
+								disabled
 							/>
 						</label>
+						<p className="text-base-content/60 text-xs mt-1">
+							Este email está associado ao seu convite.
+						</p>
 						{field.state.meta.errors.map((error) => (
 							<p key={error?.message} className="text-red-500 text-xs mt-1">
 								{error?.message}
@@ -238,6 +285,17 @@ export const RegisterAuth = () => {
 			<Button
 				type="button"
 				className="btn btn-ghost btn-wide border-base-300 mt-4 max-w-full gap-3"
+				onClick={async () => {
+					try {
+						await authClient.signUp.social({
+							provider: "google",
+							callbackURL: "/dashboard",
+						});
+					} catch (error) {
+						toast.error("Failed to register with Google");
+						console.error("Google registration error:", error);
+					}
+				}}
 			>
 				<Image
 					src="/images/brand-logo/google-mini.svg"
