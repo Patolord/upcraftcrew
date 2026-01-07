@@ -1,21 +1,7 @@
-import type { Metadata } from "next";
-import { Suspense } from "react";
+import { redirect } from "next/navigation";
+import type { Route } from "next";
 
-import Landing from "./landing/page";
-import { LandingI18nProvider } from "./landing/providers/LandingI18nProvider";
-
-export const metadata: Metadata = {
-	title: "UpCraftCrew",
-	description: "UpCraftCrew - Desenvolvimento de Websites e Aplicativos",
-};
-const LandingPage = () => {
-	return (
-		<LandingI18nProvider>
-			<Suspense fallback={<div />}>
-				<Landing />
-			</Suspense>
-		</LandingI18nProvider>
-	);
-};
-
-export default LandingPage;
+// Redirect to English as the default language
+export default function RootPage() {
+	redirect("/en" as Route);
+}

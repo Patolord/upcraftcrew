@@ -1,14 +1,13 @@
 "use client";
 
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 import { notFound, useParams } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
 
 export default function ProjectPage() {
 	const params = useParams();
 	const slug = params.slug as string;
-	const { messages } = useLandingI18n();
+	const { messages, locale } = useLandingI18n();
 	const { portfolio } = messages;
 
 	// Find project by slug
@@ -20,17 +19,19 @@ export default function ProjectPage() {
 		notFound();
 	}
 
+	const { projectPage } = portfolio;
+
 	return (
 		<div className="min-h-screen bg-base-100">
 			{/* Header */}
 			<header className="border-b border-base-200">
 				<div className="container mx-auto px-4 py-6">
 					<Link
-						href="/landing#portfolio"
+						href={`/${locale}#portfolio`}
 						className="inline-flex items-center gap-2 text-sm text-base-content/70 hover:text-primary transition-colors"
 					>
 						<span className="iconify lucide--arrow-left size-4"></span>
-						<span>Voltar ao portfólio</span>
+						<span>{projectPage.backToPortfolio}</span>
 					</Link>
 				</div>
 			</header>
@@ -56,7 +57,7 @@ export default function ProjectPage() {
 						{/* Tech Stack */}
 						<div className="mb-6">
 							<h3 className="text-sm font-semibold uppercase tracking-wider text-base-content/60 mb-3">
-								Tecnologias
+								{projectPage.technologies}
 							</h3>
 							<div className="flex flex-wrap gap-2">
 								{project.stack.map((tech) => (
@@ -83,11 +84,11 @@ export default function ProjectPage() {
 			<section className="bg-base-200/50 py-12">
 				<div className="container mx-auto px-4">
 					<h2 className="text-2xl font-semibold mb-8 text-center lg:text-3xl">
-						Principais Destaques
+						{projectPage.keyHighlights}
 					</h2>
 
 					<div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3 max-w-5xl mx-auto">
-						{project.highlights.map((highlight, index) => (
+						{project.highlights.map((highlight) => (
 							<div
 								key={highlight}
 								className="bg-base-100 rounded-2xl p-6 shadow-sm border border-base-200"
@@ -109,17 +110,17 @@ export default function ProjectPage() {
 			{/* CTA Section */}
 			<section className="container mx-auto px-4 py-16 text-center">
 				<h2 className="text-2xl font-semibold mb-4">
-					Interessado em um projeto similar?
+					{projectPage.interestedInSimilar}
 				</h2>
 				<p className="text-base-content/70 mb-8 max-w-2xl mx-auto">
-					Entre em contato conosco para discutir como podemos criar uma solução personalizada para o seu negócio.
+					{projectPage.ctaDescription}
 				</p>
 				<div className="flex flex-col sm:flex-row gap-4 justify-center">
-					<Link href="/landing#contact" className="btn btn-primary btn-lg">
-						Fale conosco
+					<Link href={`/${locale}#contact`} className="btn btn-primary btn-lg">
+						{projectPage.contactUs}
 					</Link>
-					<Link href="/landing#portfolio" className="btn btn-outline btn-lg">
-						Ver mais projetos
+					<Link href={`/${locale}#portfolio`} className="btn btn-outline btn-lg">
+						{projectPage.viewMoreProjects}
 					</Link>
 				</div>
 			</section>

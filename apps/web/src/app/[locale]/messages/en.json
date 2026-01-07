@@ -110,6 +110,26 @@
       "previous": "Previous projects",
       "next": "Next projects"
     },
+    "filters": {
+      "all": "All",
+      "basicLanding": "Basic Landing",
+      "artisticLanding": "Artistic Landing",
+      "businessWebsite": "Business Website",
+      "ecommerce": "E-commerce",
+      "webApp": "Web App",
+      "mobileApp": "Mobile App",
+      "consulting": "Consulting"
+    },
+    "projectPage": {
+      "backToPortfolio": "Back to portfolio",
+      "technologies": "Technologies",
+      "keyHighlights": "Key Highlights",
+      "interestedInSimilar": "Interested in a similar project?",
+      "ctaDescription": "Get in touch with us to discuss how we can create a custom solution for your business.",
+      "contactUs": "Contact us",
+      "viewMoreProjects": "View more projects",
+      "viewMore": "View more"
+    },
     "projects": [
       {
         "name": "RLP Engenharia",
@@ -479,6 +499,7 @@
     "eyebrow": "Client Success",
     "title": "Trusted by Businesses Worldwide",
     "description": "See how companies across the globe have scaled their digital presence with our bespoke web development solutions",
+    "avatarAlt": "Profile picture",
     "stats": [
       {
         "title": "On-Time Delivery",

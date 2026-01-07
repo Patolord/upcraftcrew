@@ -1,7 +1,7 @@
 "use client";
 
-import { SECTION_IDS } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 import { useQueryState, parseAsStringEnum } from "nuqs";
 
 interface PricingCardProps {

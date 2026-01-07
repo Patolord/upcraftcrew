@@ -5,8 +5,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 import { sendConsultationEmail } from "@/app/actions/newsletter";
-import { SECTION_IDS } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/button";
 import {
