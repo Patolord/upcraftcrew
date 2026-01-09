@@ -4,18 +4,17 @@ import {
 	createContext,
 	useCallback,
 	useContext,
-	useEffect,
 	useMemo,
-	useState,
 	type ReactNode,
 } from "react";
+import { usePathname } from "next/navigation";
 
-import enMessages from "@/app/landing/messages/en.json";
-import ptBRMessages from "@/app/landing/messages/pt-BR.json";
+import enMessages from "@/app/[locale]/messages/en.json";
+import ptMessages from "@/app/[locale]/messages/pt.json";
 
 const messagesMap = {
 	en: enMessages,
-	"pt-BR": ptBRMessages,
+	pt: ptMessages,
 } as const;
 
 export type LandingLocale = keyof typeof messagesMap;
@@ -29,28 +28,26 @@ type LandingI18nContextValue = {
 
 const LandingI18nContext = createContext<LandingI18nContextValue | null>(null);
 
-const STORAGE_KEY = "landing-locale";
-const DEFAULT_LOCALE: LandingLocale = "pt-BR";
+export const SUPPORTED_LANDING_LOCALES = Object.keys(
+	messagesMap,
+) as LandingLocale[];
 
-export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
-	const [locale, setLocale] = useState<LandingLocale>(DEFAULT_LOCALE);
-	const [isHydrated, setIsHydrated] = useState(false);
-
-	useEffect(() => {
-		if (typeof window === "undefined") return;
-		const storedLocale = window.localStorage.getItem(STORAGE_KEY);
-		if (storedLocale && storedLocale in messagesMap) {
-			setLocale(storedLocale as LandingLocale);
-		}
-		setIsHydrated(true);
-	}, []);
+export const LandingI18nProvider = ({
+	children,
+	locale,
+}: {
+	children: ReactNode;
+	locale: LandingLocale;
+}) => {
+	const pathname = usePathname();
 
 	const switchLocale = useCallback((nextLocale: LandingLocale) => {
-		setLocale(nextLocale);
-		if (typeof window !== "undefined") {
-			window.localStorage.setItem(STORAGE_KEY, nextLocale);
-		}
-	}, []);
+		// Replace the locale segment in the path
+		const segments = pathname.split("/");
+		segments[1] = nextLocale;
+		const newPath = segments.join("/") || `/${nextLocale}`;
+		window.location.href = newPath;
+	}, [pathname]);
 
 	const value = useMemo<LandingI18nContextValue>(
 		() => ({
@@ -63,7 +60,7 @@ export const LandingI18nProvider = ({ children }: { children: ReactNode }) => {
 
 	return (
 		<LandingI18nContext.Provider value={value}>
-			{isHydrated ? children : null}
+			{children}
 		</LandingI18nContext.Provider>
 	);
 };
@@ -75,8 +72,4 @@ export const useLandingI18n = () => {
 	}
 	return context;
 };
-
-export const SUPPORTED_LANDING_LOCALES = Object.keys(
-	messagesMap,
-) as LandingLocale[];
 

@@ -7,7 +7,7 @@ import "@/styles/app.css";
 
 export const metadata: Metadata = {
 	title: "UpCraftCrew",
-	description: "UpCraftCrew - Desenvolvimento de Websites e Aplicativos Web",
+	description: "UpCraftCrew - Web Development & Software Solutions",
 	manifest: "/manifest.json",
 	appleWebApp: {
 		capable: true,
@@ -44,7 +44,7 @@ export default function RootLayout({
 	children: React.ReactNode;
 }) {
 	return (
-		<html lang="pt-BR" suppressHydrationWarning className="group/html">
+		<html lang="en" suppressHydrationWarning className="group/html">
 			<head>
 				<meta
 					name="viewport"

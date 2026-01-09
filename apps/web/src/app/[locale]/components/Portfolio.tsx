@@ -8,8 +8,8 @@ import {
 	type CSSProperties,
 } from "react";
 
-import { SECTION_IDS } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 import { useQueryState, parseAsString } from "nuqs";
 import Link from "next/link";
 
@@ -32,35 +32,22 @@ export const Portfolio = () => {
 	const { portfolio } = messages;
 	const allProjects = portfolio.projects;
 
-	// Get unique industries that have projects
+	// Get unique industries that have projects - using actual industry values from projects
 	const industries = useMemo(() => {
-		const allTags = [
-			"Landing Básica",
-			"Landing Artística",
-			"Site Institucional",
-			"Loja Virtual (E-commerce)",
-			"Web App",
-			"App Mobile",
-			"Consultoria"
-		];
-
-		const tagsWithProjects = allTags.filter(tag =>
-			allProjects.some(project => project.industry === tag)
-		);
-
-		return ["All", ...tagsWithProjects];
-	}, [allProjects]);
+		const uniqueIndustries = [...new Set(allProjects.map(p => p.industry))];
+		return [portfolio.filters.all, ...uniqueIndustries];
+	}, [allProjects, portfolio.filters.all]);
 
 	const [selectedIndustry, setSelectedIndustry] = useQueryState(
 		"sector",
-		parseAsString.withDefault("All")
+		parseAsString.withDefault(portfolio.filters.all)
 	);
 
 	// Filter projects by industry
 	const projects = useMemo(() => {
-		if (selectedIndustry === "All") return allProjects;
+		if (selectedIndustry === portfolio.filters.all) return allProjects;
 		return allProjects.filter(p => p.industry === selectedIndustry);
-	}, [allProjects, selectedIndustry]);
+	}, [allProjects, selectedIndustry, portfolio.filters.all]);
 
 	const totalProjects = projects.length;
 
@@ -357,7 +344,7 @@ export const Portfolio = () => {
 													href={`/portfolio/${encodeURIComponent(project.name.toLowerCase().replace(/\s+/g, '-'))}`}
 													className="btn btn-primary btn-block group/btn"
 												>
-													<span>Ver mais</span>
+													<span>{portfolio.projectPage.viewMore}</span>
 													<span className="iconify lucide--arrow-right size-4 transition-transform group-hover/btn:translate-x-1"></span>
 												</Link>
 											</div>

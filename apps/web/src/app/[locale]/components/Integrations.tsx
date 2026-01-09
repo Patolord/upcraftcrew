@@ -2,8 +2,8 @@
 
 import { motion, type Variants } from "motion/react";
 
-import { SECTION_IDS } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 
 const containerVariants = {
 	hidden: { opacity: 1 },

@@ -1,13 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import type { UrlObject } from "url";
 import { useCallback, useEffect, useId, useMemo, useState } from "react";
 import SimpleBar from "simplebar-react";
 import "simplebar-react/dist/simplebar.min.css";
 
-import { SECTION_IDS, type SectionId } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS, type SectionId } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 import { Logo } from "@/components/Logo";
 import { ThemeToggle } from "@/components/ThemeToggle";
 
@@ -23,27 +22,23 @@ export const Topbar = () => {
 			menu.map((item) => {
 				const target = item.target as SectionId;
 				const sectionId = SECTION_IDS[target] ?? item.target;
-				const href: UrlObject = {
-					pathname: "/",
-					hash: sectionId,
-				};
 				return {
 					...item,
-					href,
+					href: `/${locale}#${sectionId}`,
 				};
 			}),
-		[menu],
+		[menu, locale],
 	);
 
 	const handleToggleLocale = useCallback(() => {
-		const nextLocale = locale === "en" ? "pt-BR" : "en";
+		const nextLocale = locale === "en" ? "pt" : "en";
 		switchLocale(nextLocale);
 	}, [locale, switchLocale]);
 
 	const languageToggleId = useId();
 	const localeAbbreviations = useMemo(
 		() => ({
-			"pt-BR": "PT",
+			pt: "PT",
 			en: "EN",
 		}),
 		[],
@@ -91,9 +86,9 @@ export const Topbar = () => {
 								></label>
 								<div className="bg-base-100 flex h-screen w-60 flex-col items-start px-3 py-4">
 									<div className="flex justify-start">
-										<Link href="/">
+										<a href={`/${locale}`}>
 											<Logo />
-										</Link>
+										</a>
 									</div>
 									<div className="min-h-0 grow">
 										<SimpleBar className="mt-5 size-full">
@@ -103,13 +98,13 @@ export const Topbar = () => {
 											<ul className="menu mt-1 w-full p-0">
 												{menuItems.map((item, index) => (
 													<li key={index}>
-														<Link
+														<a
 															key={index}
 															href={item.href}
 															className="hover:bg-base-200 rounded-box block px-3 py-1.5 text-sm"
 														>
 															{item.title}
-														</Link>
+														</a>
 													</li>
 												))}
 											</ul>
@@ -119,19 +114,19 @@ export const Topbar = () => {
 							</div>
 						</div>
 					</div>
-					<Link href="/">
+					<a href={`/${locale}`}>
 						<Logo />
-					</Link>
+					</a>
 				</div>
 				<div className="hidden items-center gap-1 md:flex">
 					{menuItems.map((item, index) => (
-						<Link
+						<a
 							href={item.href}
 							className="hover:bg-base-200 rounded-box block px-3 py-1.5 text-sm"
 							key={index}
 						>
 							{item.title}
-						</Link>
+						</a>
 					))}
 				</div>
 
@@ -144,7 +139,7 @@ export const Topbar = () => {
 							className="text-xs font-medium uppercase text-base-content/70"
 							title={languageSwitch.options["pt-BR"]}
 						>
-							{localeAbbreviations["pt-BR"]}
+							{localeAbbreviations.pt}
 						</span>
 						<input
 							className="toggle toggle-sm toggle-primary"

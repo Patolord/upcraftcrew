@@ -109,6 +109,26 @@
       "previous": "Projetos anteriores",
       "next": "Próximos projetos"
     },
+    "filters": {
+      "all": "Todos",
+      "basicLanding": "Landing Básica",
+      "artisticLanding": "Landing Artística",
+      "businessWebsite": "Site Institucional",
+      "ecommerce": "Loja Virtual (E-commerce)",
+      "webApp": "Web App",
+      "mobileApp": "App Mobile",
+      "consulting": "Consultoria"
+    },
+    "projectPage": {
+      "backToPortfolio": "Voltar ao portfólio",
+      "technologies": "Tecnologias",
+      "keyHighlights": "Principais Destaques",
+      "interestedInSimilar": "Interessado em um projeto similar?",
+      "ctaDescription": "Entre em contato conosco para discutir como podemos criar uma solução personalizada para o seu negócio.",
+      "contactUs": "Fale conosco",
+      "viewMoreProjects": "Ver mais projetos",
+      "viewMore": "Ver mais"
+    },
     "projects": [
       {
         "name": "RLP Engenharia",
@@ -476,6 +496,7 @@
     "eyebrow": "Histórias de sucesso",
     "title": "Empresas que confiam no nosso trabalho",
     "description": "Veja como organizações ao redor do mundo ampliaram sua presença digital com nossas soluções sob medida.",
+    "avatarAlt": "Foto de perfil",
     "stats": [
       {
         "title": "Entrega pontual",

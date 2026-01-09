@@ -1,7 +1,7 @@
 "use client";
 
-import { SECTION_IDS } from "@/app/landing/constants";
-import { useLandingI18n } from "@/app/landing/providers/LandingI18nProvider";
+import { SECTION_IDS } from "@/app/[locale]/constants";
+import { useLandingI18n } from "@/app/[locale]/providers/LandingI18nProvider";
 
 export const Testimonials = () => {
 	const { messages } = useLandingI18n();
@@ -77,7 +77,7 @@ export const Testimonials = () => {
 								<img
 									src={testimonial.image}
 									className="bg-base-200/40 border-base-100 absolute start-1/2 -top-11 z-1 size-14 -translate-x-1/2 rounded-full border-3 p-1 shadow-xs"
-									alt="Avatar"
+									alt={testimonials.avatarAlt}
 								/>
 								<div className="bg-neutral/4 rounded-box relative p-4 text-center transition-all">
 									<p className="font-medium">{testimonial.name}</p>
